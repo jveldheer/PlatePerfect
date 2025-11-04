@@ -607,7 +607,7 @@ export const recipes: Recipe[] = [
   },
   {
     id: 'recipe-008',
-    title: 'Viral High Protein Egg Muffin Bites',
+    title: 'High Protein Egg Muffin Bites',
     category: 'breakfast',
     difficulty: 'beginner',
     description: 'TikTok famous egg bites with cottage cheese - make 24 in under an hour for the whole week',
@@ -879,7 +879,7 @@ export const recipes: Recipe[] = [
   },
   {
     id: 'recipe-011',
-    title: 'Viral TikTok Pasta Salad',
+    title: 'Salad Supreme Pasta Salad',
     category: 'lunch',
     difficulty: 'beginner',
     description: 'The famous TikTok pasta salad that everyone is making - perfect cold lunch for meal prep',
@@ -1232,7 +1232,7 @@ export const recipes: Recipe[] = [
   },
   {
     id: 'recipe-015',
-    title: 'Viral Salmon Rice Bowl (Emily Mariko)',
+    title: 'Salmon Rice Bowl (Emily Mariko)',
     category: 'dinner',
     difficulty: 'beginner',
     description: 'The TikTok recipe that broke the internet - leftover salmon and rice transformed with an ice cube trick',
