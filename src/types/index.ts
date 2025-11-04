@@ -37,6 +37,7 @@ export interface Recipe {
   mealPrepNotes: string;
   storageInstructions: string;
   tags: string[];
+  videoUrl?: string; // TikTok or YouTube video URL
 }
 
 export interface Ingredient {

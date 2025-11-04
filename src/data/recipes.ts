@@ -520,5 +520,798 @@ export const recipes: Recipe[] = [
         timeEstimate: 2
       }
     ]
+  },
+  // VIRAL TIKTOK BREAKFAST RECIPES
+  {
+    id: 'recipe-007',
+    title: 'High Protein Overnight Oats',
+    category: 'breakfast',
+    difficulty: 'beginner',
+    description: 'Viral TikTok overnight oats with 44g protein - prep 5 jars for the week in under 10 minutes',
+    prepTime: 10,
+    cookTime: 0,
+    servings: 5,
+    athleteNotes: 'This viral TikTok recipe is perfect for meal prep. With 44g of protein per serving and slow-digesting carbs, it provides sustained energy for morning workouts or all-day fuel. Make 5 jars on Sunday and grab-and-go all week!',
+    requiredSkills: ['prep-001', 'prep-003'],
+    tags: ['viral-tiktok', 'no-cook', 'meal-prep', 'high-protein', 'vegetarian'],
+    mealPrepNotes: 'Make 5 jars at once. Store in fridge for up to 5 days. The oats get better as they sit overnight. Top with fresh fruit right before eating.',
+    storageInstructions: 'Store in sealed mason jars or containers in refrigerator for up to 5 days. Do not freeze. Add toppings fresh each morning.',
+    videoUrl: 'https://www.tiktok.com/@mealprepmanual/video/7196374613823974699',
+    nutritionInfo: {
+      calories: 425,
+      protein: 44,
+      carbs: 48,
+      fat: 8,
+      fiber: 8,
+      servings: 5
+    },
+    ingredients: [
+      { item: 'Old fashioned rolled oats', amount: '5 cups', notes: 'Not instant oats' },
+      { item: 'Protein powder', amount: '5 scoops (150g)', notes: 'Vanilla or chocolate' },
+      { item: 'Greek yogurt', amount: '1.25 cups (300g)', notes: 'Non-fat or low-fat' },
+      { item: 'Chia seeds', amount: '5 tablespoons' },
+      { item: 'Milk of choice', amount: '4 cups', notes: 'Almond, oat, or dairy' },
+      { item: 'Honey or maple syrup', amount: '5 tablespoons', notes: 'Optional for sweetness' },
+      { item: 'Cinnamon', amount: '2 teaspoons' },
+      { item: 'Vanilla extract', amount: '2 teaspoons' },
+      { item: 'Fresh berries', amount: '2 cups', notes: 'For topping' },
+      { item: 'Banana slices', amount: '2 bananas', notes: 'For topping' }
+    ],
+    instructions: [
+      {
+        step: 1,
+        instruction: 'Get 5 mason jars or meal prep containers ready.',
+        detailedExplanation: 'Line up 5 pint-sized (16oz) mason jars or sealable containers on your counter. This assembly line approach makes the process fast and easy. Make sure all containers are clean and dry.',
+        timeEstimate: 1
+      },
+      {
+        step: 2,
+        instruction: 'Add dry ingredients to each jar: 1 cup oats, 1 scoop protein powder, 1 tablespoon chia seeds.',
+        detailedExplanation: 'Go down the line adding the same ingredients to each jar. Add 1 cup of rolled oats to each jar (use a 1-cup measuring cup). Then add 1 scoop of protein powder to each. Finally, add 1 tablespoon of chia seeds to each jar. The chia seeds will absorb liquid and create a pudding-like texture.',
+        skillTip: 'Level off your measuring cups for accuracy - this ensures consistent macros in each jar.',
+        timeEstimate: 3
+      },
+      {
+        step: 3,
+        instruction: 'Add wet ingredients: about 1/4 cup Greek yogurt and 3/4 cup milk to each jar.',
+        detailedExplanation: 'Add a heaping 1/4 cup (about 60g) of Greek yogurt to each jar. Then pour in about 3/4 cup of milk. The exact amount can vary based on how thick you like your oats - add more milk for thinner consistency, less for thicker. The Greek yogurt adds extra protein and creaminess.',
+        timeEstimate: 3
+      },
+      {
+        step: 4,
+        instruction: 'Add flavorings: 1 tablespoon honey, a pinch of cinnamon, and a few drops of vanilla to each jar.',
+        detailedExplanation: 'Drizzle 1 tablespoon of honey into each jar (or use maple syrup or skip if your protein powder is already sweet). Add a generous pinch of cinnamon and about 1/2 teaspoon of vanilla extract to each jar. These add flavor without extra calories.',
+        timeEstimate: 2
+      },
+      {
+        step: 5,
+        instruction: 'Seal and shake each jar vigorously for 30 seconds.',
+        detailedExplanation: 'Put the lid on the first jar and shake it hard for 30 seconds. You want everything completely mixed with no dry clumps at the bottom. Repeat with all 5 jars. This is where the magic happens - the shaking distributes the protein powder evenly and starts the overnight soaking process.',
+        skillTip: 'Make sure the lid is tight before shaking! Check the bottom of the jar after shaking to ensure no dry oats are stuck.',
+        timeEstimate: 3
+      },
+      {
+        step: 6,
+        instruction: 'Refrigerate overnight or at least 4 hours.',
+        detailedExplanation: 'Place all 5 jars in the refrigerator. The oats need at least 4 hours to fully absorb the liquid and soften, but overnight (8-12 hours) is ideal. The chia seeds will create a gel-like consistency that makes the oats creamy and thick.',
+        timeEstimate: 1
+      },
+      {
+        step: 7,
+        instruction: 'In the morning, add fresh toppings and enjoy cold or warmed up.',
+        detailedExplanation: 'Take one jar out of the fridge. Give it a quick stir. Top with fresh berries, sliced banana, nuts, or any toppings you like. You can eat it cold straight from the jar, or microwave for 1-2 minutes if you prefer warm oatmeal. The oats are ready to eat!',
+        skillTip: 'Add toppings fresh each morning to keep them from getting soggy. Save time by pre-portioning toppings in small containers.',
+        timeEstimate: 2
+      }
+    ]
+  },
+  {
+    id: 'recipe-008',
+    title: 'Viral High Protein Egg Muffin Bites',
+    category: 'breakfast',
+    difficulty: 'beginner',
+    description: 'TikTok famous egg bites with cottage cheese - make 24 in under an hour for the whole week',
+    prepTime: 15,
+    cookTime: 25,
+    servings: 6,
+    athleteNotes: 'These viral egg bites pack 20g protein per serving and are perfect for grab-and-go mornings. The cottage cheese makes them extra creamy and protein-rich. Meal prep on Sunday and have breakfast ready all week!',
+    requiredSkills: ['safety-001', 'safety-002', 'prep-003'],
+    tags: ['viral-tiktok', 'high-protein', 'meal-prep', 'freezer-friendly', 'low-carb'],
+    mealPrepNotes: 'Make 2 dozen at once in muffin tins. Store in fridge for 5 days or freeze for 2 months. Reheat in microwave for 30-60 seconds.',
+    storageInstructions: 'Refrigerate in airtight container for up to 5 days. Freeze in freezer bags for up to 2 months. Reheat from frozen in microwave for 60-90 seconds.',
+    videoUrl: 'https://www.tiktok.com/@lifeoftm/video/7426821897926511878',
+    nutritionInfo: {
+      calories: 195,
+      protein: 20,
+      carbs: 4,
+      fat: 11,
+      fiber: 1,
+      servings: 6
+    },
+    ingredients: [
+      { item: 'Large eggs', amount: '12' },
+      { item: 'Cottage cheese', amount: '2 cups (450g)', notes: 'Blended smooth' },
+      { item: 'Shredded cheddar cheese', amount: '1 cup', notes: 'Or Mexican blend' },
+      { item: 'Cooked bacon', amount: '8 strips', notes: 'Chopped' },
+      { item: 'Fresh spinach', amount: '2 cups', notes: 'Chopped' },
+      { item: 'Red bell pepper', amount: '1/2 cup', notes: 'Diced small' },
+      { item: 'Green onions', amount: '1/4 cup', notes: 'Sliced' },
+      { item: 'Salt', amount: '1 teaspoon' },
+      { item: 'Black pepper', amount: '1/2 teaspoon' },
+      { item: 'Garlic powder', amount: '1 teaspoon' },
+      { item: 'Onion powder', amount: '1 teaspoon' },
+      { item: 'Cooking spray', amount: 'As needed' }
+    ],
+    instructions: [
+      {
+        step: 1,
+        instruction: 'Preheat oven to 350°F and spray two 12-cup muffin tins with cooking spray.',
+        detailedExplanation: 'Turn your oven to 350°F and let it preheat fully. While it heats, take two standard 12-cup muffin tins and spray each cup generously with cooking spray. Get the bottom and sides well - this prevents sticking. If you don\'t have two tins, you can bake in batches.',
+        timeEstimate: 3
+      },
+      {
+        step: 2,
+        instruction: 'Blend cottage cheese until completely smooth in a blender.',
+        detailedExplanation: 'Add 2 cups of cottage cheese to a blender. Blend on high for 30-60 seconds until it\'s completely smooth with no lumps. This is the secret to making these egg bites super creamy like Starbucks! The blended cottage cheese adds tons of protein without changing the flavor.',
+        skillTip: 'Don\'t skip blending the cottage cheese - it\'s what makes these viral egg bites so creamy!',
+        timeEstimate: 2
+      },
+      {
+        step: 3,
+        instruction: 'In a large bowl, whisk together eggs, blended cottage cheese, and all seasonings.',
+        detailedExplanation: 'Crack all 12 eggs into a large mixing bowl. Add the blended cottage cheese, salt, pepper, garlic powder, and onion powder. Whisk vigorously for 1-2 minutes until everything is completely combined and slightly frothy. The mixture should be uniform with no streaks of white or yellow.',
+        timeEstimate: 3
+      },
+      {
+        step: 4,
+        instruction: 'Add mix-ins: bacon, spinach, bell pepper, green onions, and half the cheese.',
+        detailedExplanation: 'Cook your bacon until crispy, then chop it into small pieces. Chop the spinach, dice the bell pepper, and slice the green onions. Add all these to the egg mixture along with half the shredded cheese (save the other half for topping). Stir gently to distribute the mix-ins evenly throughout.',
+        skillTip: 'You can customize the mix-ins! Try ham and Swiss, sausage and peppers, or mushrooms and feta.',
+        timeEstimate: 5
+      },
+      {
+        step: 5,
+        instruction: 'Pour egg mixture into prepared muffin cups, filling each about 3/4 full.',
+        detailedExplanation: 'Use a ladle or large measuring cup to pour the egg mixture into each muffin cup. Fill them about 3/4 of the way full - they\'ll puff up slightly as they bake. Try to distribute the mix-ins evenly so each cup gets some bacon, veggies, and cheese. It\'s okay if they\'re not perfect!',
+        timeEstimate: 3
+      },
+      {
+        step: 6,
+        instruction: 'Top each muffin with remaining shredded cheese.',
+        detailedExplanation: 'Sprinkle the remaining shredded cheese evenly over the tops of all the muffins. This creates a nice cheesy crust on top when they bake. Use about 1-2 teaspoons of cheese per muffin.',
+        timeEstimate: 1
+      },
+      {
+        step: 7,
+        instruction: 'Bake for 22-25 minutes until set and lightly golden on top.',
+        detailedExplanation: 'Place both muffin tins in the preheated oven. Set a timer for 22 minutes. The egg bites are done when the centers are set (no longer jiggly) and the tops are lightly golden. A toothpick inserted in the center should come out clean. If they\'re still jiggly, bake 2-3 more minutes.',
+        skillTip: 'Don\'t overbake! Remove them as soon as they\'re set - they\'ll continue cooking slightly as they cool.',
+        timeEstimate: 25
+      },
+      {
+        step: 8,
+        instruction: 'Cool for 5 minutes, then remove from tin and store.',
+        detailedExplanation: 'Let the egg bites cool in the tin for 5 minutes. This makes them easier to remove without breaking. Then run a butter knife around the edges of each one and pop them out. Let them cool completely before storing. Store in meal prep containers - 4 egg bites per container for easy grab-and-go breakfasts.',
+        timeEstimate: 5
+      }
+    ]
+  },
+  {
+    id: 'recipe-009',
+    title: 'English Muffin Breakfast Sandwiches',
+    category: 'breakfast',
+    difficulty: 'beginner',
+    description: 'Viral TikTok sheet pan breakfast sandwiches - prep 12 freezer-friendly sandwiches in 30 minutes',
+    prepTime: 10,
+    cookTime: 17,
+    servings: 12,
+    athleteNotes: 'These viral meal prep breakfast sandwiches have 28g protein each and can be frozen for a month. Perfect for busy athletes who need quick, nutritious breakfasts. Microwave from frozen in 90 seconds!',
+    requiredSkills: ['safety-001', 'safety-002', 'prep-003'],
+    tags: ['viral-tiktok', 'meal-prep', 'freezer-friendly', 'high-protein', 'portable'],
+    mealPrepNotes: 'Make a full batch of 12 sandwiches. Wrap individually in parchment paper, then store in freezer bags. Grab one in the morning and microwave for 90 seconds.',
+    storageInstructions: 'Refrigerate for up to 5 days. Freeze wrapped sandwiches for up to 1 month. Reheat from frozen: microwave 90 seconds, flipping halfway.',
+    videoUrl: 'https://www.tiktok.com/@stayfitmom_krista/video/7348126538045394219',
+    nutritionInfo: {
+      calories: 328,
+      protein: 28,
+      carbs: 27,
+      fat: 12,
+      fiber: 3,
+      servings: 12
+    },
+    ingredients: [
+      { item: 'Large eggs', amount: '18' },
+      { item: 'Milk', amount: '1/2 cup' },
+      { item: 'Salt', amount: '1 teaspoon' },
+      { item: 'Black pepper', amount: '1/2 teaspoon' },
+      { item: 'Diced bell peppers', amount: '1 cup', notes: 'Mixed colors' },
+      { item: 'Diced onions', amount: '1/2 cup' },
+      { item: 'Fresh spinach', amount: '2 cups', notes: 'Chopped' },
+      { item: 'Cooked turkey sausage', amount: '1 lb', notes: 'Crumbled' },
+      { item: 'Shredded cheese', amount: '2 cups', notes: 'Cheddar or your choice' },
+      { item: 'English muffins', amount: '12', notes: 'Whole wheat preferred' },
+      { item: 'Cooking spray', amount: 'As needed' }
+    ],
+    instructions: [
+      {
+        step: 1,
+        instruction: 'Preheat oven to 350°F and spray a large rimmed baking sheet.',
+        detailedExplanation: 'Turn oven to 350°F. Take an 18x13 inch rimmed baking sheet (half sheet pan) and spray it generously with cooking spray. Make sure you get the corners and edges well. You can also line it with parchment paper for even easier cleanup.',
+        timeEstimate: 2
+      },
+      {
+        step: 2,
+        instruction: 'Whisk eggs with milk, salt, and pepper in a large bowl.',
+        detailedExplanation: 'Crack all 18 eggs into a very large bowl. Add the milk, salt, and pepper. Whisk vigorously for 1-2 minutes until the mixture is completely uniform and slightly frothy. The milk makes the eggs fluffy and tender.',
+        timeEstimate: 3
+      },
+      {
+        step: 3,
+        instruction: 'Add vegetables, cooked sausage, and 1 cup cheese to egg mixture.',
+        detailedExplanation: 'Add the diced peppers, onions, chopped spinach, crumbled cooked turkey sausage, and 1 cup of shredded cheese to the eggs. Stir gently to distribute everything evenly. Save the other cup of cheese for topping.',
+        skillTip: 'Make sure your sausage is fully cooked and cooled before adding to the eggs.',
+        timeEstimate: 2
+      },
+      {
+        step: 4,
+        instruction: 'Pour egg mixture onto prepared baking sheet and spread evenly.',
+        detailedExplanation: 'Pour all of the egg mixture onto your prepared baking sheet. Use a spatula to spread it out evenly so it covers the entire pan in a uniform layer. Make sure the veggies and sausage are distributed evenly throughout. The layer should be about 1/2 inch thick.',
+        timeEstimate: 2
+      },
+      {
+        step: 5,
+        instruction: 'Sprinkle remaining cheese on top and bake for 15-17 minutes.',
+        detailedExplanation: 'Sprinkle the remaining 1 cup of cheese evenly over the top of the egg mixture. Place in the preheated oven and bake for 15-17 minutes. The eggs are done when they\'re set in the center (no longer jiggly) and lightly golden on top. They should pull away slightly from the edges of the pan.',
+        skillTip: 'Don\'t overbake - the eggs will continue cooking slightly after you remove them from the oven.',
+        timeEstimate: 17
+      },
+      {
+        step: 6,
+        instruction: 'Let cool for 5 minutes, then cut into 12 squares.',
+        detailedExplanation: 'Remove the pan from the oven and let it cool for 5 minutes. This makes cutting easier. Use a sharp knife or pizza cutter to cut the sheet of eggs into 12 equal squares (cut into 3 rows and 4 columns). Each square should be about 4x3 inches - the perfect size for an English muffin.',
+        timeEstimate: 3
+      },
+      {
+        step: 7,
+        instruction: 'Toast English muffins and assemble sandwiches.',
+        detailedExplanation: 'Split all 12 English muffins and toast them lightly. Place one egg square on the bottom half of each muffin. Top with the other half of the muffin. The eggs should fit perfectly!',
+        timeEstimate: 5
+      },
+      {
+        step: 8,
+        instruction: 'Wrap each sandwich and store in freezer.',
+        detailedExplanation: 'Let the sandwiches cool completely. Wrap each sandwich individually in parchment paper or plastic wrap. Then place all wrapped sandwiches in a large freezer bag. Label with the date. To reheat: microwave one sandwich (still wrapped) for 90 seconds, flipping halfway through.',
+        skillTip: 'Leave the sandwich wrapped when microwaving - it steams perfectly and stays moist!',
+        timeEstimate: 5
+      }
+    ]
+  },
+  // VIRAL TIKTOK LUNCH RECIPES
+  {
+    id: 'recipe-010',
+    title: 'Mexican Chicken Rice Bowl',
+    category: 'lunch',
+    difficulty: 'beginner',
+    description: 'Viral TikTok one-pan Mexican chicken and rice - 45g protein per serving',
+    prepTime: 15,
+    cookTime: 25,
+    servings: 4,
+    athleteNotes: 'This viral TikTok meal prep has 45g protein and 47g carbs per serving - perfect macros for muscle building and recovery. The one-pan method makes cleanup easy. Make 4 servings on Sunday for easy lunches all week!',
+    requiredSkills: ['knife-002', 'cook-002', 'cook-004', 'safety-002'],
+    tags: ['viral-tiktok', 'high-protein', 'one-pan', 'meal-prep', 'mexican'],
+    mealPrepNotes: 'Store in individual containers for 4-5 days. Reheats perfectly in microwave. The flavors get even better after a day!',
+    storageInstructions: 'Refrigerate in airtight containers for up to 5 days. Reheat in microwave for 2-3 minutes. Can freeze for up to 2 months.',
+    videoUrl: 'https://www.tiktok.com/@jalalsamfit/video/7257206362831146267',
+    nutritionInfo: {
+      calories: 450,
+      protein: 45,
+      carbs: 47,
+      fat: 9,
+      fiber: 6,
+      servings: 4
+    },
+    ingredients: [
+      { item: 'Chicken breast', amount: '750g', notes: 'Cut into cubes' },
+      { item: 'Basmati rice', amount: '1 cup dry (210g)' },
+      { item: 'Black beans', amount: '1 cup (100g)', notes: 'Drained and rinsed' },
+      { item: 'Red bell pepper', amount: '1 large', notes: 'Diced' },
+      { item: 'Onion', amount: '1 medium', notes: 'Diced' },
+      { item: 'Chicken stock or water', amount: '1.5 cups (300ml)' },
+      { item: 'Olive oil', amount: '2 teaspoons' },
+      { item: 'Oregano', amount: '2 teaspoons' },
+      { item: 'Paprika', amount: '2 teaspoons' },
+      { item: 'Cumin', amount: '1 teaspoon' },
+      { item: 'Chili powder', amount: '1 teaspoon' },
+      { item: 'Garlic powder', amount: '1 teaspoon' },
+      { item: 'Salt and pepper', amount: '1 teaspoon each' },
+      { item: 'Fresh lime', amount: '1 whole', notes: 'Juiced' },
+      { item: 'Fresh cilantro', amount: '1/4 cup', notes: 'Chopped, for garnish' }
+    ],
+    instructions: [
+      {
+        step: 1,
+        instruction: 'Season chicken with spices and lime juice, marinate 10 minutes.',
+        detailedExplanation: 'Cut chicken breast into 1-inch cubes. Place in a bowl and add 1 teaspoon each of oregano, paprika, cumin, chili powder, garlic powder, salt, and pepper. Squeeze the juice of one whole lime over the chicken. Toss well to coat every piece. Let it sit for 10 minutes while you prep the vegetables. This marinade adds amazing flavor!',
+        skillTip: 'Cutting chicken into uniform cubes ensures even cooking.',
+        timeEstimate: 5
+      },
+      {
+        step: 2,
+        instruction: 'Heat oil in large pan and cook chicken until golden, about 6-8 minutes.',
+        detailedExplanation: 'Heat 2 teaspoons of olive oil in a large, deep skillet or pan over medium-high heat. Once the oil is shimmering, add the marinated chicken in a single layer. Let it cook undisturbed for 3-4 minutes to develop a golden crust, then flip and cook another 3-4 minutes. The chicken doesn\'t need to be fully cooked yet - it will finish cooking with the rice.',
+        skillTip: 'Don\'t overcrowd the pan - cook in batches if needed for the best browning.',
+        timeEstimate: 8
+      },
+      {
+        step: 3,
+        instruction: 'Remove chicken and sauté onions and peppers until soft.',
+        detailedExplanation: 'Transfer the chicken to a plate and set aside. In the same pan (don\'t wash it - those brown bits add flavor!), add the diced onion and bell pepper. Cook over medium heat, stirring occasionally, for 4-5 minutes until they\'re soft and the onion is translucent.',
+        timeEstimate: 5
+      },
+      {
+        step: 4,
+        instruction: 'Add uncooked rice and remaining spices, toast for 1-2 minutes.',
+        detailedExplanation: 'Add the dry rice to the pan with the vegetables. Add the remaining 1 teaspoon each of oregano, paprika, cumin, chili powder, garlic powder, salt, and pepper. Stir everything together and let the rice toast in the spices for 1-2 minutes. You\'ll smell the spices become fragrant - this step builds incredible flavor!',
+        skillTip: 'Toasting the rice with spices before adding liquid is a game-changer for flavor.',
+        timeEstimate: 2
+      },
+      {
+        step: 5,
+        instruction: 'Add chicken stock and black beans, bring to boil then simmer covered.',
+        detailedExplanation: 'Pour in 1.5 cups of chicken stock (or water). Add the black beans. Stir everything together, making sure the rice is evenly distributed. Bring to a boil over high heat. Once boiling, reduce heat to low, cover with a tight-fitting lid, and let simmer for 12-15 minutes. Don\'t lift the lid during this time!',
+        skillTip: 'Keep the lid on while simmering - lifting it releases steam and the rice won\'t cook properly.',
+        timeEstimate: 15
+      },
+      {
+        step: 6,
+        instruction: 'Stir halfway through, add chicken back in during last 5 minutes.',
+        detailedExplanation: 'After about 7 minutes, quickly lift the lid and give everything a gentle stir to prevent sticking. Add the chicken back into the pan, nestling it into the rice. Cover again and continue cooking for the remaining 5 minutes. The rice should absorb all the liquid and be tender.',
+        timeEstimate: 1
+      },
+      {
+        step: 7,
+        instruction: 'Fluff with fork, garnish with cilantro, and portion into containers.',
+        detailedExplanation: 'Turn off the heat and let it sit covered for 2 minutes. Remove the lid and fluff the rice with a fork, mixing in the chicken. Taste and add more salt if needed. Garnish with fresh chopped cilantro. Divide into 4 equal portions in meal prep containers. Each serving is about 2 cups.',
+        skillTip: 'Let it sit for 2 minutes before fluffing - this makes the rice extra fluffy and perfectly cooked.',
+        timeEstimate: 3
+      }
+    ]
+  },
+  {
+    id: 'recipe-011',
+    title: 'Viral TikTok Pasta Salad',
+    category: 'lunch',
+    difficulty: 'beginner',
+    description: 'The famous TikTok pasta salad that everyone is making - perfect cold lunch for meal prep',
+    prepTime: 15,
+    cookTime: 12,
+    servings: 8,
+    athleteNotes: 'This viral pasta salad is refreshing and filling. With 15g protein per serving, it\'s great for recovery days or lighter training. The best part? It tastes even better after sitting overnight, making it perfect for meal prep!',
+    requiredSkills: ['cook-001', 'knife-002', 'prep-003'],
+    tags: ['viral-tiktok', 'meal-prep', 'vegetarian', 'cold-lunch', 'no-reheat'],
+    mealPrepNotes: 'Make the full batch and store in a large container. Portion out servings as needed. Stays fresh for 5-7 days and flavors improve over time.',
+    storageInstructions: 'Store in airtight container in refrigerator for up to 7 days. Toss before serving. Do not freeze.',
+    videoUrl: 'https://www.tiktok.com/@katryce/video/7259649744676670765',
+    nutritionInfo: {
+      calories: 385,
+      protein: 15,
+      carbs: 48,
+      fat: 15,
+      fiber: 4,
+      servings: 8
+    },
+    ingredients: [
+      { item: 'Rotini pasta', amount: '1 lb box', notes: 'Tricolor if available' },
+      { item: 'English cucumber', amount: '1 large', notes: 'Diced' },
+      { item: 'Cherry tomatoes', amount: '2 cups', notes: 'Halved' },
+      { item: 'Red onion', amount: '1/2 medium', notes: 'Finely diced' },
+      { item: 'Salami', amount: '8 oz', notes: 'Diced (optional)' },
+      { item: 'Provolone cheese', amount: '8 oz', notes: 'Cubed (optional)' },
+      { item: 'Kalamata olives', amount: '1 cup', notes: 'Halved' },
+      { item: 'Pepperoncini peppers', amount: '1/2 cup', notes: 'Sliced' },
+      { item: 'Italian dressing', amount: '16 oz bottle', notes: 'Wishbone or Olive Garden' },
+      { item: 'Salad Supreme seasoning', amount: '3-4 tablespoons', notes: 'This is the secret ingredient!' },
+      { item: 'Black pepper', amount: '1 teaspoon' }
+    ],
+    instructions: [
+      {
+        step: 1,
+        instruction: 'Cook pasta according to package directions, then rinse with cold water.',
+        detailedExplanation: 'Bring a large pot of salted water to a boil. Add the rotini pasta and cook for 10-12 minutes until al dente (tender but still slightly firm). Drain the pasta in a colander, then rinse it under cold running water for 1-2 minutes. This stops the cooking and cools it down for the salad. Shake off excess water.',
+        skillTip: 'Rinsing pasta is usually not recommended, but for pasta salad you want to cool it quickly and remove excess starch.',
+        timeEstimate: 15
+      },
+      {
+        step: 2,
+        instruction: 'While pasta cooks, dice all vegetables and proteins.',
+        detailedExplanation: 'Dice the cucumber into small pieces (about 1/2 inch). Cut cherry tomatoes in half. Finely dice the red onion. If using salami and provolone, cut both into small cubes (about 1/2 inch). Halve the olives and slice the pepperoncini. Put everything in a very large mixing bowl.',
+        skillTip: 'Keep all pieces roughly the same size for the best texture and even distribution in each bite.',
+        timeEstimate: 10
+      },
+      {
+        step: 3,
+        instruction: 'Add cooled pasta to the bowl with all the vegetables.',
+        detailedExplanation: 'Once your pasta is completely cooled and drained well, add it to the large bowl with all your chopped vegetables, meat, and cheese. The pasta should be at room temperature or cool - never add hot pasta to the vegetables as it will make them soggy.',
+        timeEstimate: 2
+      },
+      {
+        step: 4,
+        instruction: 'Add entire bottle of Italian dressing and Salad Supreme seasoning.',
+        detailedExplanation: 'Pour the entire 16oz bottle of Italian dressing over everything. Then generously sprinkle 3-4 tablespoons of Salad Supreme seasoning over the top. This seasoning blend is what makes this pasta salad go viral - it has sesame seeds, paprika, and other spices that add amazing flavor. Don\'t be shy with it!',
+        skillTip: 'Salad Supreme seasoning is found in the spice aisle. It\'s the SECRET to this viral recipe!',
+        timeEstimate: 1
+      },
+      {
+        step: 5,
+        instruction: 'Toss everything together until evenly coated.',
+        detailedExplanation: 'Using a large spoon or tongs, toss everything together thoroughly. Make sure every piece of pasta and every vegetable is coated with dressing. Mix for a good 2-3 minutes, getting to the bottom of the bowl. The dressing and seasoning should be evenly distributed throughout.',
+        timeEstimate: 3
+      },
+      {
+        step: 6,
+        instruction: 'Cover and refrigerate overnight for best flavor.',
+        detailedExplanation: 'Transfer the pasta salad to an airtight container (or cover the bowl tightly with plastic wrap). Refrigerate for at least 4 hours, but overnight is best. This gives time for the pasta to absorb the dressing and all the flavors to meld together. Trust the process - it gets SO much better after sitting!',
+        skillTip: 'This pasta salad tastes good right away but AMAZING after sitting overnight. Patience pays off!',
+        timeEstimate: 1
+      },
+      {
+        step: 7,
+        instruction: 'Before serving, toss again and adjust seasoning if needed.',
+        detailedExplanation: 'Take the pasta salad out of the fridge and give it a good toss. The pasta may have absorbed some dressing overnight. Taste it - you can add more Salad Supreme seasoning or a splash more dressing if needed. Serve cold. Each serving is about 1.5 cups.',
+        timeEstimate: 2
+      }
+    ]
+  },
+  {
+    id: 'recipe-012',
+    title: 'High Protein Burrito Bowl',
+    category: 'lunch',
+    difficulty: 'intermediate',
+    description: 'TikTok famous burrito bowl with homemade creamy green sauce - 53g protein!',
+    prepTime: 20,
+    cookTime: 15,
+    servings: 4,
+    athleteNotes: 'This viral meal prep packs 53g protein and is one of the best weight loss recipes on TikTok. High protein and high volume keep you full for hours. Perfect for athletes in a calorie deficit or anyone wanting to build muscle while staying lean.',
+    requiredSkills: ['knife-002', 'cook-001', 'cook-004', 'safety-002'],
+    tags: ['viral-tiktok', 'high-protein', 'meal-prep', 'mexican', 'gluten-free'],
+    mealPrepNotes: 'Store green sauce separately from other components. Assemble bowls fresh or store lettuce separately to keep it crisp. Lasts 4-5 days.',
+    storageInstructions: 'Refrigerate components in separate containers for up to 5 days. Green sauce keeps for 3-4 days in a sealed bottle. Freeze chicken for up to 2 months.',
+    videoUrl: 'https://www.tiktok.com/@jalalsamfit/video/7193034085776755973',
+    nutritionInfo: {
+      calories: 508,
+      protein: 53,
+      carbs: 56,
+      fat: 8,
+      fiber: 9,
+      servings: 4
+    },
+    ingredients: [
+      { item: 'Chicken breast', amount: '600g', notes: 'Cut into cubes' },
+      { item: 'Basmati rice', amount: '208g dry', notes: 'About 560g cooked' },
+      { item: 'Black beans', amount: '120g', notes: 'Drained and rinsed' },
+      { item: 'Sweetcorn', amount: '120g' },
+      { item: 'Shredded lettuce', amount: '2 cups' },
+      { item: 'Red bell pepper', amount: '1', notes: 'Diced' },
+      { item: 'Red onion', amount: '1/4 cup', notes: 'Diced' },
+      { item: 'Lime', amount: '2', notes: '1 for chicken, 1 for sauce' },
+      { item: 'Tomato paste', amount: '50g' },
+      { item: 'For Chicken Seasoning:', amount: '' },
+      { item: 'Oregano', amount: '1 teaspoon' },
+      { item: 'Cumin', amount: '1 teaspoon' },
+      { item: 'Paprika', amount: '1 teaspoon' },
+      { item: 'Garlic powder', amount: '1 teaspoon' },
+      { item: 'Chili flakes', amount: '1 teaspoon' },
+      { item: 'Salt and pepper', amount: '1 teaspoon each' },
+      { item: 'For Green Sauce:', amount: '' },
+      { item: 'Avocado', amount: '80g (1/2 medium)' },
+      { item: 'Fat-free Greek yogurt', amount: '120g' },
+      { item: 'Fresh cilantro', amount: 'Large handful' },
+      { item: 'Garlic powder', amount: '1/2 teaspoon' },
+      { item: 'Salt and pepper', amount: '1/2 teaspoon each' }
+    ],
+    instructions: [
+      {
+        step: 1,
+        instruction: 'Make the creamy green sauce by blending all sauce ingredients.',
+        detailedExplanation: 'In a blender, add half an avocado (about 80g), 120g fat-free Greek yogurt, a large handful of fresh cilantro leaves, juice from half a lime, 1/2 teaspoon garlic powder, and 1/2 teaspoon each of salt and pepper. Blend on high for 30-60 seconds until completely smooth and creamy. Pour into a bottle or container and refrigerate. This makes about 1 cup of sauce.',
+        skillTip: 'This creamy green sauce is the star of the recipe - it\'s what makes it go viral! Each serving uses about 20g (1 tablespoon).',
+        timeEstimate: 3
+      },
+      {
+        step: 2,
+        instruction: 'Season cubed chicken with all spices and lime juice.',
+        detailedExplanation: 'Cut chicken breast into 1-inch cubes. Place in a bowl and add oregano, cumin, paprika, garlic powder, chili flakes, salt, and pepper. Squeeze the juice of one whole lime over the chicken. Mix well with your hands to coat every piece. Let marinate while you prep the rice.',
+        timeEstimate: 5
+      },
+      {
+        step: 3,
+        instruction: 'Cook rice with tomato paste and Mexican spices.',
+        detailedExplanation: 'In a medium saucepan, add 208g dry basmati rice (rinsed), 2 cups water, 50g tomato paste, and 1 teaspoon each of salt, garlic powder, cumin, and paprika. Stir everything together. Bring to a boil, then reduce to low heat, cover, and simmer for 12-15 minutes until rice is tender and water is absorbed. Fluff with a fork and stir in chopped cilantro.',
+        skillTip: 'The tomato paste turns the rice orange and adds amazing flavor - this is what makes it "Mexican rice"!',
+        timeEstimate: 15
+      },
+      {
+        step: 4,
+        instruction: 'Cook seasoned chicken in a hot pan until golden and cooked through.',
+        detailedExplanation: 'Heat a large skillet over medium-high heat. Spray with cooking spray or add 1 teaspoon oil. Add the marinated chicken in a single layer. Cook for 3 minutes without moving, then flip. Cook another 3 minutes until golden brown on all sides and cooked through (internal temp 165°F). Remove from heat.',
+        skillTip: 'Don\'t move the chicken around - let it sit to develop a nice crust!',
+        timeEstimate: 6
+      },
+      {
+        step: 5,
+        instruction: 'Warm black beans and corn together.',
+        detailedExplanation: 'In a small pan or microwave, warm the black beans and corn together. You can add a pinch of cumin and salt for extra flavor. They just need to be warmed through, about 2 minutes.',
+        timeEstimate: 2
+      },
+      {
+        step: 6,
+        instruction: 'Assemble bowls with all components.',
+        detailedExplanation: 'In each of 4 meal prep containers, add: 140g cooked Mexican rice as the base, 30g black beans, 30g corn, 140g cooked chicken pieces, a handful of shredded lettuce, diced red peppers and onions, and a wedge of lime on the side. Pack 20g (about 1.5 tablespoons) of green sauce in a small container on the side.',
+        skillTip: 'Store the green sauce and lettuce separately from hot ingredients to keep them fresh!',
+        timeEstimate: 5
+      },
+      {
+        step: 7,
+        instruction: 'To serve, heat bowl (except lettuce), add lettuce and drizzle with green sauce.',
+        detailedExplanation: 'When ready to eat, microwave the bowl (without lettuce) for 2-3 minutes until heated through. Add the fresh shredded lettuce on top and drizzle with the cold creamy green sauce. Squeeze the lime wedge over everything. Mix it all together and enjoy! The combination of warm and cold, with that creamy sauce, is perfection.',
+        timeEstimate: 3
+      }
+    ]
+  },
+  // VIRAL TIKTOK DINNER RECIPES
+  {
+    id: 'recipe-013',
+    title: 'Sheet Pan Harvest Chicken Dinner',
+    category: 'dinner',
+    difficulty: 'beginner',
+    description: 'Viral 20-minute TikTok sheet pan dinner - just chop, toss, and bake!',
+    prepTime: 10,
+    cookTime: 20,
+    servings: 4,
+    athleteNotes: 'This viral sheet pan dinner provides balanced nutrition with 42g protein, healthy carbs from sweet potatoes, and tons of vitamins from Brussels sprouts. Perfect for athletes who need nutritious meals with minimal effort!',
+    requiredSkills: ['knife-002', 'cook-003', 'prep-003'],
+    tags: ['viral-tiktok', 'sheet-pan', 'one-pan', 'high-protein', 'quick'],
+    mealPrepNotes: 'Make the full sheet pan and divide into 4 containers. Reheats beautifully in the oven at 350°F for 10 minutes or microwave for 2-3 minutes.',
+    storageInstructions: 'Refrigerate in airtight containers for up to 4 days. Reheat in oven for best results. Can freeze for up to 2 months.',
+    videoUrl: 'https://www.tiktok.com/@ainsley_rodriguez/video/7432405365913881887',
+    nutritionInfo: {
+      calories: 445,
+      protein: 42,
+      carbs: 38,
+      fat: 14,
+      fiber: 8,
+      servings: 4
+    },
+    ingredients: [
+      { item: 'Chicken apple sausage', amount: '1 package (12oz)', notes: 'Sliced into rounds' },
+      { item: 'Brussels sprouts', amount: '1 lb', notes: 'Trimmed and halved' },
+      { item: 'Sweet potato', amount: '1 lb', notes: 'Cubed' },
+      { item: 'Red onion', amount: '1 medium', notes: 'Cut into wedges' },
+      { item: 'Honeycrisp apple', amount: '1 large', notes: 'Cubed' },
+      { item: 'Olive oil', amount: '3 tablespoons' },
+      { item: 'Minced garlic', amount: '2 tablespoons' },
+      { item: 'Honey', amount: '2 tablespoons' },
+      { item: 'Salt', amount: '1 teaspoon' },
+      { item: 'Black pepper', amount: '1/2 teaspoon' },
+      { item: 'Fresh thyme', amount: '1 teaspoon', notes: 'Optional' }
+    ],
+    instructions: [
+      {
+        step: 1,
+        instruction: 'Preheat oven to 425°F and line a large baking sheet with parchment.',
+        detailedExplanation: 'Turn your oven to 425°F - this high heat will make everything crispy and caramelized! While it preheats, line a large rimmed baking sheet (18x13 inch) with parchment paper for easy cleanup.',
+        timeEstimate: 2
+      },
+      {
+        step: 2,
+        instruction: 'Chop all ingredients into similar-sized pieces.',
+        detailedExplanation: 'Cut sweet potatoes into 3/4-inch cubes. Trim the ends off Brussels sprouts and cut them in half lengthwise. Cut the red onion into wedges. Cube the apple into 3/4-inch pieces. Slice the chicken sausage into 1/2-inch thick rounds. Keeping everything similar in size ensures even cooking.',
+        skillTip: 'Uniform sizing is key for sheet pan dinners - everything cooks at the same rate!',
+        timeEstimate: 8
+      },
+      {
+        step: 3,
+        instruction: 'Make the honey garlic sauce in a small bowl.',
+        detailedExplanation: 'In a small bowl, whisk together 3 tablespoons olive oil, 2 tablespoons minced garlic (about 6 cloves), 2 tablespoons honey, 1 teaspoon salt, 1/2 teaspoon pepper, and thyme if using. Mix until the honey is fully incorporated and the sauce is smooth.',
+        timeEstimate: 2
+      },
+      {
+        step: 4,
+        instruction: 'Toss all chopped ingredients with the sauce on the sheet pan.',
+        detailedExplanation: 'Put all your chopped vegetables, apple, and sausage directly on the baking sheet. Pour the honey garlic sauce over everything. Use your hands or a large spoon to toss everything together until every piece is coated with the sauce. Spread everything out in a single layer - don\'t pile it up or it will steam instead of roast.',
+        skillTip: 'Don\'t overcrowd the pan! Use two pans if needed for maximum crispiness.',
+        timeEstimate: 3
+      },
+      {
+        step: 5,
+        instruction: 'Roast for 20 minutes, tossing halfway through.',
+        detailedExplanation: 'Place the sheet pan in the preheated 425°F oven. Set a timer for 10 minutes. After 10 minutes, take the pan out and use a spatula to toss everything around, flipping the Brussels sprouts so they brown on both sides. Return to the oven for another 10 minutes. Everything should be golden brown and caramelized.',
+        timeEstimate: 20
+      },
+      {
+        step: 6,
+        instruction: 'Optional: Broil for 2-3 minutes for extra crispiness.',
+        detailedExplanation: 'If you want everything extra crispy and caramelized, turn on the broiler to high. Place the sheet pan on the top rack and broil for 2-3 minutes, watching carefully so nothing burns. The edges should get slightly charred and crispy. Remove from oven and let cool 2 minutes before serving.',
+        skillTip: 'Watch carefully when broiling - things can go from golden to burned quickly!',
+        timeEstimate: 3
+      },
+      {
+        step: 7,
+        instruction: 'Divide into 4 portions and enjoy or store for meal prep.',
+        detailedExplanation: 'The whole sheet pan makes 4 generous servings. Divide everything evenly into 4 meal prep containers. Each portion should have a good mix of sausage, Brussels sprouts, sweet potato, onion, and apple. The sweet and savory flavors are amazing together!',
+        timeEstimate: 3
+      }
+    ]
+  },
+  {
+    id: 'recipe-014',
+    title: 'Slow Cooker Honey Teriyaki Chicken',
+    category: 'dinner',
+    difficulty: 'beginner',
+    description: 'Viral TikTok crockpot recipe - dump ingredients and walk away for 5 hours',
+    prepTime: 10,
+    cookTime: 300,
+    servings: 8,
+    athleteNotes: 'Set it and forget it! This viral slow cooker recipe makes 8 high-protein servings with 40g protein each. Perfect for Sunday meal prep. The slow cooking makes the chicken incredibly tender and flavorful.',
+    requiredSkills: ['prep-001', 'prep-003'],
+    tags: ['viral-tiktok', 'slow-cooker', 'meal-prep', 'high-protein', 'asian-fusion'],
+    mealPrepNotes: 'Freezes beautifully! Make the full batch, portion into containers, and freeze half. Thaw in fridge overnight and reheat.',
+    storageInstructions: 'Refrigerate for up to 5 days. Freeze in portions for up to 3 months. Reheat with a splash of water to loosen the sauce.',
+    videoUrl: 'https://www.tiktok.com/@stealth_health_life/video/7433199223354510622',
+    nutritionInfo: {
+      calories: 515,
+      protein: 40,
+      carbs: 65,
+      fat: 9,
+      fiber: 2,
+      servings: 8
+    },
+    ingredients: [
+      { item: 'Chicken thighs', amount: '3 lbs (1360g)', notes: 'Boneless, skinless' },
+      { item: 'Soy sauce', amount: '5 tablespoons (75g)', notes: 'Low-sodium preferred' },
+      { item: 'Dark soy sauce', amount: '2 tablespoons (30g)' },
+      { item: 'Honey', amount: '4 tablespoons (80g)' },
+      { item: 'Mirin', amount: '4 tablespoons (60g)', notes: 'Rice wine' },
+      { item: 'Ginger paste', amount: '2 tablespoons (30g)' },
+      { item: 'Garlic paste', amount: '1 tablespoon (15g)' },
+      { item: 'Cornstarch slurry:', amount: '' },
+      { item: 'Cornstarch', amount: '3 tablespoons' },
+      { item: 'Cold water', amount: '4 tablespoons' },
+      { item: 'For Serving:', amount: '' },
+      { item: 'Short grain rice', amount: '2.5 cups dry (480g)', notes: 'Makes about 7 cups cooked' },
+      { item: 'Green onions', amount: '2 stalks', notes: 'Sliced for garnish' },
+      { item: 'Sesame seeds', amount: '2 tablespoons', notes: 'For garnish' }
+    ],
+    instructions: [
+      {
+        step: 1,
+        instruction: 'Add chicken thighs to slow cooker.',
+        detailedExplanation: 'Place all 3 pounds of boneless, skinless chicken thighs directly into your slow cooker. No need to brown them first - just put them right in! Spread them out in a relatively even layer.',
+        skillTip: 'Chicken thighs stay juicier than breasts in the slow cooker, but you can use breasts if you prefer.',
+        timeEstimate: 1
+      },
+      {
+        step: 2,
+        instruction: 'Mix sauce ingredients and pour over chicken.',
+        detailedExplanation: 'In a bowl or measuring cup, whisk together the soy sauce, dark soy sauce, honey, mirin, ginger paste, and garlic paste. Mix well until the honey is fully incorporated. Pour this sauce mixture evenly over all the chicken in the slow cooker. Use a spoon to make sure each piece gets coated.',
+        timeEstimate: 3
+      },
+      {
+        step: 3,
+        instruction: 'Cook on HIGH for 4-5 hours or LOW for 5-6 hours.',
+        detailedExplanation: 'Put the lid on the slow cooker. Set it to HIGH and cook for 4-5 hours, or set to LOW and cook for 5-6 hours. The chicken is done when it\'s very tender and shreds easily with a fork. There will be a lot of liquid in the pot - that\'s normal!',
+        skillTip: 'HIGH = 4-5 hours, LOW = 5-6 hours. Both work great - choose based on your schedule!',
+        timeEstimate: 300
+      },
+      {
+        step: 4,
+        instruction: 'Remove chicken and shred with two forks.',
+        detailedExplanation: 'Carefully remove the chicken pieces from the slow cooker and place them on a cutting board or large plate. Use two forks to shred the chicken - it should fall apart very easily. Set the shredded chicken aside.',
+        timeEstimate: 5
+      },
+      {
+        step: 5,
+        instruction: 'Make cornstarch slurry and add to sauce in slow cooker.',
+        detailedExplanation: 'In a small bowl, mix 3 tablespoons cornstarch with 4 tablespoons cold water. Stir with a fork until completely smooth with no lumps. Turn the slow cooker to HIGH if it wasn\'t already. Pour the cornstarch slurry into the liquid in the slow cooker and stir well. Let it sit uncovered for 15-20 minutes. The sauce will thicken into a glossy, thick teriyaki glaze.',
+        skillTip: 'Adding the cornstarch at the END is key - this lets you control how thick the sauce becomes.',
+        timeEstimate: 20
+      },
+      {
+        step: 6,
+        instruction: 'Return shredded chicken to thickened sauce and toss to coat.',
+        detailedExplanation: 'Once the sauce has thickened, add all the shredded chicken back into the slow cooker. Toss everything together so the chicken is completely coated in the thick, glossy teriyaki sauce. Taste and add more soy sauce or honey if needed.',
+        timeEstimate: 2
+      },
+      {
+        step: 7,
+        instruction: 'Serve over rice with green onions and sesame seeds.',
+        detailedExplanation: 'Cook your rice according to package directions (2.5 cups dry rice makes about 7 cups cooked). Divide rice into 8 bowls or meal prep containers (about 7/8 cup rice per serving). Top each with the honey teriyaki chicken (about 1.5 cups per serving). Garnish with sliced green onions and sesame seeds. The combination is incredible!',
+        timeEstimate: 5
+      }
+    ]
+  },
+  {
+    id: 'recipe-015',
+    title: 'Viral Salmon Rice Bowl (Emily Mariko)',
+    category: 'dinner',
+    difficulty: 'beginner',
+    description: 'The TikTok recipe that broke the internet - leftover salmon and rice transformed with an ice cube trick',
+    prepTime: 5,
+    cookTime: 3,
+    servings: 1,
+    athleteNotes: 'This viral TikTok sensation is perfect for using leftover salmon and rice. With 38g protein and healthy omega-3 fats, it\'s ideal for muscle recovery and reducing inflammation. The best part? Ready in under 10 minutes!',
+    requiredSkills: ['prep-002'],
+    tags: ['viral-tiktok', 'quick', 'high-protein', 'omega-3', 'leftovers'],
+    mealPrepNotes: 'Meal prep by cooking a batch of rice and salmon on Sunday. Store separately and assemble fresh bowls throughout the week using this viral method.',
+    storageInstructions: 'Store cooked rice and salmon separately in refrigerator for up to 5 days. Assemble fresh when ready to eat using the ice cube method.',
+    videoUrl: 'https://www.tiktok.com/@emilymariko/video/7017823500270194990',
+    nutritionInfo: {
+      calories: 520,
+      protein: 38,
+      carbs: 52,
+      fat: 16,
+      fiber: 5,
+      servings: 1
+    },
+    ingredients: [
+      { item: 'Leftover cooked salmon', amount: '5-6 oz (140-170g)', notes: 'Any preparation' },
+      { item: 'Leftover cooked rice', amount: '1 cup (200g)', notes: 'White or brown rice' },
+      { item: 'Ice cube', amount: '1', notes: 'The secret ingredient!' },
+      { item: 'Kewpie mayo', amount: '1 tablespoon' },
+      { item: 'Soy sauce', amount: '1-2 teaspoons' },
+      { item: 'Sriracha', amount: '1 teaspoon', notes: 'Or to taste' },
+      { item: 'Avocado', amount: '1/4', notes: 'Sliced' },
+      { item: 'Kimchi', amount: '2-3 tablespoons', notes: 'Optional but recommended' },
+      { item: 'Roasted seaweed snacks', amount: '1 packet', notes: 'For serving' }
+    ],
+    instructions: [
+      {
+        step: 1,
+        instruction: 'Place cold leftover salmon in a microwave-safe bowl and flake with a fork.',
+        detailedExplanation: 'Take your leftover salmon straight from the fridge - it should be cold. Place it in a microwave-safe bowl. Use a fork to break it up into chunks and flakes. Don\'t worry about making it perfect - rough flakes are fine. This is what makes this recipe so genius - it uses leftovers!',
+        skillTip: 'This works with ANY cooked salmon - baked, grilled, pan-seared, even canned salmon!',
+        timeEstimate: 1
+      },
+      {
+        step: 2,
+        instruction: 'Top salmon with cold rice and place one ice cube on top.',
+        detailedExplanation: 'Add your cold leftover rice right on top of the salmon flakes. Pack it down gently so it covers the salmon. Now here\'s the viral trick: place ONE ice cube right in the center on top of the rice. This is what Emily Mariko does in her viral TikTok!',
+        skillTip: 'The ice cube is KEY! It steams the rice as it microwaves, keeping it moist and fluffy instead of dry.',
+        timeEstimate: 1
+      },
+      {
+        step: 3,
+        instruction: 'Cover with parchment paper and microwave for 1.5-2 minutes.',
+        detailedExplanation: 'Tear off a piece of parchment paper and place it directly on top of the bowl, covering the rice and ice cube. Microwave on high for 1.5 to 2 minutes. The ice cube will melt and steam the rice while reheating everything. You\'ll see the parchment paper puff up from the steam - that\'s perfect!',
+        skillTip: 'Parchment paper (not plastic wrap!) traps steam and prevents splatters. This is part of what made the video go viral!',
+        timeEstimate: 2
+      },
+      {
+        step: 4,
+        instruction: 'Remove from microwave and discard parchment. Mix salmon and rice together.',
+        detailedExplanation: 'Carefully remove the bowl from the microwave (it will be hot!). Take off and discard the parchment paper. Use a fork to mix the flaked salmon and rice together thoroughly. The rice should be steaming hot, fluffy, and perfectly reheated. The salmon will be warm and incorporated throughout.',
+        timeEstimate: 1
+      },
+      {
+        step: 5,
+        instruction: 'Add Kewpie mayo, soy sauce, and sriracha. Mix well.',
+        detailedExplanation: 'Drizzle about 1 tablespoon of Kewpie mayo (Japanese mayo - it\'s richer and sweeter than American mayo), 1-2 teaspoons of soy sauce, and a squirt of sriracha over the rice and salmon mixture. Use your fork to mix everything together really well. The mayo makes it creamy, the soy adds umami, and the sriracha gives it a kick.',
+        skillTip: 'Kewpie mayo is found in the Asian section. It\'s creamier than regular mayo and makes a huge difference!',
+        timeEstimate: 1
+      },
+      {
+        step: 6,
+        instruction: 'Top with sliced avocado, kimchi, and serve with seaweed.',
+        detailedExplanation: 'Slice your avocado and fan it over the top of the bowl. Add a spoonful of kimchi on the side (the tangy, spicy flavor is amazing with this!). Serve with a packet of roasted seaweed snacks - you tear off pieces and use them to scoop up bites of the rice bowl. This is exactly how Emily eats it in the viral video!',
+        timeEstimate: 2
+      },
+      {
+        step: 7,
+        instruction: 'Optional: Add more toppings and enjoy immediately.',
+        detailedExplanation: 'Some people add cucumber slices, edamame, or sesame seeds. The base recipe is salmon + rice + ice cube, but you can customize with whatever you like! Eat it while it\'s hot. The combination of warm rice, creamy mayo, spicy sriracha, cool avocado, and tangy kimchi is why this recipe went viral with millions of views.',
+        skillTip: 'Make this your own! The ice cube trick works with any protein and rice combo.',
+        timeEstimate: 1
+      }
+    ]
   }
 ];
