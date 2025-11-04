@@ -105,6 +105,36 @@ export default function RecipeDetail() {
         </p>
       </div>
 
+      {/* TikTok Video */}
+      {recipe.videoUrl && (
+        <div className="bg-white rounded-xl shadow-lg p-8 mb-6">
+          <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+            <span className="text-3xl mr-3">🎥</span>
+            Video Tutorial
+          </h2>
+          <div className="relative w-full mx-auto" style={{ maxWidth: '605px' }}>
+            <blockquote
+              className="tiktok-embed"
+              cite={recipe.videoUrl}
+              data-video-id={recipe.videoUrl.split('/video/')[1]}
+              style={{ maxWidth: '605px', minWidth: '325px' }}
+            >
+              <section>
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href={recipe.videoUrl}
+                  className="text-primary-600 hover:underline"
+                >
+                  View this recipe on TikTok
+                </a>
+              </section>
+            </blockquote>
+            <script async src="https://www.tiktok.com/embed.js"></script>
+          </div>
+        </div>
+      )}
+
       <div className="grid lg:grid-cols-3 gap-6 mb-6">
         {/* Nutrition Info */}
         <div className="lg:col-span-1">

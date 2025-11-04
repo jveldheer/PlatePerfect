@@ -139,8 +139,13 @@ export default function Recipes() {
                 </span>
               </div>
 
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+              <h3 className="text-xl font-semibold text-gray-900 mb-2 flex items-center gap-2">
                 {recipe.title}
+                {recipe.videoUrl && (
+                  <span className="text-red-600 text-lg" title="Video tutorial available">
+                    🎥
+                  </span>
+                )}
               </h3>
 
               <p className="text-gray-600 text-sm mb-4 line-clamp-2">
