@@ -75,6 +75,31 @@ export default function SkillDetail() {
         </p>
       </div>
 
+      {/* Video Tutorial */}
+      {skill.videoUrl && (
+        <div className="bg-white rounded-xl shadow-lg p-8 mb-6">
+          <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+            <span className="text-3xl mr-3">🎥</span>
+            Video Tutorial
+          </h2>
+          <div className="aspect-video w-full rounded-lg overflow-hidden">
+            <iframe
+              width="100%"
+              height="100%"
+              src={skill.videoUrl.replace('watch?v=', 'embed/')}
+              title={skill.title}
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              className="w-full h-full"
+            ></iframe>
+          </div>
+          <p className="mt-4 text-sm text-gray-600">
+            Watch this professional tutorial to see the technique in action. Follow along and practice!
+          </p>
+        </div>
+      )}
+
       {/* Detailed Steps */}
       <div className="bg-white rounded-xl shadow-lg p-8 mb-6">
         <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">

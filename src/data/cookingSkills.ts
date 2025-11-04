@@ -9,6 +9,7 @@ export const cookingSkills: CookingSkill[] = [
     difficulty: 'beginner',
     description: 'Learn the proper grip for safe and effective knife work',
     estimatedTime: 5,
+    videoUrl: 'https://www.youtube.com/watch?v=G-Fg7l7G1zw',
     detailedSteps: [
       'Grip the handle firmly with your dominant hand, placing your thumb on one side and your index finger on the opposite side of the blade base',
       'Wrap your remaining three fingers around the handle for stability',
@@ -34,6 +35,7 @@ export const cookingSkills: CookingSkill[] = [
     difficulty: 'beginner',
     description: 'Master the fundamental chopping motion for vegetables',
     estimatedTime: 10,
+    videoUrl: 'https://www.youtube.com/watch?v=G-Fg7l7G1zw',
     detailedSteps: [
       'Position your cutting board on a damp towel to prevent slipping',
       'Place the food item on the board and use your claw hand to hold it steady',
@@ -60,6 +62,7 @@ export const cookingSkills: CookingSkill[] = [
     difficulty: 'intermediate',
     description: 'Learn to dice onions efficiently and with minimal tears',
     estimatedTime: 15,
+    videoUrl: 'https://www.youtube.com/watch?v=dCGS067s0zo',
     detailedSteps: [
       'Cut the onion in half from root to tip (through the stem)',
       'Peel off the papery outer layers, but leave the root end intact',
@@ -89,6 +92,7 @@ export const cookingSkills: CookingSkill[] = [
     difficulty: 'beginner',
     description: 'Understand the difference between boiling and simmering, and when to use each',
     estimatedTime: 10,
+    videoUrl: 'https://www.youtube.com/watch?v=8CweOjfwGYs',
     detailedSteps: [
       'Fill a pot with water (usually 3/4 full to prevent overflow)',
       'Place on burner and turn heat to high for boiling',
@@ -116,6 +120,7 @@ export const cookingSkills: CookingSkill[] = [
     difficulty: 'beginner',
     description: 'Learn to cook food quickly in a small amount of oil over high heat',
     estimatedTime: 15,
+    videoUrl: 'https://www.youtube.com/watch?v=DuGrjxCsZHw',
     detailedSteps: [
       'Choose the right pan - a wide, shallow pan with sloped sides is ideal',
       'Heat the pan over medium-high heat for 2-3 minutes until hot',
@@ -146,6 +151,7 @@ export const cookingSkills: CookingSkill[] = [
     difficulty: 'beginner',
     description: 'Master dry-heat cooking for vegetables and proteins',
     estimatedTime: 20,
+    videoUrl: 'https://www.youtube.com/watch?v=qr8JVMpb_mE',
     detailedSteps: [
       'Preheat your oven to the required temperature (usually 400-450°F for roasting)',
       'While oven heats, prep your food: cut vegetables to uniform size, pat proteins dry',
@@ -176,6 +182,7 @@ export const cookingSkills: CookingSkill[] = [
     difficulty: 'intermediate',
     description: 'Create a flavorful crust on chicken, fish, or meat',
     estimatedTime: 20,
+    videoUrl: 'https://www.youtube.com/watch?v=VxB8kkPGRP4',
     detailedSteps: [
       'Remove protein from refrigerator 20-30 minutes before cooking to bring to room temperature',
       'Pat the protein completely dry with paper towels - this is crucial',
@@ -210,6 +217,7 @@ export const cookingSkills: CookingSkill[] = [
     difficulty: 'beginner',
     description: 'Learn to keep raw and cooked foods separate to prevent foodborne illness',
     estimatedTime: 10,
+    videoUrl: 'https://www.youtube.com/watch?v=fCNPu_nDu00',
     detailedSteps: [
       'Use separate cutting boards: one for raw meat/poultry/fish, one for vegetables and ready-to-eat foods',
       'Wash hands with soap and water for 20 seconds after handling raw proteins',
@@ -238,6 +246,7 @@ export const cookingSkills: CookingSkill[] = [
     difficulty: 'beginner',
     description: 'Know the safe internal temperatures for different proteins',
     estimatedTime: 10,
+    videoUrl: 'https://www.youtube.com/watch?v=gq_QjLtB6dw',
     detailedSteps: [
       'Invest in a reliable instant-read meat thermometer',
       'Insert thermometer into the thickest part of the protein, avoiding bone',
@@ -268,6 +277,7 @@ export const cookingSkills: CookingSkill[] = [
     difficulty: 'beginner',
     description: 'Master dry and wet measurement techniques for consistent results',
     estimatedTime: 10,
+    videoUrl: 'https://www.youtube.com/watch?v=FvSH_7AuhRQ',
     detailedSteps: [
       'DRY INGREDIENTS (flour, sugar, rice): Use dry measuring cups that can be leveled off',
       'Spoon ingredient into the measuring cup - don\'t pack it down or scoop directly',
@@ -297,6 +307,7 @@ export const cookingSkills: CookingSkill[] = [
     difficulty: 'beginner',
     description: 'Learn when and how to wash different foods',
     estimatedTime: 10,
+    videoUrl: 'https://www.youtube.com/watch?v=qNJKffW_x6Y',
     detailedSteps: [
       'ALWAYS WASH: All fruits and vegetables, even if you\'re peeling them',
       'NEVER WASH: Raw poultry, meat, or eggs - spreads bacteria around your sink',
@@ -326,6 +337,7 @@ export const cookingSkills: CookingSkill[] = [
     difficulty: 'intermediate',
     description: 'Efficiently prepare multiple meals in advance',
     estimatedTime: 30,
+    videoUrl: 'https://www.youtube.com/watch?v=sS_7J7KP1OQ',
     detailedSteps: [
       'Choose 2-3 recipes that share common ingredients to reduce waste',
       'Make a detailed shopping list organized by grocery store section',
@@ -359,6 +371,7 @@ export const cookingSkills: CookingSkill[] = [
     difficulty: 'beginner',
     description: 'Understanding basic kitchen equipment and their uses',
     estimatedTime: 15,
+    videoUrl: 'https://www.youtube.com/watch?v=1AxLzMJIgxM',
     detailedSteps: [
       'KNIVES: 8-inch chef\'s knife (all-purpose), paring knife (detail work), serrated bread knife',
       'CUTTING BOARDS: At least 2 - one for produce, one for raw proteins',
@@ -389,6 +402,7 @@ export const cookingSkills: CookingSkill[] = [
     difficulty: 'intermediate',
     description: 'Keep your knives sharp and in good condition',
     estimatedTime: 20,
+    videoUrl: 'https://www.youtube.com/watch?v=KB98wYOh-lQ',
     detailedSteps: [
       'HONING (weekly): Use a honing steel to realign the knife edge',
       'Hold the steel vertically with tip resting on a towel',
