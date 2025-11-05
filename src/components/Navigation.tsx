@@ -13,6 +13,8 @@ export default function Navigation() {
     { path: '/', label: 'Home' },
     { path: '/skills', label: 'Cooking Skills' },
     { path: '/recipes', label: 'Recipes' },
+    { path: '/tracker', label: 'Macro Tracker' },
+    { path: '/profile', label: 'My Goals' },
   ];
 
   return (

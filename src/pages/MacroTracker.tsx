@@ -1,0 +1,222 @@
+import { Link } from 'react-router-dom';
+import { useMacros } from '../contexts/MacroContext';
+
+export default function MacroTracker() {
+  const { userProfile, macroGoals, consumedMacros, resetTracker, getGoalDirection } = useMacros();
+
+  if (!userProfile || !macroGoals) {
+    return (
+      <div className="max-w-2xl mx-auto text-center py-12 px-4">
+        <div className="bg-white rounded-xl shadow-lg p-6 sm:p-8">
+          <span className="text-5xl sm:text-6xl mb-4 block">🎯</span>
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">
+            Set Up Your Macro Goals
+          </h2>
+          <p className="text-base sm:text-lg text-gray-600 mb-6">
+            Calculate your personalized daily macros to start tracking your nutrition and reaching your goals.
+          </p>
+          <Link
+            to="/profile"
+            className="btn-primary min-h-[44px] inline-flex items-center justify-center touch-manipulation"
+          >
+            Calculate My Macros
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  const goalDirection = getGoalDirection();
+
+  const calculatePercentage = (consumed: number, goal: number) => {
+    return Math.min((consumed / goal) * 100, 100);
+  };
+
+  const getProgressColor = (percentage: number) => {
+    if (percentage < 70) return 'bg-red-500';
+    if (percentage < 90) return 'bg-yellow-500';
+    if (percentage <= 110) return 'bg-green-500';
+    return 'bg-orange-500';
+  };
+
+  const caloriesPercent = calculatePercentage(consumedMacros.calories, macroGoals.calories);
+  const proteinPercent = calculatePercentage(consumedMacros.protein_g, macroGoals.protein_g);
+  const carbsPercent = calculatePercentage(consumedMacros.carbs_g, macroGoals.carbs_g);
+  const fatPercent = calculatePercentage(consumedMacros.fat_g, macroGoals.fat_g);
+
+  return (
+    <div className="max-w-4xl mx-auto space-y-6 sm:space-y-8">
+      {/* Header */}
+      <div className="text-center px-4">
+        <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">
+          Macro Tracker
+        </h1>
+        <p className="text-base sm:text-lg text-gray-600">
+          Track your daily nutrition progress
+        </p>
+      </div>
+
+      {/* Goal Summary */}
+      <div className="bg-gradient-to-br from-primary-50 to-athletic-50 rounded-xl shadow-lg p-4 sm:p-6">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="text-center sm:text-left">
+            <p className="text-sm sm:text-base text-gray-600">Your Goal</p>
+            <p className="text-xl sm:text-2xl font-bold text-gray-900 capitalize">
+              {goalDirection}
+            </p>
+            <p className="text-xs sm:text-sm text-gray-600 mt-1">
+              {userProfile.currentWeightLb} lbs → {userProfile.targetWeightLb} lbs
+            </p>
+          </div>
+          <div className="flex gap-2 sm:gap-3">
+            <Link
+              to="/recipes"
+              className="px-4 py-2 min-h-[44px] bg-primary-600 text-white rounded-lg font-medium hover:bg-primary-700 transition-colors touch-manipulation inline-flex items-center"
+            >
+              Browse Recipes
+            </Link>
+            <button
+              onClick={resetTracker}
+              className="px-4 py-2 min-h-[44px] bg-gray-200 text-gray-700 rounded-lg font-medium hover:bg-gray-300 transition-colors touch-manipulation"
+            >
+              Reset Day
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Macro Progress */}
+      <div className="space-y-4 sm:space-y-6">
+        {/* Calories */}
+        <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6">
+          <div className="flex items-center justify-between mb-3">
+            <div>
+              <h3 className="text-lg sm:text-xl font-bold text-gray-900">Calories</h3>
+              <p className="text-sm sm:text-base text-gray-600">
+                {Math.round(consumedMacros.calories)} / {macroGoals.calories} kcal
+              </p>
+            </div>
+            <div className="text-right">
+              <p className="text-xl sm:text-2xl font-bold text-primary-600">
+                {Math.round(caloriesPercent)}%
+              </p>
+              <p className="text-xs sm:text-sm text-gray-500">
+                {macroGoals.calories - Math.round(consumedMacros.calories)} left
+              </p>
+            </div>
+          </div>
+          <div className="w-full bg-gray-200 rounded-full h-3 sm:h-4 overflow-hidden">
+            <div
+              className={`h-full transition-all duration-300 ${getProgressColor(caloriesPercent)}`}
+              style={{ width: `${caloriesPercent}%` }}
+            />
+          </div>
+        </div>
+
+        {/* Protein */}
+        <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6">
+          <div className="flex items-center justify-between mb-3">
+            <div>
+              <h3 className="text-lg sm:text-xl font-bold text-gray-900">Protein</h3>
+              <p className="text-sm sm:text-base text-gray-600">
+                {Math.round(consumedMacros.protein_g)} / {macroGoals.protein_g}g
+              </p>
+            </div>
+            <div className="text-right">
+              <p className="text-xl sm:text-2xl font-bold text-red-600">
+                {Math.round(proteinPercent)}%
+              </p>
+              <p className="text-xs sm:text-sm text-gray-500">
+                {macroGoals.protein_g - Math.round(consumedMacros.protein_g)}g left
+              </p>
+            </div>
+          </div>
+          <div className="w-full bg-gray-200 rounded-full h-3 sm:h-4 overflow-hidden">
+            <div
+              className={`h-full transition-all duration-300 bg-red-500`}
+              style={{ width: `${proteinPercent}%` }}
+            />
+          </div>
+        </div>
+
+        {/* Carbs */}
+        <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6">
+          <div className="flex items-center justify-between mb-3">
+            <div>
+              <h3 className="text-lg sm:text-xl font-bold text-gray-900">Carbs</h3>
+              <p className="text-sm sm:text-base text-gray-600">
+                {Math.round(consumedMacros.carbs_g)} / {macroGoals.carbs_g}g
+              </p>
+            </div>
+            <div className="text-right">
+              <p className="text-xl sm:text-2xl font-bold text-yellow-600">
+                {Math.round(carbsPercent)}%
+              </p>
+              <p className="text-xs sm:text-sm text-gray-500">
+                {macroGoals.carbs_g - Math.round(consumedMacros.carbs_g)}g left
+              </p>
+            </div>
+          </div>
+          <div className="w-full bg-gray-200 rounded-full h-3 sm:h-4 overflow-hidden">
+            <div
+              className={`h-full transition-all duration-300 bg-yellow-500`}
+              style={{ width: `${carbsPercent}%` }}
+            />
+          </div>
+        </div>
+
+        {/* Fat */}
+        <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6">
+          <div className="flex items-center justify-between mb-3">
+            <div>
+              <h3 className="text-lg sm:text-xl font-bold text-gray-900">Fat</h3>
+              <p className="text-sm sm:text-base text-gray-600">
+                {Math.round(consumedMacros.fat_g)} / {macroGoals.fat_g}g
+              </p>
+            </div>
+            <div className="text-right">
+              <p className="text-xl sm:text-2xl font-bold text-blue-600">
+                {Math.round(fatPercent)}%
+              </p>
+              <p className="text-xs sm:text-sm text-gray-500">
+                {macroGoals.fat_g - Math.round(consumedMacros.fat_g)}g left
+              </p>
+            </div>
+          </div>
+          <div className="w-full bg-gray-200 rounded-full h-3 sm:h-4 overflow-hidden">
+            <div
+              className={`h-full transition-all duration-300 bg-blue-500`}
+              style={{ width: `${fatPercent}%` }}
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Tips */}
+      <div className="bg-blue-50 rounded-xl p-4 sm:p-6 border-l-4 border-blue-500">
+        <h4 className="text-base sm:text-lg font-semibold text-blue-900 mb-2 flex items-center">
+          <span className="text-xl sm:text-2xl mr-2">💡</span>
+          Tracking Tips
+        </h4>
+        <ul className="space-y-2 text-sm sm:text-base text-blue-800">
+          <li className="flex items-start">
+            <span className="mr-2">•</span>
+            <span>Green = On track (90-110% of goal)</span>
+          </li>
+          <li className="flex items-start">
+            <span className="mr-2">•</span>
+            <span>Yellow = Getting close (70-90% of goal)</span>
+          </li>
+          <li className="flex items-start">
+            <span className="mr-2">•</span>
+            <span>Red = Need more (below 70%)</span>
+          </li>
+          <li className="flex items-start">
+            <span className="mr-2">•</span>
+            <span>Orange = Over goal (above 110%)</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  );
+}

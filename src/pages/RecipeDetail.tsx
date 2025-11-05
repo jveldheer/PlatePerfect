@@ -1,10 +1,15 @@
 import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import { recipes } from '../data/recipes';
+import { useMacros } from '../contexts/MacroContext';
 
 export default function RecipeDetail() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const recipe = recipes.find((r) => r.id === id);
+  const { addToTracker, macroGoals } = useMacros();
+  const [servings, setServings] = useState(1);
+  const [showAddedMessage, setShowAddedMessage] = useState(false);
 
   if (!recipe) {
     return (
@@ -34,6 +39,12 @@ export default function RecipeDetail() {
     return category.split('-').map(word =>
       word.charAt(0).toUpperCase() + word.slice(1)
     ).join(' ');
+  };
+
+  const handleAddToTracker = () => {
+    addToTracker(recipe.nutritionInfo, servings);
+    setShowAddedMessage(true);
+    setTimeout(() => setShowAddedMessage(false), 3000);
   };
 
   return (
@@ -107,6 +118,78 @@ export default function RecipeDetail() {
           {recipe.athleteNotes}
         </p>
       </div>
+
+      {/* Add to Tracker */}
+      {macroGoals && (
+        <div className="bg-primary-50 rounded-xl shadow-lg p-4 sm:p-6 md:p-8 mb-4 sm:mb-6 border-l-4 border-primary-600">
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-3 sm:mb-4 flex items-center">
+            <span className="text-2xl sm:text-3xl mr-2 sm:mr-3">📊</span>
+            Add to Macro Tracker
+          </h2>
+          <p className="text-sm sm:text-base text-gray-700 mb-4">
+            Track this recipe's nutrition toward your daily macro goals
+          </p>
+
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+            <div className="flex items-center gap-3">
+              <label htmlFor="servings" className="text-sm sm:text-base font-medium text-gray-700 whitespace-nowrap">
+                Servings:
+              </label>
+              <input
+                type="number"
+                id="servings"
+                min="0.5"
+                max="10"
+                step="0.5"
+                value={servings}
+                onChange={(e) => setServings(parseFloat(e.target.value) || 1)}
+                className="w-20 px-3 py-2 min-h-[44px] border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent text-base"
+              />
+            </div>
+
+            <button
+              onClick={handleAddToTracker}
+              className="w-full sm:w-auto px-6 py-3 min-h-[44px] bg-primary-600 text-white rounded-lg font-semibold hover:bg-primary-700 transition-colors touch-manipulation flex items-center justify-center gap-2"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+              </svg>
+              Add to Tracker
+            </button>
+
+            {showAddedMessage && (
+              <div className="w-full sm:w-auto px-4 py-2 bg-green-100 text-green-800 rounded-lg text-sm sm:text-base font-medium flex items-center gap-2">
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                </svg>
+                Added to tracker!
+              </div>
+            )}
+          </div>
+
+          <div className="mt-4 p-3 sm:p-4 bg-white rounded-lg">
+            <p className="text-xs sm:text-sm text-gray-600 mb-2">Nutrition per serving ({servings} serving{servings !== 1 ? 's' : ''}):</p>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3 text-sm">
+              <div>
+                <span className="text-gray-600">Calories:</span>{' '}
+                <span className="font-semibold">{Math.round(recipe.nutritionInfo.calories * servings)}</span>
+              </div>
+              <div>
+                <span className="text-gray-600">Protein:</span>{' '}
+                <span className="font-semibold">{Math.round(recipe.nutritionInfo.protein * servings)}g</span>
+              </div>
+              <div>
+                <span className="text-gray-600">Carbs:</span>{' '}
+                <span className="font-semibold">{Math.round(recipe.nutritionInfo.carbs * servings)}g</span>
+              </div>
+              <div>
+                <span className="text-gray-600">Fat:</span>{' '}
+                <span className="font-semibold">{Math.round(recipe.nutritionInfo.fat * servings)}g</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* TikTok Video */}
       {recipe.videoUrl && (
