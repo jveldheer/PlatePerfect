@@ -1,31 +1,10 @@
-import { useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { recipes } from '../data/recipes';
-
-declare global {
-  interface Window {
-    tiktokEmbed?: {
-      load: () => void;
-    };
-  }
-}
 
 export default function RecipeDetail() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const recipe = recipes.find((r) => r.id === id);
-
-  useEffect(() => {
-    // Load TikTok embed script and trigger embed processing
-    if (recipe?.videoUrl && window.tiktokEmbed) {
-      window.tiktokEmbed.load();
-    } else if (recipe?.videoUrl && !window.tiktokEmbed) {
-      const script = document.createElement('script');
-      script.src = 'https://www.tiktok.com/embed.js';
-      script.async = true;
-      document.body.appendChild(script);
-    }
-  }, [recipe?.videoUrl]);
 
   if (!recipe) {
     return (
@@ -133,25 +112,41 @@ export default function RecipeDetail() {
             <span className="text-3xl mr-3">🎥</span>
             Video Tutorial
           </h2>
-          <div className="relative w-full mx-auto" style={{ maxWidth: '605px' }}>
-            <blockquote
-              className="tiktok-embed"
-              cite={recipe.videoUrl}
-              data-video-id={recipe.videoUrl.split('/video/')[1]}
-              style={{ maxWidth: '605px', minWidth: '325px' }}
-            >
-              <section>
-                <a
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  href={recipe.videoUrl}
-                  className="text-primary-600 hover:underline"
-                >
-                  View this recipe on TikTok
-                </a>
-              </section>
-            </blockquote>
-          </div>
+          <a
+            href={recipe.videoUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block mx-auto max-w-2xl group"
+          >
+            <div className="bg-gradient-to-br from-[#25F4EE] via-[#FE2C55] to-[#000000] p-1 rounded-2xl hover:shadow-2xl transition-all duration-300 transform hover:scale-[1.02]">
+              <div className="bg-white rounded-xl p-8">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-4">
+                    <div className="w-16 h-16 bg-gradient-to-br from-[#25F4EE] to-[#FE2C55] rounded-xl flex items-center justify-center">
+                      <svg className="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12.53.02C13.84 0 15.14.01 16.44 0c.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
+                      </svg>
+                    </div>
+                    <div>
+                      <p className="text-lg font-bold text-gray-900">Watch on TikTok</p>
+                      <p className="text-sm text-gray-600">Click to view full recipe video</p>
+                    </div>
+                  </div>
+                  <svg className="w-8 h-8 text-gray-400 group-hover:text-[#FE2C55] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                  </svg>
+                </div>
+                <div className="pt-4 border-t border-gray-100">
+                  <p className="text-sm text-gray-500 flex items-center">
+                    <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                    </svg>
+                    Opens in a new tab
+                  </p>
+                </div>
+              </div>
+            </div>
+          </a>
         </div>
       )}
 
