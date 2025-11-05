@@ -72,18 +72,18 @@ export default function Recipes() {
   };
 
   return (
-    <div className="space-y-8">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">Athlete-Focused Recipes</h1>
-        <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+    <div className="space-y-6 sm:space-y-8">
+      <div className="text-center px-4">
+        <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">Athlete-Focused Recipes</h1>
+        <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto">
           Every recipe is designed with athletic performance in mind. Detailed nutritional information,
           thorough instructions for beginners, and meal prep guidance included.
         </p>
       </div>
 
       {/* Filters */}
-      <div className="bg-white rounded-xl shadow-md p-6">
-        <div className="grid md:grid-cols-3 gap-6">
+      <div className="bg-white rounded-xl shadow-md p-4 sm:p-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Category
@@ -93,10 +93,10 @@ export default function Recipes() {
                 <button
                   key={category.id}
                   onClick={() => setSelectedCategory(category.id)}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  className={`px-3 sm:px-4 py-2 sm:py-2.5 min-h-[44px] rounded-lg text-sm font-medium transition-colors touch-manipulation ${
                     selectedCategory === category.id
                       ? 'bg-athletic-600 text-white'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200 active:bg-gray-300'
                   }`}
                 >
                   {category.label}
@@ -114,10 +114,10 @@ export default function Recipes() {
                 <button
                   key={difficulty.id}
                   onClick={() => setSelectedDifficulty(difficulty.id)}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  className={`px-3 sm:px-4 py-2 sm:py-2.5 min-h-[44px] rounded-lg text-sm font-medium transition-colors touch-manipulation ${
                     selectedDifficulty === difficulty.id
                       ? 'bg-athletic-600 text-white'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200 active:bg-gray-300'
                   }`}
                 >
                   {difficulty.label}
@@ -135,10 +135,10 @@ export default function Recipes() {
                 <button
                   key={option.id}
                   onClick={() => setSelectedEconomics(option.id)}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  className={`px-3 sm:px-4 py-2 sm:py-2.5 min-h-[44px] rounded-lg text-sm font-medium transition-colors touch-manipulation ${
                     selectedEconomics === option.id
                       ? 'bg-athletic-600 text-white'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200 active:bg-gray-300'
                   }`}
                 >
                   {option.label}
@@ -154,27 +154,27 @@ export default function Recipes() {
       </div>
 
       {/* Recipes Grid */}
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
         {filteredRecipes.map((recipe: Recipe) => (
           <Link
             key={recipe.id}
             to={`/recipes/${recipe.id}`}
-            className="card hover:scale-105 transition-transform overflow-hidden"
+            className="card hover:scale-[1.02] md:hover:scale-105 transition-transform overflow-hidden"
           >
-            <div className="p-6">
+            <div className="p-4 sm:p-6">
               <div className="flex items-start justify-between mb-3">
-                <div className="text-4xl">{getCategoryIcon(recipe.category)}</div>
-                <div className="flex gap-2">
-                  <span className="px-3 py-1 rounded-full text-sm font-semibold text-green-700 bg-green-50 border border-green-200">
+                <div className="text-3xl sm:text-4xl">{getCategoryIcon(recipe.category)}</div>
+                <div className="flex gap-1.5 sm:gap-2 flex-wrap justify-end">
+                  <span className="px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-semibold text-green-700 bg-green-50 border border-green-200">
                     {recipe.economics}
                   </span>
-                  <span className={`px-3 py-1 rounded-full text-xs font-medium ${getDifficultyColor(recipe.difficulty)}`}>
+                  <span className={`px-2 sm:px-3 py-1 rounded-full text-xs font-medium ${getDifficultyColor(recipe.difficulty)}`}>
                     {recipe.difficulty}
                   </span>
                 </div>
               </div>
 
-              <h3 className="text-xl font-semibold text-gray-900 mb-2 flex items-center gap-2">
+              <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2 flex items-center gap-2 flex-wrap">
                 {recipe.title}
                 {recipe.videoUrl && (
                   <span className="text-red-600 text-lg" title="Video tutorial available">

@@ -37,11 +37,11 @@ export default function RecipeDetail() {
   };
 
   return (
-    <div className="max-w-5xl mx-auto">
+    <div className="max-w-5xl mx-auto px-2 sm:px-0">
       {/* Back Button */}
       <button
         onClick={() => navigate('/recipes')}
-        className="mb-6 flex items-center text-primary-600 hover:text-primary-700 font-medium"
+        className="mb-4 sm:mb-6 flex items-center text-primary-600 hover:text-primary-700 font-medium touch-manipulation min-h-[44px]"
       >
         <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -50,7 +50,7 @@ export default function RecipeDetail() {
       </button>
 
       {/* Header */}
-      <div className="bg-white rounded-xl shadow-lg p-8 mb-6">
+      <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6 md:p-8 mb-4 sm:mb-6">
         <div className="flex flex-wrap items-center gap-3 mb-4">
           <span className="px-3 py-1 rounded-full text-sm font-semibold text-green-700 bg-green-50 border border-green-200">
             {recipe.economics}
@@ -68,49 +68,49 @@ export default function RecipeDetail() {
           ))}
         </div>
 
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">
           {recipe.title}
         </h1>
 
-        <p className="text-lg text-gray-600 mb-6">
+        <p className="text-base sm:text-lg text-gray-600 mb-4 sm:mb-6">
           {recipe.description}
         </p>
 
         {/* Quick Info */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 bg-gray-50 rounded-lg">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 p-3 sm:p-4 bg-gray-50 rounded-lg">
           <div className="text-center">
-            <p className="text-sm text-gray-500 mb-1">Prep Time</p>
-            <p className="text-xl font-bold text-gray-900">{recipe.prepTime} min</p>
+            <p className="text-xs sm:text-sm text-gray-500 mb-1">Prep Time</p>
+            <p className="text-lg sm:text-xl font-bold text-gray-900">{recipe.prepTime} min</p>
           </div>
           <div className="text-center">
-            <p className="text-sm text-gray-500 mb-1">Cook Time</p>
-            <p className="text-xl font-bold text-gray-900">{recipe.cookTime} min</p>
+            <p className="text-xs sm:text-sm text-gray-500 mb-1">Cook Time</p>
+            <p className="text-lg sm:text-xl font-bold text-gray-900">{recipe.cookTime} min</p>
           </div>
           <div className="text-center">
-            <p className="text-sm text-gray-500 mb-1">Total Time</p>
-            <p className="text-xl font-bold text-gray-900">{recipe.prepTime + recipe.cookTime} min</p>
+            <p className="text-xs sm:text-sm text-gray-500 mb-1">Total Time</p>
+            <p className="text-lg sm:text-xl font-bold text-gray-900">{recipe.prepTime + recipe.cookTime} min</p>
           </div>
           <div className="text-center">
-            <p className="text-sm text-gray-500 mb-1">Servings</p>
-            <p className="text-xl font-bold text-gray-900">{recipe.servings}</p>
+            <p className="text-xs sm:text-sm text-gray-500 mb-1">Servings</p>
+            <p className="text-lg sm:text-xl font-bold text-gray-900">{recipe.servings}</p>
           </div>
         </div>
       </div>
 
       {/* Athlete Notes */}
-      <div className="bg-athletic-50 rounded-xl shadow-lg p-8 mb-6 border-l-4 border-athletic-600">
-        <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center">
-          <span className="text-3xl mr-3">💪</span>
+      <div className="bg-athletic-50 rounded-xl shadow-lg p-4 sm:p-6 md:p-8 mb-4 sm:mb-6 border-l-4 border-athletic-600">
+        <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-3 sm:mb-4 flex items-center">
+          <span className="text-2xl sm:text-3xl mr-2 sm:mr-3">💪</span>
           Why This Recipe for Athletes
         </h2>
-        <p className="text-gray-800 leading-relaxed">
+        <p className="text-sm sm:text-base text-gray-800 leading-relaxed">
           {recipe.athleteNotes}
         </p>
       </div>
 
       {/* TikTok Video */}
       {recipe.videoUrl && (
-        <div className="bg-white rounded-xl shadow-lg p-8 mb-6">
+        <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6 md:p-8 mb-4 sm:mb-6">
           <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
             <span className="text-3xl mr-3">🎥</span>
             Video Tutorial
@@ -137,10 +137,10 @@ export default function RecipeDetail() {
         </div>
       )}
 
-      <div className="grid lg:grid-cols-3 gap-6 mb-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 mb-4 sm:mb-6">
         {/* Nutrition Info */}
         <div className="lg:col-span-1">
-          <div className="bg-white rounded-xl shadow-lg p-6 sticky top-6">
+          <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6 lg:sticky lg:top-6">
             <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
               <span className="text-2xl mr-2">📊</span>
               Nutrition Facts
@@ -228,9 +228,9 @@ export default function RecipeDetail() {
         {/* Ingredients and Instructions */}
         <div className="lg:col-span-2 space-y-6">
           {/* Ingredients */}
-          <div className="bg-white rounded-xl shadow-lg p-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
-              <span className="text-3xl mr-3">🛒</span>
+          <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6 md:p-8">
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6 flex items-center">
+              <span className="text-2xl sm:text-3xl mr-2 sm:mr-3">🛒</span>
               Ingredients
             </h2>
             <ul className="space-y-3">
@@ -253,22 +253,22 @@ export default function RecipeDetail() {
           </div>
 
           {/* Instructions */}
-          <div className="bg-white rounded-xl shadow-lg p-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
-              <span className="text-3xl mr-3">👨‍🍳</span>
+          <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6 md:p-8">
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6 flex items-center">
+              <span className="text-2xl sm:text-3xl mr-2 sm:mr-3">👨‍🍳</span>
               Instructions
             </h2>
-            <div className="space-y-8">
+            <div className="space-y-6 sm:space-y-8">
               {recipe.instructions.map((step) => (
                 <div key={step.step} className="flex">
-                  <div className="flex-shrink-0 w-10 h-10 bg-athletic-600 text-white rounded-full flex items-center justify-center font-bold text-lg mr-4">
+                  <div className="flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 bg-athletic-600 text-white rounded-full flex items-center justify-center font-bold text-base sm:text-lg mr-3 sm:mr-4">
                     {step.step}
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                    <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2">
                       {step.instruction}
                     </h3>
-                    <p className="text-gray-700 leading-relaxed mb-2">
+                    <p className="text-sm sm:text-base text-gray-700 leading-relaxed mb-2">
                       {step.detailedExplanation}
                     </p>
                     {step.skillTip && (
@@ -295,23 +295,23 @@ export default function RecipeDetail() {
       </div>
 
       {/* Meal Prep & Storage */}
-      <div className="grid md:grid-cols-2 gap-6 mb-6">
-        <div className="bg-green-50 rounded-xl shadow-lg p-6">
-          <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
-            <span className="text-2xl mr-2">📦</span>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-4 sm:mb-6">
+        <div className="bg-green-50 rounded-xl shadow-lg p-4 sm:p-6">
+          <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-3 sm:mb-4 flex items-center">
+            <span className="text-xl sm:text-2xl mr-2">📦</span>
             Meal Prep Notes
           </h2>
-          <p className="text-gray-800 leading-relaxed">
+          <p className="text-sm sm:text-base text-gray-800 leading-relaxed">
             {recipe.mealPrepNotes}
           </p>
         </div>
 
-        <div className="bg-blue-50 rounded-xl shadow-lg p-6">
-          <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
-            <span className="text-2xl mr-2">🧊</span>
+        <div className="bg-blue-50 rounded-xl shadow-lg p-4 sm:p-6">
+          <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-3 sm:mb-4 flex items-center">
+            <span className="text-xl sm:text-2xl mr-2">🧊</span>
             Storage Instructions
           </h2>
-          <p className="text-gray-800 leading-relaxed">
+          <p className="text-sm sm:text-base text-gray-800 leading-relaxed">
             {recipe.storageInstructions}
           </p>
         </div>
@@ -319,20 +319,20 @@ export default function RecipeDetail() {
 
       {/* Required Skills */}
       {recipe.requiredSkills.length > 0 && (
-        <div className="bg-primary-50 rounded-xl shadow-lg p-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center">
-            <span className="text-3xl mr-3">📚</span>
+        <div className="bg-primary-50 rounded-xl shadow-lg p-4 sm:p-6 md:p-8">
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-3 sm:mb-4 flex items-center">
+            <span className="text-2xl sm:text-3xl mr-2 sm:mr-3">📚</span>
             Skills You'll Practice
           </h2>
-          <p className="text-gray-700 mb-4">
+          <p className="text-sm sm:text-base text-gray-700 mb-3 sm:mb-4">
             This recipe uses the following cooking skills. Review them before you start:
           </p>
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-wrap gap-2 sm:gap-3">
             {recipe.requiredSkills.map((skillId) => (
               <Link
                 key={skillId}
                 to={`/skills/${skillId}`}
-                className="px-4 py-2 bg-white rounded-lg shadow hover:shadow-md transition-shadow text-primary-600 font-medium hover:bg-primary-50"
+                className="px-3 sm:px-4 py-2 min-h-[44px] bg-white rounded-lg shadow hover:shadow-md transition-shadow text-primary-600 font-medium hover:bg-primary-50 touch-manipulation flex items-center"
               >
                 View Skill →
               </Link>

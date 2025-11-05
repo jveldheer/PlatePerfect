@@ -60,18 +60,18 @@ export default function Skills() {
   };
 
   return (
-    <div className="space-y-8">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">Cooking Skills</h1>
-        <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+    <div className="space-y-6 sm:space-y-8">
+      <div className="text-center px-4">
+        <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">Cooking Skills</h1>
+        <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto">
           Master fundamental cooking techniques with detailed, step-by-step instructions.
           Each skill includes tips, common mistakes, and thorough explanations for complete beginners.
         </p>
       </div>
 
       {/* Filters */}
-      <div className="bg-white rounded-xl shadow-md p-6">
-        <div className="grid md:grid-cols-2 gap-6">
+      <div className="bg-white rounded-xl shadow-md p-4 sm:p-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Category
@@ -81,10 +81,10 @@ export default function Skills() {
                 <button
                   key={category.id}
                   onClick={() => setSelectedCategory(category.id)}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  className={`px-3 sm:px-4 py-2 sm:py-2.5 min-h-[44px] rounded-lg text-sm font-medium transition-colors touch-manipulation ${
                     selectedCategory === category.id
                       ? 'bg-primary-600 text-white'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200 active:bg-gray-300'
                   }`}
                 >
                   {category.label}
@@ -102,10 +102,10 @@ export default function Skills() {
                 <button
                   key={difficulty.id}
                   onClick={() => setSelectedDifficulty(difficulty.id)}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  className={`px-3 sm:px-4 py-2 sm:py-2.5 min-h-[44px] rounded-lg text-sm font-medium transition-colors touch-manipulation ${
                     selectedDifficulty === difficulty.id
                       ? 'bg-primary-600 text-white'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200 active:bg-gray-300'
                   }`}
                 >
                   {difficulty.label}
@@ -121,21 +121,21 @@ export default function Skills() {
       </div>
 
       {/* Skills Grid */}
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
         {filteredSkills.map((skill: CookingSkill) => (
           <Link
             key={skill.id}
             to={`/skills/${skill.id}`}
-            className="card p-6 hover:scale-105 transition-transform"
+            className="card p-4 sm:p-6 hover:scale-[1.02] md:hover:scale-105 transition-transform"
           >
             <div className="flex items-start justify-between mb-3">
-              <div className="text-3xl">{getCategoryIcon(skill.category)}</div>
-              <span className={`px-3 py-1 rounded-full text-xs font-medium ${getDifficultyColor(skill.difficulty)}`}>
+              <div className="text-3xl sm:text-4xl">{getCategoryIcon(skill.category)}</div>
+              <span className={`px-2 sm:px-3 py-1 rounded-full text-xs font-medium ${getDifficultyColor(skill.difficulty)}`}>
                 {skill.difficulty}
               </span>
             </div>
 
-            <h3 className="text-xl font-semibold text-gray-900 mb-2 flex items-center gap-2">
+            <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2 flex items-center gap-2 flex-wrap">
               {skill.title}
               {skill.videoUrl && (
                 <span className="text-red-600 text-lg" title="Video tutorial available">
