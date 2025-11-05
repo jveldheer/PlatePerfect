@@ -1,15 +1,28 @@
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { recipes } from '../data/recipes';
 import { useMacros } from '../contexts/MacroContext';
+import { calculateRecommendedServings } from '../utils/servingRecommendation';
 
 export default function RecipeDetail() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const recipe = recipes.find((r) => r.id === id);
-  const { addToTracker, macroGoals } = useMacros();
+  const { addToTracker, macroGoals, consumedMacros } = useMacros();
   const [servings, setServings] = useState(1);
   const [showAddedMessage, setShowAddedMessage] = useState(false);
+
+  // Calculate recommended servings based on macro goals
+  const recommendation = macroGoals && consumedMacros
+    ? calculateRecommendedServings(recipe?.nutritionInfo!, macroGoals, consumedMacros)
+    : null;
+
+  // Set initial servings to recommended amount
+  useEffect(() => {
+    if (recommendation) {
+      setServings(recommendation.recommendedServings);
+    }
+  }, [recommendation?.recommendedServings]);
 
   if (!recipe) {
     return (
@@ -106,6 +119,30 @@ export default function RecipeDetail() {
             <p className="text-lg sm:text-xl font-bold text-gray-900">{recipe.servings}</p>
           </div>
         </div>
+
+        {/* Serving Size Info */}
+        <div className="mt-4 sm:mt-6 p-4 sm:p-5 bg-blue-50 rounded-lg border-l-4 border-blue-500">
+          <h3 className="text-base sm:text-lg font-bold text-blue-900 mb-2 flex items-center">
+            <span className="text-xl sm:text-2xl mr-2">📏</span>
+            One Serving Size
+          </h3>
+          <div className="space-y-2">
+            <div className="flex items-baseline gap-2 text-sm sm:text-base">
+              <span className="font-semibold text-blue-900">Measurement:</span>
+              <span className="text-blue-800">{recipe.servingSizeAmount}</span>
+            </div>
+            <div className="flex items-baseline gap-2 text-sm sm:text-base">
+              <span className="font-semibold text-blue-900">Visual:</span>
+              <span className="text-blue-800">{recipe.servingSizeVisual}</span>
+            </div>
+            {recipe.servingSizeGrams && (
+              <div className="flex items-baseline gap-2 text-sm sm:text-base">
+                <span className="font-semibold text-blue-900">Weight:</span>
+                <span className="text-blue-800">{recipe.servingSizeGrams}g</span>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
 
       {/* Athlete Notes */}
@@ -129,6 +166,37 @@ export default function RecipeDetail() {
           <p className="text-sm sm:text-base text-gray-700 mb-4">
             Track this recipe's nutrition toward your daily macro goals
           </p>
+
+          {/* Recommendation */}
+          {recommendation && (
+            <div className="mb-4 p-4 bg-green-50 rounded-lg border-l-4 border-green-500">
+              <div className="flex items-start gap-2 mb-2">
+                <span className="text-xl">💡</span>
+                <div className="flex-1">
+                  <p className="font-semibold text-green-900 text-sm sm:text-base">
+                    Recommended: {recommendation.recommendedServings} serving{recommendation.recommendedServings !== 1 ? 's' : ''}
+                  </p>
+                  <p className="text-xs sm:text-sm text-green-800 mt-1">
+                    {recommendation.reason}
+                  </p>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs sm:text-sm mt-3">
+                <div className="text-green-800">
+                  <span className="font-medium">{recommendation.percentOfGoals.calories}%</span> daily calories
+                </div>
+                <div className="text-green-800">
+                  <span className="font-medium">{recommendation.percentOfGoals.protein}%</span> daily protein
+                </div>
+                <div className="text-green-800">
+                  <span className="font-medium">{recommendation.percentOfGoals.carbs}%</span> daily carbs
+                </div>
+                <div className="text-green-800">
+                  <span className="font-medium">{recommendation.percentOfGoals.fat}%</span> daily fat
+                </div>
+              </div>
+            </div>
+          )}
 
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
             <div className="flex items-center gap-3">

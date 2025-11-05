@@ -30,6 +30,9 @@ export interface Recipe {
   prepTime: number; // minutes
   cookTime: number; // minutes
   servings: number;
+  servingSizeAmount: string; // e.g., "1.5 cups", "6 oz", "1 piece"
+  servingSizeVisual: string; // e.g., "Size of a baseball", "Deck of cards", "Your fist"
+  servingSizeGrams?: number; // optional weight in grams
   ingredients: Ingredient[];
   instructions: InstructionStep[];
   nutritionInfo: NutritionInfo;
