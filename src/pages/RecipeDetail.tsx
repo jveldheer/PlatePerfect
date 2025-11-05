@@ -1,10 +1,31 @@
+import { useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { recipes } from '../data/recipes';
+
+declare global {
+  interface Window {
+    tiktokEmbed?: {
+      load: () => void;
+    };
+  }
+}
 
 export default function RecipeDetail() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const recipe = recipes.find((r) => r.id === id);
+
+  useEffect(() => {
+    // Load TikTok embed script and trigger embed processing
+    if (recipe?.videoUrl && window.tiktokEmbed) {
+      window.tiktokEmbed.load();
+    } else if (recipe?.videoUrl && !window.tiktokEmbed) {
+      const script = document.createElement('script');
+      script.src = 'https://www.tiktok.com/embed.js';
+      script.async = true;
+      document.body.appendChild(script);
+    }
+  }, [recipe?.videoUrl]);
 
   if (!recipe) {
     return (
@@ -130,7 +151,6 @@ export default function RecipeDetail() {
                 </a>
               </section>
             </blockquote>
-            <script async src="https://www.tiktok.com/embed.js"></script>
           </div>
         </div>
       )}
