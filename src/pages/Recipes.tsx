@@ -6,6 +6,7 @@ import type { Recipe } from '../types';
 export default function Recipes() {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [selectedDifficulty, setSelectedDifficulty] = useState<string>('all');
+  const [selectedEconomics, setSelectedEconomics] = useState<string>('all');
 
   const categories = [
     { id: 'all', label: 'All Recipes' },
@@ -24,10 +25,18 @@ export default function Recipes() {
     { id: 'advanced', label: 'Advanced' },
   ];
 
+  const economicsOptions = [
+    { id: 'all', label: 'All Budgets' },
+    { id: '$', label: '$ Budget' },
+    { id: '$$', label: '$$ Moderate' },
+    { id: '$$$', label: '$$$ Premium' },
+  ];
+
   const filteredRecipes = recipes.filter((recipe) => {
     const categoryMatch = selectedCategory === 'all' || recipe.category === selectedCategory;
     const difficultyMatch = selectedDifficulty === 'all' || recipe.difficulty === selectedDifficulty;
-    return categoryMatch && difficultyMatch;
+    const economicsMatch = selectedEconomics === 'all' || recipe.economics === selectedEconomics;
+    return categoryMatch && difficultyMatch && economicsMatch;
   });
 
   const getDifficultyColor = (difficulty: string) => {
@@ -74,7 +83,7 @@ export default function Recipes() {
 
       {/* Filters */}
       <div className="bg-white rounded-xl shadow-md p-6">
-        <div className="grid md:grid-cols-2 gap-6">
+        <div className="grid md:grid-cols-3 gap-6">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Category
@@ -116,6 +125,27 @@ export default function Recipes() {
               ))}
             </div>
           </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Cost
+            </label>
+            <div className="flex flex-wrap gap-2">
+              {economicsOptions.map((option) => (
+                <button
+                  key={option.id}
+                  onClick={() => setSelectedEconomics(option.id)}
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                    selectedEconomics === option.id
+                      ? 'bg-athletic-600 text-white'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  }`}
+                >
+                  {option.label}
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
 
         <div className="mt-4 text-sm text-gray-600">
@@ -134,9 +164,14 @@ export default function Recipes() {
             <div className="p-6">
               <div className="flex items-start justify-between mb-3">
                 <div className="text-4xl">{getCategoryIcon(recipe.category)}</div>
-                <span className={`px-3 py-1 rounded-full text-xs font-medium ${getDifficultyColor(recipe.difficulty)}`}>
-                  {recipe.difficulty}
-                </span>
+                <div className="flex gap-2">
+                  <span className="px-3 py-1 rounded-full text-sm font-semibold text-green-700 bg-green-50 border border-green-200">
+                    {recipe.economics}
+                  </span>
+                  <span className={`px-3 py-1 rounded-full text-xs font-medium ${getDifficultyColor(recipe.difficulty)}`}>
+                    {recipe.difficulty}
+                  </span>
+                </div>
               </div>
 
               <h3 className="text-xl font-semibold text-gray-900 mb-2 flex items-center gap-2">
@@ -205,6 +240,7 @@ export default function Recipes() {
             onClick={() => {
               setSelectedCategory('all');
               setSelectedDifficulty('all');
+              setSelectedEconomics('all');
             }}
             className="mt-4 btn-primary"
           >

@@ -25,6 +25,7 @@ export interface Recipe {
   title: string;
   category: 'breakfast' | 'lunch' | 'dinner' | 'snacks' | 'post-workout' | 'pre-workout';
   difficulty: 'beginner' | 'intermediate' | 'advanced';
+  economics: '$' | '$$' | '$$$'; // Cost level: $ = budget-friendly, $$ = moderate, $$$ = higher cost
   description: string;
   prepTime: number; // minutes
   cookTime: number; // minutes

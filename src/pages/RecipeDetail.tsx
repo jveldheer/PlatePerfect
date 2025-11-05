@@ -52,6 +52,9 @@ export default function RecipeDetail() {
       {/* Header */}
       <div className="bg-white rounded-xl shadow-lg p-8 mb-6">
         <div className="flex flex-wrap items-center gap-3 mb-4">
+          <span className="px-3 py-1 rounded-full text-sm font-semibold text-green-700 bg-green-50 border border-green-200">
+            {recipe.economics}
+          </span>
           <span className={`px-3 py-1 rounded-full text-sm font-medium ${getDifficultyColor(recipe.difficulty)}`}>
             {recipe.difficulty}
           </span>
