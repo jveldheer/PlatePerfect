@@ -536,7 +536,7 @@ export const recipes: Recipe[] = [
     tags: ['viral-tiktok', 'no-cook', 'meal-prep', 'high-protein', 'vegetarian'],
     mealPrepNotes: 'Make 5 jars at once. Store in fridge for up to 5 days. The oats get better as they sit overnight. Top with fresh fruit right before eating.',
     storageInstructions: 'Store in sealed mason jars or containers in refrigerator for up to 5 days. Do not freeze. Add toppings fresh each morning.',
-    videoUrl: 'https://www.tiktok.com/@mealprepmanual/video/7196374613823974699',
+    videoUrl: 'https://www.tiktok.com/@makayla_thomas_fit/video/7490292940456168734',
     nutritionInfo: {
       calories: 425,
       protein: 44,
@@ -619,7 +619,7 @@ export const recipes: Recipe[] = [
     tags: ['viral-tiktok', 'high-protein', 'meal-prep', 'freezer-friendly', 'low-carb'],
     mealPrepNotes: 'Make 2 dozen at once in muffin tins. Store in fridge for 5 days or freeze for 2 months. Reheat in microwave for 30-60 seconds.',
     storageInstructions: 'Refrigerate in airtight container for up to 5 days. Freeze in freezer bags for up to 2 months. Reheat from frozen in microwave for 60-90 seconds.',
-    videoUrl: 'https://www.tiktok.com/@lifeoftm/video/7426821897926511878',
+    videoUrl: 'https://www.tiktok.com/@cookingforgains/video/7505910620659649835',
     nutritionInfo: {
       calories: 195,
       protein: 20,
@@ -710,7 +710,7 @@ export const recipes: Recipe[] = [
     tags: ['viral-tiktok', 'meal-prep', 'freezer-friendly', 'high-protein', 'portable'],
     mealPrepNotes: 'Make a full batch of 12 sandwiches. Wrap individually in parchment paper, then store in freezer bags. Grab one in the morning and microwave for 90 seconds.',
     storageInstructions: 'Refrigerate for up to 5 days. Freeze wrapped sandwiches for up to 1 month. Reheat from frozen: microwave 90 seconds, flipping halfway.',
-    videoUrl: 'https://www.tiktok.com/@stayfitmom_krista/video/7348126538045394219',
+    videoUrl: 'https://www.tiktok.com/@momnutritionist/video/7495467283918245163',
     nutritionInfo: {
       calories: 328,
       protein: 28,
@@ -801,7 +801,7 @@ export const recipes: Recipe[] = [
     tags: ['viral-tiktok', 'high-protein', 'one-pan', 'meal-prep', 'mexican'],
     mealPrepNotes: 'Store in individual containers for 4-5 days. Reheats perfectly in microwave. The flavors get even better after a day!',
     storageInstructions: 'Refrigerate in airtight containers for up to 5 days. Reheat in microwave for 2-3 minutes. Can freeze for up to 2 months.',
-    videoUrl: 'https://www.tiktok.com/@jalalsamfit/video/7257206362831146267',
+    videoUrl: 'https://www.tiktok.com/@makayla_thomas_fit/video/7487694493911715103',
     nutritionInfo: {
       calories: 450,
       protein: 45,
@@ -891,7 +891,7 @@ export const recipes: Recipe[] = [
     tags: ['viral-tiktok', 'meal-prep', 'vegetarian', 'cold-lunch', 'no-reheat'],
     mealPrepNotes: 'Make the full batch and store in a large container. Portion out servings as needed. Stays fresh for 5-7 days and flavors improve over time.',
     storageInstructions: 'Store in airtight container in refrigerator for up to 7 days. Toss before serving. Do not freeze.',
-    videoUrl: 'https://www.tiktok.com/@katryce/video/7259649744676670765',
+    videoUrl: 'https://www.tiktok.com/@hunt4shredz/video/7518805084499627277',
     nutritionInfo: {
       calories: 385,
       protein: 15,
@@ -976,7 +976,7 @@ export const recipes: Recipe[] = [
     tags: ['viral-tiktok', 'high-protein', 'meal-prep', 'mexican', 'gluten-free'],
     mealPrepNotes: 'Store green sauce separately from other components. Assemble bowls fresh or store lettuce separately to keep it crisp. Lasts 4-5 days.',
     storageInstructions: 'Refrigerate components in separate containers for up to 5 days. Green sauce keeps for 3-4 days in a sealed bottle. Freeze chicken for up to 2 months.',
-    videoUrl: 'https://www.tiktok.com/@jalalsamfit/video/7193034085776755973',
+    videoUrl: 'https://www.tiktok.com/@makayla_thomas_fit/video/7507053493782449438',
     nutritionInfo: {
       calories: 508,
       protein: 53,
@@ -1073,7 +1073,7 @@ export const recipes: Recipe[] = [
     tags: ['viral-tiktok', 'sheet-pan', 'one-pan', 'high-protein', 'quick'],
     mealPrepNotes: 'Make the full sheet pan and divide into 4 containers. Reheats beautifully in the oven at 350°F for 10 minutes or microwave for 2-3 minutes.',
     storageInstructions: 'Refrigerate in airtight containers for up to 4 days. Reheat in oven for best results. Can freeze for up to 2 months.',
-    videoUrl: 'https://www.tiktok.com/@ainsley_rodriguez/video/7432405365913881887',
+    videoUrl: 'https://www.tiktok.com/@aussiefitness/video/7536935888459189522',
     nutritionInfo: {
       calories: 445,
       protein: 42,
@@ -1244,7 +1244,7 @@ export const recipes: Recipe[] = [
     tags: ['viral-tiktok', 'quick', 'high-protein', 'omega-3', 'leftovers'],
     mealPrepNotes: 'Meal prep by cooking a batch of rice and salmon on Sunday. Store separately and assemble fresh bowls throughout the week using this viral method.',
     storageInstructions: 'Store cooked rice and salmon separately in refrigerator for up to 5 days. Assemble fresh when ready to eat using the ice cube method.',
-    videoUrl: 'https://www.tiktok.com/@emilymariko/video/7017823500270194990',
+    videoUrl: 'https://www.tiktok.com/@emilymariko/video/7010506729012219141',
     nutritionInfo: {
       calories: 520,
       protein: 38,
