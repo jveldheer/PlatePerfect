@@ -35,9 +35,9 @@ interface MacroContextType {
 
 const MacroContext = createContext<MacroContextType | undefined>(undefined);
 
-const STORAGE_KEY_PROFILE = 'plateperfect_user_profile';
-const STORAGE_KEY_CONSUMED = 'plateperfect_consumed_macros';
-const STORAGE_KEY_DATE = 'plateperfect_tracker_date';
+const STORAGE_KEY_PROFILE = 'veldheerfuellab_user_profile';
+const STORAGE_KEY_CONSUMED = 'veldheerfuellab_consumed_macros';
+const STORAGE_KEY_DATE = 'veldheerfuellab_tracker_date';
 
 export function MacroProvider({ children }: { children: ReactNode }) {
   const [userProfile, setUserProfileState] = useState<UserProfile | null>(null);

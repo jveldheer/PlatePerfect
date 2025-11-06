@@ -1,12 +1,12 @@
-# 🍳 PlatePerfect
+# 🔬 Veldheer Fuel Lab
 
 **Master Cooking Skills. Fuel Your Performance.**
 
-PlatePerfect is a comprehensive cooking education platform designed specifically for young athletes (ages 13-25) who want to take control of their nutrition and maximize their athletic potential through proper meal preparation and cooking skills.
+Veldheer Fuel Lab is a comprehensive cooking education platform designed specifically for young athletes (ages 13-25) who want to take control of their nutrition and maximize their athletic potential through proper meal preparation and cooking skills.
 
 ## 🎯 Purpose
 
-Many young athletes struggle with nutrition because they don't know how to cook or where to start. PlatePerfect solves this by:
+Many young athletes struggle with nutrition because they don't know how to cook or where to start. Veldheer Fuel Lab solves this by:
 
 - Teaching fundamental cooking skills from scratch with thorough, beginner-friendly explanations
 - Providing athlete-focused recipes optimized for performance, muscle recovery, and energy
@@ -47,7 +47,7 @@ Many young athletes struggle with nutrition because they don't know how to cook 
 1. Clone the repository:
 ```bash
 git clone <repository-url>
-cd PlatePerfect
+cd VeldheerFuelLab
 ```
 
 2. Install dependencies:
@@ -82,7 +82,7 @@ The production-ready files will be in the `dist` directory.
 ## 📂 Project Structure
 
 ```
-PlatePerfect/
+VeldheerFuelLab/
 ├── src/
 │   ├── components/
 │   │   └── Navigation.tsx      # Main navigation component
@@ -109,7 +109,7 @@ PlatePerfect/
 └── README.md                   # This file
 ```
 
-## 📖 How to Use PlatePerfect
+## 📖 How to Use Veldheer Fuel Lab
 
 ### For Complete Beginners
 
@@ -134,7 +134,7 @@ PlatePerfect/
 
 ## 🎓 Educational Approach
 
-PlatePerfect assumes **zero prior cooking knowledge**. Every recipe and skill includes:
+Veldheer Fuel Lab assumes **zero prior cooking knowledge**. Every recipe and skill includes:
 
 - **Detailed explanations** - We explain the "why" behind each step, not just the "what"
 - **Visual time estimates** - Know how long each step will take

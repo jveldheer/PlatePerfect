@@ -6,7 +6,7 @@ export default function Home() {
       {/* Hero Section */}
       <section className="text-center py-8 sm:py-12 px-4">
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-3 sm:mb-4">
-          Welcome to PlatePerfect
+          Welcome to Veldheer Fuel Lab
         </h1>
         <p className="text-lg sm:text-xl text-gray-600 mb-2">
           Master Cooking Skills. Fuel Your Performance.
@@ -25,10 +25,10 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Why PlatePerfect Section */}
+      {/* Why Veldheer Fuel Lab Section */}
       <section className="bg-white rounded-xl shadow-lg p-4 sm:p-6 md:p-8">
         <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 sm:mb-6 text-center">
-          Why PlatePerfect?
+          Why Veldheer Fuel Lab?
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
           <div className="text-center">

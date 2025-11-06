@@ -24,7 +24,7 @@ export default function Navigation() {
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             <Link to="/" className="flex items-center" onClick={() => setMobileMenuOpen(false)}>
-              <span className="text-xl sm:text-2xl font-bold text-primary-600">🍳 PlatePerfect</span>
+              <span className="text-xl sm:text-2xl font-bold text-primary-600">🔬 Veldheer Fuel Lab</span>
             </Link>
           </div>
 
