@@ -8,6 +8,7 @@ import Recipes from './pages/Recipes';
 import RecipeDetail from './pages/RecipeDetail';
 import Profile from './pages/Profile';
 import MacroTracker from './pages/MacroTracker';
+import MealGenerator from './pages/MealGenerator';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
               <Route path="/recipes/:id" element={<RecipeDetail />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/tracker" element={<MacroTracker />} />
+              <Route path="/meal-generator" element={<MealGenerator />} />
             </Routes>
           </main>
         </div>
