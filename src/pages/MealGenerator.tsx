@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useMacros } from '../contexts/MacroContext';
-import { generateAIMeals, type AIMealResponse } from '../utils/aiMealGenerator';
+import { buildAIContext, generateAIMealsFallback, type AIMealResponse } from '../utils/aiMealGenerator';
+import { generateMealsWithAI } from '../utils/openaiService';
 
 function MealGenerator() {
   const { macroGoals, consumedMacros } = useMacros();
@@ -11,6 +12,7 @@ function MealGenerator() {
   const [savedMeals, setSavedMeals] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [usingAI, setUsingAI] = useState(false);
 
   // Load saved meals on mount
   useEffect(() => {
@@ -24,19 +26,24 @@ function MealGenerator() {
     }
   }, []);
 
-  const handleGenerate = () => {
+  const handleGenerate = async () => {
     setIsLoading(true);
     setError(null);
+    setUsingAI(false);
 
-    // Small delay to show loading state
-    setTimeout(() => {
-      try {
-        const ingredientList = ingredientsInput
-          .split(',')
-          .map(i => i.trim())
-          .filter(i => i.length > 0);
+    const ingredientList = ingredientsInput
+      .split(',')
+      .map(i => i.trim())
+      .filter(i => i.length > 0);
 
-        const result = generateAIMeals(ingredientList, macroGoals, consumedMacros);
+    const apiKey = localStorage.getItem('openai_api_key');
+
+    try {
+      if (apiKey) {
+        // Try to use real AI
+        setUsingAI(true);
+        const context = buildAIContext(macroGoals, consumedMacros);
+        const result = await generateMealsWithAI(context, ingredientList);
 
         if (result.meals.length === 0) {
           setError('No meals found. Please try again.');
@@ -45,14 +52,43 @@ function MealGenerator() {
           setAiResponse(result);
           setShowResults(true);
         }
-      } catch (err) {
-        console.error('Error generating meals:', err);
-        setError('An error occurred while generating meals. Please try again.');
-        setShowResults(false);
-      } finally {
-        setIsLoading(false);
+      } else {
+        // Fall back to local generation
+        setUsingAI(false);
+        const result = generateAIMealsFallback(ingredientList, macroGoals, consumedMacros);
+
+        if (result.meals.length === 0) {
+          setError('No meals found. Please try again.');
+          setShowResults(false);
+        } else {
+          setAiResponse(result);
+          setShowResults(true);
+        }
       }
-    }, 500);
+    } catch (err: any) {
+      console.error('Error generating meals:', err);
+
+      // If AI fails, fall back to local generation
+      if (apiKey) {
+        setError(`AI generation failed: ${err.message}. Falling back to local generation...`);
+        setUsingAI(false);
+
+        try {
+          const result = generateAIMealsFallback(ingredientList, macroGoals, consumedMacros);
+          setAiResponse(result);
+          setShowResults(true);
+        } catch (fallbackErr) {
+          console.error('Fallback also failed:', fallbackErr);
+          setError('Failed to generate meals. Please try again.');
+          setShowResults(false);
+        }
+      } else {
+        setError(err.message || 'An error occurred while generating meals.');
+        setShowResults(false);
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const saveMeal = (meal: any) => {
@@ -104,6 +140,23 @@ function MealGenerator() {
           <p className="text-base sm:text-lg text-gray-600">
             Get complete meal ideas personalized to your nutrition goals!
           </p>
+
+          {/* AI Status Notice */}
+          {!localStorage.getItem('openai_api_key') && (
+            <div className="mt-4 bg-yellow-50 border-l-4 border-yellow-500 p-4 rounded-lg">
+              <div className="flex items-start">
+                <div className="flex-shrink-0">
+                  <span className="text-2xl">🤖</span>
+                </div>
+                <div className="ml-3 flex-1">
+                  <p className="text-sm text-yellow-800">
+                    <strong>Using fallback mode.</strong> For true AI-generated meals, add your OpenAI API key in{' '}
+                    <Link to="/settings" className="font-semibold underline">Settings</Link>.
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Macro Status */}
@@ -221,9 +274,16 @@ function MealGenerator() {
           <div className="space-y-6">
             {/* Header Info */}
             <div className="bg-gradient-to-r from-blue-500 to-green-500 rounded-xl shadow-lg p-6 text-white">
-              <h2 className="text-2xl sm:text-3xl font-bold mb-2">
-                🔬 {aiResponse.meals.length} Elite Athlete Meals Generated
-              </h2>
+              <div className="flex items-center justify-between flex-wrap gap-2 mb-2">
+                <h2 className="text-2xl sm:text-3xl font-bold">
+                  🔬 {aiResponse.meals.length} Elite Athlete Meals Generated
+                </h2>
+                {usingAI && (
+                  <span className="bg-white bg-opacity-20 px-3 py-1 rounded-full text-sm font-medium">
+                    🤖 AI-Powered
+                  </span>
+                )}
+              </div>
               <p className="text-base sm:text-lg opacity-95">
                 Goal: {aiResponse.context.goal.toUpperCase()} | Target per meal: {Math.round(aiResponse.context.target_macros_per_meal.cal)} cal, {Math.round(aiResponse.context.target_macros_per_meal.protein_g)}g protein
               </p>

@@ -10,6 +10,7 @@ import Profile from './pages/Profile';
 import MacroTracker from './pages/MacroTracker';
 import MealGenerator from './pages/MealGenerator';
 import SavedRecipes from './pages/SavedRecipes';
+import Settings from './pages/Settings';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
               <Route path="/tracker" element={<MacroTracker />} />
               <Route path="/meal-generator" element={<MealGenerator />} />
               <Route path="/saved-recipes" element={<SavedRecipes />} />
+              <Route path="/settings" element={<Settings />} />
             </Routes>
           </main>
         </div>

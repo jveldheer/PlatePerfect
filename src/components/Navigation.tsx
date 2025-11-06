@@ -17,6 +17,7 @@ export default function Navigation() {
     { path: '/saved-recipes', label: 'Saved Recipes' },
     { path: '/tracker', label: 'Macro Tracker' },
     { path: '/profile', label: 'My Goals' },
+    { path: '/settings', label: 'Settings' },
   ];
 
   return (

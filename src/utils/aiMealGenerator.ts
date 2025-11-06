@@ -90,25 +90,40 @@ function calculateTargetMacros(
   return { cal: 550, protein_g: 40, carb_g: 55, fat_g: 18, fiber_g: 8 };
 }
 
-// Determine goal from macros
-function determineGoal(targetMacros: NutrientData): AIContext['goal'] {
-  if (targetMacros.protein_g > 50 && targetMacros.cal < 500) return 'cut';
-  if (targetMacros.carb_g > 70 && targetMacros.cal > 700) return 'bulk';
-  if (targetMacros.carb_g > 60) return 'pre_training';
-  if (targetMacros.protein_g > 45) return 'post_training';
+// Determine goal from macros (improved logic)
+function determineGoal(
+  macroGoals: MacroOutputs | null,
+  _consumed: ConsumedMacros | null
+): AIContext['goal'] {
+  if (!macroGoals) return 'maintain';
+
+  const totalCals = macroGoals.calories;
+  const proteinCals = macroGoals.protein_g * 4;
+  const proteinPercent = (proteinCals / totalCals) * 100;
+
+  // Cutting: Low total calories with high protein percentage (>30%)
+  if (totalCals < 2200 && proteinPercent > 30) return 'cut';
+
+  // Bulking: High calories
+  if (totalCals > 3000) return 'bulk';
+
+  // Determine if this is pre or post training based on time and carb ratio
+  const carbPercent = ((macroGoals.carbs_g * 4) / totalCals) * 100;
+  if (carbPercent > 45) return 'pre_training';
+  if (proteinPercent > 35) return 'post_training';
+
   return 'maintain';
 }
 
-// Generate 6 creative meals
-export function generateAIMeals(
-  userIngredients: string[],
+// Build context for AI (exported for use by OpenAI service)
+export function buildAIContext(
   macroGoals: MacroOutputs | null,
   consumed: ConsumedMacros | null
-): AIMealResponse {
+): AIContext {
   const targetMacros = calculateTargetMacros(macroGoals, consumed);
-  const goal = determineGoal(targetMacros);
+  const goal = determineGoal(macroGoals, consumed);
 
-  const context: AIContext = {
+  return {
     athlete_id: 'athlete_001',
     goal,
     target_macros_per_meal: targetMacros,
@@ -118,6 +133,17 @@ export function generateAIMeals(
     include_staples: true,
     servings_default: 1
   };
+}
+
+// Generate 6 creative meals (FALLBACK - for when AI API is not available)
+export function generateAIMealsFallback(
+  userIngredients: string[],
+  macroGoals: MacroOutputs | null,
+  consumed: ConsumedMacros | null
+): AIMealResponse {
+  const context = buildAIContext(macroGoals, consumed);
+  const targetMacros = context.target_macros_per_meal;
+  const goal = context.goal;
 
   // Parse user ingredients
   const parsedIngredients = userIngredients
