@@ -94,7 +94,7 @@ Return ONLY the JSON response matching the schema.`;
     const timeoutId = setTimeout(() => controller.abort(), 120000); // 120 second timeout (2 minutes)
 
     const requestBody = {
-      model: 'gpt-4o-mini',
+      model: 'gpt-5-mini',
       messages: [
         {
           role: 'system',
