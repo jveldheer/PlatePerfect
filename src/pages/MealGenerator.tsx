@@ -6,18 +6,40 @@ import { recipes } from '../data/recipes';
 
 function MealGenerator() {
   const { macroGoals, consumedMacros } = useMacros();
+  const [ingredientsInput, setIngredientsInput] = useState('');
   const [suggestions, setSuggestions] = useState<ReturnType<typeof generateMealSuggestions> | null>(null);
   const [showResults, setShowResults] = useState(false);
+  const [savedMeals, setSavedMeals] = useState<any[]>([]);
 
-  // Auto-generate when component loads
+  // Load saved meals on mount
   useEffect(() => {
+    const saved = localStorage.getItem('veldheerfuellab_saved_meals');
+    if (saved) {
+      setSavedMeals(JSON.parse(saved));
+    }
     handleGenerate();
   }, []);
 
   const handleGenerate = () => {
-    const result = generateMealSuggestions(macroGoals, consumedMacros);
+    const ingredientList = ingredientsInput
+      .split(',')
+      .map(i => i.trim())
+      .filter(i => i.length > 0);
+
+    const result = generateMealSuggestions(ingredientList, macroGoals, consumedMacros);
     setSuggestions(result);
     setShowResults(true);
+  };
+
+  const saveMeal = (meal: any) => {
+    const newSavedMeals = [...savedMeals, { ...meal, savedAt: new Date().toISOString() }];
+    setSavedMeals(newSavedMeals);
+    localStorage.setItem('veldheerfuellab_saved_meals', JSON.stringify(newSavedMeals));
+    alert('✅ Recipe saved! View it in Saved Recipes.');
+  };
+
+  const isMealSaved = (mealName: string) => {
+    return savedMeals.some(m => m.name === mealName);
   };
 
   const remainingMacros = macroGoals && consumedMacros ? {
@@ -120,20 +142,35 @@ function MealGenerator() {
           </div>
         )}
 
-        {/* Generate Button */}
+        {/* Generate Section */}
         <div className="bg-white rounded-xl shadow-md p-4 sm:p-6 mb-6">
           <h2 className="text-lg sm:text-xl font-semibold text-gray-800 mb-3">
             🎯 Generate Meal Ideas
           </h2>
-          <p className="text-sm text-gray-600 mb-4">
-            Click to generate 5 complete meal ideas based on your nutrition needs (no ingredients required!)
-          </p>
+
+          {/* Optional Ingredient Input */}
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              🍎 Ingredients You Have (Optional)
+            </label>
+            <input
+              type="text"
+              value={ingredientsInput}
+              onChange={(e) => setIngredientsInput(e.target.value)}
+              placeholder="e.g., chicken, rice, broccoli (separate with commas)"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              onKeyPress={(e) => e.key === 'Enter' && handleGenerate()}
+            />
+            <p className="text-xs text-gray-500 mt-1">
+              Leave blank to get suggestions based only on your macro goals
+            </p>
+          </div>
 
           <button
             onClick={handleGenerate}
             className="w-full bg-gradient-to-r from-blue-500 to-green-500 text-white font-semibold py-3 px-6 rounded-lg hover:from-blue-600 hover:to-green-600 transition-all shadow-md active:scale-95"
           >
-            ✨ Generate New Meal Ideas
+            ✨ Generate Meal Ideas
           </button>
         </div>
 
@@ -150,9 +187,25 @@ function MealGenerator() {
               </p>
             </div>
 
-            {/* Complete Meal Ideas */}
-            <div className="space-y-4">
-              {suggestions.meals.map((meal, index) => (
+            {/* Organize meals by cooking method */}
+            {['no-cook', 'minimal-cook', 'normal-cook'].map((cookMethod) => {
+              const methodMeals = suggestions.meals.filter(m => m.cookingMethod === cookMethod);
+              if (methodMeals.length === 0) return null;
+
+              return (
+                <div key={cookMethod} className="space-y-4">
+                  {/* Cooking Method Header */}
+                  <div className={`p-4 rounded-lg border-2 ${getCookingMethodColor(cookMethod)}`}>
+                    <h3 className="text-xl font-bold flex items-center gap-2">
+                      <span className="text-2xl">{getCookingMethodIcon(cookMethod)}</span>
+                      {cookMethod === 'no-cook' && 'No Cook Options (Fridge/Pantry)'}
+                      {cookMethod === 'minimal-cook' && 'Minimal Cook Options (Microwave/Toaster)'}
+                      {cookMethod === 'normal-cook' && 'Full Cook Options (Pan/Oven/Bake)'}
+                    </h3>
+                  </div>
+
+                  {/* Meals in this category */}
+                  {methodMeals.map((meal, index) => (
                 <div key={index} className="bg-white rounded-xl shadow-md overflow-hidden">
                   {/* Meal Header */}
                   <div className={`p-4 border-l-4 ${getCookingMethodColor(meal.cookingMethod)}`}>
@@ -219,7 +272,7 @@ function MealGenerator() {
 
                     {/* Matched Recipes */}
                     {meal.matchedRecipes && meal.matchedRecipes.length > 0 && (
-                      <div className="bg-blue-50 rounded-lg p-3">
+                      <div className="bg-blue-50 rounded-lg p-3 mb-4">
                         <h4 className="font-semibold text-gray-800 mb-2 text-sm">📖 Similar Recipes:</h4>
                         <div className="flex flex-wrap gap-2">
                           {meal.matchedRecipes.map((recipeName, i) => {
@@ -237,13 +290,28 @@ function MealGenerator() {
                         </div>
                       </div>
                     )}
+
+                    {/* Save Button */}
+                    <button
+                      onClick={() => saveMeal(meal)}
+                      disabled={isMealSaved(meal.name)}
+                      className={`w-full py-2 px-4 rounded-lg font-medium transition-all ${
+                        isMealSaved(meal.name)
+                          ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
+                          : 'bg-blue-500 text-white hover:bg-blue-600 active:scale-95'
+                      }`}
+                    >
+                      {isMealSaved(meal.name) ? '✓ Saved' : '💾 Save This Recipe'}
+                    </button>
                   </div>
                 </div>
               ))}
-            </div>
+                </div>
+              );
+            })}
 
             {/* Browse All Recipes */}
-            <div className="text-center">
+            <div className="text-center mt-6">
               <Link
                 to="/recipes"
                 className="inline-block bg-white text-blue-600 font-semibold py-3 px-6 rounded-lg border-2 border-blue-600 hover:bg-blue-50 transition-all shadow-md"

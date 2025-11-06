@@ -266,7 +266,22 @@ function selectBestMeals(
     .map(item => item.meal);
 }
 
+// Helper function to check if a meal matches provided ingredients
+function mealMatchesIngredients(meal: CompleteMealIdea, ingredients: string[]): boolean {
+  if (ingredients.length === 0) return true; // No filter if no ingredients provided
+
+  const mealIngredientsLower = meal.ingredients.join(' ').toLowerCase();
+
+  // Check if at least 1 ingredient matches (flexible matching)
+  const matchCount = ingredients.filter(ing =>
+    mealIngredientsLower.includes(ing.toLowerCase())
+  ).length;
+
+  return matchCount > 0;
+}
+
 export function generateMealSuggestions(
+  ingredients: string[],
   macroGoals: MacroOutputs | null,
   consumed: ConsumedMacros | null
 ): MealSuggestions {
@@ -300,10 +315,26 @@ export function generateMealSuggestions(
     }
   }
 
+  // If ingredients provided, add context to reason
+  if (ingredients.length > 0) {
+    reason = `${reason} (Using ingredients: ${ingredients.join(', ')})`;
+  }
+
+  // Filter meals by ingredients if provided
+  const filteredNoCook = ingredients.length > 0
+    ? noCookMeals.filter(m => mealMatchesIngredients(m, ingredients))
+    : noCookMeals;
+  const filteredMinimalCook = ingredients.length > 0
+    ? minimalCookMeals.filter(m => mealMatchesIngredients(m, ingredients))
+    : minimalCookMeals;
+  const filteredNormalCook = ingredients.length > 0
+    ? normalCookMeals.filter(m => mealMatchesIngredients(m, ingredients))
+    : normalCookMeals;
+
   // Select 2 from each category (6 total), then filter to top 5 based on macros
-  const selectedNoCook = selectBestMeals(noCookMeals, needed, 2);
-  const selectedMinimalCook = selectBestMeals(minimalCookMeals, needed, 2);
-  const selectedNormalCook = selectBestMeals(normalCookMeals, needed, 2);
+  const selectedNoCook = selectBestMeals(filteredNoCook, needed, 2);
+  const selectedMinimalCook = selectBestMeals(filteredMinimalCook, needed, 2);
+  const selectedNormalCook = selectBestMeals(filteredNormalCook, needed, 2);
 
   const allSelected = [...selectedNoCook, ...selectedMinimalCook, ...selectedNormalCook];
 
