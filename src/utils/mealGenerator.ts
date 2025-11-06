@@ -1,4 +1,5 @@
 import type { MacroOutputs } from './macroCalculator';
+import { generateCustomMealsForIngredients } from './customMealGenerator';
 
 export interface ConsumedMacros {
   calories: number;
@@ -266,31 +267,6 @@ function selectBestMeals(
     .map(item => item.meal);
 }
 
-// Helper function to check if a meal matches provided ingredients
-function mealMatchesIngredients(meal: CompleteMealIdea, ingredients: string[]): boolean {
-  if (ingredients.length === 0) return true; // No filter if no ingredients provided
-
-  const mealIngredientsLower = meal.ingredients.join(' ').toLowerCase();
-
-  // Filter out common words that don't represent actual ingredients
-  const stopWords = ['a', 'an', 'the', 'of', 'can', 'oz', 'cup', 'tbsp', 'tsp', 'sliced', 'diced', 'chopped'];
-
-  const meaningfulIngredients = ingredients.filter(ing => {
-    const lowerIng = ing.toLowerCase().trim();
-    return lowerIng.length > 2 && !stopWords.includes(lowerIng);
-  });
-
-  // If no meaningful ingredients after filtering, return true (show all meals)
-  if (meaningfulIngredients.length === 0) return true;
-
-  // Check if at least 1 meaningful ingredient matches (flexible matching)
-  const matchCount = meaningfulIngredients.filter(ing =>
-    mealIngredientsLower.includes(ing.toLowerCase())
-  ).length;
-
-  return matchCount > 0;
-}
-
 export function generateMealSuggestions(
   ingredients: string[],
   macroGoals: MacroOutputs | null,
@@ -326,42 +302,34 @@ export function generateMealSuggestions(
     }
   }
 
-  // If ingredients provided, add context to reason
+  let finalMeals: CompleteMealIdea[];
+
+  // If ingredients provided, generate custom meals using those specific ingredients
   if (ingredients.length > 0) {
-    reason = `${reason} (Using ingredients: ${ingredients.join(', ')})`;
-  }
+    mealTypeLabel = 'Custom Meals with Your Ingredients';
+    reason = `Here are meal ideas using: ${ingredients.join(', ')}`;
 
-  // Filter meals by ingredients if provided
-  let filteredNoCook = ingredients.length > 0
-    ? noCookMeals.filter(m => mealMatchesIngredients(m, ingredients))
-    : noCookMeals;
-  let filteredMinimalCook = ingredients.length > 0
-    ? minimalCookMeals.filter(m => mealMatchesIngredients(m, ingredients))
-    : minimalCookMeals;
-  let filteredNormalCook = ingredients.length > 0
-    ? normalCookMeals.filter(m => mealMatchesIngredients(m, ingredients))
-    : normalCookMeals;
+    // Generate custom meals based on the provided ingredients
+    const customMeals = generateCustomMealsForIngredients(ingredients);
 
-  // If filtering produced too few results, fall back to showing all meals
-  const totalFiltered = filteredNoCook.length + filteredMinimalCook.length + filteredNormalCook.length;
-  if (totalFiltered < 3) {
-    filteredNoCook = noCookMeals;
-    filteredMinimalCook = minimalCookMeals;
-    filteredNormalCook = normalCookMeals;
-    if (ingredients.length > 0) {
-      reason = `No exact matches found for your ingredients. Here are general suggestions based on your nutrition needs!`;
+    if (customMeals.length > 0) {
+      // Score and select best custom meals based on macro needs
+      finalMeals = selectBestMeals(customMeals, needed, Math.min(6, customMeals.length));
+    } else {
+      // If no custom meals could be generated, show message
+      finalMeals = [];
     }
+  } else {
+    // No ingredients provided - use template-based approach
+    const selectedNoCook = selectBestMeals(noCookMeals, needed, 2);
+    const selectedMinimalCook = selectBestMeals(minimalCookMeals, needed, 2);
+    const selectedNormalCook = selectBestMeals(normalCookMeals, needed, 2);
+
+    const allSelected = [...selectedNoCook, ...selectedMinimalCook, ...selectedNormalCook];
+
+    // Return top 5 overall
+    finalMeals = selectBestMeals(allSelected, needed, 5);
   }
-
-  // Select 2 from each category (6 total), then filter to top 5 based on macros
-  const selectedNoCook = selectBestMeals(filteredNoCook, needed, 2);
-  const selectedMinimalCook = selectBestMeals(filteredMinimalCook, needed, 2);
-  const selectedNormalCook = selectBestMeals(filteredNormalCook, needed, 2);
-
-  const allSelected = [...selectedNoCook, ...selectedMinimalCook, ...selectedNormalCook];
-
-  // Return top 5 overall (or all if less than 5)
-  const finalMeals = selectBestMeals(allSelected, needed, Math.min(5, allSelected.length));
 
   return {
     mealType: mealTypeLabel,
