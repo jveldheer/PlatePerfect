@@ -91,7 +91,7 @@ Return ONLY the JSON response matching the schema.`;
 
     // Create abort controller for timeout
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 60000); // 60 second timeout
+    const timeoutId = setTimeout(() => controller.abort(), 120000); // 120 second timeout (2 minutes)
 
     const requestBody = {
       model: 'gpt-4o-mini',
@@ -105,8 +105,8 @@ Return ONLY the JSON response matching the schema.`;
           content: userMessage
         }
       ],
-      temperature: 0.9,
-      max_tokens: 4000,
+      temperature: 0.7, // Reduced from 0.9 for faster, more focused generation
+      max_tokens: 2500, // Reduced from 4000 for faster response (still plenty for 6 meals)
       response_format: { type: 'json_object' }
     };
 
@@ -234,7 +234,7 @@ Return ONLY the JSON response matching the schema.`;
 
     // If it's an abort error (timeout), provide specific message
     if (error.name === 'AbortError') {
-      throw new Error('Request timed out after 60 seconds. Please try again.');
+      throw new Error('Request timed out after 2 minutes. OpenAI API might be slow - please try again.');
     }
 
     // Handle network/fetch errors
