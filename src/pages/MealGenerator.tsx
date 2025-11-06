@@ -270,7 +270,7 @@ function MealGenerator() {
         )}
 
         {/* Results */}
-        {showResults && aiResponse && (
+        {showResults && aiResponse && aiResponse.meals && aiResponse.context && (
           <div className="space-y-6">
             {/* Header Info */}
             <div className="bg-gradient-to-r from-blue-500 to-green-500 rounded-xl shadow-lg p-6 text-white">
@@ -285,7 +285,7 @@ function MealGenerator() {
                 )}
               </div>
               <p className="text-base sm:text-lg opacity-95">
-                Goal: {aiResponse.context.goal.toUpperCase()} | Target per meal: {Math.round(aiResponse.context.target_macros_per_meal.cal)} cal, {Math.round(aiResponse.context.target_macros_per_meal.protein_g)}g protein
+                Goal: {aiResponse.context?.goal?.toUpperCase() || 'MAINTAIN'} | Target per meal: {Math.round(aiResponse.context?.target_macros_per_meal?.cal || 0)} cal, {Math.round(aiResponse.context?.target_macros_per_meal?.protein_g || 0)}g protein
               </p>
             </div>
 
@@ -307,106 +307,131 @@ function MealGenerator() {
                   </div>
 
                   {/* Meals in this category */}
-                  {methodMeals.map((meal, index) => (
-                <div key={index} className="bg-white rounded-xl shadow-md overflow-hidden">
-                  {/* Meal Header */}
-                  <div className={`p-4 border-l-4 ${getCookingMethodColor(meal.category)}`}>
-                    <div className="flex items-center justify-between flex-wrap gap-2">
-                      <div className="flex items-center gap-2">
-                        <span className="text-2xl">{getCookingMethodIcon(meal.category)}</span>
-                        <h3 className="text-lg sm:text-xl font-bold text-gray-800">
-                          {meal.title}
-                        </h3>
-                      </div>
-                      <div className="flex items-center gap-3 text-sm">
-                        <span className="bg-white px-3 py-1 rounded-full font-medium">
-                          ⏱️ {meal.prep_time_min + meal.cook_time_min} min total
-                        </span>
-                        <span className="bg-blue-100 px-3 py-1 rounded-full font-medium text-blue-800">
-                          {meal.skill_level}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
+                  {methodMeals.map((meal, index) => {
+                    // Defensive checks for meal properties
+                    if (!meal || !meal.title) {
+                      console.warn('Skipping invalid meal at index', index);
+                      return null;
+                    }
 
-                  {/* Meal Details */}
-                  <div className="p-4 sm:p-5">
-                    {/* Performance Tags */}
-                    {meal.performance_tags.length > 0 && (
-                      <div className="flex flex-wrap gap-2 mb-4">
-                        {meal.performance_tags.map((tag, i) => (
-                          <span key={i} className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">
-                            ⚡ {tag.replace('_', ' ')}
-                          </span>
-                        ))}
-                      </div>
-                    )}
+                    const totalTime = (meal.prep_time_min || 0) + (meal.cook_time_min || 0);
+                    const performanceTags = Array.isArray(meal.performance_tags) ? meal.performance_tags : [];
+                    const ingredients = Array.isArray(meal.ingredients) ? meal.ingredients : [];
+                    const instructions = Array.isArray(meal.instructions) ? meal.instructions : [];
 
-                    {/* Macros */}
-                    <div className="grid grid-cols-4 gap-2 mb-4">
-                      <div className="text-center bg-blue-50 rounded-lg p-2">
-                        <div className="text-xs text-gray-600">Calories</div>
-                        <div className="text-lg font-bold text-blue-600">{Math.round(meal.macros_per_serving.cal)}</div>
-                      </div>
-                      <div className="text-center bg-green-50 rounded-lg p-2">
-                        <div className="text-xs text-gray-600">Protein</div>
-                        <div className="text-lg font-bold text-green-600">{Math.round(meal.macros_per_serving.protein_g)}g</div>
-                      </div>
-                      <div className="text-center bg-yellow-50 rounded-lg p-2">
-                        <div className="text-xs text-gray-600">Carbs</div>
-                        <div className="text-lg font-bold text-yellow-600">{Math.round(meal.macros_per_serving.carb_g)}g</div>
-                      </div>
-                      <div className="text-center bg-purple-50 rounded-lg p-2">
-                        <div className="text-xs text-gray-600">Fat</div>
-                        <div className="text-lg font-bold text-purple-600">{Math.round(meal.macros_per_serving.fat_g)}g</div>
-                      </div>
-                    </div>
+                    return (
+                      <div key={index} className="bg-white rounded-xl shadow-md overflow-hidden">
+                        {/* Meal Header */}
+                        <div className={`p-4 border-l-4 ${getCookingMethodColor(meal.category || 'freestyle')}`}>
+                          <div className="flex items-center justify-between flex-wrap gap-2">
+                            <div className="flex items-center gap-2">
+                              <span className="text-2xl">{getCookingMethodIcon(meal.category || 'freestyle')}</span>
+                              <h3 className="text-lg sm:text-xl font-bold text-gray-800">
+                                {meal.title}
+                              </h3>
+                            </div>
+                            <div className="flex items-center gap-3 text-sm">
+                              {totalTime > 0 && (
+                                <span className="bg-white px-3 py-1 rounded-full font-medium">
+                                  ⏱️ {totalTime} min total
+                                </span>
+                              )}
+                              {meal.skill_level && (
+                                <span className="bg-blue-100 px-3 py-1 rounded-full font-medium text-blue-800">
+                                  {meal.skill_level}
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                        </div>
 
-                    {/* Ingredients */}
-                    <div className="mb-4">
-                      <h4 className="font-semibold text-gray-800 mb-2">🛒 Ingredients:</h4>
-                      <ul className="grid grid-cols-1 sm:grid-cols-2 gap-1 text-sm text-gray-700">
-                        {meal.ingredients.map((ingredient, i) => (
-                          <li key={i} className="flex items-start">
-                            <span className="text-green-500 mr-2">•</span>
-                            <span>{ingredient.quantity} {ingredient.unit} {ingredient.canonical_name}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+                        {/* Meal Details */}
+                        <div className="p-4 sm:p-5">
+                          {/* Performance Tags */}
+                          {performanceTags.length > 0 && (
+                            <div className="flex flex-wrap gap-2 mb-4">
+                              {performanceTags.map((tag, i) => (
+                                <span key={i} className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">
+                                  ⚡ {tag.replace('_', ' ')}
+                                </span>
+                              ))}
+                            </div>
+                          )}
 
-                    {/* Instructions */}
-                    <div className="mb-4">
-                      <h4 className="font-semibold text-gray-800 mb-2">📝 Instructions:</h4>
-                      <ol className="list-decimal list-inside space-y-1 text-sm text-gray-700">
-                        {meal.instructions.map((step, i) => (
-                          <li key={i}>{step}</li>
-                        ))}
-                      </ol>
-                    </div>
+                          {/* Macros */}
+                          {meal.macros_per_serving && (
+                            <div className="grid grid-cols-4 gap-2 mb-4">
+                              <div className="text-center bg-blue-50 rounded-lg p-2">
+                                <div className="text-xs text-gray-600">Calories</div>
+                                <div className="text-lg font-bold text-blue-600">{Math.round(meal.macros_per_serving.cal || 0)}</div>
+                              </div>
+                              <div className="text-center bg-green-50 rounded-lg p-2">
+                                <div className="text-xs text-gray-600">Protein</div>
+                                <div className="text-lg font-bold text-green-600">{Math.round(meal.macros_per_serving.protein_g || 0)}g</div>
+                              </div>
+                              <div className="text-center bg-yellow-50 rounded-lg p-2">
+                                <div className="text-xs text-gray-600">Carbs</div>
+                                <div className="text-lg font-bold text-yellow-600">{Math.round(meal.macros_per_serving.carb_g || 0)}g</div>
+                              </div>
+                              <div className="text-center bg-purple-50 rounded-lg p-2">
+                                <div className="text-xs text-gray-600">Fat</div>
+                                <div className="text-lg font-bold text-purple-600">{Math.round(meal.macros_per_serving.fat_g || 0)}g</div>
+                              </div>
+                            </div>
+                          )}
 
-                    {/* Notes */}
-                    {meal.notes && (
-                      <div className="bg-blue-50 rounded-lg p-3 mb-4">
-                        <p className="text-sm text-gray-700 italic">{meal.notes}</p>
+                          {/* Ingredients */}
+                          {ingredients.length > 0 && (
+                            <div className="mb-4">
+                              <h4 className="font-semibold text-gray-800 mb-2">🛒 Ingredients:</h4>
+                              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-1 text-sm text-gray-700">
+                                {ingredients.map((ingredient, i) => (
+                                  <li key={i} className="flex items-start">
+                                    <span className="text-green-500 mr-2">•</span>
+                                    <span>
+                                      {ingredient?.quantity || ''} {ingredient?.unit || ''} {ingredient?.canonical_name || ingredient?.user_input || 'Unknown ingredient'}
+                                    </span>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          )}
+
+                          {/* Instructions */}
+                          {instructions.length > 0 && (
+                            <div className="mb-4">
+                              <h4 className="font-semibold text-gray-800 mb-2">📝 Instructions:</h4>
+                              <ol className="list-decimal list-inside space-y-1 text-sm text-gray-700">
+                                {instructions.map((step, i) => (
+                                  <li key={i}>{step}</li>
+                                ))}
+                              </ol>
+                            </div>
+                          )}
+
+                          {/* Notes */}
+                          {meal.notes && (
+                            <div className="bg-blue-50 rounded-lg p-3 mb-4">
+                              <p className="text-sm text-gray-700 italic">{meal.notes}</p>
+                            </div>
+                          )}
+
+                          {/* Save Button */}
+                          <button
+                            onClick={() => saveMeal(meal)}
+                            disabled={isMealSaved(meal.title)}
+                            className={`w-full py-2 px-4 rounded-lg font-medium transition-all ${
+                              isMealSaved(meal.title)
+                                ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
+                                : 'bg-blue-500 text-white hover:bg-blue-600 active:scale-95'
+                            }`}
+                          >
+                            {isMealSaved(meal.title) ? '✓ Saved' : '💾 Save This Recipe'}
+                          </button>
+                        </div>
                       </div>
-                    )}
-
-                    {/* Save Button */}
-                    <button
-                      onClick={() => saveMeal(meal)}
-                      disabled={isMealSaved(meal.title)}
-                      className={`w-full py-2 px-4 rounded-lg font-medium transition-all ${
-                        isMealSaved(meal.title)
-                          ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
-                          : 'bg-blue-500 text-white hover:bg-blue-600 active:scale-95'
-                      }`}
-                    >
-                      {isMealSaved(meal.title) ? '✓ Saved' : '💾 Save This Recipe'}
-                    </button>
-                  </div>
-                </div>
-              ))}
+                    );
+                  })}
                 </div>
               );
             })}

@@ -78,6 +78,10 @@ Category preference: ${context.category_preference.join(', ')}
 Return ONLY the JSON response matching the schema.`;
 
   try {
+    // Create abort controller for timeout
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 60000); // 60 second timeout
+
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -85,7 +89,7 @@ Return ONLY the JSON response matching the schema.`;
         'Authorization': `Bearer ${apiKey}`
       },
       body: JSON.stringify({
-        model: 'gpt-4o',
+        model: 'gpt-4o-mini', // Faster and cheaper model
         messages: [
           {
             role: 'system',
@@ -97,9 +101,13 @@ Return ONLY the JSON response matching the schema.`;
           }
         ],
         temperature: 0.9,
+        max_tokens: 4000, // Limit response size
         response_format: { type: 'json_object' }
-      })
+      }),
+      signal: controller.signal
     });
+
+    clearTimeout(timeoutId);
 
     if (!response.ok) {
       const error = await response.json();
@@ -113,23 +121,79 @@ Return ONLY the JSON response matching the schema.`;
       throw new Error('No response from AI');
     }
 
-    const aiResponse: AIMealResponse = JSON.parse(content);
+    // Parse JSON with detailed error handling
+    let aiResponse: AIMealResponse;
+    try {
+      aiResponse = JSON.parse(content);
+      console.log('✅ Successfully parsed AI response');
+    } catch (parseError: any) {
+      console.error('❌ Failed to parse AI response as JSON:', parseError);
+      console.error('Raw content received:', content);
+      throw new Error(`Invalid JSON from AI: ${parseError.message}`);
+    }
 
-    // Validate the response
-    if (!aiResponse.meals || aiResponse.meals.length !== 6) {
-      throw new Error('AI did not return exactly 6 meals');
+    // Validate response structure
+    if (!aiResponse) {
+      throw new Error('Parsed response is null or undefined');
+    }
+
+    if (!aiResponse.context) {
+      console.error('❌ Missing context in AI response:', aiResponse);
+      throw new Error('AI response missing context field');
+    }
+
+    if (!aiResponse.meals) {
+      console.error('❌ Missing meals array in AI response:', aiResponse);
+      throw new Error('AI response missing meals field');
+    }
+
+    if (!Array.isArray(aiResponse.meals)) {
+      console.error('❌ Meals is not an array:', typeof aiResponse.meals);
+      throw new Error('AI response meals field is not an array');
+    }
+
+    if (aiResponse.meals.length !== 6) {
+      console.error(`❌ Expected 6 meals, got ${aiResponse.meals.length}`);
+      throw new Error(`AI returned ${aiResponse.meals.length} meals instead of 6`);
+    }
+
+    // Validate each meal has required fields
+    for (let i = 0; i < aiResponse.meals.length; i++) {
+      const meal = aiResponse.meals[i];
+      if (!meal.title) {
+        throw new Error(`Meal ${i + 1} missing title`);
+      }
+      if (!meal.category) {
+        throw new Error(`Meal ${i + 1} ("${meal.title}") missing category`);
+      }
+      if (!meal.macros_per_serving) {
+        throw new Error(`Meal ${i + 1} ("${meal.title}") missing macros_per_serving`);
+      }
+      if (!meal.ingredients || !Array.isArray(meal.ingredients)) {
+        throw new Error(`Meal ${i + 1} ("${meal.title}") missing or invalid ingredients array`);
+      }
     }
 
     // Check for duplicate titles
     const titles = aiResponse.meals.map(m => m.title);
     const uniqueTitles = new Set(titles);
     if (uniqueTitles.size !== 6) {
+      console.error('❌ Duplicate meal titles detected:', titles);
       throw new Error('AI returned duplicate meal titles');
     }
 
+    console.log('✅ AI response validation passed - all 6 meals valid');
     return aiResponse;
-  } catch (error) {
-    console.error('Error calling OpenAI API:', error);
+  } catch (error: any) {
+    // Log detailed error information
+    console.error('❌ Error in generateMealsWithAI:', error);
+
+    // If it's an abort error (timeout), provide specific message
+    if (error.name === 'AbortError') {
+      throw new Error('Request timed out after 60 seconds. Please try again.');
+    }
+
+    // Re-throw with context
     throw error;
   }
 }
