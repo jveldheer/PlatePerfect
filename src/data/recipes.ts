@@ -1373,5 +1373,406 @@ export const recipes: Recipe[] = [
         timeEstimate: 1
       }
     ]
+  },
+  // VIRAL TIKTOK SNACKS & DESSERTS
+  {
+    id: 'recipe-016',
+    title: 'Protein Cookie Dough Bites',
+    category: 'snacks',
+    difficulty: 'beginner',
+    economics: '$',
+    description: 'Viral TikTok edible cookie dough with 8g protein per serving - safe to eat raw!',
+    prepTime: 10,
+    cookTime: 0,
+    servings: 10,
+    servingSizeAmount: '2 tablespoons',
+    servingSizeVisual: 'Size of a golf ball',
+    servingSizeGrams: 40,
+    athleteNotes: 'This viral protein-packed cookie dough is safe to eat raw and perfect for satisfying sweet cravings while hitting your protein goals. Each serving has 8g protein and tastes like the real thing!',
+    requiredSkills: ['prep-001', 'prep-002'],
+    tags: ['viral-tiktok', 'no-cook', 'high-protein', 'dessert', 'vegetarian'],
+    mealPrepNotes: 'Store in an airtight container in the fridge for up to 2 weeks. Portion into small containers for grab-and-go protein snacks.',
+    storageInstructions: 'Refrigerate in airtight container for up to 2 weeks. Can be frozen for up to 2 months. Thaw in fridge before eating.',
+    videoUrl: 'https://www.tiktok.com/@thenutritionguy/video/7445396729473830174',
+    nutritionInfo: {
+      calories: 95,
+      protein: 8,
+      carbs: 10,
+      fat: 3,
+      fiber: 2,
+      servings: 10
+    },
+    ingredients: [
+      { item: 'Vanilla protein powder', amount: '1 cup (120g)', notes: 'Whey or plant-based' },
+      { item: 'Almond flour', amount: '1/2 cup', notes: 'Or oat flour' },
+      { item: 'Almond butter', amount: '1/3 cup', notes: 'Or peanut butter' },
+      { item: 'Maple syrup', amount: '1/4 cup', notes: 'Or honey' },
+      { item: 'Almond milk', amount: '2-4 tablespoons', notes: 'Add gradually for texture' },
+      { item: 'Vanilla extract', amount: '1 teaspoon' },
+      { item: 'Salt', amount: '1/4 teaspoon' },
+      { item: 'Mini chocolate chips', amount: '1/4 cup', notes: 'Sugar-free option available' }
+    ],
+    instructions: [
+      {
+        step: 1,
+        instruction: 'Mix dry ingredients in a medium bowl.',
+        detailedExplanation: 'In a medium bowl, combine protein powder, almond flour, and salt. Whisk together until evenly mixed and there are no clumps. The protein powder needs to be distributed evenly for the best texture.',
+        timeEstimate: 2
+      },
+      {
+        step: 2,
+        instruction: 'Add wet ingredients and mix until combined.',
+        detailedExplanation: 'Add almond butter, maple syrup, and vanilla extract to the bowl. Use a sturdy spoon or spatula to mix everything together. It will be thick and crumbly at first. Start with 2 tablespoons of almond milk and mix. Add more milk 1 tablespoon at a time until the mixture comes together into a dough consistency. It should be thick but moldable.',
+        skillTip: 'Don\'t add too much liquid at once - you want cookie dough texture, not batter!',
+        timeEstimate: 3
+      },
+      {
+        step: 3,
+        instruction: 'Fold in chocolate chips.',
+        detailedExplanation: 'Add the mini chocolate chips to the dough and fold them in using your spoon or spatula. Make sure they\'re distributed evenly throughout. You can also save some to press into the top for a prettier presentation.',
+        timeEstimate: 1
+      },
+      {
+        step: 4,
+        instruction: 'Portion into balls or store in container.',
+        detailedExplanation: 'You can either roll the dough into 10 balls (about 2 tablespoons each) and store them individually, or press the entire batch into a container and scoop servings as needed. Rolling into balls makes portion control easier. Store in the fridge for at least 30 minutes before eating for the best texture.',
+        skillTip: 'Line a container with parchment paper for easy removal and portioning.',
+        timeEstimate: 4
+      }
+    ]
+  },
+  {
+    id: 'recipe-017',
+    title: 'High Protein Chicken Fried Rice',
+    category: 'lunch',
+    difficulty: 'intermediate',
+    economics: '$',
+    description: 'Viral TikTok better-than-takeout fried rice - 40g protein per serving!',
+    prepTime: 15,
+    cookTime: 15,
+    servings: 4,
+    servingSizeAmount: '2 cups',
+    servingSizeVisual: 'Large restaurant takeout container',
+    servingSizeGrams: 450,
+    athleteNotes: 'This viral fried rice has 40g protein per serving and tastes better than takeout! Perfect meal prep that actually gets better after a day in the fridge. The high protein content supports muscle recovery and growth.',
+    requiredSkills: ['knife-002', 'cook-002', 'cook-004', 'safety-002'],
+    tags: ['viral-tiktok', 'high-protein', 'meal-prep', 'asian-fusion', 'quick'],
+    mealPrepNotes: 'Make a big batch on Sunday. The flavors improve overnight! Reheats perfectly in the microwave or on the stovetop.',
+    storageInstructions: 'Refrigerate in airtight containers for up to 5 days. Reheat in microwave for 2-3 minutes or in a pan over medium heat.',
+    videoUrl: 'https://www.tiktok.com/@feelgoodfoodie/video/7488892476344126763',
+    nutritionInfo: {
+      calories: 420,
+      protein: 40,
+      carbs: 45,
+      fat: 10,
+      fiber: 3,
+      servings: 4
+    },
+    ingredients: [
+      { item: 'Chicken breast', amount: '1.5 lbs', notes: 'Diced into small pieces' },
+      { item: 'Cooked white rice', amount: '4 cups', notes: 'Day-old rice works best' },
+      { item: 'Eggs', amount: '4 large', notes: 'Beaten' },
+      { item: 'Frozen mixed vegetables', amount: '2 cups', notes: 'Peas, carrots, corn' },
+      { item: 'Green onions', amount: '4', notes: 'Chopped, whites and greens separated' },
+      { item: 'Garlic', amount: '4 cloves', notes: 'Minced' },
+      { item: 'Ginger', amount: '1 tablespoon', notes: 'Fresh, grated' },
+      { item: 'Soy sauce', amount: '4 tablespoons', notes: 'Low-sodium' },
+      { item: 'Sesame oil', amount: '2 tablespoons' },
+      { item: 'Vegetable oil', amount: '2 tablespoons' },
+      { item: 'Salt and pepper', amount: 'To taste' }
+    ],
+    instructions: [
+      {
+        step: 1,
+        instruction: 'Heat 1 tablespoon vegetable oil in large wok or skillet over high heat.',
+        detailedExplanation: 'Use the largest pan you have - a wok is ideal but a large (12-14 inch) skillet works too. Heat it over high heat for 2 minutes until very hot. Add 1 tablespoon of vegetable oil and swirl to coat. The pan needs to be screaming hot for proper fried rice - this is the secret!',
+        skillTip: 'High heat is essential for fried rice. Don\'t be afraid of the heat - it creates that restaurant flavor!',
+        timeEstimate: 2
+      },
+      {
+        step: 2,
+        instruction: 'Scramble eggs and set aside.',
+        detailedExplanation: 'Pour beaten eggs into the hot pan. Let them sit for 30 seconds, then scramble with a spatula, breaking them into small pieces. Cook for about 1 minute until just set but still soft. Transfer to a plate and set aside. They\'ll cook more later.',
+        timeEstimate: 2
+      },
+      {
+        step: 3,
+        instruction: 'Cook chicken in batches until golden and cooked through.',
+        detailedExplanation: 'Add remaining oil to the pan. Add half the diced chicken in a single layer. Season with salt and pepper. Let it cook undisturbed for 2 minutes to get a golden crust, then stir and cook for another 2-3 minutes until cooked through. Remove to a plate. Repeat with remaining chicken. Don\'t crowd the pan or it will steam instead of brown!',
+        skillTip: 'Cooking in batches ensures the chicken browns instead of steaming. This creates more flavor!',
+        timeEstimate: 8
+      },
+      {
+        step: 4,
+        instruction: 'Sauté aromatics and vegetables.',
+        detailedExplanation: 'Add garlic, ginger, and white parts of green onions to the pan. Stir constantly for 30 seconds until fragrant. Add frozen vegetables and stir-fry for 2-3 minutes until heated through and any ice is gone. The pan should still be very hot.',
+        timeEstimate: 3
+      },
+      {
+        step: 5,
+        instruction: 'Add rice and break up any clumps.',
+        detailedExplanation: 'Add all the cooked rice to the pan. Use your spatula to break up any clumps and spread it out. Press it down gently against the hot pan and let it sit for 1 minute without stirring - this creates crispy bits. Then toss and repeat. Do this 2-3 times. Day-old rice works best because it\'s drier and fries better.',
+        skillTip: 'Day-old refrigerated rice is drier and won\'t get mushy. Fresh rice can be too wet for fried rice.',
+        timeEstimate: 4
+      },
+      {
+        step: 6,
+        instruction: 'Add chicken, eggs, soy sauce, and sesame oil. Toss to combine.',
+        detailedExplanation: 'Return the cooked chicken and scrambled eggs to the pan. Pour soy sauce and sesame oil over everything. Toss and stir vigorously for 2 minutes, making sure every grain of rice is coated. The rice should turn golden brown from the soy sauce. Taste and add more soy sauce or salt if needed.',
+        timeEstimate: 3
+      },
+      {
+        step: 7,
+        instruction: 'Add green onion tops and serve.',
+        detailedExplanation: 'Turn off heat. Add the green parts of the green onions and toss one more time. The residual heat will soften them slightly while keeping them bright green. Divide into 4 portions (about 2 cups each). This fried rice is amazing fresh or reheated!',
+        timeEstimate: 1
+      }
+    ]
+  },
+  {
+    id: 'recipe-018',
+    title: 'Loaded Sweet Potato Meal Prep',
+    category: 'lunch',
+    difficulty: 'beginner',
+    economics: '$',
+    description: 'Viral TikTok loaded sweet potatoes - 35g protein, customizable, and delicious!',
+    prepTime: 10,
+    cookTime: 45,
+    servings: 4,
+    servingSizeAmount: '1 large potato',
+    servingSizeVisual: 'Size of your fist, loaded',
+    servingSizeGrams: 450,
+    athleteNotes: 'These viral loaded sweet potatoes pack 35g protein and complex carbs perfect for fueling workouts. The sweet potato provides sustained energy while the toppings add protein and flavor. Meal prep 4 at once!',
+    requiredSkills: ['cook-003', 'prep-003', 'safety-001'],
+    tags: ['viral-tiktok', 'meal-prep', 'high-protein', 'gluten-free', 'customizable'],
+    mealPrepNotes: 'Bake sweet potatoes and proteins separately. Store in containers with toppings on the side. Assemble and reheat when ready to eat.',
+    storageInstructions: 'Store baked sweet potatoes and toppings separately in refrigerator for up to 5 days. Reheat potato in microwave for 2-3 minutes before adding toppings.',
+    videoUrl: 'https://www.tiktok.com/@mealpreponfleek/video/7467896352573541675',
+    nutritionInfo: {
+      calories: 445,
+      protein: 35,
+      carbs: 58,
+      fat: 8,
+      fiber: 10,
+      servings: 4
+    },
+    ingredients: [
+      { item: 'Large sweet potatoes', amount: '4', notes: 'About 10 oz each' },
+      { item: 'Ground turkey', amount: '1 lb', notes: 'Lean, 93% or leaner' },
+      { item: 'Taco seasoning', amount: '2 tablespoons', notes: 'Or make your own' },
+      { item: 'Black beans', amount: '1 can (15 oz)', notes: 'Drained and rinsed' },
+      { item: 'Greek yogurt', amount: '1/2 cup', notes: 'Plain, non-fat - replaces sour cream' },
+      { item: 'Salsa', amount: '1 cup', notes: 'Your favorite kind' },
+      { item: 'Shredded cheese', amount: '1/2 cup', notes: 'Reduced-fat cheddar' },
+      { item: 'Green onions', amount: '3', notes: 'Chopped' },
+      { item: 'Cilantro', amount: '1/4 cup', notes: 'Fresh, chopped' },
+      { item: 'Lime', amount: '2', notes: 'Cut into wedges' }
+    ],
+    instructions: [
+      {
+        step: 1,
+        instruction: 'Preheat oven to 400°F and prepare sweet potatoes.',
+        detailedExplanation: 'Turn oven to 400°F. Scrub sweet potatoes under running water to remove any dirt. Pat them dry. Pierce each potato 4-5 times with a fork - this lets steam escape so they don\'t explode. Place them directly on the oven rack or on a baking sheet.',
+        skillTip: 'Piercing is important! It prevents the potatoes from bursting in the oven.',
+        timeEstimate: 3
+      },
+      {
+        step: 2,
+        instruction: 'Bake sweet potatoes for 45-55 minutes until tender.',
+        detailedExplanation: 'Bake for 45-55 minutes depending on size. They\'re done when you can easily pierce them with a fork and they feel soft when gently squeezed (use an oven mitt!). The skin might bubble and caramelize - that\'s perfect. While they bake, you can prep your toppings.',
+        timeEstimate: 50
+      },
+      {
+        step: 3,
+        instruction: 'While potatoes bake, cook ground turkey with taco seasoning.',
+        detailedExplanation: 'Heat a large skillet over medium-high heat. Add ground turkey and break it up with a wooden spoon or spatula. Cook for 6-8 minutes, stirring occasionally and breaking it into small crumbles, until no pink remains. Drain any excess fat. Add taco seasoning and 1/4 cup water. Stir and cook for 2-3 minutes until the liquid is absorbed and turkey is coated in seasoning.',
+        timeEstimate: 10
+      },
+      {
+        step: 4,
+        instruction: 'Warm black beans.',
+        detailedExplanation: 'Rinse and drain the black beans in a colander. In a small pot, heat the beans over medium heat for 3-4 minutes, stirring occasionally, until warmed through. You can add a pinch of cumin or garlic powder for extra flavor if you want. Keep warm until ready to assemble.',
+        timeEstimate: 4
+      },
+      {
+        step: 5,
+        instruction: 'Slice open baked sweet potatoes and fluff the insides.',
+        detailedExplanation: 'When potatoes are done, let them cool for 2-3 minutes so you can handle them. Cut a slit down the center lengthwise. Carefully squeeze from both ends to open it up - the fluffy orange flesh will push up. Use a fork to fluff the inside and create space for toppings. The viral TikTok version shows really loaded potatoes!',
+        timeEstimate: 2
+      },
+      {
+        step: 6,
+        instruction: 'Load sweet potatoes with toppings.',
+        detailedExplanation: 'This is where it gets fun! For each potato, add: 1/4 of the seasoned turkey (about 4 oz), 1/4 of the black beans, 2 tablespoons Greek yogurt, 1/4 cup salsa, 2 tablespoons cheese, green onions, and cilantro. Squeeze lime juice over the top. The combination of sweet potato, savory taco meat, creamy yogurt, and fresh toppings is why this went viral!',
+        skillTip: 'Greek yogurt has way more protein than sour cream and tastes almost identical!',
+        timeEstimate: 5
+      }
+    ]
+  },
+  {
+    id: 'recipe-019',
+    title: 'Protein Pancake Meal Prep',
+    category: 'breakfast',
+    difficulty: 'beginner',
+    economics: '$',
+    description: 'Viral TikTok fluffy protein pancakes - freeze 20 at once for grab-and-go breakfasts!',
+    prepTime: 15,
+    cookTime: 30,
+    servings: 10,
+    servingSizeAmount: '2 pancakes',
+    servingSizeVisual: 'Two palm-sized pancakes',
+    servingSizeGrams: 120,
+    athleteNotes: 'These viral protein pancakes have 20g protein per serving and freeze beautifully! Make a huge batch on Sunday, freeze individually, and microwave for 60 seconds for instant high-protein breakfasts all week.',
+    requiredSkills: ['cook-002', 'prep-003'],
+    tags: ['viral-tiktok', 'meal-prep', 'high-protein', 'freezer-friendly', 'breakfast'],
+    mealPrepNotes: 'Make 20 pancakes at once. Let cool completely, then stack with parchment paper between each. Freeze in ziplock bags. Grab 2 and microwave for 60-90 seconds.',
+    storageInstructions: 'Refrigerate for up to 5 days or freeze for up to 3 months. Reheat from frozen in microwave for 60-90 seconds or toaster for 2-3 minutes.',
+    videoUrl: 'https://www.tiktok.com/@thenutritionguy/video/7434568209273392427',
+    nutritionInfo: {
+      calories: 220,
+      protein: 20,
+      carbs: 28,
+      fat: 4,
+      fiber: 3,
+      servings: 10
+    },
+    ingredients: [
+      { item: 'Vanilla protein powder', amount: '2 cups (240g)', notes: 'Whey or casein works best' },
+      { item: 'Oat flour', amount: '1 cup', notes: 'Or blend rolled oats into flour' },
+      { item: 'Baking powder', amount: '2 tablespoons' },
+      { item: 'Cinnamon', amount: '1 teaspoon' },
+      { item: 'Salt', amount: '1/2 teaspoon' },
+      { item: 'Eggs', amount: '4 large' },
+      { item: 'Egg whites', amount: '1/2 cup', notes: 'From carton is fine' },
+      { item: 'Almond milk', amount: '1.5 cups', notes: 'Unsweetened' },
+      { item: 'Vanilla extract', amount: '2 teaspoons' },
+      { item: 'Banana', amount: '2 ripe', notes: 'Mashed' },
+      { item: 'Cooking spray', amount: 'For griddle' }
+    ],
+    instructions: [
+      {
+        step: 1,
+        instruction: 'Mix all dry ingredients in a large bowl.',
+        detailedExplanation: 'In a large bowl, whisk together protein powder, oat flour, baking powder, cinnamon, and salt. Make sure everything is evenly combined with no clumps. The protein powder needs to be well distributed or you\'ll have uneven pancakes.',
+        timeEstimate: 2
+      },
+      {
+        step: 2,
+        instruction: 'In separate bowl, mix wet ingredients.',
+        detailedExplanation: 'In another bowl, whisk together eggs, egg whites, almond milk, vanilla extract, and mashed bananas. Whisk until smooth and the banana is well incorporated. The bananas add natural sweetness and help bind everything together.',
+        timeEstimate: 3
+      },
+      {
+        step: 3,
+        instruction: 'Combine wet and dry ingredients, mix until just combined.',
+        detailedExplanation: 'Pour the wet ingredients into the dry ingredients. Use a wooden spoon or spatula to gently fold everything together. Mix until just combined - the batter should be slightly lumpy. Don\'t overmix or the pancakes will be tough! Let the batter rest for 5 minutes. It will thicken as the protein powder and oat flour absorb liquid.',
+        skillTip: 'Lumpy batter makes fluffier pancakes! Don\'t overmix.',
+        timeEstimate: 2
+      },
+      {
+        step: 4,
+        instruction: 'Heat griddle or large skillet over medium heat.',
+        detailedExplanation: 'Spray a griddle or large non-stick skillet with cooking spray and heat over medium heat for 2-3 minutes. Test if it\'s ready by sprinkling a few drops of water on it - they should sizzle and evaporate. Medium heat is key - too hot and they\'ll burn before cooking through; too low and they won\'t get golden.',
+        timeEstimate: 3
+      },
+      {
+        step: 5,
+        instruction: 'Pour 1/4 cup batter for each pancake and cook until bubbles form.',
+        detailedExplanation: 'Use a 1/4 cup measuring cup to pour batter onto the hot griddle. You should be able to fit 3-4 pancakes at a time depending on your pan size. Cook for 2-3 minutes until you see bubbles forming all over the surface and the edges look set. This is the viral trick - wait for the bubbles!',
+        skillTip: 'Wait for bubbles to appear and edges to look dry before flipping - this ensures they cook through.',
+        timeEstimate: 3
+      },
+      {
+        step: 6,
+        instruction: 'Flip and cook second side for 2 minutes until golden.',
+        detailedExplanation: 'Use a spatula to flip each pancake. The first side should be golden brown. Cook the second side for about 2 minutes until golden and cooked through. The pancake should bounce back when gently pressed. Transfer to a plate. Repeat with remaining batter, re-spraying the pan between batches.',
+        timeEstimate: 25
+      },
+      {
+        step: 7,
+        instruction: 'Cool completely before storing or freezing.',
+        detailedExplanation: 'Let all pancakes cool completely on a wire rack - this takes about 20 minutes. If you stack them while hot, they\'ll get soggy. For freezing: place a piece of parchment paper between each pancake, stack them, and put in a freezer bag. Label with the date. To reheat: microwave 2 frozen pancakes for 60-90 seconds or toast them!',
+        skillTip: 'Parchment paper between pancakes prevents them from freezing together!',
+        timeEstimate: 20
+      }
+    ]
+  },
+  {
+    id: 'recipe-020',
+    title: 'Greek Yogurt Protein Parfait Prep',
+    category: 'breakfast',
+    difficulty: 'beginner',
+    economics: '$',
+    description: 'Viral TikTok mason jar parfaits - prep 5 days in 10 minutes, 30g protein each!',
+    prepTime: 10,
+    cookTime: 0,
+    servings: 5,
+    servingSizeAmount: '1 jar (16 oz)',
+    servingSizeVisual: 'Large mason jar',
+    servingSizeGrams: 400,
+    athleteNotes: 'These viral meal prep parfaits have 30g protein and are perfect for grab-and-go mornings. The layering technique keeps everything fresh for 5 days. Great pre-workout breakfast or post-workout snack!',
+    requiredSkills: ['prep-003'],
+    tags: ['viral-tiktok', 'no-cook', 'meal-prep', 'high-protein', 'vegetarian'],
+    mealPrepNotes: 'Make 5 jars on Sunday for the whole week. Layer granola on bottom to stay crunchy, yogurt in middle, fruit on top. Invert into bowl when ready to eat!',
+    storageInstructions: 'Refrigerate sealed jars for up to 5 days. Do not freeze. Best if eaten within 5 days for optimal freshness.',
+    videoUrl: 'https://www.tiktok.com/@mealpreponfleek/video/7460889341558025514',
+    nutritionInfo: {
+      calories: 350,
+      protein: 30,
+      carbs: 45,
+      fat: 8,
+      fiber: 6,
+      servings: 5
+    },
+    ingredients: [
+      { item: 'Greek yogurt', amount: '5 cups (40 oz)', notes: 'Plain, non-fat or 2%' },
+      { item: 'Vanilla protein powder', amount: '5 scoops (150g)', notes: 'Mix into yogurt' },
+      { item: 'Honey', amount: '5 tablespoons', notes: 'Or maple syrup' },
+      { item: 'Granola', amount: '1.5 cups', notes: 'Your favorite kind' },
+      { item: 'Fresh berries', amount: '2.5 cups', notes: 'Blueberries, strawberries, raspberries' },
+      { item: 'Banana', amount: '2', notes: 'Sliced' },
+      { item: 'Chia seeds', amount: '5 tablespoons', notes: 'Optional topping' }
+    ],
+    instructions: [
+      {
+        step: 1,
+        instruction: 'Mix Greek yogurt with protein powder and honey.',
+        detailedExplanation: 'In a large bowl, combine all the Greek yogurt, protein powder, and honey. Whisk vigorously for 1-2 minutes until the protein powder is completely dissolved and there are no clumps. The mixture should be smooth and creamy. Taste and add more honey if you want it sweeter.',
+        skillTip: 'Mix protein powder thoroughly to avoid chalky clumps in your parfaits!',
+        timeEstimate: 3
+      },
+      {
+        step: 2,
+        instruction: 'Prepare 5 mason jars or containers.',
+        detailedExplanation: 'Get 5 pint-sized (16 oz) mason jars with lids or meal prep containers. Make sure they\'re clean and dry. The viral TikTok version uses mason jars because they\'re clear and you can see the pretty layers!',
+        timeEstimate: 1
+      },
+      {
+        step: 3,
+        instruction: 'Layer granola on the bottom of each jar.',
+        detailedExplanation: 'Add about 1/4 cup plus 2 tablespoons of granola to the bottom of each jar. Pack it down gently. The key to the viral recipe is putting granola on the BOTTOM - this keeps it crunchy! If you put it on top, it would get soggy over the week.',
+        skillTip: 'Granola goes on bottom to stay crunchy! When you eat it, flip the jar upside down into a bowl.',
+        timeEstimate: 2
+      },
+      {
+        step: 4,
+        instruction: 'Add protein yogurt mixture to each jar.',
+        detailedExplanation: 'Spoon about 1 cup of the protein yogurt mixture into each jar on top of the granola. Smooth the top with the back of a spoon. This creates a clean layer and looks pretty through the glass.',
+        timeEstimate: 2
+      },
+      {
+        step: 5,
+        instruction: 'Top with fresh fruit and chia seeds.',
+        detailedExplanation: 'Add about 1/2 cup of mixed berries to the top of each jar. Add some banana slices. Sprinkle 1 tablespoon of chia seeds on top if using. You can mix up the fruit combinations - all berries, all banana, or a mix. The fruit on top stays fresh and adds color!',
+        timeEstimate: 3
+      },
+      {
+        step: 6,
+        instruction: 'Seal and refrigerate. To eat, flip into a bowl!',
+        detailedExplanation: 'Put lids on all jars and store in the refrigerator. They\'ll stay fresh for 5 days. When ready to eat, flip the jar upside down into a bowl - the granola is now on top and still crunchy! This is the viral TikTok trick that makes these so popular. Each parfait has 30g protein to start your day strong!',
+        skillTip: 'The flip trick is what makes these work! Granola stays crunchy on the bottom until you flip it.',
+        timeEstimate: 1
+      }
+    ]
   }
 ];
