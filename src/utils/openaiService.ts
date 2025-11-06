@@ -106,12 +106,12 @@ Return ONLY the JSON response matching the schema.`;
         }
       ],
       temperature: 0.7, // Reduced from 0.9 for faster, more focused generation
-      max_tokens: 2500, // Reduced from 4000 for faster response (still plenty for 6 meals)
+      max_completion_tokens: 2500, // GPT-5 models use max_completion_tokens instead of max_tokens
       response_format: { type: 'json_object' }
     };
 
     console.log('📤 Request model:', requestBody.model);
-    console.log('📤 Request max_tokens:', requestBody.max_tokens);
+    console.log('📤 Request max_completion_tokens:', requestBody.max_completion_tokens);
 
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
