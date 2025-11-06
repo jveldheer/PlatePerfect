@@ -67,6 +67,15 @@ export async function generateMealsWithAI(
     throw new Error('OpenAI API key not configured. Please add your API key in Settings.');
   }
 
+  // Validate API key format
+  if (!apiKey.startsWith('sk-')) {
+    throw new Error('Invalid API key format. OpenAI API keys should start with "sk-"');
+  }
+
+  console.log('🔑 API Key detected (first 10 chars):', apiKey.substring(0, 10) + '...');
+  console.log('🎯 Goal:', context.goal);
+  console.log('📊 Target macros per meal:', context.target_macros_per_meal);
+
   const userMessage = `Generate 6 athlete meals with the following context:
 
 Goal: ${context.goal}
@@ -78,9 +87,31 @@ Category preference: ${context.category_preference.join(', ')}
 Return ONLY the JSON response matching the schema.`;
 
   try {
+    console.log('🚀 Starting API request to OpenAI...');
+
     // Create abort controller for timeout
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 60000); // 60 second timeout
+
+    const requestBody = {
+      model: 'gpt-4o-mini',
+      messages: [
+        {
+          role: 'system',
+          content: AI_SYSTEM_PROMPT
+        },
+        {
+          role: 'user',
+          content: userMessage
+        }
+      ],
+      temperature: 0.9,
+      max_tokens: 4000,
+      response_format: { type: 'json_object' }
+    };
+
+    console.log('📤 Request model:', requestBody.model);
+    console.log('📤 Request max_tokens:', requestBody.max_tokens);
 
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
@@ -88,38 +119,49 @@ Return ONLY the JSON response matching the schema.`;
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${apiKey}`
       },
-      body: JSON.stringify({
-        model: 'gpt-4o-mini', // Faster and cheaper model
-        messages: [
-          {
-            role: 'system',
-            content: AI_SYSTEM_PROMPT
-          },
-          {
-            role: 'user',
-            content: userMessage
-          }
-        ],
-        temperature: 0.9,
-        max_tokens: 4000, // Limit response size
-        response_format: { type: 'json_object' }
-      }),
+      body: JSON.stringify(requestBody),
       signal: controller.signal
     });
 
     clearTimeout(timeoutId);
+    console.log('✅ Received response from OpenAI');
+    console.log('📊 Response status:', response.status, response.statusText);
 
     if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.error?.message || 'Failed to generate meals');
+      console.error('❌ API request failed with status:', response.status);
+
+      let errorMessage = 'Failed to generate meals';
+      try {
+        const error = await response.json();
+        console.error('❌ Error details:', error);
+        errorMessage = error.error?.message || errorMessage;
+
+        // Provide helpful messages for common errors
+        if (response.status === 401) {
+          errorMessage = 'Invalid API key. Please check your OpenAI API key in Settings.';
+        } else if (response.status === 429) {
+          errorMessage = 'Rate limit exceeded or quota reached. Please check your OpenAI account.';
+        } else if (response.status === 500 || response.status === 503) {
+          errorMessage = 'OpenAI service temporarily unavailable. Please try again in a moment.';
+        }
+      } catch (e) {
+        console.error('❌ Could not parse error response:', e);
+      }
+
+      throw new Error(errorMessage);
     }
 
     const data = await response.json();
+    console.log('📦 Parsed response data');
+
     const content = data.choices[0]?.message?.content;
 
     if (!content) {
+      console.error('❌ No content in response:', data);
       throw new Error('No response from AI');
     }
+
+    console.log('📝 Received content length:', content.length, 'characters');
 
     // Parse JSON with detailed error handling
     let aiResponse: AIMealResponse;
@@ -187,10 +229,34 @@ Return ONLY the JSON response matching the schema.`;
   } catch (error: any) {
     // Log detailed error information
     console.error('❌ Error in generateMealsWithAI:', error);
+    console.error('❌ Error type:', error.name);
+    console.error('❌ Error message:', error.message);
 
     // If it's an abort error (timeout), provide specific message
     if (error.name === 'AbortError') {
       throw new Error('Request timed out after 60 seconds. Please try again.');
+    }
+
+    // Handle network/fetch errors
+    if (error.name === 'TypeError' && error.message.includes('fetch')) {
+      throw new Error('Network error: Unable to connect to OpenAI API. Check your internet connection or firewall settings.');
+    }
+
+    // Handle generic fetch failures
+    if (error.message === 'Load failed' || error.message.includes('Failed to fetch')) {
+      console.error('❌ Fetch failed - possible causes:');
+      console.error('   - CORS issue (unlikely with OpenAI API)');
+      console.error('   - Network connectivity problem');
+      console.error('   - Browser extension blocking request');
+      console.error('   - Invalid API key causing immediate rejection');
+
+      throw new Error(
+        'Unable to connect to OpenAI API. This could be due to:\n' +
+        '• Network connectivity issues\n' +
+        '• Invalid API key format\n' +
+        '• Browser extension blocking the request\n' +
+        'Please check your API key in Settings and try again.'
+      );
     }
 
     // Re-throw with context

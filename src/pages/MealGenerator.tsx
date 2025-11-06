@@ -263,7 +263,10 @@ function MealGenerator() {
                 <span className="text-2xl">⚠️</span>
               </div>
               <div className="ml-3">
-                <p className="text-sm text-red-800">{error}</p>
+                <p className="text-sm text-red-800 whitespace-pre-line">{error}</p>
+                <p className="text-xs text-red-600 mt-2">
+                  💡 Check the browser console (F12) for detailed debugging information
+                </p>
               </div>
             </div>
           </div>
