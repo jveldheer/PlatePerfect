@@ -105,7 +105,7 @@ Return ONLY the JSON response matching the schema.`;
           content: userMessage
         }
       ],
-      temperature: 0.7, // Reduced from 0.9 for faster, more focused generation
+      // temperature not specified - gpt-5-mini only supports default value of 1
       max_completion_tokens: 2500, // GPT-5 models use max_completion_tokens instead of max_tokens
       response_format: { type: 'json_object' }
     };
