@@ -7,37 +7,206 @@ export interface ConsumedMacros {
   carbs_g: number;
 }
 
-export interface MealSuggestion {
-  mealType: string;
-  reason: string;
-  suggestedMacros: {
+export interface CompleteMealIdea {
+  name: string;
+  cookingMethod: 'no-cook' | 'minimal-cook' | 'normal-cook';
+  ingredients: string[];
+  instructions: string;
+  estimatedTime: string;
+  macros: {
     calories: number;
     protein: number;
     carbs: number;
     fat: number;
   };
-  mealIdeas: string[];
-  recipeMatches: string[];
-  tips: string[];
+  matchedRecipes?: string[];
 }
 
-// Ingredient categories for smart matching
-const proteinSources = ['chicken', 'beef', 'turkey', 'pork', 'fish', 'salmon', 'tuna', 'shrimp', 'eggs', 'egg', 'protein powder', 'protein', 'greek yogurt', 'yogurt', 'cottage cheese', 'tofu', 'tempeh', 'beans', 'lentils', 'chickpeas'];
-const carbSources = ['rice', 'pasta', 'bread', 'oats', 'oatmeal', 'quinoa', 'potato', 'potatoes', 'sweet potato', 'sweet potatoes', 'tortilla', 'bagel', 'cereal', 'granola'];
-const veggieSources = ['broccoli', 'spinach', 'kale', 'lettuce', 'tomato', 'tomatoes', 'cucumber', 'peppers', 'pepper', 'onion', 'onions', 'garlic', 'carrots', 'celery', 'zucchini', 'squash', 'cauliflower', 'brussels sprouts', 'green beans', 'asparagus', 'mushrooms', 'avocado'];
-const fatSources = ['oil', 'olive oil', 'butter', 'cheese', 'nuts', 'peanut butter', 'almond butter', 'avocado', 'seeds', 'chia seeds'];
-const fruitSources = ['banana', 'bananas', 'apple', 'apples', 'berries', 'strawberries', 'blueberries', 'raspberries', 'orange', 'grapes', 'pineapple', 'mango', 'peach'];
+export interface MealSuggestions {
+  mealType: string;
+  reason: string;
+  meals: CompleteMealIdea[];
+}
 
-function categorizeIngredients(ingredients: string[]) {
-  const normalized = ingredients.map(i => i.toLowerCase().trim());
+// Meal templates database
+const noCookMeals: CompleteMealIdea[] = [
+  {
+    name: 'Greek Yogurt Power Bowl',
+    cookingMethod: 'no-cook',
+    ingredients: ['1 cup Greek yogurt', '1 scoop protein powder', '1/2 cup berries', '2 tbsp granola', '1 tbsp honey'],
+    instructions: 'Mix Greek yogurt with protein powder. Top with berries, granola, and drizzle honey. Ready to eat!',
+    estimatedTime: '2 minutes',
+    macros: { calories: 380, protein: 42, carbs: 38, fat: 8 },
+    matchedRecipes: ['Greek Yogurt Protein Parfait Prep']
+  },
+  {
+    name: 'Protein-Packed Wrap',
+    cookingMethod: 'no-cook',
+    ingredients: ['1 large tortilla', '4 oz deli turkey', '2 slices cheese', '1/2 avocado', 'lettuce, tomato'],
+    instructions: 'Layer turkey, cheese, sliced avocado, lettuce, and tomato on tortilla. Roll tightly and slice in half.',
+    estimatedTime: '3 minutes',
+    macros: { calories: 450, protein: 35, carbs: 32, fat: 18 }
+  },
+  {
+    name: 'Cottage Cheese Protein Bowl',
+    cookingMethod: 'no-cook',
+    ingredients: ['1 cup cottage cheese', '1/2 cup pineapple chunks', '2 tbsp almonds', 'cinnamon'],
+    instructions: 'Combine cottage cheese with pineapple. Top with almonds and sprinkle cinnamon. Enjoy!',
+    estimatedTime: '2 minutes',
+    macros: { calories: 320, protein: 32, carbs: 28, fat: 10 }
+  },
+  {
+    name: 'Peanut Butter Banana Protein',
+    cookingMethod: 'no-cook',
+    ingredients: ['2 tbsp peanut butter', '1 banana', '1 scoop protein powder', '1 cup milk'],
+    instructions: 'Blend peanut butter, banana, protein powder, and milk until smooth. Drink immediately.',
+    estimatedTime: '3 minutes',
+    macros: { calories: 420, protein: 35, carbs: 45, fat: 12 },
+    matchedRecipes: ['Post-Workout Protein Smoothie']
+  },
+  {
+    name: 'Tuna Salad Protein Pack',
+    cookingMethod: 'no-cook',
+    ingredients: ['1 can tuna (5oz)', '2 tbsp Greek yogurt', 'celery, diced', 'crackers or bread'],
+    instructions: 'Mix drained tuna with Greek yogurt and diced celery. Serve with crackers or on bread.',
+    estimatedTime: '4 minutes',
+    macros: { calories: 280, protein: 40, carbs: 20, fat: 5 }
+  },
+  {
+    name: 'Protein Cookie Dough Snack',
+    cookingMethod: 'no-cook',
+    ingredients: ['1/4 cup protein powder', '2 tbsp almond butter', '1 tbsp honey', '2 tbsp chocolate chips'],
+    instructions: 'Mix protein powder, almond butter, and honey until dough forms. Fold in chocolate chips. Form into balls.',
+    estimatedTime: '5 minutes',
+    macros: { calories: 320, protein: 28, carbs: 32, fat: 10 },
+    matchedRecipes: ['Protein Cookie Dough Bites']
+  }
+];
 
-  return {
-    proteins: normalized.filter(i => proteinSources.some(ps => i.includes(ps))),
-    carbs: normalized.filter(i => carbSources.some(cs => i.includes(cs))),
-    veggies: normalized.filter(i => veggieSources.some(vs => i.includes(vs))),
-    fats: normalized.filter(i => fatSources.some(fs => i.includes(fs))),
-    fruits: normalized.filter(i => fruitSources.some(fs => i.includes(fs)))
-  };
+const minimalCookMeals: CompleteMealIdea[] = [
+  {
+    name: 'Microwave Protein Oatmeal',
+    cookingMethod: 'minimal-cook',
+    ingredients: ['1/2 cup oats', '1 cup milk', '1 scoop protein powder', '1 banana', '1 tbsp peanut butter'],
+    instructions: 'Microwave oats with milk for 2 minutes. Stir in protein powder. Top with sliced banana and peanut butter.',
+    estimatedTime: '4 minutes',
+    macros: { calories: 480, protein: 38, carbs: 58, fat: 12 },
+    matchedRecipes: ['Power Oatmeal Bowl']
+  },
+  {
+    name: 'Toasted Protein Sandwich',
+    cookingMethod: 'minimal-cook',
+    ingredients: ['2 slices whole grain bread', '2 eggs', '1 slice cheese', '1 oz ham', 'spinach'],
+    instructions: 'Toast bread. Microwave scrambled eggs (1 min). Layer eggs, cheese, ham, and spinach between toast.',
+    estimatedTime: '5 minutes',
+    macros: { calories: 420, protein: 32, carbs: 35, fat: 15 },
+    matchedRecipes: ['English Muffin Breakfast Sandwiches']
+  },
+  {
+    name: 'Quick Protein Quesadilla',
+    cookingMethod: 'minimal-cook',
+    ingredients: ['1 large tortilla', '1/2 cup shredded chicken', '1/4 cup cheese', 'salsa'],
+    instructions: 'Microwave tortilla with chicken and cheese for 1 minute. Fold in half. Serve with salsa.',
+    estimatedTime: '3 minutes',
+    macros: { calories: 380, protein: 35, carbs: 28, fat: 12 }
+  },
+  {
+    name: 'Rice Bowl with Leftover Protein',
+    cookingMethod: 'minimal-cook',
+    ingredients: ['1 cup cooked rice', '4 oz cooked chicken/salmon', '1 egg', 'soy sauce', 'frozen veggies'],
+    instructions: 'Microwave rice, protein, and frozen veggies for 2 min. Top with fried egg and soy sauce.',
+    estimatedTime: '5 minutes',
+    macros: { calories: 520, protein: 42, carbs: 52, fat: 12 },
+    matchedRecipes: ['Salmon Rice Bowl (Emily Mariko)', 'High Protein Chicken Fried Rice']
+  },
+  {
+    name: 'Protein Mug Cake',
+    cookingMethod: 'minimal-cook',
+    ingredients: ['1 scoop protein powder', '1 egg', '2 tbsp oat flour', '1/4 tsp baking powder', '2 tbsp milk'],
+    instructions: 'Mix all ingredients in a mug. Microwave for 90 seconds. Let cool 1 minute before eating.',
+    estimatedTime: '4 minutes',
+    macros: { calories: 240, protein: 28, carbs: 18, fat: 6 }
+  },
+  {
+    name: 'Bagel with Protein Toppings',
+    cookingMethod: 'minimal-cook',
+    ingredients: ['1 whole grain bagel', '3 oz smoked salmon', '2 tbsp cream cheese', 'cucumber, tomato'],
+    instructions: 'Toast bagel. Spread cream cheese, layer smoked salmon, cucumber slices, and tomato.',
+    estimatedTime: '4 minutes',
+    macros: { calories: 450, protein: 32, carbs: 48, fat: 14 }
+  }
+];
+
+const normalCookMeals: CompleteMealIdea[] = [
+  {
+    name: 'Scrambled Eggs with Toast',
+    cookingMethod: 'normal-cook',
+    ingredients: ['3 eggs', '2 slices whole grain bread', '1/2 avocado', 'spinach', 'butter'],
+    instructions: 'Scramble eggs in pan with butter. Toast bread. Serve eggs over toast with avocado and sautéed spinach.',
+    estimatedTime: '8 minutes',
+    macros: { calories: 480, protein: 28, carbs: 32, fat: 26 }
+  },
+  {
+    name: 'Pan-Seared Chicken & Veggies',
+    cookingMethod: 'normal-cook',
+    ingredients: ['6 oz chicken breast', '1 cup broccoli', '1/2 cup rice', 'olive oil', 'garlic, seasoning'],
+    instructions: 'Cook rice. Season and pan-sear chicken 6-7 min per side. Sauté broccoli with garlic. Serve together.',
+    estimatedTime: '20 minutes',
+    macros: { calories: 520, protein: 48, carbs: 45, fat: 12 },
+    matchedRecipes: ['Grilled Chicken Breast with Herbs', 'Mexican Chicken Rice Bowl']
+  },
+  {
+    name: 'Protein Pancakes',
+    cookingMethod: 'normal-cook',
+    ingredients: ['1/2 cup oat flour', '1 scoop protein powder', '2 eggs', '1/2 cup milk', 'banana'],
+    instructions: 'Mix all ingredients into batter. Cook pancakes in pan 2-3 min per side. Top with banana slices.',
+    estimatedTime: '12 minutes',
+    macros: { calories: 450, protein: 42, carbs: 48, fat: 10 },
+    matchedRecipes: ['Protein Pancake Meal Prep']
+  },
+  {
+    name: 'Stir-Fry Protein Bowl',
+    cookingMethod: 'normal-cook',
+    ingredients: ['6 oz protein (chicken/beef/tofu)', '2 cups mixed vegetables', '1 cup rice', 'soy sauce', 'ginger'],
+    instructions: 'Cook rice. Stir-fry protein and veggies in hot pan with oil, soy sauce, and ginger. Serve over rice.',
+    estimatedTime: '18 minutes',
+    macros: { calories: 540, protein: 45, carbs: 55, fat: 12 },
+    matchedRecipes: ['High Protein Chicken Fried Rice']
+  },
+  {
+    name: 'Baked Sweet Potato with Toppings',
+    cookingMethod: 'normal-cook',
+    ingredients: ['1 large sweet potato', '4 oz ground turkey', 'black beans', 'Greek yogurt', 'salsa', 'cheese'],
+    instructions: 'Microwave sweet potato 8 min. Brown turkey in pan. Slice potato open, load with turkey, beans, yogurt, salsa.',
+    estimatedTime: '15 minutes',
+    macros: { calories: 520, protein: 42, carbs: 58, fat: 10 },
+    matchedRecipes: ['Loaded Sweet Potato Meal Prep', 'Sweet Potato and Black Bean Bowl']
+  },
+  {
+    name: 'Salmon with Roasted Vegetables',
+    cookingMethod: 'normal-cook',
+    ingredients: ['6 oz salmon fillet', 'asparagus', 'cherry tomatoes', 'olive oil', 'lemon', 'seasoning'],
+    instructions: 'Season salmon and veggies with oil and spices. Bake at 400°F for 15 minutes. Squeeze lemon over top.',
+    estimatedTime: '20 minutes',
+    macros: { calories: 420, protein: 42, carbs: 12, fat: 22 },
+    matchedRecipes: ['Teriyaki Salmon with Broccoli']
+  }
+];
+
+function determineMealType(needed: { calories: number; protein: number; carbs: number; fat: number } | null): string {
+  if (!needed) return 'balanced';
+
+  const totalCaloriesNeeded = needed.calories;
+
+  if (totalCaloriesNeeded < 250) return 'light-snack';
+  if (totalCaloriesNeeded < 400) return 'snack';
+
+  const proteinPercent = needed.protein / (needed.protein + needed.carbs + needed.fat) || 0;
+
+  if (proteinPercent > 0.4) return 'high-protein';
+  if (needed.carbs > needed.protein * 2) return 'carb-focused';
+
+  return 'balanced';
 }
 
 function calculateNeededMacros(
@@ -54,233 +223,96 @@ function calculateNeededMacros(
   };
 }
 
-function determineMealType(needed: { calories: number; protein: number; carbs: number; fat: number } | null): string {
-  if (!needed) return 'balanced';
+function selectBestMeals(
+  allMeals: CompleteMealIdea[],
+  targetMacros: { calories: number; protein: number; carbs: number; fat: number } | null,
+  count: number
+): CompleteMealIdea[] {
+  if (!targetMacros) {
+    // No macro goals - return variety
+    return allMeals.slice(0, count);
+  }
 
-  const totalCaloriesNeeded = needed.calories;
+  // Score each meal based on how well it fits remaining macros
+  const scoredMeals = allMeals.map(meal => {
+    let score = 0;
 
-  // Determine what the user needs most
-  if (totalCaloriesNeeded < 200) return 'light-snack';
-  if (totalCaloriesNeeded < 400) return 'snack';
+    // Prefer meals that don't exceed remaining calories
+    if (meal.macros.calories <= targetMacros.calories * 1.1) {
+      score += 10;
+    }
 
-  // For meals, check protein priority (important for athletes)
-  const proteinPercent = needed.protein / (needed.protein + needed.carbs + needed.fat) || 0;
+    // Score based on protein match (important for athletes)
+    const proteinDiff = Math.abs(meal.macros.protein - targetMacros.protein * 0.5);
+    score += Math.max(0, 10 - proteinDiff / 5);
 
-  if (proteinPercent > 0.4) return 'high-protein';
-  if (needed.carbs > needed.protein * 2) return 'carb-focused';
+    // Bonus for high protein when needed
+    if (targetMacros.protein > 30 && meal.macros.protein > 30) {
+      score += 5;
+    }
 
-  return 'balanced';
+    // Bonus for appropriate calorie range
+    if (meal.macros.calories >= targetMacros.calories * 0.3 && meal.macros.calories <= targetMacros.calories * 0.6) {
+      score += 5;
+    }
+
+    return { meal, score };
+  });
+
+  // Sort by score and return top meals
+  return scoredMeals
+    .sort((a, b) => b.score - a.score)
+    .slice(0, count)
+    .map(item => item.meal);
 }
 
 export function generateMealSuggestions(
-  ingredients: string[],
   macroGoals: MacroOutputs | null,
   consumed: ConsumedMacros | null
-): MealSuggestion {
-  const categorized = categorizeIngredients(ingredients);
+): MealSuggestions {
   const needed = calculateNeededMacros(macroGoals, consumed);
   const mealType = determineMealType(needed);
 
-  const suggestions: MealSuggestion = {
-    mealType: '',
-    reason: '',
-    suggestedMacros: {
-      calories: 0,
-      protein: 0,
-      carbs: 0,
-      fat: 0
-    },
-    mealIdeas: [],
-    recipeMatches: [],
-    tips: []
-  };
+  let mealTypeLabel = 'Balanced Meal Options';
+  let reason = 'Here are some complete meal ideas to fuel your performance!';
 
-  // Determine suggested macros for this meal
   if (needed) {
-    const targetCalories = mealType === 'light-snack' ? 150 : mealType === 'snack' ? 300 : 500;
-    const remainingCalories = needed.calories;
-
-    suggestions.suggestedMacros.calories = Math.min(targetCalories, remainingCalories);
-    suggestions.suggestedMacros.protein = Math.round(Math.min(needed.protein, suggestions.suggestedMacros.calories * 0.3 / 4));
-    suggestions.suggestedMacros.carbs = Math.round(Math.min(needed.carbs, suggestions.suggestedMacros.calories * 0.45 / 4));
-    suggestions.suggestedMacros.fat = Math.round(Math.min(needed.fat, suggestions.suggestedMacros.calories * 0.25 / 9));
-  } else {
-    // No macro goals set, suggest balanced meal
-    suggestions.suggestedMacros = {
-      calories: 500,
-      protein: 35,
-      carbs: 50,
-      fat: 15
-    };
-  }
-
-  // Generate meal type and reason
-  switch (mealType) {
-    case 'high-protein':
-      suggestions.mealType = 'High Protein Meal';
-      suggestions.reason = needed ?
-        `You need ${needed.protein}g more protein today. Let's prioritize protein-rich foods!` :
-        'A protein-focused meal to support muscle recovery and growth.';
-      break;
-    case 'carb-focused':
-      suggestions.mealType = 'Carb-Fueling Meal';
-      suggestions.reason = needed ?
-        `You need ${needed.carbs}g more carbs today. Perfect for pre-workout fuel!` :
-        'A carb-focused meal for energy and performance.';
-      break;
-    case 'light-snack':
-      suggestions.mealType = 'Light Snack';
-      suggestions.reason = needed ?
-        `You only need ${needed.calories} more calories today. A light snack should do it!` :
-        'A light snack to tide you over.';
-      break;
-    case 'snack':
-      suggestions.mealType = 'Protein Snack';
-      suggestions.reason = 'A satisfying snack to keep you fueled between meals.';
-      break;
-    default:
-      suggestions.mealType = 'Balanced Meal';
-      suggestions.reason = 'A well-balanced meal with protein, carbs, and healthy fats.';
-  }
-
-  // Generate specific meal ideas based on available ingredients
-  if (categorized.proteins.length > 0 && categorized.carbs.length > 0) {
-    const protein = categorized.proteins[0];
-    const carb = categorized.carbs[0];
-
-    if (protein.includes('chicken')) {
-      suggestions.mealIdeas.push(`Grilled ${protein} with ${carb}`);
-      suggestions.recipeMatches.push('Grilled Chicken Breast with Herbs', 'Mexican Chicken Rice Bowl', 'High Protein Chicken Fried Rice');
-    } else if (protein.includes('egg')) {
-      suggestions.mealIdeas.push(`Scrambled ${protein} with ${carb}`);
-      suggestions.recipeMatches.push('High Protein Egg Muffin Bites', 'English Muffin Breakfast Sandwiches');
-    } else if (protein.includes('salmon') || protein.includes('fish')) {
-      suggestions.mealIdeas.push(`Baked ${protein} with ${carb}`);
-      suggestions.recipeMatches.push('Teriyaki Salmon with Broccoli', 'Salmon Rice Bowl (Emily Mariko)');
-    } else {
-      suggestions.mealIdeas.push(`Seasoned ${protein} over ${carb}`);
-    }
-
-    if (categorized.veggies.length > 0) {
-      suggestions.mealIdeas.push(`Stir-fry with ${protein}, ${categorized.veggies[0]}, and ${carb}`);
+    switch (mealType) {
+      case 'high-protein':
+        mealTypeLabel = 'High Protein Meal Options';
+        reason = `You need ${needed.protein}g more protein today. These high-protein meals will help you hit your goals!`;
+        break;
+      case 'carb-focused':
+        mealTypeLabel = 'Energy-Boosting Meal Options';
+        reason = `You need ${needed.carbs}g more carbs today. These carb-rich meals are perfect for pre-workout fuel!`;
+        break;
+      case 'light-snack':
+        mealTypeLabel = 'Light Snack Options';
+        reason = `You only need ${needed.calories} more calories today. These light snacks are perfect!`;
+        break;
+      case 'snack':
+        mealTypeLabel = 'Protein Snack Options';
+        reason = 'Quick, satisfying snacks to keep you fueled between meals.';
+        break;
+      default:
+        mealTypeLabel = 'Balanced Meal Options';
+        reason = 'Well-balanced meals with protein, carbs, and healthy fats to fuel your day.';
     }
   }
 
-  if (categorized.proteins.length > 0 && categorized.veggies.length > 0) {
-    suggestions.mealIdeas.push(`Protein bowl: ${categorized.proteins[0]} with roasted ${categorized.veggies[0]}`);
-    if (categorized.proteins.some(p => p.includes('turkey') || p.includes('beef'))) {
-      suggestions.recipeMatches.push('Loaded Sweet Potato Meal Prep');
-    }
-  }
+  // Select 2 from each category (6 total), then filter to top 5 based on macros
+  const selectedNoCook = selectBestMeals(noCookMeals, needed, 2);
+  const selectedMinimalCook = selectBestMeals(minimalCookMeals, needed, 2);
+  const selectedNormalCook = selectBestMeals(normalCookMeals, needed, 2);
 
-  if (categorized.carbs.some(c => c.includes('oat'))) {
-    suggestions.mealIdeas.push('High protein overnight oats');
-    suggestions.recipeMatches.push('Power Oatmeal Bowl', 'High Protein Overnight Oats');
-  }
+  const allSelected = [...selectedNoCook, ...selectedMinimalCook, ...selectedNormalCook];
 
-  if (categorized.carbs.some(c => c.includes('sweet potato'))) {
-    suggestions.mealIdeas.push('Loaded sweet potato with protein and toppings');
-    suggestions.recipeMatches.push('Sweet Potato and Black Bean Bowl', 'Loaded Sweet Potato Meal Prep');
-  }
+  // Return top 5 overall
+  const finalMeals = selectBestMeals(allSelected, needed, 5);
 
-  if (categorized.proteins.some(p => p.includes('protein powder'))) {
-    if (categorized.fruits.length > 0) {
-      suggestions.mealIdeas.push('Protein smoothie with fresh fruit');
-      suggestions.recipeMatches.push('Post-Workout Protein Smoothie');
-    }
-    suggestions.mealIdeas.push('Protein pancakes');
-    suggestions.recipeMatches.push('Protein Pancake Meal Prep');
-  }
-
-  if (categorized.proteins.some(p => p.includes('yogurt') || p.includes('greek yogurt'))) {
-    suggestions.mealIdeas.push('Greek yogurt protein parfait');
-    suggestions.recipeMatches.push('Greek Yogurt Protein Parfait Prep');
-  }
-
-  // Add general tips based on macro needs and ingredients
-  if (needed && needed.protein > 30) {
-    suggestions.tips.push('💪 Focus on protein-rich ingredients for muscle recovery');
-    if (categorized.proteins.length === 0) {
-      suggestions.tips.push('⚠️ Consider adding: chicken, eggs, greek yogurt, or protein powder');
-    }
-  }
-
-  if (needed && needed.carbs > 50) {
-    suggestions.tips.push('⚡ Add complex carbs for sustained energy');
-    if (categorized.carbs.length === 0) {
-      suggestions.tips.push('⚠️ Consider adding: rice, sweet potato, oats, or whole grain bread');
-    }
-  }
-
-  if (categorized.veggies.length === 0) {
-    suggestions.tips.push('🥗 Don\'t forget vegetables for vitamins and fiber!');
-  }
-
-  if (mealType === 'high-protein' && categorized.proteins.length > 0) {
-    suggestions.tips.push('🔥 Cook your protein with minimal oil to keep calories in check');
-  }
-
-  if (categorized.proteins.length > 0 && categorized.carbs.length > 0 && categorized.veggies.length > 0) {
-    suggestions.tips.push('✅ Great ingredient variety! You can make a complete balanced meal');
-  }
-
-  // If no specific ideas were generated, provide general guidance
-  if (suggestions.mealIdeas.length === 0) {
-    if (ingredients.length === 0) {
-      suggestions.mealIdeas.push('Enter ingredients you have available to get personalized meal suggestions!');
-      suggestions.tips.push('💡 Try: "chicken, rice, broccoli" or "eggs, oats, banana"');
-    } else {
-      suggestions.mealIdeas.push('Mix and match your ingredients creatively!');
-      if (categorized.proteins.length > 0) {
-        suggestions.mealIdeas.push(`Cook ${categorized.proteins[0]} as your protein base`);
-      }
-      if (categorized.carbs.length > 0) {
-        suggestions.mealIdeas.push(`Use ${categorized.carbs[0]} for energy`);
-      }
-    }
-  }
-
-  // Remove duplicate recipe matches
-  suggestions.recipeMatches = [...new Set(suggestions.recipeMatches)];
-
-  return suggestions;
-}
-
-export function estimateMealMacros(mealDescription: string): { calories: number; protein: number; carbs: number; fat: number } {
-  let calories = 300;
-  let protein = 25;
-  let carbs = 30;
-  let fat = 10;
-
-  const desc = mealDescription.toLowerCase();
-
-  // Adjust based on meal description
-  if (desc.includes('chicken') || desc.includes('turkey')) {
-    protein += 15;
-    calories += 60;
-  }
-  if (desc.includes('salmon') || desc.includes('fish')) {
-    protein += 15;
-    fat += 8;
-    calories += 130;
-  }
-  if (desc.includes('rice') || desc.includes('pasta')) {
-    carbs += 30;
-    calories += 120;
-  }
-  if (desc.includes('sweet potato')) {
-    carbs += 25;
-    calories += 100;
-  }
-  if (desc.includes('oats') || desc.includes('oatmeal')) {
-    carbs += 20;
-    protein += 5;
-    calories += 100;
-  }
-  if (desc.includes('protein powder')) {
-    protein += 20;
-    calories += 100;
-  }
-
-  return { calories, protein, carbs, fat };
+  return {
+    mealType: mealTypeLabel,
+    reason,
+    meals: finalMeals
+  };
 }

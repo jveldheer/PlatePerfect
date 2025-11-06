@@ -3,50 +3,19 @@ import { Link } from 'react-router-dom';
 import { useMacros } from '../contexts/MacroContext';
 import { generateMealSuggestions } from '../utils/mealGenerator';
 import { recipes } from '../data/recipes';
-import type { Recipe } from '../types';
 
 function MealGenerator() {
   const { macroGoals, consumedMacros } = useMacros();
-  const [ingredientsInput, setIngredientsInput] = useState('');
   const [suggestions, setSuggestions] = useState<ReturnType<typeof generateMealSuggestions> | null>(null);
   const [showResults, setShowResults] = useState(false);
 
-  // Auto-generate when component loads if user has macro goals
+  // Auto-generate when component loads
   useEffect(() => {
-    if (macroGoals && consumedMacros) {
-      handleGenerate();
-    }
+    handleGenerate();
   }, []);
 
   const handleGenerate = () => {
-    const ingredientList = ingredientsInput
-      .split(',')
-      .map(i => i.trim())
-      .filter(i => i.length > 0);
-
-    const result = generateMealSuggestions(ingredientList, macroGoals, consumedMacros);
-    setSuggestions(result);
-    setShowResults(true);
-  };
-
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      handleGenerate();
-    }
-  };
-
-  const quickIngredients = [
-    ['chicken', 'rice', 'broccoli'],
-    ['eggs', 'oats', 'banana'],
-    ['salmon', 'sweet potato', 'asparagus'],
-    ['ground turkey', 'beans', 'peppers'],
-    ['greek yogurt', 'berries', 'granola'],
-    ['protein powder', 'banana', 'spinach']
-  ];
-
-  const handleQuickSelect = (ingredientSet: string[]) => {
-    setIngredientsInput(ingredientSet.join(', '));
-    const result = generateMealSuggestions(ingredientSet, macroGoals, consumedMacros);
+    const result = generateMealSuggestions(macroGoals, consumedMacros);
     setSuggestions(result);
     setShowResults(true);
   };
@@ -58,9 +27,32 @@ function MealGenerator() {
     fat: Math.max(0, macroGoals.fat_g - consumedMacros.fat_g)
   } : null;
 
-  const matchedRecipes = suggestions?.recipeMatches
-    .map(title => recipes.find(r => r.title === title))
-    .filter((r): r is Recipe => r !== undefined) || [];
+  const getCookingMethodIcon = (method: string) => {
+    switch (method) {
+      case 'no-cook': return '🥗';
+      case 'minimal-cook': return '⚡';
+      case 'normal-cook': return '🍳';
+      default: return '🍽️';
+    }
+  };
+
+  const getCookingMethodLabel = (method: string) => {
+    switch (method) {
+      case 'no-cook': return 'No Cook';
+      case 'minimal-cook': return 'Quick (Microwave/Toaster)';
+      case 'normal-cook': return 'Normal Cook (Pan/Oven)';
+      default: return method;
+    }
+  };
+
+  const getCookingMethodColor = (method: string) => {
+    switch (method) {
+      case 'no-cook': return 'bg-green-50 border-green-500 text-green-800';
+      case 'minimal-cook': return 'bg-blue-50 border-blue-500 text-blue-800';
+      case 'normal-cook': return 'bg-orange-50 border-orange-500 text-orange-800';
+      default: return 'bg-gray-50 border-gray-500 text-gray-800';
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-green-50 pb-20">
@@ -71,7 +63,7 @@ function MealGenerator() {
             🤖 AI Meal Generator
           </h1>
           <p className="text-base sm:text-lg text-gray-600">
-            Tell me what ingredients you have, and I'll suggest meals that fit your goals!
+            Get complete meal ideas personalized to your nutrition goals!
           </p>
         </div>
 
@@ -128,49 +120,21 @@ function MealGenerator() {
           </div>
         )}
 
-        {/* Ingredient Input */}
+        {/* Generate Button */}
         <div className="bg-white rounded-xl shadow-md p-4 sm:p-6 mb-6">
           <h2 className="text-lg sm:text-xl font-semibold text-gray-800 mb-3">
-            🥘 What ingredients do you have?
+            🎯 Generate Meal Ideas
           </h2>
-          <div className="mb-4">
-            <input
-              type="text"
-              value={ingredientsInput}
-              onChange={(e) => setIngredientsInput(e.target.value)}
-              onKeyPress={handleKeyPress}
-              placeholder="e.g., chicken, rice, broccoli, olive oil"
-              className="w-full px-4 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            />
-            <p className="text-xs sm:text-sm text-gray-500 mt-2">
-              Enter ingredients separated by commas
-            </p>
-          </div>
+          <p className="text-sm text-gray-600 mb-4">
+            Click to generate 5 complete meal ideas based on your nutrition needs (no ingredients required!)
+          </p>
 
           <button
             onClick={handleGenerate}
             className="w-full bg-gradient-to-r from-blue-500 to-green-500 text-white font-semibold py-3 px-6 rounded-lg hover:from-blue-600 hover:to-green-600 transition-all shadow-md active:scale-95"
           >
-            ✨ Generate Meal Ideas
+            ✨ Generate New Meal Ideas
           </button>
-
-          {/* Quick Select */}
-          <div className="mt-6">
-            <h3 className="text-sm font-semibold text-gray-700 mb-3">
-              Quick Select Common Combinations:
-            </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-              {quickIngredients.map((ingredientSet, index) => (
-                <button
-                  key={index}
-                  onClick={() => handleQuickSelect(ingredientSet)}
-                  className="text-left px-3 py-2 text-sm bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200 transition-colors"
-                >
-                  {ingredientSet.join(', ')}
-                </button>
-              ))}
-            </div>
-          </div>
         </div>
 
         {/* Results */}
@@ -186,110 +150,97 @@ function MealGenerator() {
               </p>
             </div>
 
-            {/* Suggested Macros */}
-            <div className="bg-white rounded-xl shadow-md p-4 sm:p-6">
-              <h3 className="text-lg sm:text-xl font-semibold text-gray-800 mb-4">
-                🎯 Target Macros for This Meal
-              </h3>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
-                <div className="bg-blue-50 rounded-lg p-3 text-center">
-                  <div className="text-xs sm:text-sm text-gray-600">Calories</div>
-                  <div className="text-xl sm:text-2xl font-bold text-blue-600">
-                    {suggestions.suggestedMacros.calories}
-                  </div>
-                </div>
-                <div className="bg-green-50 rounded-lg p-3 text-center">
-                  <div className="text-xs sm:text-sm text-gray-600">Protein</div>
-                  <div className="text-xl sm:text-2xl font-bold text-green-600">
-                    {suggestions.suggestedMacros.protein}g
-                  </div>
-                </div>
-                <div className="bg-yellow-50 rounded-lg p-3 text-center">
-                  <div className="text-xs sm:text-sm text-gray-600">Carbs</div>
-                  <div className="text-xl sm:text-2xl font-bold text-yellow-600">
-                    {suggestions.suggestedMacros.carbs}g
-                  </div>
-                </div>
-                <div className="bg-purple-50 rounded-lg p-3 text-center">
-                  <div className="text-xs sm:text-sm text-gray-600">Fat</div>
-                  <div className="text-xl sm:text-2xl font-bold text-purple-600">
-                    {suggestions.suggestedMacros.fat}g
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Meal Ideas */}
-            {suggestions.mealIdeas.length > 0 && (
-              <div className="bg-white rounded-xl shadow-md p-4 sm:p-6">
-                <h3 className="text-lg sm:text-xl font-semibold text-gray-800 mb-4">
-                  💡 Meal Ideas with Your Ingredients
-                </h3>
-                <ul className="space-y-2">
-                  {suggestions.mealIdeas.map((idea, index) => (
-                    <li key={index} className="flex items-start">
-                      <span className="text-green-500 mr-2 mt-1">✓</span>
-                      <span className="text-gray-700 text-sm sm:text-base">{idea}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            {/* Matching Recipes */}
-            {matchedRecipes.length > 0 && (
-              <div className="bg-white rounded-xl shadow-md p-4 sm:p-6">
-                <h3 className="text-lg sm:text-xl font-semibold text-gray-800 mb-4">
-                  📖 Recipes You Can Make
-                </h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {matchedRecipes.map((recipe) => (
-                    <Link
-                      key={recipe.id}
-                      to={`/recipes/${recipe.id}`}
-                      className="block bg-gradient-to-br from-blue-50 to-green-50 rounded-lg p-4 border-2 border-transparent hover:border-blue-500 transition-all hover:shadow-lg"
-                    >
-                      <h4 className="font-semibold text-gray-800 mb-2">
-                        {recipe.title}
-                      </h4>
-                      <div className="flex flex-wrap gap-2 text-xs mb-2">
-                        <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded">
-                          {recipe.nutritionInfo.protein}g protein
+            {/* Complete Meal Ideas */}
+            <div className="space-y-4">
+              {suggestions.meals.map((meal, index) => (
+                <div key={index} className="bg-white rounded-xl shadow-md overflow-hidden">
+                  {/* Meal Header */}
+                  <div className={`p-4 border-l-4 ${getCookingMethodColor(meal.cookingMethod)}`}>
+                    <div className="flex items-center justify-between flex-wrap gap-2">
+                      <div className="flex items-center gap-2">
+                        <span className="text-2xl">{getCookingMethodIcon(meal.cookingMethod)}</span>
+                        <h3 className="text-lg sm:text-xl font-bold text-gray-800">
+                          {meal.name}
+                        </h3>
+                      </div>
+                      <div className="flex items-center gap-3 text-sm">
+                        <span className="bg-white px-3 py-1 rounded-full font-medium">
+                          ⏱️ {meal.estimatedTime}
                         </span>
-                        <span className="bg-green-100 text-green-800 px-2 py-1 rounded">
-                          {recipe.nutritionInfo.calories} cal
-                        </span>
-                        <span className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded">
-                          {recipe.prepTime + recipe.cookTime} min
+                        <span className={`px-3 py-1 rounded-full font-medium ${getCookingMethodColor(meal.cookingMethod)}`}>
+                          {getCookingMethodLabel(meal.cookingMethod)}
                         </span>
                       </div>
-                      <p className="text-xs text-gray-600 line-clamp-2">
-                        {recipe.description}
-                      </p>
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            )}
+                    </div>
+                  </div>
 
-            {/* Tips */}
-            {suggestions.tips.length > 0 && (
-              <div className="bg-white rounded-xl shadow-md p-4 sm:p-6">
-                <h3 className="text-lg sm:text-xl font-semibold text-gray-800 mb-4">
-                  💪 Pro Tips
-                </h3>
-                <ul className="space-y-2">
-                  {suggestions.tips.map((tip, index) => (
-                    <li key={index} className="flex items-start">
-                      <span className="mr-2 text-sm sm:text-base">{tip.split(' ')[0]}</span>
-                      <span className="text-gray-700 text-sm sm:text-base">
-                        {tip.split(' ').slice(1).join(' ')}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
+                  {/* Meal Details */}
+                  <div className="p-4 sm:p-5">
+                    {/* Macros */}
+                    <div className="grid grid-cols-4 gap-2 mb-4">
+                      <div className="text-center bg-blue-50 rounded-lg p-2">
+                        <div className="text-xs text-gray-600">Calories</div>
+                        <div className="text-lg font-bold text-blue-600">{meal.macros.calories}</div>
+                      </div>
+                      <div className="text-center bg-green-50 rounded-lg p-2">
+                        <div className="text-xs text-gray-600">Protein</div>
+                        <div className="text-lg font-bold text-green-600">{meal.macros.protein}g</div>
+                      </div>
+                      <div className="text-center bg-yellow-50 rounded-lg p-2">
+                        <div className="text-xs text-gray-600">Carbs</div>
+                        <div className="text-lg font-bold text-yellow-600">{meal.macros.carbs}g</div>
+                      </div>
+                      <div className="text-center bg-purple-50 rounded-lg p-2">
+                        <div className="text-xs text-gray-600">Fat</div>
+                        <div className="text-lg font-bold text-purple-600">{meal.macros.fat}g</div>
+                      </div>
+                    </div>
+
+                    {/* Ingredients */}
+                    <div className="mb-4">
+                      <h4 className="font-semibold text-gray-800 mb-2">🛒 Ingredients:</h4>
+                      <ul className="grid grid-cols-1 sm:grid-cols-2 gap-1 text-sm text-gray-700">
+                        {meal.ingredients.map((ingredient, i) => (
+                          <li key={i} className="flex items-start">
+                            <span className="text-green-500 mr-2">•</span>
+                            <span>{ingredient}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    {/* Instructions */}
+                    <div className="mb-4">
+                      <h4 className="font-semibold text-gray-800 mb-2">📝 Quick Instructions:</h4>
+                      <p className="text-sm text-gray-700 leading-relaxed">
+                        {meal.instructions}
+                      </p>
+                    </div>
+
+                    {/* Matched Recipes */}
+                    {meal.matchedRecipes && meal.matchedRecipes.length > 0 && (
+                      <div className="bg-blue-50 rounded-lg p-3">
+                        <h4 className="font-semibold text-gray-800 mb-2 text-sm">📖 Similar Recipes:</h4>
+                        <div className="flex flex-wrap gap-2">
+                          {meal.matchedRecipes.map((recipeName, i) => {
+                            const recipe = recipes.find(r => r.title === recipeName);
+                            return recipe ? (
+                              <Link
+                                key={i}
+                                to={`/recipes/${recipe.id}`}
+                                className="text-xs bg-white text-blue-600 px-2 py-1 rounded hover:bg-blue-100 transition-colors"
+                              >
+                                {recipeName}
+                              </Link>
+                            ) : null;
+                          })}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
 
             {/* Browse All Recipes */}
             <div className="text-center">
@@ -297,7 +248,7 @@ function MealGenerator() {
                 to="/recipes"
                 className="inline-block bg-white text-blue-600 font-semibold py-3 px-6 rounded-lg border-2 border-blue-600 hover:bg-blue-50 transition-all shadow-md"
               >
-                Browse All Recipes →
+                Browse Full Recipe Library →
               </Link>
             </div>
           </div>
