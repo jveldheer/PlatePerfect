@@ -1,13 +1,12 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useMacros } from '../contexts/MacroContext';
-import { generateMealSuggestions } from '../utils/mealGenerator';
-import { recipes } from '../data/recipes';
+import { generateAIMeals, type AIMealResponse } from '../utils/aiMealGenerator';
 
 function MealGenerator() {
   const { macroGoals, consumedMacros } = useMacros();
   const [ingredientsInput, setIngredientsInput] = useState('');
-  const [suggestions, setSuggestions] = useState<ReturnType<typeof generateMealSuggestions> | null>(null);
+  const [aiResponse, setAiResponse] = useState<AIMealResponse | null>(null);
   const [showResults, setShowResults] = useState(false);
   const [savedMeals, setSavedMeals] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -37,13 +36,13 @@ function MealGenerator() {
           .map(i => i.trim())
           .filter(i => i.length > 0);
 
-        const result = generateMealSuggestions(ingredientList, macroGoals, consumedMacros);
+        const result = generateAIMeals(ingredientList, macroGoals, consumedMacros);
 
         if (result.meals.length === 0) {
-          setError('No meals found matching your criteria. Try different ingredients or leave the field blank for general suggestions.');
+          setError('No meals found. Please try again.');
           setShowResults(false);
         } else {
-          setSuggestions(result);
+          setAiResponse(result);
           setShowResults(true);
         }
       } catch (err) {
@@ -53,7 +52,7 @@ function MealGenerator() {
       } finally {
         setIsLoading(false);
       }
-    }, 300);
+    }, 500);
   };
 
   const saveMeal = (meal: any) => {
@@ -76,27 +75,20 @@ function MealGenerator() {
 
   const getCookingMethodIcon = (method: string) => {
     switch (method) {
-      case 'no-cook': return '🥗';
-      case 'minimal-cook': return '⚡';
-      case 'normal-cook': return '🍳';
+      case 'no_cook': return '🥗';
+      case 'minimal_cook': return '⚡';
+      case 'full_cook': return '🍳';
+      case 'freestyle': return '🎨';
       default: return '🍽️';
-    }
-  };
-
-  const getCookingMethodLabel = (method: string) => {
-    switch (method) {
-      case 'no-cook': return 'No Cook';
-      case 'minimal-cook': return 'Quick (Microwave/Toaster)';
-      case 'normal-cook': return 'Normal Cook (Pan/Oven)';
-      default: return method;
     }
   };
 
   const getCookingMethodColor = (method: string) => {
     switch (method) {
-      case 'no-cook': return 'bg-green-50 border-green-500 text-green-800';
-      case 'minimal-cook': return 'bg-blue-50 border-blue-500 text-blue-800';
-      case 'normal-cook': return 'bg-orange-50 border-orange-500 text-orange-800';
+      case 'no_cook': return 'bg-green-50 border-green-500 text-green-800';
+      case 'minimal_cook': return 'bg-blue-50 border-blue-500 text-blue-800';
+      case 'full_cook': return 'bg-orange-50 border-orange-500 text-orange-800';
+      case 'freestyle': return 'bg-purple-50 border-purple-500 text-purple-800';
       default: return 'bg-gray-50 border-gray-500 text-gray-800';
     }
   };
@@ -225,21 +217,21 @@ function MealGenerator() {
         )}
 
         {/* Results */}
-        {showResults && suggestions && (
+        {showResults && aiResponse && (
           <div className="space-y-6">
-            {/* Meal Type & Reason */}
+            {/* Header Info */}
             <div className="bg-gradient-to-r from-blue-500 to-green-500 rounded-xl shadow-lg p-6 text-white">
               <h2 className="text-2xl sm:text-3xl font-bold mb-2">
-                {suggestions.mealType}
+                🔬 {aiResponse.meals.length} Elite Athlete Meals Generated
               </h2>
               <p className="text-base sm:text-lg opacity-95">
-                {suggestions.reason}
+                Goal: {aiResponse.context.goal.toUpperCase()} | Target per meal: {Math.round(aiResponse.context.target_macros_per_meal.cal)} cal, {Math.round(aiResponse.context.target_macros_per_meal.protein_g)}g protein
               </p>
             </div>
 
             {/* Organize meals by cooking method */}
-            {['no-cook', 'minimal-cook', 'normal-cook'].map((cookMethod) => {
-              const methodMeals = suggestions.meals.filter(m => m.cookingMethod === cookMethod);
+            {['no_cook', 'minimal_cook', 'full_cook'].map((cookMethod) => {
+              const methodMeals = aiResponse.meals.filter(m => m.category === cookMethod);
               if (methodMeals.length === 0) return null;
 
               return (
@@ -248,9 +240,9 @@ function MealGenerator() {
                   <div className={`p-4 rounded-lg border-2 ${getCookingMethodColor(cookMethod)}`}>
                     <h3 className="text-xl font-bold flex items-center gap-2">
                       <span className="text-2xl">{getCookingMethodIcon(cookMethod)}</span>
-                      {cookMethod === 'no-cook' && 'No Cook Options (Fridge/Pantry)'}
-                      {cookMethod === 'minimal-cook' && 'Minimal Cook Options (Microwave/Toaster)'}
-                      {cookMethod === 'normal-cook' && 'Full Cook Options (Pan/Oven/Bake)'}
+                      {cookMethod === 'no_cook' && 'No Cook Options (Fridge/Pantry)'}
+                      {cookMethod === 'minimal_cook' && 'Minimal Cook Options (Microwave/Toaster)'}
+                      {cookMethod === 'full_cook' && 'Full Cook Options (Pan/Oven/Bake)'}
                     </h3>
                   </div>
 
@@ -258,20 +250,20 @@ function MealGenerator() {
                   {methodMeals.map((meal, index) => (
                 <div key={index} className="bg-white rounded-xl shadow-md overflow-hidden">
                   {/* Meal Header */}
-                  <div className={`p-4 border-l-4 ${getCookingMethodColor(meal.cookingMethod)}`}>
+                  <div className={`p-4 border-l-4 ${getCookingMethodColor(meal.category)}`}>
                     <div className="flex items-center justify-between flex-wrap gap-2">
                       <div className="flex items-center gap-2">
-                        <span className="text-2xl">{getCookingMethodIcon(meal.cookingMethod)}</span>
+                        <span className="text-2xl">{getCookingMethodIcon(meal.category)}</span>
                         <h3 className="text-lg sm:text-xl font-bold text-gray-800">
-                          {meal.name}
+                          {meal.title}
                         </h3>
                       </div>
                       <div className="flex items-center gap-3 text-sm">
                         <span className="bg-white px-3 py-1 rounded-full font-medium">
-                          ⏱️ {meal.estimatedTime}
+                          ⏱️ {meal.prep_time_min + meal.cook_time_min} min total
                         </span>
-                        <span className={`px-3 py-1 rounded-full font-medium ${getCookingMethodColor(meal.cookingMethod)}`}>
-                          {getCookingMethodLabel(meal.cookingMethod)}
+                        <span className="bg-blue-100 px-3 py-1 rounded-full font-medium text-blue-800">
+                          {meal.skill_level}
                         </span>
                       </div>
                     </div>
@@ -279,23 +271,34 @@ function MealGenerator() {
 
                   {/* Meal Details */}
                   <div className="p-4 sm:p-5">
+                    {/* Performance Tags */}
+                    {meal.performance_tags.length > 0 && (
+                      <div className="flex flex-wrap gap-2 mb-4">
+                        {meal.performance_tags.map((tag, i) => (
+                          <span key={i} className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">
+                            ⚡ {tag.replace('_', ' ')}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+
                     {/* Macros */}
                     <div className="grid grid-cols-4 gap-2 mb-4">
                       <div className="text-center bg-blue-50 rounded-lg p-2">
                         <div className="text-xs text-gray-600">Calories</div>
-                        <div className="text-lg font-bold text-blue-600">{meal.macros.calories}</div>
+                        <div className="text-lg font-bold text-blue-600">{Math.round(meal.macros_per_serving.cal)}</div>
                       </div>
                       <div className="text-center bg-green-50 rounded-lg p-2">
                         <div className="text-xs text-gray-600">Protein</div>
-                        <div className="text-lg font-bold text-green-600">{meal.macros.protein}g</div>
+                        <div className="text-lg font-bold text-green-600">{Math.round(meal.macros_per_serving.protein_g)}g</div>
                       </div>
                       <div className="text-center bg-yellow-50 rounded-lg p-2">
                         <div className="text-xs text-gray-600">Carbs</div>
-                        <div className="text-lg font-bold text-yellow-600">{meal.macros.carbs}g</div>
+                        <div className="text-lg font-bold text-yellow-600">{Math.round(meal.macros_per_serving.carb_g)}g</div>
                       </div>
                       <div className="text-center bg-purple-50 rounded-lg p-2">
                         <div className="text-xs text-gray-600">Fat</div>
-                        <div className="text-lg font-bold text-purple-600">{meal.macros.fat}g</div>
+                        <div className="text-lg font-bold text-purple-600">{Math.round(meal.macros_per_serving.fat_g)}g</div>
                       </div>
                     </div>
 
@@ -306,7 +309,7 @@ function MealGenerator() {
                         {meal.ingredients.map((ingredient, i) => (
                           <li key={i} className="flex items-start">
                             <span className="text-green-500 mr-2">•</span>
-                            <span>{ingredient}</span>
+                            <span>{ingredient.quantity} {ingredient.unit} {ingredient.canonical_name}</span>
                           </li>
                         ))}
                       </ul>
@@ -314,44 +317,32 @@ function MealGenerator() {
 
                     {/* Instructions */}
                     <div className="mb-4">
-                      <h4 className="font-semibold text-gray-800 mb-2">📝 Quick Instructions:</h4>
-                      <p className="text-sm text-gray-700 leading-relaxed">
-                        {meal.instructions}
-                      </p>
+                      <h4 className="font-semibold text-gray-800 mb-2">📝 Instructions:</h4>
+                      <ol className="list-decimal list-inside space-y-1 text-sm text-gray-700">
+                        {meal.instructions.map((step, i) => (
+                          <li key={i}>{step}</li>
+                        ))}
+                      </ol>
                     </div>
 
-                    {/* Matched Recipes */}
-                    {meal.matchedRecipes && meal.matchedRecipes.length > 0 && (
+                    {/* Notes */}
+                    {meal.notes && (
                       <div className="bg-blue-50 rounded-lg p-3 mb-4">
-                        <h4 className="font-semibold text-gray-800 mb-2 text-sm">📖 Similar Recipes:</h4>
-                        <div className="flex flex-wrap gap-2">
-                          {meal.matchedRecipes.map((recipeName, i) => {
-                            const recipe = recipes.find(r => r.title === recipeName);
-                            return recipe ? (
-                              <Link
-                                key={i}
-                                to={`/recipes/${recipe.id}`}
-                                className="text-xs bg-white text-blue-600 px-2 py-1 rounded hover:bg-blue-100 transition-colors"
-                              >
-                                {recipeName}
-                              </Link>
-                            ) : null;
-                          })}
-                        </div>
+                        <p className="text-sm text-gray-700 italic">{meal.notes}</p>
                       </div>
                     )}
 
                     {/* Save Button */}
                     <button
                       onClick={() => saveMeal(meal)}
-                      disabled={isMealSaved(meal.name)}
+                      disabled={isMealSaved(meal.title)}
                       className={`w-full py-2 px-4 rounded-lg font-medium transition-all ${
-                        isMealSaved(meal.name)
+                        isMealSaved(meal.title)
                           ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
                           : 'bg-blue-500 text-white hover:bg-blue-600 active:scale-95'
                       }`}
                     >
-                      {isMealSaved(meal.name) ? '✓ Saved' : '💾 Save This Recipe'}
+                      {isMealSaved(meal.title) ? '✓ Saved' : '💾 Save This Recipe'}
                     </button>
                   </div>
                 </div>
