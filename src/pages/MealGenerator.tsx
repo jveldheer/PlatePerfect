@@ -10,25 +10,50 @@ function MealGenerator() {
   const [suggestions, setSuggestions] = useState<ReturnType<typeof generateMealSuggestions> | null>(null);
   const [showResults, setShowResults] = useState(false);
   const [savedMeals, setSavedMeals] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   // Load saved meals on mount
   useEffect(() => {
     const saved = localStorage.getItem('veldheerfuellab_saved_meals');
     if (saved) {
-      setSavedMeals(JSON.parse(saved));
+      try {
+        setSavedMeals(JSON.parse(saved));
+      } catch (e) {
+        console.error('Failed to load saved meals', e);
+      }
     }
-    handleGenerate();
   }, []);
 
   const handleGenerate = () => {
-    const ingredientList = ingredientsInput
-      .split(',')
-      .map(i => i.trim())
-      .filter(i => i.length > 0);
+    setIsLoading(true);
+    setError(null);
 
-    const result = generateMealSuggestions(ingredientList, macroGoals, consumedMacros);
-    setSuggestions(result);
-    setShowResults(true);
+    // Small delay to show loading state
+    setTimeout(() => {
+      try {
+        const ingredientList = ingredientsInput
+          .split(',')
+          .map(i => i.trim())
+          .filter(i => i.length > 0);
+
+        const result = generateMealSuggestions(ingredientList, macroGoals, consumedMacros);
+
+        if (result.meals.length === 0) {
+          setError('No meals found matching your criteria. Try different ingredients or leave the field blank for general suggestions.');
+          setShowResults(false);
+        } else {
+          setSuggestions(result);
+          setShowResults(true);
+        }
+      } catch (err) {
+        console.error('Error generating meals:', err);
+        setError('An error occurred while generating meals. Please try again.');
+        setShowResults(false);
+      } finally {
+        setIsLoading(false);
+      }
+    }, 300);
   };
 
   const saveMeal = (meal: any) => {
@@ -82,7 +107,7 @@ function MealGenerator() {
         {/* Header */}
         <div className="mb-6 sm:mb-8">
           <h1 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-2">
-            🤖 AI Meal Generator
+            ⚡ Fuel Generator
           </h1>
           <p className="text-base sm:text-lg text-gray-600">
             Get complete meal ideas personalized to your nutrition goals!
@@ -168,11 +193,36 @@ function MealGenerator() {
 
           <button
             onClick={handleGenerate}
-            className="w-full bg-gradient-to-r from-blue-500 to-green-500 text-white font-semibold py-3 px-6 rounded-lg hover:from-blue-600 hover:to-green-600 transition-all shadow-md active:scale-95"
+            disabled={isLoading}
+            className="w-full bg-gradient-to-r from-blue-500 to-green-500 text-white font-semibold py-3 px-6 rounded-lg hover:from-blue-600 hover:to-green-600 transition-all shadow-md active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100"
           >
-            ✨ Generate Meal Ideas
+            {isLoading ? (
+              <span className="flex items-center justify-center gap-2">
+                <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Generating...
+              </span>
+            ) : (
+              '✨ Generate Meal Ideas'
+            )}
           </button>
         </div>
+
+        {/* Error Message */}
+        {error && (
+          <div className="bg-red-50 border-l-4 border-red-500 p-4 mb-6 rounded-lg">
+            <div className="flex">
+              <div className="flex-shrink-0">
+                <span className="text-2xl">⚠️</span>
+              </div>
+              <div className="ml-3">
+                <p className="text-sm text-red-800">{error}</p>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Results */}
         {showResults && suggestions && (

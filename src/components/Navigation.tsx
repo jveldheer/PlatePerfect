@@ -13,7 +13,7 @@ export default function Navigation() {
     { path: '/', label: 'Home' },
     { path: '/skills', label: 'Cooking Skills' },
     { path: '/recipes', label: 'Recipes' },
-    { path: '/meal-generator', label: 'AI Meal Generator' },
+    { path: '/meal-generator', label: 'Fuel Generator' },
     { path: '/saved-recipes', label: 'Saved Recipes' },
     { path: '/tracker', label: 'Macro Tracker' },
     { path: '/profile', label: 'My Goals' },

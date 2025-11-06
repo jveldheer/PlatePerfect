@@ -272,8 +272,19 @@ function mealMatchesIngredients(meal: CompleteMealIdea, ingredients: string[]): 
 
   const mealIngredientsLower = meal.ingredients.join(' ').toLowerCase();
 
-  // Check if at least 1 ingredient matches (flexible matching)
-  const matchCount = ingredients.filter(ing =>
+  // Filter out common words that don't represent actual ingredients
+  const stopWords = ['a', 'an', 'the', 'of', 'can', 'oz', 'cup', 'tbsp', 'tsp', 'sliced', 'diced', 'chopped'];
+
+  const meaningfulIngredients = ingredients.filter(ing => {
+    const lowerIng = ing.toLowerCase().trim();
+    return lowerIng.length > 2 && !stopWords.includes(lowerIng);
+  });
+
+  // If no meaningful ingredients after filtering, return true (show all meals)
+  if (meaningfulIngredients.length === 0) return true;
+
+  // Check if at least 1 meaningful ingredient matches (flexible matching)
+  const matchCount = meaningfulIngredients.filter(ing =>
     mealIngredientsLower.includes(ing.toLowerCase())
   ).length;
 
@@ -321,15 +332,26 @@ export function generateMealSuggestions(
   }
 
   // Filter meals by ingredients if provided
-  const filteredNoCook = ingredients.length > 0
+  let filteredNoCook = ingredients.length > 0
     ? noCookMeals.filter(m => mealMatchesIngredients(m, ingredients))
     : noCookMeals;
-  const filteredMinimalCook = ingredients.length > 0
+  let filteredMinimalCook = ingredients.length > 0
     ? minimalCookMeals.filter(m => mealMatchesIngredients(m, ingredients))
     : minimalCookMeals;
-  const filteredNormalCook = ingredients.length > 0
+  let filteredNormalCook = ingredients.length > 0
     ? normalCookMeals.filter(m => mealMatchesIngredients(m, ingredients))
     : normalCookMeals;
+
+  // If filtering produced too few results, fall back to showing all meals
+  const totalFiltered = filteredNoCook.length + filteredMinimalCook.length + filteredNormalCook.length;
+  if (totalFiltered < 3) {
+    filteredNoCook = noCookMeals;
+    filteredMinimalCook = minimalCookMeals;
+    filteredNormalCook = normalCookMeals;
+    if (ingredients.length > 0) {
+      reason = `No exact matches found for your ingredients. Here are general suggestions based on your nutrition needs!`;
+    }
+  }
 
   // Select 2 from each category (6 total), then filter to top 5 based on macros
   const selectedNoCook = selectBestMeals(filteredNoCook, needed, 2);
@@ -338,8 +360,8 @@ export function generateMealSuggestions(
 
   const allSelected = [...selectedNoCook, ...selectedMinimalCook, ...selectedNormalCook];
 
-  // Return top 5 overall
-  const finalMeals = selectBestMeals(allSelected, needed, 5);
+  // Return top 5 overall (or all if less than 5)
+  const finalMeals = selectBestMeals(allSelected, needed, Math.min(5, allSelected.length));
 
   return {
     mealType: mealTypeLabel,

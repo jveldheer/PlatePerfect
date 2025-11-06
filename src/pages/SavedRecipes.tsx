@@ -63,13 +63,13 @@ function SavedRecipes() {
             <span className="text-6xl mb-4 block">📭</span>
             <h2 className="text-2xl font-bold text-gray-800 mb-2">No Saved Recipes Yet</h2>
             <p className="text-gray-600 mb-6">
-              Use the AI Meal Generator to create meal ideas and save your favorites!
+              Use the Fuel Generator to create meal ideas and save your favorites!
             </p>
             <Link
               to="/meal-generator"
               className="inline-block bg-gradient-to-r from-blue-500 to-green-500 text-white font-semibold py-3 px-6 rounded-lg hover:from-blue-600 hover:to-green-600 transition-all shadow-md"
             >
-              Go to AI Meal Generator
+              Go to Fuel Generator
             </Link>
           </div>
         ) : (
@@ -178,7 +178,7 @@ function SavedRecipes() {
               to="/meal-generator"
               className="inline-block bg-white text-blue-600 font-semibold py-3 px-6 rounded-lg border-2 border-blue-600 hover:bg-blue-50 transition-all shadow-md"
             >
-              ← Back to AI Meal Generator
+              ← Back to Fuel Generator
             </Link>
           </div>
         )}
