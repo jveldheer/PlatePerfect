@@ -94,7 +94,7 @@ Return ONLY the JSON response matching the schema.`;
     const timeoutId = setTimeout(() => controller.abort(), 120000); // 120 second timeout (2 minutes)
 
     const requestBody = {
-      model: 'gpt-4o-mini',
+      model: 'gpt-3.5-turbo',
       messages: [
         {
           role: 'system',
@@ -105,8 +105,8 @@ Return ONLY the JSON response matching the schema.`;
           content: userMessage
         }
       ],
-      temperature: 0.8, // Balanced creativity and speed
-      max_tokens: 2500, // Limit for faster response
+      temperature: 0.7, // Optimized for speed and consistency
+      max_tokens: 2000, // Reduced for faster response
       response_format: { type: 'json_object' }
     };
 
