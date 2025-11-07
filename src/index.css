@@ -6,22 +6,23 @@
 @tailwind utilities;
 
 :root {
-  /* VLV Color Palette - OPTIMIZED */
-  --black: #0D0D0D;
-  --yellow: #F5C842;
-  --gold: #FFD700;
-  --white: #FFFFFF;
-  --light-text: #E8E8E8;        /* Better contrast for body text */
-  --gray: #B0B0B0;
-  --dark-gray: #1F1F1F;          /* Lighter for better contrast */
-  --card-bg: #252525;            /* Slightly lighter cards */
-  --border: #404040;             /* Lighter borders */
+  /* VLV Color Palette - MAXIMUM CONTRAST */
+  --black: #000000;              /* Pure black for maximum contrast */
+  --yellow: #FFD700;             /* Brighter yellow for visibility */
+  --gold: #FFC107;
+  --white: #FFFFFF;              /* Pure white */
+  --light-text: #F5F5F5;         /* Near-white for body text */
+  --gray: #CCCCCC;               /* Lighter gray for better visibility */
+  --dark-gray: #1A1A1A;          /* Lighter dark areas */
+  --card-bg: #2A2A2A;            /* Much lighter cards */
+  --border: #555555;             /* Very visible borders */
+  --input-bg: #1A1A1A;           /* Input background */
   --green: #4CAF50;
   --red: #FF5722;
-  --blue: #4A90E2;
-  --purple: #9C27B0;
-  --shadow: rgba(0, 0, 0, 0.7);
-  --glow: rgba(245, 200, 66, 0.6);
+  --blue: #64B5F6;
+  --purple: #BA68C8;
+  --shadow: rgba(0, 0, 0, 0.8);
+  --glow: rgba(255, 215, 0, 0.7);
 }
 
 @layer base {
@@ -60,11 +61,28 @@
   p {
     margin-bottom: 1rem;
     color: var(--light-text);
-    font-size: 1rem;
+    font-size: 1.1rem;
+    font-weight: 500;
   }
 
   a {
     transition: all 0.3s ease;
+  }
+
+  /* Maximum contrast for all text elements */
+  div, span, li, td, th {
+    color: var(--light-text);
+  }
+
+  strong, b {
+    color: var(--white);
+    font-weight: 700;
+  }
+
+  /* Ensure all text is visible */
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 }
 
@@ -108,26 +126,36 @@
 
   .card {
     background: var(--card-bg);
-    border: 2px solid var(--border);
+    border: 3px solid var(--border);
     border-radius: 16px;
     box-shadow: 0 4px 20px var(--shadow);
     transition: all 0.3s ease;
     overflow: hidden;
-    padding: 1.5rem;
+    padding: 2rem;
   }
 
   .card:hover {
     border-color: var(--yellow);
-    box-shadow: 0 8px 30px var(--glow);
+    box-shadow: 0 10px 40px var(--glow);
     transform: translateY(-4px);
   }
 
+  /* Ensure card content is visible */
+  .card * {
+    color: var(--light-text) !important;
+  }
+
+  .card h1, .card h2, .card h3, .card h4, .card h5, .card h6 {
+    color: var(--yellow) !important;
+  }
+
   .skill-badge {
-    @apply inline-block px-4 py-2 rounded-full text-sm font-bold;
-    background-color: var(--dark-gray);
-    color: var(--yellow);
-    border: 2px solid var(--yellow);
+    @apply inline-block px-4 py-2 rounded-full text-base font-bold;
+    background-color: var(--yellow);
+    color: var(--black);
+    border: 3px solid var(--yellow);
     font-family: 'Inter', sans-serif;
+    font-weight: 700;
   }
 
   .vlv-heading {
@@ -135,44 +163,57 @@
     letter-spacing: 2px;
     text-transform: uppercase;
     color: var(--yellow);
-    text-shadow: 0 2px 10px rgba(245, 200, 66, 0.3);
+    text-shadow: 0 2px 15px rgba(255, 215, 0, 0.5);
+    font-weight: 700;
   }
 
   .vlv-text {
     color: var(--light-text);
     font-family: 'Inter', sans-serif;
-    font-size: 1rem;
+    font-size: 1.1rem;
     line-height: 1.7;
+    font-weight: 500;
   }
 
   .vlv-subtext {
     color: var(--gray);
     font-family: 'Inter', sans-serif;
-    font-size: 0.95rem;
+    font-size: 1rem;
+    font-weight: 500;
   }
 
-  /* Improved Input Fields */
+  /* CRITICAL: Maximum Visibility Input Fields */
   input, textarea, select {
-    background-color: var(--dark-gray) !important;
-    border: 2px solid var(--border) !important;
-    color: var(--white) !important;
-    padding: 0.75rem !important;
+    background-color: var(--input-bg) !important;
+    border: 3px solid var(--border) !important;
+    color: #FFFFFF !important;
+    padding: 1rem !important;
     border-radius: 8px !important;
-    font-size: 1rem !important;
+    font-size: 1.1rem !important;
+    font-weight: 500 !important;
+    line-height: 1.5 !important;
+  }
+
+  input::placeholder, textarea::placeholder {
+    color: var(--gray) !important;
+    opacity: 1 !important;
   }
 
   input:focus, textarea:focus, select:focus {
     border-color: var(--yellow) !important;
-    box-shadow: 0 0 0 3px rgba(245, 200, 66, 0.2) !important;
+    box-shadow: 0 0 0 4px rgba(255, 215, 0, 0.3) !important;
     outline: none !important;
+    background-color: #222222 !important;
   }
 
-  /* Better labels */
+  /* Maximum Visibility Labels */
   label {
-    color: var(--light-text);
-    font-weight: 600;
-    font-size: 1rem;
-    margin-bottom: 0.5rem;
+    color: var(--white);
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 0.75rem;
     display: block;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
   }
 }
