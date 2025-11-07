@@ -1,4 +1,4 @@
-/* VLV BRANDING - Elite Athlete Fuel Lab */
+/* VLV BRANDING - Elite Athlete Fuel Lab - OPTIMIZED FOR READABILITY */
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&display=swap');
 
 @tailwind base;
@@ -6,27 +6,32 @@
 @tailwind utilities;
 
 :root {
-  /* VLV Color Palette */
-  --black: #1A1A1A;
+  /* VLV Color Palette - OPTIMIZED */
+  --black: #0D0D0D;
   --yellow: #F5C842;
   --gold: #FFD700;
   --white: #FFFFFF;
+  --light-text: #E8E8E8;        /* Better contrast for body text */
   --gray: #B0B0B0;
-  --dark-gray: #2A2A2A;
-  --border: #3A3A3A;
+  --dark-gray: #1F1F1F;          /* Lighter for better contrast */
+  --card-bg: #252525;            /* Slightly lighter cards */
+  --border: #404040;             /* Lighter borders */
   --green: #4CAF50;
   --red: #FF5722;
   --blue: #4A90E2;
   --purple: #9C27B0;
-  --shadow: rgba(0, 0, 0, 0.5);
-  --glow: rgba(245, 200, 66, 0.5);
+  --shadow: rgba(0, 0, 0, 0.7);
+  --glow: rgba(245, 200, 66, 0.6);
 }
 
 @layer base {
   body {
-    @apply min-h-screen text-white;
+    @apply min-h-screen;
     background-color: var(--black);
     font-family: 'Inter', sans-serif;
+    color: var(--light-text);
+    font-size: 16px;
+    line-height: 1.6;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -34,61 +39,94 @@
     letter-spacing: 2px;
     text-transform: uppercase;
     color: var(--yellow);
+    line-height: 1.2;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  h2 {
+    font-size: 2rem;
+    margin-bottom: 0.875rem;
+  }
+
+  h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  p {
+    margin-bottom: 1rem;
+    color: var(--light-text);
+    font-size: 1rem;
+  }
+
+  a {
+    transition: all 0.3s ease;
   }
 }
 
 @layer components {
   .btn-primary {
-    @apply px-6 py-3 rounded-lg font-bold transition-all duration-300;
+    @apply px-8 py-4 rounded-lg font-bold transition-all duration-300 text-base;
     background: linear-gradient(135deg, var(--yellow) 0%, var(--gold) 100%);
     color: var(--black);
-    box-shadow: 0 5px 20px var(--shadow);
+    box-shadow: 0 4px 15px var(--shadow);
     font-family: 'Bebas Neue', sans-serif;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
     text-transform: uppercase;
+    border: none;
   }
 
   .btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 30px var(--glow);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px var(--glow);
+  }
+
+  .btn-primary:active {
+    transform: translateY(-1px);
   }
 
   .btn-secondary {
-    @apply px-6 py-3 rounded-lg font-bold transition-all duration-300;
+    @apply px-8 py-4 rounded-lg font-bold transition-all duration-300 text-base;
     background-color: var(--dark-gray);
     color: var(--yellow);
-    border: 2px solid var(--border);
+    border: 2px solid var(--yellow);
     font-family: 'Bebas Neue', sans-serif;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
     text-transform: uppercase;
   }
 
   .btn-secondary:hover {
-    border-color: var(--yellow);
-    box-shadow: 0 8px 30px var(--glow);
-    transform: translateY(-2px);
+    background-color: var(--yellow);
+    color: var(--black);
+    box-shadow: 0 8px 25px var(--glow);
+    transform: translateY(-3px);
   }
 
   .card {
-    background: linear-gradient(135deg, var(--dark-gray) 0%, #1f1f1f 100%);
+    background: var(--card-bg);
     border: 2px solid var(--border);
-    border-radius: 12px;
-    box-shadow: 0 5px 20px var(--shadow);
+    border-radius: 16px;
+    box-shadow: 0 4px 20px var(--shadow);
     transition: all 0.3s ease;
     overflow: hidden;
+    padding: 1.5rem;
   }
 
   .card:hover {
     border-color: var(--yellow);
     box-shadow: 0 8px 30px var(--glow);
-    transform: translateY(-2px);
+    transform: translateY(-4px);
   }
 
   .skill-badge {
-    @apply inline-block px-3 py-1 rounded-full text-sm font-bold;
+    @apply inline-block px-4 py-2 rounded-full text-sm font-bold;
     background-color: var(--dark-gray);
     color: var(--yellow);
-    border: 1px solid var(--yellow);
+    border: 2px solid var(--yellow);
     font-family: 'Inter', sans-serif;
   }
 
@@ -97,10 +135,44 @@
     letter-spacing: 2px;
     text-transform: uppercase;
     color: var(--yellow);
+    text-shadow: 0 2px 10px rgba(245, 200, 66, 0.3);
   }
 
   .vlv-text {
+    color: var(--light-text);
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+
+  .vlv-subtext {
     color: var(--gray);
     font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+  }
+
+  /* Improved Input Fields */
+  input, textarea, select {
+    background-color: var(--dark-gray) !important;
+    border: 2px solid var(--border) !important;
+    color: var(--white) !important;
+    padding: 0.75rem !important;
+    border-radius: 8px !important;
+    font-size: 1rem !important;
+  }
+
+  input:focus, textarea:focus, select:focus {
+    border-color: var(--yellow) !important;
+    box-shadow: 0 0 0 3px rgba(245, 200, 66, 0.2) !important;
+    outline: none !important;
+  }
+
+  /* Better labels */
+  label {
+    color: var(--light-text);
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    display: block;
   }
 }

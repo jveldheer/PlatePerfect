@@ -31,21 +31,22 @@ export default function Navigation() {
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-2 lg:space-x-4">
+          <div className="hidden md:flex items-center space-x-3 lg:space-x-4">
             {navLinks.map((link) => (
               <Link
                 key={link.path}
                 to={link.path}
-                className={`px-3 py-2 rounded-md text-sm font-bold transition-all duration-300 ${
+                className={`px-4 py-2 rounded-md text-base font-bold transition-all duration-300 ${
                   isActive(link.path)
                     ? 'border-2 border-yellow-400 shadow-lg'
                     : 'border-2 border-transparent hover:border-yellow-400'
                 }`}
                 style={{
-                  color: isActive(link.path) ? 'var(--yellow)' : 'var(--gray)',
+                  color: isActive(link.path) ? 'var(--yellow)' : 'var(--light-text)',
                   fontFamily: 'Bebas Neue, sans-serif',
-                  letterSpacing: '1px',
+                  letterSpacing: '1.5px',
                   textTransform: 'uppercase',
+                  fontSize: '1.05rem',
                   boxShadow: isActive(link.path) ? '0 0 20px var(--glow)' : 'none'
                 }}
               >
@@ -80,22 +81,23 @@ export default function Navigation() {
       {/* Mobile Menu */}
       {mobileMenuOpen && (
         <div className="md:hidden" style={{ borderTop: '2px solid var(--border)', backgroundColor: 'var(--black)' }}>
-          <div className="px-2 pt-2 pb-3 space-y-1">
+          <div className="px-4 pt-3 pb-4 space-y-2">
             {navLinks.map((link) => (
               <Link
                 key={link.path}
                 to={link.path}
                 onClick={() => setMobileMenuOpen(false)}
-                className={`block px-3 py-3 rounded-md text-base font-bold transition-all duration-300 ${
+                className={`block px-4 py-4 rounded-md text-lg font-bold transition-all duration-300 ${
                   isActive(link.path)
                     ? 'border-2 border-yellow-400'
                     : 'border-2 border-transparent hover:border-yellow-400'
                 }`}
                 style={{
-                  color: isActive(link.path) ? 'var(--yellow)' : 'var(--gray)',
+                  color: isActive(link.path) ? 'var(--yellow)' : 'var(--light-text)',
                   fontFamily: 'Bebas Neue, sans-serif',
-                  letterSpacing: '1px',
+                  letterSpacing: '1.5px',
                   textTransform: 'uppercase',
+                  fontSize: '1.15rem',
                   boxShadow: isActive(link.path) ? '0 0 20px var(--glow)' : 'none'
                 }}
               >
