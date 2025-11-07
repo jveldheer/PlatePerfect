@@ -1779,7 +1779,7 @@ export const recipes: Recipe[] = [
   {
     id: 'recipe-021',
     title: 'Banana + Whey Power Snack',
-    category: 'snacks',
+    category: 'pre-workout',
     difficulty: 'beginner',
     economics: '$',
     description: 'Classic pre-workout combo - fast-acting carbs + quick protein',
@@ -1826,7 +1826,7 @@ export const recipes: Recipe[] = [
   {
     id: 'recipe-022',
     title: 'Greek Yogurt Granola Power Bowl',
-    category: 'snacks',
+    category: 'pre-workout',
     difficulty: 'beginner',
     economics: '$',
     description: 'Creamy Greek yogurt with honey and crunchy granola - 19g protein',
@@ -1873,7 +1873,7 @@ export const recipes: Recipe[] = [
   {
     id: 'recipe-023',
     title: 'Rice Cakes + Jam + Turkey Stack',
-    category: 'snacks',
+    category: 'pre-workout',
     difficulty: 'beginner',
     economics: '$',
     description: 'Crunchy rice cakes with sweet jam and lean turkey - 15g protein',
@@ -1920,7 +1920,7 @@ export const recipes: Recipe[] = [
   {
     id: 'recipe-024',
     title: 'Pretzels + String Cheese Power Combo',
-    category: 'snacks',
+    category: 'pre-workout',
     difficulty: 'beginner',
     economics: '$',
     description: 'Crunchy pretzels with protein-packed string cheese - 13g protein',
@@ -1960,7 +1960,7 @@ export const recipes: Recipe[] = [
   {
     id: 'recipe-025',
     title: 'Applesauce + Milk Quick Fuel',
-    category: 'snacks',
+    category: 'pre-workout',
     difficulty: 'beginner',
     economics: '$',
     description: 'Sweet applesauce with cold milk - fast energy and protein',
@@ -2000,7 +2000,7 @@ export const recipes: Recipe[] = [
   {
     id: 'recipe-026',
     title: 'Bagel + Honey + Turkey Power Stack',
-    category: 'snacks',
+    category: 'pre-workout',
     difficulty: 'beginner',
     economics: '$',
     description: 'Half bagel with honey and turkey - substantial pre-workout fuel',
@@ -2047,7 +2047,7 @@ export const recipes: Recipe[] = [
   {
     id: 'recipe-027',
     title: 'Dates + Peanut Butter Energy Bites',
-    category: 'snacks',
+    category: 'pre-workout',
     difficulty: 'beginner',
     economics: '$',
     description: 'Sweet Medjool dates stuffed with peanut butter - natural energy',
@@ -2093,7 +2093,7 @@ export const recipes: Recipe[] = [
   {
     id: 'recipe-028',
     title: 'Rice Krispies + Milk Quick Bowl',
-    category: 'snacks',
+    category: 'pre-workout',
     difficulty: 'beginner',
     economics: '$',
     description: 'Classic cereal with milk - fast carbs and protein',
@@ -2133,7 +2133,7 @@ export const recipes: Recipe[] = [
   {
     id: 'recipe-029',
     title: 'Tortilla + Jam + Turkey Roll-Up',
-    category: 'snacks',
+    category: 'pre-workout',
     difficulty: 'beginner',
     economics: '$',
     description: 'Soft tortilla with jam and turkey rolled up - portable fuel',
@@ -2180,7 +2180,7 @@ export const recipes: Recipe[] = [
   {
     id: 'recipe-030',
     title: 'Sports Drink + Banana + Jerky Combo',
-    category: 'snacks',
+    category: 'pre-workout',
     difficulty: 'beginner',
     economics: '$',
     description: 'Hydration and fuel combo - sports drink, banana, and beef jerky',
@@ -2222,7 +2222,7 @@ export const recipes: Recipe[] = [
   {
     id: 'recipe-031',
     title: 'Chocolate Milk + Banana Recovery Combo',
-    category: 'snacks',
+    category: 'post-workout',
     difficulty: 'beginner',
     economics: '$',
     description: 'Classic recovery drink with banana - 18g protein, perfect carb-to-protein ratio',
@@ -2262,7 +2262,7 @@ export const recipes: Recipe[] = [
   {
     id: 'recipe-032',
     title: 'Greek Yogurt + Granola + Berries Recovery Bowl',
-    category: 'snacks',
+    category: 'post-workout',
     difficulty: 'beginner',
     economics: '$',
     description: 'Protein-packed yogurt bowl with antioxidant-rich berries - 20g protein',
@@ -2303,7 +2303,7 @@ export const recipes: Recipe[] = [
   {
     id: 'recipe-033',
     title: 'Whey + Oats + Honey Power Recovery Shake',
-    category: 'snacks',
+    category: 'post-workout',
     difficulty: 'beginner',
     economics: '$',
     description: 'Blended recovery shake with oats and honey - 29g protein',
@@ -2345,7 +2345,7 @@ export const recipes: Recipe[] = [
   {
     id: 'recipe-034',
     title: 'Tuna + Crackers + Orange + Cheese Plate',
-    category: 'snacks',
+    category: 'post-workout',
     difficulty: 'beginner',
     economics: '$',
     description: 'Protein-packed snack plate with vitamin C - 24g protein',
@@ -2387,7 +2387,7 @@ export const recipes: Recipe[] = [
   {
     id: 'recipe-035',
     title: 'Cottage Cheese + Pineapple + Crackers Bowl',
-    category: 'snacks',
+    category: 'post-workout',
     difficulty: 'beginner',
     economics: '$',
     description: 'Protein-rich cottage cheese with anti-inflammatory pineapple - 15g protein',
@@ -2428,7 +2428,7 @@ export const recipes: Recipe[] = [
   {
     id: 'recipe-036',
     title: 'Corn Flakes + Milk + Whey Recovery Bowl',
-    category: 'snacks',
+    category: 'post-workout',
     difficulty: 'beginner',
     economics: '$',
     description: 'Cereal bowl supercharged with whey protein - 33g protein',
@@ -2469,7 +2469,7 @@ export const recipes: Recipe[] = [
   {
     id: 'recipe-037',
     title: 'Pita + Hummus + Turkey + Apple Plate',
-    category: 'snacks',
+    category: 'post-workout',
     difficulty: 'beginner',
     economics: '$',
     description: 'Mediterranean-inspired recovery plate - 20g protein, high fiber',
@@ -2511,7 +2511,7 @@ export const recipes: Recipe[] = [
   {
     id: 'recipe-038',
     title: 'Whey Smoothie Recovery Blend',
-    category: 'snacks',
+    category: 'post-workout',
     difficulty: 'beginner',
     economics: '$',
     description: 'Fruit-packed protein smoothie - 28g protein, refreshing recovery',
@@ -2553,7 +2553,7 @@ export const recipes: Recipe[] = [
   {
     id: 'recipe-039',
     title: 'Turkey Sandwich + Sports Drink Combo',
-    category: 'snacks',
+    category: 'post-workout',
     difficulty: 'beginner',
     economics: '$',
     description: 'Classic sandwich with hydration - 16g protein, carb-loaded',
@@ -2596,7 +2596,7 @@ export const recipes: Recipe[] = [
   {
     id: 'recipe-040',
     title: 'Rice Cakes + Jam + Chicken + Cheese Stack',
-    category: 'snacks',
+    category: 'post-workout',
     difficulty: 'beginner',
     economics: '$',
     description: 'Savory-sweet rice cake stack - 22g protein, easy digestion',

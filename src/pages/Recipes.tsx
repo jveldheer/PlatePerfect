@@ -39,19 +39,6 @@ export default function Recipes() {
     return categoryMatch && difficultyMatch && economicsMatch;
   });
 
-  const getDifficultyColor = (difficulty: string) => {
-    switch (difficulty) {
-      case 'beginner':
-        return 'bg-green-100 text-green-800';
-      case 'intermediate':
-        return 'bg-yellow-100 text-yellow-800';
-      case 'advanced':
-        return 'bg-red-100 text-red-800';
-      default:
-        return 'bg-gray-100 text-gray-800';
-    }
-  };
-
   const getCategoryIcon = (category: string) => {
     switch (category) {
       case 'breakfast':
@@ -74,18 +61,37 @@ export default function Recipes() {
   return (
     <div className="space-y-6 sm:space-y-8">
       <div className="text-center px-4">
-        <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">Athlete-Focused Recipes</h1>
-        <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto">
+        <h1 style={{
+          fontFamily: 'Bebas Neue, sans-serif',
+          letterSpacing: '2px',
+          color: 'var(--yellow)',
+          textTransform: 'uppercase'
+        }} className="text-3xl sm:text-4xl font-bold mb-3 sm:mb-4">
+          Athlete-Focused Recipes
+        </h1>
+        <p className="text-base sm:text-lg max-w-3xl mx-auto" style={{ color: 'var(--light-text)' }}>
           Every recipe is designed with athletic performance in mind. Detailed nutritional information,
           thorough instructions for beginners, and meal prep guidance included.
         </p>
       </div>
 
       {/* Filters */}
-      <div className="bg-white rounded-xl shadow-md p-4 sm:p-6">
+      <div style={{
+        backgroundColor: '#2A2A2A',
+        border: '3px solid var(--border)',
+        borderRadius: '12px',
+        padding: '1.5rem'
+      }}>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label style={{
+              color: 'var(--white)',
+              fontWeight: '700',
+              fontSize: '1.1rem',
+              textTransform: 'uppercase',
+              display: 'block',
+              marginBottom: '0.75rem'
+            }}>
               Category
             </label>
             <div className="flex flex-wrap gap-2">
@@ -93,11 +99,14 @@ export default function Recipes() {
                 <button
                   key={category.id}
                   onClick={() => setSelectedCategory(category.id)}
-                  className={`px-3 sm:px-4 py-2 sm:py-2.5 min-h-[44px] rounded-lg text-sm font-medium transition-colors touch-manipulation ${
-                    selectedCategory === category.id
-                      ? 'bg-athletic-600 text-white'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200 active:bg-gray-300'
-                  }`}
+                  style={{
+                    backgroundColor: selectedCategory === category.id ? 'var(--yellow)' : '#1A1A1A',
+                    color: selectedCategory === category.id ? '#000000' : 'var(--white)',
+                    border: `3px solid ${selectedCategory === category.id ? 'var(--yellow)' : 'var(--border)'}`,
+                    fontWeight: '600',
+                    boxShadow: selectedCategory === category.id ? '0 0 20px var(--glow)' : 'none'
+                  }}
+                  className="px-3 sm:px-4 py-2 sm:py-2.5 min-h-[44px] rounded-lg text-sm transition-all touch-manipulation hover:scale-105"
                 >
                   {category.label}
                 </button>
@@ -106,7 +115,14 @@ export default function Recipes() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label style={{
+              color: 'var(--white)',
+              fontWeight: '700',
+              fontSize: '1.1rem',
+              textTransform: 'uppercase',
+              display: 'block',
+              marginBottom: '0.75rem'
+            }}>
               Difficulty
             </label>
             <div className="flex flex-wrap gap-2">
@@ -114,11 +130,14 @@ export default function Recipes() {
                 <button
                   key={difficulty.id}
                   onClick={() => setSelectedDifficulty(difficulty.id)}
-                  className={`px-3 sm:px-4 py-2 sm:py-2.5 min-h-[44px] rounded-lg text-sm font-medium transition-colors touch-manipulation ${
-                    selectedDifficulty === difficulty.id
-                      ? 'bg-athletic-600 text-white'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200 active:bg-gray-300'
-                  }`}
+                  style={{
+                    backgroundColor: selectedDifficulty === difficulty.id ? 'var(--yellow)' : '#1A1A1A',
+                    color: selectedDifficulty === difficulty.id ? '#000000' : 'var(--white)',
+                    border: `3px solid ${selectedDifficulty === difficulty.id ? 'var(--yellow)' : 'var(--border)'}`,
+                    fontWeight: '600',
+                    boxShadow: selectedDifficulty === difficulty.id ? '0 0 20px var(--glow)' : 'none'
+                  }}
+                  className="px-3 sm:px-4 py-2 sm:py-2.5 min-h-[44px] rounded-lg text-sm transition-all touch-manipulation hover:scale-105"
                 >
                   {difficulty.label}
                 </button>
@@ -127,7 +146,14 @@ export default function Recipes() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label style={{
+              color: 'var(--white)',
+              fontWeight: '700',
+              fontSize: '1.1rem',
+              textTransform: 'uppercase',
+              display: 'block',
+              marginBottom: '0.75rem'
+            }}>
               Cost
             </label>
             <div className="flex flex-wrap gap-2">
@@ -135,11 +161,14 @@ export default function Recipes() {
                 <button
                   key={option.id}
                   onClick={() => setSelectedEconomics(option.id)}
-                  className={`px-3 sm:px-4 py-2 sm:py-2.5 min-h-[44px] rounded-lg text-sm font-medium transition-colors touch-manipulation ${
-                    selectedEconomics === option.id
-                      ? 'bg-athletic-600 text-white'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200 active:bg-gray-300'
-                  }`}
+                  style={{
+                    backgroundColor: selectedEconomics === option.id ? 'var(--yellow)' : '#1A1A1A',
+                    color: selectedEconomics === option.id ? '#000000' : 'var(--white)',
+                    border: `3px solid ${selectedEconomics === option.id ? 'var(--yellow)' : 'var(--border)'}`,
+                    fontWeight: '600',
+                    boxShadow: selectedEconomics === option.id ? '0 0 20px var(--glow)' : 'none'
+                  }}
+                  className="px-3 sm:px-4 py-2 sm:py-2.5 min-h-[44px] rounded-lg text-sm transition-all touch-manipulation hover:scale-105"
                 >
                   {option.label}
                 </button>
@@ -148,7 +177,7 @@ export default function Recipes() {
           </div>
         </div>
 
-        <div className="mt-4 text-sm text-gray-600">
+        <div className="mt-4 text-sm" style={{ color: 'var(--yellow)', fontWeight: '600' }}>
           Showing {filteredRecipes.length} recipe{filteredRecipes.length !== 1 ? 's' : ''}
         </div>
       </div>
@@ -165,30 +194,45 @@ export default function Recipes() {
               <div className="flex items-start justify-between mb-3">
                 <div className="text-3xl sm:text-4xl">{getCategoryIcon(recipe.category)}</div>
                 <div className="flex gap-1.5 sm:gap-2 flex-wrap justify-end">
-                  <span className="px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-semibold text-green-700 bg-green-50 border border-green-200">
+                  <span style={{
+                    backgroundColor: 'var(--yellow)',
+                    color: '#000000',
+                    fontWeight: '700',
+                    border: '2px solid var(--yellow)'
+                  }} className="px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm">
                     {recipe.economics}
                   </span>
-                  <span className={`px-2 sm:px-3 py-1 rounded-full text-xs font-medium ${getDifficultyColor(recipe.difficulty)}`}>
+                  <span style={{
+                    backgroundColor: '#1A1A1A',
+                    color: 'var(--white)',
+                    fontWeight: '600',
+                    border: '2px solid var(--border)',
+                    textTransform: 'uppercase'
+                  }} className="px-2 sm:px-3 py-1 rounded-full text-xs">
                     {recipe.difficulty}
                   </span>
                 </div>
               </div>
 
-              <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2 flex items-center gap-2 flex-wrap">
+              <h3 className="text-lg sm:text-xl font-semibold mb-2 flex items-center gap-2 flex-wrap" style={{
+                color: 'var(--white)',
+                fontFamily: 'Bebas Neue, sans-serif',
+                letterSpacing: '1px'
+              }}>
                 {recipe.title}
                 {recipe.videoUrl && (
-                  <span className="text-red-600 text-lg" title="Video tutorial available">
+                  <span className="text-lg" style={{ color: 'var(--yellow)' }} title="Video tutorial available">
                     🎥
                   </span>
                 )}
               </h3>
 
-              <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+              <p className="text-sm mb-4 line-clamp-2" style={{ color: 'var(--light-text)' }}>
                 {recipe.description}
               </p>
 
               {/* Time Info */}
-              <div className="flex items-center gap-4 text-sm text-gray-500 mb-4">
+              <div className="flex items-center gap-4 text-sm mb-4" style={{ color: '#CCCCCC' }}>
                 <span className="flex items-center">
                   <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -204,25 +248,30 @@ export default function Recipes() {
               </div>
 
               {/* Nutrition Highlights */}
-              <div className="grid grid-cols-3 gap-2 pt-4 border-t border-gray-200">
+              <div className="grid grid-cols-3 gap-2 pt-4" style={{ borderTop: '2px solid var(--border)' }}>
                 <div className="text-center">
-                  <p className="text-xs text-gray-500">Protein</p>
-                  <p className="font-semibold text-primary-600">{recipe.nutritionInfo.protein}g</p>
+                  <p className="text-xs" style={{ color: '#CCCCCC', textTransform: 'uppercase', fontWeight: '600' }}>Protein</p>
+                  <p className="font-semibold" style={{ color: 'var(--yellow)', fontSize: '1.1rem' }}>{recipe.nutritionInfo.protein}g</p>
                 </div>
                 <div className="text-center">
-                  <p className="text-xs text-gray-500">Carbs</p>
-                  <p className="font-semibold text-primary-600">{recipe.nutritionInfo.carbs}g</p>
+                  <p className="text-xs" style={{ color: '#CCCCCC', textTransform: 'uppercase', fontWeight: '600' }}>Carbs</p>
+                  <p className="font-semibold" style={{ color: 'var(--yellow)', fontSize: '1.1rem' }}>{recipe.nutritionInfo.carbs}g</p>
                 </div>
                 <div className="text-center">
-                  <p className="text-xs text-gray-500">Calories</p>
-                  <p className="font-semibold text-primary-600">{recipe.nutritionInfo.calories}</p>
+                  <p className="text-xs" style={{ color: '#CCCCCC', textTransform: 'uppercase', fontWeight: '600' }}>Calories</p>
+                  <p className="font-semibold" style={{ color: 'var(--yellow)', fontSize: '1.1rem' }}>{recipe.nutritionInfo.calories}</p>
                 </div>
               </div>
             </div>
 
             <div className="px-6 pb-4">
               {recipe.tags.slice(0, 3).map((tag) => (
-                <span key={tag} className="inline-block mr-2 mb-2 px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded">
+                <span key={tag} style={{
+                  backgroundColor: '#1A1A1A',
+                  color: 'var(--yellow)',
+                  border: '2px solid var(--border)',
+                  fontWeight: '600'
+                }} className="inline-block mr-2 mb-2 px-2 py-1 text-xs rounded">
                   {tag}
                 </span>
               ))}
@@ -233,7 +282,7 @@ export default function Recipes() {
 
       {filteredRecipes.length === 0 && (
         <div className="text-center py-12">
-          <p className="text-gray-500 text-lg">
+          <p className="text-lg" style={{ color: 'var(--light-text)', fontSize: '1.25rem' }}>
             No recipes found with the selected filters.
           </p>
           <button
@@ -242,7 +291,21 @@ export default function Recipes() {
               setSelectedDifficulty('all');
               setSelectedEconomics('all');
             }}
-            className="mt-4 btn-primary"
+            style={{
+              backgroundColor: 'var(--yellow)',
+              color: '#000000',
+              fontWeight: '700',
+              border: '3px solid var(--yellow)',
+              padding: '0.75rem 2rem',
+              borderRadius: '8px',
+              marginTop: '1.5rem',
+              fontSize: '1.1rem',
+              textTransform: 'uppercase',
+              letterSpacing: '1px',
+              cursor: 'pointer',
+              transition: 'all 0.2s'
+            }}
+            className="hover:scale-105"
           >
             Clear Filters
           </button>
