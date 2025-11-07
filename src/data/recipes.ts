@@ -1899,7 +1899,7 @@ export const recipes: Recipe[] = [
     ingredients: [
       { item: 'Rice cakes', amount: '3 cakes (27g)', notes: 'Plain or lightly salted' },
       { item: 'Jam', amount: '2 tablespoons (40g)', notes: 'Your favorite flavor' },
-      { item: 'Deli turkey', amount: '2 oz (56g)', notes: 'Lean, low sodium' }
+      { item: 'Deli turkey', amount: '2 oz (56g)', notes: 'Lean' }
     ],
     instructions: [
       {
@@ -1990,8 +1990,8 @@ export const recipes: Recipe[] = [
     instructions: [
       {
         step: 1,
-        instruction: 'Pour applesauce into bowl and drink milk.',
-        detailedExplanation: 'Open your applesauce cup and eat it. Pour yourself a glass of cold milk and drink it. This simple combo is incredibly easy to digest and provides balanced carbs and protein for your workout.',
+        instruction: 'Eat applesauce and drink milk.',
+        detailedExplanation: 'Consume the applesauce for fast-acting carbs, then drink your glass of cold milk for protein. This simple combo is incredibly easy to digest and provides balanced nutrition for your workout.',
         skillTip: 'Drink milk slowly if you have sensitive digestion. Eat 15-30 min before training.',
         timeEstimate: 2
       }
@@ -2026,7 +2026,7 @@ export const recipes: Recipe[] = [
     ingredients: [
       { item: 'Bagel', amount: 'Half (45g)', notes: 'Plain or whole wheat' },
       { item: 'Honey', amount: '1 tablespoon', notes: 'For quick energy' },
-      { item: 'Deli turkey', amount: '2 oz (56g)', notes: 'Lean, low sodium' }
+      { item: 'Deli turkey', amount: '2 oz (56g)', notes: 'Lean' }
     ],
     instructions: [
       {
@@ -2159,7 +2159,7 @@ export const recipes: Recipe[] = [
     ingredients: [
       { item: 'Flour tortilla', amount: '1 tortilla (49g)', notes: '8-inch size' },
       { item: 'Jam', amount: '2 tablespoons (40g)', notes: 'Your favorite flavor' },
-      { item: 'Deli turkey', amount: '2 oz (56g)', notes: 'Lean, low sodium' }
+      { item: 'Deli turkey', amount: '2 oz (56g)', notes: 'Lean' }
     ],
     instructions: [
       {
@@ -2211,8 +2211,8 @@ export const recipes: Recipe[] = [
     instructions: [
       {
         step: 1,
-        instruction: 'Drink sports drink, eat banana, and eat jerky.',
-        detailedExplanation: 'Start drinking your 12 oz sports drink for hydration and electrolytes. Peel and eat the banana for quick carbs and potassium. Chew the beef jerky for protein. This powerful combination provides hydration, immediate energy, and muscle support all in one.',
+        instruction: 'Consume sports drink, banana, and jerky.',
+        detailedExplanation: 'Drink your 12 oz sports drink for hydration and electrolytes. Eat the banana for quick carbs and potassium. The beef jerky provides protein. This powerful combination delivers hydration, immediate energy, and muscle support all in one.',
         skillTip: 'Perfect for hot weather training or intense sessions. Eat 15-30 min before workout.',
         timeEstimate: 2
       }
@@ -2495,7 +2495,7 @@ export const recipes: Recipe[] = [
     ingredients: [
       { item: 'Whole wheat pita', amount: '1 pita (64g)', notes: '6-inch size' },
       { item: 'Hummus', amount: '3 tablespoons (45g)', notes: 'Any flavor' },
-      { item: 'Deli turkey', amount: '2 oz (56g)', notes: 'Lean, low sodium' },
+      { item: 'Deli turkey', amount: '2 oz (56g)', notes: 'Lean' },
       { item: 'Apple', amount: '1 medium (182g)', notes: 'Sliced' }
     ],
     instructions: [
@@ -2578,7 +2578,7 @@ export const recipes: Recipe[] = [
     },
     ingredients: [
       { item: 'Whole wheat bread', amount: '2 slices (56g)', notes: 'Or white bread' },
-      { item: 'Deli turkey', amount: '3 oz (84g)', notes: 'Lean, low sodium' },
+      { item: 'Deli turkey', amount: '3 oz (84g)', notes: 'Lean' },
       { item: 'Mustard', amount: '1 teaspoon', notes: 'Or your favorite spread' },
       { item: 'Lettuce', amount: '2 leaves', notes: 'Optional' },
       { item: 'Sports drink', amount: '12 oz (355ml)', notes: 'Gatorade, Powerade, etc.' }
