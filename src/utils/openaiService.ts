@@ -94,7 +94,7 @@ Return ONLY the JSON response matching the schema.`;
     const timeoutId = setTimeout(() => controller.abort(), 120000); // 120 second timeout (2 minutes)
 
     const requestBody = {
-      model: 'gpt-5-mini',
+      model: 'gpt-4o-mini',
       messages: [
         {
           role: 'system',
@@ -105,13 +105,14 @@ Return ONLY the JSON response matching the schema.`;
           content: userMessage
         }
       ],
-      // temperature not specified - gpt-5-mini only supports default value of 1
-      max_completion_tokens: 2500, // GPT-5 models use max_completion_tokens instead of max_tokens
+      temperature: 0.8, // Balanced creativity and speed
+      max_tokens: 2500, // Limit for faster response
       response_format: { type: 'json_object' }
     };
 
     console.log('📤 Request model:', requestBody.model);
-    console.log('📤 Request max_completion_tokens:', requestBody.max_completion_tokens);
+    console.log('📤 Request max_tokens:', requestBody.max_tokens);
+    console.log('📤 Request temperature:', requestBody.temperature);
 
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
