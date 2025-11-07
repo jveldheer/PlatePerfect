@@ -111,7 +111,14 @@ Return ONLY the JSON response matching the schema.`;
       response_format: { type: 'json_object' }
     };
 
-    console.log('📤 Sending request with model:', requestBody.model);
+    console.log('📤 Request details:', {
+      model: requestBody.model,
+      temperature: requestBody.temperature,
+      maxTokens: requestBody.max_tokens,
+      systemPromptLength: AI_SYSTEM_PROMPT.length,
+      userMessageLength: userMessage.length,
+      responseFormat: requestBody.response_format
+    });
 
     let response;
     try {
@@ -155,18 +162,41 @@ Return ONLY the JSON response matching the schema.`;
       throw new Error('Invalid JSON response from OpenAI API');
     }
 
-    console.log('📊 Response data:', {
+    // Detailed diagnostic information
+    const diagnostic = {
       hasChoices: !!data.choices,
       choicesCount: data.choices?.length || 0,
+      hasFirstChoice: !!data.choices?.[0],
+      hasMessage: !!data.choices?.[0]?.message,
       hasContent: !!data.choices?.[0]?.message?.content,
-      finishReason: data.choices?.[0]?.finish_reason
-    });
+      contentLength: data.choices?.[0]?.message?.content?.length || 0,
+      finishReason: data.choices?.[0]?.finish_reason || 'none',
+      role: data.choices?.[0]?.message?.role || 'none',
+      hasError: !!data.error,
+      errorMessage: data.error?.message || 'none'
+    };
+
+    console.log('📊 Response diagnostic:', diagnostic);
 
     const content = data.choices?.[0]?.message?.content;
 
     if (!content) {
       console.error('❌ No content in AI response');
-      throw new Error('AI did not return any content');
+      console.error('Full response:', JSON.stringify(data, null, 2));
+
+      // Show diagnostic info in the error message for mobile users
+      throw new Error(
+        `OpenAI returned no content. Diagnostic:\n` +
+        `• Has choices: ${diagnostic.hasChoices}\n` +
+        `• Choices count: ${diagnostic.choicesCount}\n` +
+        `• Has message: ${diagnostic.hasMessage}\n` +
+        `• Content length: ${diagnostic.contentLength}\n` +
+        `• Finish reason: ${diagnostic.finishReason}\n` +
+        `• Role: ${diagnostic.role}\n` +
+        `• Has error: ${diagnostic.hasError}\n` +
+        `• Error msg: ${diagnostic.errorMessage}\n` +
+        `Full response: ${JSON.stringify(data).substring(0, 200)}`
+      );
     }
 
     console.log('✅ Received', content.length, 'characters of content');
