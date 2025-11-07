@@ -2253,7 +2253,7 @@ export const recipes: Recipe[] = [
       {
         step: 1,
         instruction: 'Drink chocolate milk and eat banana.',
-        detailedExplanation: 'Pour yourself 2 cups of cold chocolate milk and drink it. Peel and eat the banana. This powerful recovery combo delivers protein to rebuild muscle, carbs to replenish glycogen, and potassium to restore electrolyte balance.',
+        detailedExplanation: 'Drink 2 cups of cold chocolate milk for protein and carbs. Eat the banana for additional carbs and potassium. This powerful recovery combo rebuilds muscle, replenishes glycogen, and restores electrolyte balance.',
         skillTip: 'Consume within 30-60 min post-workout for optimal recovery.',
         timeEstimate: 3
       }
@@ -2378,7 +2378,7 @@ export const recipes: Recipe[] = [
       {
         step: 1,
         instruction: 'Arrange tuna, crackers, orange, and cheese on plate.',
-        detailedExplanation: 'Open and drain the tuna can. Place tuna in center of plate. Arrange crackers around it. Peel and segment the orange. Unwrap the string cheese. Eat together - the tuna on crackers is delicious, and the orange provides refreshing vitamin C for recovery.',
+        detailedExplanation: 'Drain the tuna and place on your plate with crackers, orange segments, and cheese. Eat together for balanced recovery nutrition. The tuna provides lean protein, crackers add carbs, orange delivers vitamin C, and cheese contributes extra protein and calcium.',
         skillTip: 'The vitamin C in oranges helps your body absorb the iron from tuna. Eat within 60 min post-workout.',
         timeEstimate: 3
       }
@@ -2419,7 +2419,7 @@ export const recipes: Recipe[] = [
       {
         step: 1,
         instruction: 'Mix cottage cheese and pineapple, serve with crackers.',
-        detailedExplanation: 'Scoop cottage cheese into a bowl. Add pineapple chunks and mix together. Serve with crackers on the side. The sweet pineapple balances the tangy cottage cheese perfectly, while providing anti-inflammatory benefits for faster recovery.',
+        detailedExplanation: 'Combine cottage cheese with pineapple chunks in a bowl. Serve with crackers on the side for additional carbs. The sweet pineapple balances the tangy cottage cheese while providing anti-inflammatory benefits for faster recovery.',
         skillTip: 'The bromelain in pineapple helps reduce muscle soreness. Eat within 60 min post-workout.',
         timeEstimate: 2
       }
@@ -2587,7 +2587,7 @@ export const recipes: Recipe[] = [
       {
         step: 1,
         instruction: 'Assemble sandwich and drink sports drink.',
-        detailedExplanation: 'Spread mustard on bread. Layer turkey and lettuce. Close sandwich and cut in half. Eat the sandwich while drinking your sports drink. This classic combo provides protein for muscle repair, carbs for energy replenishment, and electrolytes for rehydration.',
+        detailedExplanation: 'Make your turkey sandwich with mustard and lettuce. Consume with your sports drink for complete recovery. This classic combo provides protein for muscle repair, carbs for energy replenishment, and electrolytes for rehydration.',
         skillTip: 'Eat within 60 min post-workout. The sports drink helps you rehydrate faster.',
         timeEstimate: 3
       }
