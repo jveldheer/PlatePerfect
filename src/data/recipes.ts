@@ -1774,5 +1774,865 @@ export const recipes: Recipe[] = [
         timeEstimate: 1
       }
     ]
+  },
+  // PRE-WORKOUT SNACKS (No-Cook, Budget-Friendly)
+  {
+    id: 'recipe-021',
+    title: 'Banana + Whey Power Snack',
+    category: 'snacks',
+    difficulty: 'beginner',
+    economics: '$',
+    description: 'Classic pre-workout combo - fast-acting carbs + quick protein',
+    prepTime: 2,
+    cookTime: 0,
+    servings: 1,
+    servingSizeAmount: '1 banana + 1 scoop whey',
+    servingSizeVisual: 'Medium banana with protein shake',
+    servingSizeGrams: 150,
+    athleteNotes: 'Perfect 15-30 minutes before training. The banana provides quick energy while whey absorbs fast for muscle support. Light on fat and fiber so it won\'t slow you down.',
+    requiredSkills: ['prep-001'],
+    tags: ['no-cook', 'pre-workout', 'quick', 'high-protein', 'budget'],
+    mealPrepNotes: 'Keep bananas and protein powder at home or in gym bag. Mix with water when ready.',
+    storageInstructions: 'Bananas stay fresh for 5-7 days. Protein powder lasts months when sealed.',
+    nutritionInfo: {
+      calories: 225,
+      protein: 25,
+      carbs: 30,
+      fat: 1,
+      fiber: 3,
+      servings: 1
+    },
+    ingredients: [
+      { item: 'Banana', amount: '1 medium (120g)', notes: 'Ripe for easy digestion' },
+      { item: 'Whey protein', amount: '1 scoop (30g)', notes: 'Mixed with water' },
+      { item: 'Water', amount: '8 oz', notes: 'For mixing protein' }
+    ],
+    instructions: [
+      {
+        step: 1,
+        instruction: 'Mix whey protein with water in shaker bottle.',
+        detailedExplanation: 'Add 1 scoop of whey protein to your shaker bottle. Pour in 8 oz of cold water. Seal the lid and shake vigorously for 10-15 seconds until completely smooth. No clumps!',
+        timeEstimate: 1
+      },
+      {
+        step: 2,
+        instruction: 'Peel and eat banana, drink protein shake.',
+        detailedExplanation: 'Peel your banana and eat it first, then drink your protein shake. The banana gives you instant carbs for energy, and the whey provides fast-digesting protein to support your muscles during training.',
+        skillTip: 'Eat 15-30 min before intense workouts for best results.',
+        timeEstimate: 2
+      }
+    ]
+  },
+  {
+    id: 'recipe-022',
+    title: 'Greek Yogurt Granola Power Bowl',
+    category: 'snacks',
+    difficulty: 'beginner',
+    economics: '$',
+    description: 'Creamy Greek yogurt with honey and crunchy granola - 19g protein',
+    prepTime: 3,
+    cookTime: 0,
+    servings: 1,
+    servingSizeAmount: '1 cup',
+    servingSizeVisual: 'Medium cereal bowl',
+    servingSizeGrams: 210,
+    athleteNotes: 'Best 45-90 minutes before training. The Greek yogurt provides protein, honey adds quick carbs, and granola gives sustained energy. This combo won\'t sit heavy in your stomach.',
+    requiredSkills: ['prep-001'],
+    tags: ['no-cook', 'pre-workout', 'high-protein', 'budget', 'vegetarian'],
+    mealPrepNotes: 'Buy Greek yogurt in bulk. Portion granola into small bags for easy grab-and-go.',
+    storageInstructions: 'Greek yogurt lasts 1-2 weeks refrigerated. Keep granola in sealed container.',
+    nutritionInfo: {
+      calories: 249,
+      protein: 19,
+      carbs: 37,
+      fat: 3,
+      fiber: 2,
+      servings: 1
+    },
+    ingredients: [
+      { item: 'Greek yogurt', amount: '170g (3/4 cup)', notes: '0% fat, plain' },
+      { item: 'Honey', amount: '1 tablespoon', notes: 'For quick energy' },
+      { item: 'Granola', amount: '20g (3 tablespoons)', notes: 'Your favorite kind' }
+    ],
+    instructions: [
+      {
+        step: 1,
+        instruction: 'Scoop Greek yogurt into bowl.',
+        detailedExplanation: 'Measure 170g (about 3/4 cup) of plain Greek yogurt into a bowl. The 0% fat version keeps it light but still protein-packed.',
+        timeEstimate: 1
+      },
+      {
+        step: 2,
+        instruction: 'Drizzle honey over yogurt and top with granola.',
+        detailedExplanation: 'Drizzle 1 tablespoon of honey over the yogurt. Sprinkle 3 tablespoons of granola on top. The combination of protein, simple carbs from honey, and complex carbs from granola is perfect pre-workout fuel.',
+        skillTip: 'Eat 45-90 min before training for sustained energy without stomach issues.',
+        timeEstimate: 2
+      }
+    ]
+  },
+  {
+    id: 'recipe-023',
+    title: 'Rice Cakes + Jam + Turkey Stack',
+    category: 'snacks',
+    difficulty: 'beginner',
+    economics: '$',
+    description: 'Crunchy rice cakes with sweet jam and lean turkey - 15g protein',
+    prepTime: 3,
+    cookTime: 0,
+    servings: 1,
+    servingSizeAmount: '3 rice cakes stacked',
+    servingSizeVisual: '3 rice cakes stacked',
+    servingSizeGrams: 100,
+    athleteNotes: 'Perfect 15-30 minutes before training. Rice cakes digest fast, jam provides quick energy, and turkey adds protein without weighing you down. Very light on the stomach.',
+    requiredSkills: ['prep-001'],
+    tags: ['no-cook', 'pre-workout', 'quick', 'budget'],
+    mealPrepNotes: 'Rice cakes stay fresh for weeks. Keep deli turkey in the fridge.',
+    storageInstructions: 'Rice cakes in pantry, turkey refrigerated for 5-7 days.',
+    nutritionInfo: {
+      calories: 265,
+      protein: 15.1,
+      carbs: 48,
+      fat: 1.9,
+      fiber: 0.3,
+      servings: 1
+    },
+    ingredients: [
+      { item: 'Rice cakes', amount: '3 cakes (27g)', notes: 'Plain or lightly salted' },
+      { item: 'Jam', amount: '2 tablespoons (40g)', notes: 'Your favorite flavor' },
+      { item: 'Deli turkey', amount: '2 oz (56g)', notes: 'Lean, low sodium' }
+    ],
+    instructions: [
+      {
+        step: 1,
+        instruction: 'Spread jam on each rice cake.',
+        detailedExplanation: 'Lay out 3 rice cakes. Spread about 2 teaspoons of jam on each one. The jam provides fast-acting carbs for immediate energy.',
+        timeEstimate: 1
+      },
+      {
+        step: 2,
+        instruction: 'Layer turkey on rice cakes and stack.',
+        detailedExplanation: 'Place turkey slices on each rice cake. You can stack them or eat them separately. The turkey adds lean protein to support your muscles without adding fat that would slow digestion.',
+        skillTip: 'Eat 15-30 min before training for quick fuel.',
+        timeEstimate: 2
+      }
+    ]
+  },
+  {
+    id: 'recipe-024',
+    title: 'Pretzels + String Cheese Power Combo',
+    category: 'snacks',
+    difficulty: 'beginner',
+    economics: '$',
+    description: 'Crunchy pretzels with protein-packed string cheese - 13g protein',
+    prepTime: 1,
+    cookTime: 0,
+    servings: 1,
+    servingSizeAmount: '2 oz pretzels + 2 cheese sticks',
+    servingSizeVisual: 'Large handful of pretzels + 2 cheese sticks',
+    servingSizeGrams: 85,
+    athleteNotes: 'Best 45-90 minutes before training. Pretzels provide carbs for energy, string cheese adds protein and a bit of fat for sustained fuel. The salt helps with hydration.',
+    requiredSkills: ['prep-001'],
+    tags: ['no-cook', 'pre-workout', 'quick', 'budget', 'portable'],
+    mealPrepNotes: 'Perfect gym bag snack. Individually wrapped cheese sticks and pretzel portions.',
+    storageInstructions: 'Pretzels stay fresh in sealed bag. Cheese sticks last 2-3 weeks refrigerated.',
+    nutritionInfo: {
+      calories: 255,
+      protein: 13,
+      carbs: 41,
+      fat: 4,
+      fiber: 1,
+      servings: 1
+    },
+    ingredients: [
+      { item: 'Pretzels', amount: '2 oz (56g)', notes: 'Mini or twist style' },
+      { item: 'String cheese', amount: '2 sticks (56g)', notes: 'Part-skim mozzarella' }
+    ],
+    instructions: [
+      {
+        step: 1,
+        instruction: 'Grab pretzels and unwrap cheese sticks.',
+        detailedExplanation: 'Measure out 2 oz of pretzels (about a large handful). Unwrap 2 string cheese sticks. This combo gives you carbs from pretzels and protein from cheese for balanced pre-workout energy.',
+        skillTip: 'Eat 45-90 min before training. The cheese provides sustained energy.',
+        timeEstimate: 1
+      }
+    ]
+  },
+  {
+    id: 'recipe-025',
+    title: 'Applesauce + Milk Quick Fuel',
+    category: 'snacks',
+    difficulty: 'beginner',
+    economics: '$',
+    description: 'Sweet applesauce with cold milk - fast energy and protein',
+    prepTime: 2,
+    cookTime: 0,
+    servings: 1,
+    servingSizeAmount: '1 cup applesauce + 1 cup milk',
+    servingSizeVisual: 'Medium bowl + glass of milk',
+    servingSizeGrams: 355,
+    athleteNotes: 'Perfect 15-30 minutes before training. Very easy to digest, provides quick carbs from applesauce and fast protein from milk. Light and won\'t cause stomach issues.',
+    requiredSkills: ['prep-001'],
+    tags: ['no-cook', 'pre-workout', 'quick', 'budget', 'easy-digestion'],
+    mealPrepNotes: 'Buy individual applesauce cups for convenience.',
+    storageInstructions: 'Applesauce stays fresh for months. Milk lasts 7-10 days refrigerated.',
+    nutritionInfo: {
+      calories: 192,
+      protein: 8.9,
+      carbs: 33,
+      fat: 1.7,
+      fiber: 1.5,
+      servings: 1
+    },
+    ingredients: [
+      { item: 'Applesauce', amount: '1 cup (245g)', notes: 'Unsweetened or lightly sweetened' },
+      { item: 'Milk', amount: '1 cup (244g)', notes: '1% low-fat' }
+    ],
+    instructions: [
+      {
+        step: 1,
+        instruction: 'Pour applesauce into bowl and drink milk.',
+        detailedExplanation: 'Open your applesauce cup and eat it. Pour yourself a glass of cold milk and drink it. This simple combo is incredibly easy to digest and provides balanced carbs and protein for your workout.',
+        skillTip: 'Drink milk slowly if you have sensitive digestion. Eat 15-30 min before training.',
+        timeEstimate: 2
+      }
+    ]
+  },
+  {
+    id: 'recipe-026',
+    title: 'Bagel + Honey + Turkey Power Stack',
+    category: 'snacks',
+    difficulty: 'beginner',
+    economics: '$',
+    description: 'Half bagel with honey and turkey - substantial pre-workout fuel',
+    prepTime: 3,
+    cookTime: 0,
+    servings: 1,
+    servingSizeAmount: 'Half bagel sandwich',
+    servingSizeVisual: 'Half of a standard bagel',
+    servingSizeGrams: 90,
+    athleteNotes: 'Best 45-90 minutes before training. The bagel provides dense carbs, honey adds quick energy, and turkey gives you protein. This is more substantial - great before longer workouts.',
+    requiredSkills: ['prep-001'],
+    tags: ['no-cook', 'pre-workout', 'budget', 'substantial'],
+    mealPrepNotes: 'Slice and freeze extra bagels. They thaw quickly at room temperature.',
+    storageInstructions: 'Bagels freeze well for months. Turkey lasts 5-7 days refrigerated.',
+    nutritionInfo: {
+      calories: 295,
+      protein: 15,
+      carbs: 52,
+      fat: 2.8,
+      fiber: 2,
+      servings: 1
+    },
+    ingredients: [
+      { item: 'Bagel', amount: 'Half (45g)', notes: 'Plain or whole wheat' },
+      { item: 'Honey', amount: '1 tablespoon', notes: 'For quick energy' },
+      { item: 'Deli turkey', amount: '2 oz (56g)', notes: 'Lean, low sodium' }
+    ],
+    instructions: [
+      {
+        step: 1,
+        instruction: 'Slice bagel in half and spread honey.',
+        detailedExplanation: 'Cut your bagel in half (save the other half for later). Spread 1 tablespoon of honey on the cut side. The honey provides fast-acting carbs for immediate energy.',
+        timeEstimate: 1
+      },
+      {
+        step: 2,
+        instruction: 'Layer turkey on top and eat.',
+        detailedExplanation: 'Place 2 oz of turkey slices on the honey-covered bagel half. Eat open-faced or fold it. This combo gives you carbs for energy and protein for muscle support during training.',
+        skillTip: 'Eat 45-90 min before longer workouts for sustained energy.',
+        timeEstimate: 2
+      }
+    ]
+  },
+  {
+    id: 'recipe-027',
+    title: 'Dates + Peanut Butter Energy Bites',
+    category: 'snacks',
+    difficulty: 'beginner',
+    economics: '$',
+    description: 'Sweet Medjool dates stuffed with peanut butter - natural energy',
+    prepTime: 3,
+    cookTime: 0,
+    servings: 1,
+    servingSizeAmount: '3 stuffed dates',
+    servingSizeVisual: '3 large dates',
+    servingSizeGrams: 75,
+    athleteNotes: 'Best 45-90 minutes before training. Dates are nature\'s candy - packed with natural sugars for energy. Peanut butter adds protein and healthy fats for sustained fuel. A favorite of endurance athletes.',
+    requiredSkills: ['prep-001'],
+    tags: ['no-cook', 'pre-workout', 'natural', 'budget', 'vegan'],
+    mealPrepNotes: 'Prep multiple servings at once. Store in sealed container.',
+    storageInstructions: 'Dates last months in sealed container. Peanut butter lasts months.',
+    nutritionInfo: {
+      calories: 280,
+      protein: 6.6,
+      carbs: 44,
+      fat: 9.9,
+      fiber: 5.5,
+      servings: 1
+    },
+    ingredients: [
+      { item: 'Medjool dates', amount: '3 large (60g)', notes: 'Pitted' },
+      { item: 'Peanut butter', amount: '1 tablespoon (15g)', notes: 'Natural or regular' }
+    ],
+    instructions: [
+      {
+        step: 1,
+        instruction: 'Pit dates if needed and split open.',
+        detailedExplanation: 'If your dates still have pits, remove them. Make a slit down the center of each date to open it up like a book. Don\'t cut all the way through.',
+        timeEstimate: 1
+      },
+      {
+        step: 2,
+        instruction: 'Stuff each date with peanut butter.',
+        detailedExplanation: 'Spoon about 1 teaspoon of peanut butter into the center of each date. Press the date closed slightly. These natural energy bites provide fast carbs from dates and sustained energy from peanut butter.',
+        skillTip: 'Great for endurance training. Eat 45-90 min before workout.',
+        timeEstimate: 2
+      }
+    ]
+  },
+  {
+    id: 'recipe-028',
+    title: 'Rice Krispies + Milk Quick Bowl',
+    category: 'snacks',
+    difficulty: 'beginner',
+    economics: '$',
+    description: 'Classic cereal with milk - fast carbs and protein',
+    prepTime: 2,
+    cookTime: 0,
+    servings: 1,
+    servingSizeAmount: '1.5 cups cereal + 1 cup milk',
+    servingSizeVisual: 'Medium cereal bowl',
+    servingSizeGrams: 285,
+    athleteNotes: 'Perfect 15-30 minutes before training. Rice Krispies are incredibly easy to digest and provide fast carbs. Milk adds quick protein. This is a classic pre-workout meal that won\'t sit heavy.',
+    requiredSkills: ['prep-001'],
+    tags: ['no-cook', 'pre-workout', 'quick', 'budget', 'easy-digestion'],
+    mealPrepNotes: 'Keep individual cereal boxes for portion control.',
+    storageInstructions: 'Cereal stays fresh for months. Milk lasts 7-10 days refrigerated.',
+    nutritionInfo: {
+      calories: 235,
+      protein: 9.3,
+      carbs: 42,
+      fat: 2.9,
+      fiber: 0.3,
+      servings: 1
+    },
+    ingredients: [
+      { item: 'Rice Krispies cereal', amount: '1.5 cups (41g)', notes: 'Or similar crispy rice cereal' },
+      { item: 'Milk', amount: '1 cup (244g)', notes: '1% low-fat' }
+    ],
+    instructions: [
+      {
+        step: 1,
+        instruction: 'Pour cereal into bowl and add milk.',
+        detailedExplanation: 'Pour 1.5 cups of Rice Krispies into a bowl. Add 1 cup of cold milk. Eat immediately while crispy. This classic combo is super easy to digest and provides balanced carbs and protein for quick pre-workout fuel.',
+        skillTip: 'Eat 15-30 min before training. The light, crispy texture digests fast.',
+        timeEstimate: 2
+      }
+    ]
+  },
+  {
+    id: 'recipe-029',
+    title: 'Tortilla + Jam + Turkey Roll-Up',
+    category: 'snacks',
+    difficulty: 'beginner',
+    economics: '$',
+    description: 'Soft tortilla with jam and turkey rolled up - portable fuel',
+    prepTime: 3,
+    cookTime: 0,
+    servings: 1,
+    servingSizeAmount: '1 tortilla roll-up',
+    servingSizeVisual: 'One 8-inch tortilla rolled',
+    servingSizeGrams: 100,
+    athleteNotes: 'Best 45-90 minutes before training. The tortilla provides complex carbs, jam adds quick energy, and turkey gives lean protein. Easy to eat on the go.',
+    requiredSkills: ['prep-001'],
+    tags: ['no-cook', 'pre-workout', 'portable', 'budget'],
+    mealPrepNotes: 'Make multiple roll-ups and wrap in foil for grab-and-go.',
+    storageInstructions: 'Tortillas last 1-2 weeks. Turkey lasts 5-7 days refrigerated.',
+    nutritionInfo: {
+      calories: 268,
+      protein: 15,
+      carbs: 44,
+      fat: 3,
+      fiber: 2,
+      servings: 1
+    },
+    ingredients: [
+      { item: 'Flour tortilla', amount: '1 tortilla (49g)', notes: '8-inch size' },
+      { item: 'Jam', amount: '2 tablespoons (40g)', notes: 'Your favorite flavor' },
+      { item: 'Deli turkey', amount: '2 oz (56g)', notes: 'Lean, low sodium' }
+    ],
+    instructions: [
+      {
+        step: 1,
+        instruction: 'Spread jam on tortilla.',
+        detailedExplanation: 'Lay tortilla flat. Spread 2 tablespoons of jam evenly over the entire surface. The jam provides fast-acting carbs for immediate energy.',
+        timeEstimate: 1
+      },
+      {
+        step: 2,
+        instruction: 'Layer turkey and roll up tightly.',
+        detailedExplanation: 'Place turkey slices in a line down the center of the tortilla. Roll it up tightly like a burrito. Slice in half if desired. This portable snack gives you carbs for energy and protein for muscle support.',
+        skillTip: 'Perfect grab-and-go snack. Eat 45-90 min before training.',
+        timeEstimate: 2
+      }
+    ]
+  },
+  {
+    id: 'recipe-030',
+    title: 'Sports Drink + Banana + Jerky Combo',
+    category: 'snacks',
+    difficulty: 'beginner',
+    economics: '$',
+    description: 'Hydration and fuel combo - sports drink, banana, and beef jerky',
+    prepTime: 2,
+    cookTime: 0,
+    servings: 1,
+    servingSizeAmount: '12 oz drink + banana + 1 oz jerky',
+    servingSizeVisual: 'Bottle of sports drink + medium banana + small bag jerky',
+    servingSizeGrams: 185,
+    athleteNotes: 'Perfect 15-30 minutes before training. Sports drink provides electrolytes and fast carbs, banana adds potassium and quick energy, jerky gives protein. This trio is popular with athletes who need maximum hydration and fuel.',
+    requiredSkills: ['prep-001'],
+    tags: ['no-cook', 'pre-workout', 'quick', 'budget', 'hydration'],
+    mealPrepNotes: 'Keep sports drinks, bananas, and jerky in gym bag for convenience.',
+    storageInstructions: 'Sports drinks last months. Bananas last 5-7 days. Jerky lasts months sealed.',
+    nutritionInfo: {
+      calories: 284,
+      protein: 14,
+      carbs: 55,
+      fat: 2.3,
+      fiber: 3,
+      servings: 1
+    },
+    ingredients: [
+      { item: 'Sports drink', amount: '12 oz (355ml)', notes: 'Gatorade, Powerade, etc.' },
+      { item: 'Banana', amount: '1 medium (120g)', notes: 'Ripe for easy digestion' },
+      { item: 'Beef jerky', amount: '1 oz (28g)', notes: 'Original or teriyaki flavor' }
+    ],
+    instructions: [
+      {
+        step: 1,
+        instruction: 'Drink sports drink, eat banana, and eat jerky.',
+        detailedExplanation: 'Start drinking your 12 oz sports drink for hydration and electrolytes. Peel and eat the banana for quick carbs and potassium. Chew the beef jerky for protein. This powerful combination provides hydration, immediate energy, and muscle support all in one.',
+        skillTip: 'Perfect for hot weather training or intense sessions. Eat 15-30 min before workout.',
+        timeEstimate: 2
+      }
+    ]
+  },
+  // POST-WORKOUT SNACKS (No-Cook, Recovery-Focused)
+  {
+    id: 'recipe-031',
+    title: 'Chocolate Milk + Banana Recovery Combo',
+    category: 'snacks',
+    difficulty: 'beginner',
+    economics: '$',
+    description: 'Classic recovery drink with banana - 18g protein, perfect carb-to-protein ratio',
+    prepTime: 1,
+    cookTime: 0,
+    servings: 1,
+    servingSizeAmount: '2 cups chocolate milk + banana',
+    servingSizeVisual: 'Tall glass + medium banana',
+    servingSizeGrams: 610,
+    athleteNotes: 'Drink within 30-60 minutes after training. Chocolate milk is scientifically proven for recovery - it has the ideal 3:1 carb-to-protein ratio. The banana adds potassium to replace what you lost through sweat.',
+    requiredSkills: ['prep-001'],
+    tags: ['no-cook', 'post-workout', 'recovery', 'quick', 'budget'],
+    mealPrepNotes: 'Keep chocolate milk cold. Buy single-serve bottles for convenience.',
+    storageInstructions: 'Chocolate milk lasts 7-10 days refrigerated. Bananas last 5-7 days.',
+    nutritionInfo: {
+      calories: 303,
+      protein: 17.8,
+      carbs: 49,
+      fat: 4.4,
+      fiber: 4,
+      servings: 1
+    },
+    ingredients: [
+      { item: 'Chocolate milk', amount: '2 cups (488g)', notes: '1% low-fat' },
+      { item: 'Banana', amount: '1 medium (120g)', notes: 'For potassium' }
+    ],
+    instructions: [
+      {
+        step: 1,
+        instruction: 'Drink chocolate milk and eat banana.',
+        detailedExplanation: 'Pour yourself 2 cups of cold chocolate milk and drink it. Peel and eat the banana. This powerful recovery combo delivers protein to rebuild muscle, carbs to replenish glycogen, and potassium to restore electrolyte balance.',
+        skillTip: 'Consume within 30-60 min post-workout for optimal recovery.',
+        timeEstimate: 3
+      }
+    ]
+  },
+  {
+    id: 'recipe-032',
+    title: 'Greek Yogurt + Granola + Berries Recovery Bowl',
+    category: 'snacks',
+    difficulty: 'beginner',
+    economics: '$',
+    description: 'Protein-packed yogurt bowl with antioxidant-rich berries - 20g protein',
+    prepTime: 3,
+    cookTime: 0,
+    servings: 1,
+    servingSizeAmount: '1 large bowl',
+    servingSizeVisual: 'Large cereal bowl',
+    servingSizeGrams: 275,
+    athleteNotes: 'Perfect post-workout recovery meal. Greek yogurt provides fast protein, granola adds carbs to refuel, and berries deliver antioxidants that fight exercise-induced inflammation.',
+    requiredSkills: ['prep-001'],
+    tags: ['no-cook', 'post-workout', 'recovery', 'high-protein', 'budget', 'vegetarian'],
+    mealPrepNotes: 'Buy frozen berries in bulk - they\'re cheaper and just as nutritious.',
+    storageInstructions: 'Greek yogurt lasts 1-2 weeks. Frozen berries last months.',
+    nutritionInfo: {
+      calories: 264,
+      protein: 19.5,
+      carbs: 44,
+      fat: 2.6,
+      fiber: 4,
+      servings: 1
+    },
+    ingredients: [
+      { item: 'Greek yogurt', amount: '200g (7 oz)', notes: '0% fat, plain' },
+      { item: 'Granola', amount: '30g (1/4 cup)', notes: 'Your favorite kind' },
+      { item: 'Mixed berries', amount: '75g (1/2 cup)', notes: 'Fresh or frozen' }
+    ],
+    instructions: [
+      {
+        step: 1,
+        instruction: 'Layer yogurt, berries, and granola in bowl.',
+        detailedExplanation: 'Scoop Greek yogurt into a bowl. Add mixed berries on top. Sprinkle granola over everything. Mix together or eat in layers. This combination delivers protein for muscle repair, carbs for glycogen replenishment, and antioxidants for recovery.',
+        skillTip: 'Eat within 60 min post-workout for best results.',
+        timeEstimate: 3
+      }
+    ]
+  },
+  {
+    id: 'recipe-033',
+    title: 'Whey + Oats + Honey Power Recovery Shake',
+    category: 'snacks',
+    difficulty: 'beginner',
+    economics: '$',
+    description: 'Blended recovery shake with oats and honey - 29g protein',
+    prepTime: 3,
+    cookTime: 0,
+    servings: 1,
+    servingSizeAmount: '1 large shake',
+    servingSizeVisual: 'Large shaker bottle (16 oz)',
+    servingSizeGrams: 310,
+    athleteNotes: 'Powerful post-workout shake. Whey protein absorbs fast for muscle recovery, oats provide slow-releasing carbs, and honey adds quick energy. Blend for best texture or shake vigorously.',
+    requiredSkills: ['prep-001'],
+    tags: ['no-cook', 'post-workout', 'recovery', 'high-protein', 'budget'],
+    mealPrepNotes: 'Use instant oats for smoother texture. Pre-portion dry ingredients.',
+    storageInstructions: 'Dry ingredients last months. Make shake fresh before consuming.',
+    nutritionInfo: {
+      calories: 331,
+      protein: 28.6,
+      carbs: 50,
+      fat: 3.3,
+      fiber: 4.5,
+      servings: 1
+    },
+    ingredients: [
+      { item: 'Whey protein', amount: '1 scoop (30g)', notes: 'Vanilla or chocolate' },
+      { item: 'Instant oats', amount: '40g (1/2 cup)', notes: 'Or quick oats' },
+      { item: 'Honey', amount: '1 tablespoon', notes: 'For sweetness and quick carbs' },
+      { item: 'Water', amount: '12 oz (355ml)', notes: 'Or milk for extra protein' }
+    ],
+    instructions: [
+      {
+        step: 1,
+        instruction: 'Blend or shake all ingredients together.',
+        detailedExplanation: 'Add whey protein, instant oats, honey, and water to a blender or shaker bottle. Blend for 30 seconds or shake vigorously for 20 seconds until smooth. The oats will thicken it up. Drink immediately for best texture.',
+        skillTip: 'Let it sit 1-2 min if you want thicker consistency. Consume within 60 min post-workout.',
+        timeEstimate: 3
+      }
+    ]
+  },
+  {
+    id: 'recipe-034',
+    title: 'Tuna + Crackers + Orange + Cheese Plate',
+    category: 'snacks',
+    difficulty: 'beginner',
+    economics: '$',
+    description: 'Protein-packed snack plate with vitamin C - 24g protein',
+    prepTime: 3,
+    cookTime: 0,
+    servings: 1,
+    servingSizeAmount: '1 plate',
+    servingSizeVisual: 'Small dinner plate',
+    servingSizeGrams: 260,
+    athleteNotes: 'Balanced post-workout plate. Tuna delivers lean protein, crackers provide carbs, orange adds vitamin C (helps collagen synthesis for joint recovery), and cheese adds extra protein and calcium.',
+    requiredSkills: ['prep-001'],
+    tags: ['no-cook', 'post-workout', 'recovery', 'high-protein', 'budget'],
+    mealPrepNotes: 'Keep canned tuna stocked. Single-serve packets are convenient.',
+    storageInstructions: 'Canned tuna lasts years. Crackers last months sealed.',
+    nutritionInfo: {
+      calories: 302,
+      protein: 24,
+      carbs: 35,
+      fat: 7.1,
+      fiber: 5,
+      servings: 1
+    },
+    ingredients: [
+      { item: 'Canned tuna', amount: '1 can (140g)', notes: 'In water, drained' },
+      { item: 'Whole grain crackers', amount: '10 crackers (30g)', notes: 'Your favorite brand' },
+      { item: 'Orange', amount: '1 medium (130g)', notes: 'Peeled and segmented' },
+      { item: 'String cheese', amount: '1 stick (28g)', notes: 'Part-skim mozzarella' }
+    ],
+    instructions: [
+      {
+        step: 1,
+        instruction: 'Arrange tuna, crackers, orange, and cheese on plate.',
+        detailedExplanation: 'Open and drain the tuna can. Place tuna in center of plate. Arrange crackers around it. Peel and segment the orange. Unwrap the string cheese. Eat together - the tuna on crackers is delicious, and the orange provides refreshing vitamin C for recovery.',
+        skillTip: 'The vitamin C in oranges helps your body absorb the iron from tuna. Eat within 60 min post-workout.',
+        timeEstimate: 3
+      }
+    ]
+  },
+  {
+    id: 'recipe-035',
+    title: 'Cottage Cheese + Pineapple + Crackers Bowl',
+    category: 'snacks',
+    difficulty: 'beginner',
+    economics: '$',
+    description: 'Protein-rich cottage cheese with anti-inflammatory pineapple - 15g protein',
+    prepTime: 2,
+    cookTime: 0,
+    servings: 1,
+    servingSizeAmount: '1 bowl + crackers',
+    servingSizeVisual: 'Medium bowl + handful of crackers',
+    servingSizeGrams: 275,
+    athleteNotes: 'Excellent post-workout recovery. Cottage cheese provides slow-digesting casein protein for sustained muscle repair. Pineapple contains bromelain, an enzyme that reduces inflammation and speeds recovery.',
+    requiredSkills: ['prep-001'],
+    tags: ['no-cook', 'post-workout', 'recovery', 'anti-inflammatory', 'budget', 'vegetarian'],
+    mealPrepNotes: 'Buy pineapple chunks in 100% juice for convenience.',
+    storageInstructions: 'Cottage cheese lasts 1-2 weeks. Canned pineapple lasts years.',
+    nutritionInfo: {
+      calories: 259,
+      protein: 15.3,
+      carbs: 41,
+      fat: 4.3,
+      fiber: 2.5,
+      servings: 1
+    },
+    ingredients: [
+      { item: 'Cottage cheese', amount: '113g (1/2 cup)', notes: '1% low-fat' },
+      { item: 'Pineapple chunks', amount: '132g (3/4 cup)', notes: 'Fresh or canned in juice' },
+      { item: 'Whole grain crackers', amount: '8 crackers (30g)', notes: 'For extra carbs' }
+    ],
+    instructions: [
+      {
+        step: 1,
+        instruction: 'Mix cottage cheese and pineapple, serve with crackers.',
+        detailedExplanation: 'Scoop cottage cheese into a bowl. Add pineapple chunks and mix together. Serve with crackers on the side. The sweet pineapple balances the tangy cottage cheese perfectly, while providing anti-inflammatory benefits for faster recovery.',
+        skillTip: 'The bromelain in pineapple helps reduce muscle soreness. Eat within 60 min post-workout.',
+        timeEstimate: 2
+      }
+    ]
+  },
+  {
+    id: 'recipe-036',
+    title: 'Corn Flakes + Milk + Whey Recovery Bowl',
+    category: 'snacks',
+    difficulty: 'beginner',
+    economics: '$',
+    description: 'Cereal bowl supercharged with whey protein - 33g protein',
+    prepTime: 2,
+    cookTime: 0,
+    servings: 1,
+    servingSizeAmount: '1 large bowl',
+    servingSizeVisual: 'Large cereal bowl',
+    servingSizeGrams: 315,
+    athleteNotes: 'High-protein recovery meal. Regular cereal becomes a recovery powerhouse when you add whey protein. Fast carbs from cereal, liquid protein from milk, and concentrated protein from whey.',
+    requiredSkills: ['prep-001'],
+    tags: ['no-cook', 'post-workout', 'recovery', 'high-protein', 'budget'],
+    mealPrepNotes: 'Mix whey into milk first for better distribution.',
+    storageInstructions: 'Cereal lasts months. Milk lasts 7-10 days refrigerated.',
+    nutritionInfo: {
+      calories: 313,
+      protein: 32.5,
+      carbs: 43,
+      fat: 2.7,
+      fiber: 0.8,
+      servings: 1
+    },
+    ingredients: [
+      { item: 'Corn flakes cereal', amount: '1 cup (28g)', notes: 'Or similar flakes' },
+      { item: 'Milk', amount: '1.5 cups (366g)', notes: '1% low-fat' },
+      { item: 'Whey protein', amount: '1 scoop (30g)', notes: 'Vanilla works best' }
+    ],
+    instructions: [
+      {
+        step: 1,
+        instruction: 'Mix whey into milk, then pour over cereal.',
+        detailedExplanation: 'First, mix whey protein powder into the milk using a spoon or shake in a container. Pour the protein-enriched milk over your corn flakes. Eat immediately while crispy. This delivers massive protein for muscle recovery plus carbs to replenish energy stores.',
+        skillTip: 'Mix whey into milk FIRST to avoid clumpy cereal. Eat within 60 min post-workout.',
+        timeEstimate: 2
+      }
+    ]
+  },
+  {
+    id: 'recipe-037',
+    title: 'Pita + Hummus + Turkey + Apple Plate',
+    category: 'snacks',
+    difficulty: 'beginner',
+    economics: '$',
+    description: 'Mediterranean-inspired recovery plate - 20g protein, high fiber',
+    prepTime: 4,
+    cookTime: 0,
+    servings: 1,
+    servingSizeAmount: '1 pita + sides',
+    servingSizeVisual: 'One whole pita + small sides',
+    servingSizeGrams: 235,
+    athleteNotes: 'Balanced post-workout meal. Pita and apple provide carbs, turkey delivers lean protein, hummus adds plant protein and healthy fats. The high fiber helps with nutrient absorption and gut health.',
+    requiredSkills: ['prep-001'],
+    tags: ['no-cook', 'post-workout', 'recovery', 'high-fiber', 'budget'],
+    mealPrepNotes: 'Buy individual hummus cups. Pre-slice apples and store in lemon water.',
+    storageInstructions: 'Pitas freeze well. Hummus lasts 1 week refrigerated.',
+    nutritionInfo: {
+      calories: 344,
+      protein: 20.4,
+      carbs: 56,
+      fat: 5.7,
+      fiber: 10,
+      servings: 1
+    },
+    ingredients: [
+      { item: 'Whole wheat pita', amount: '1 pita (64g)', notes: '6-inch size' },
+      { item: 'Hummus', amount: '3 tablespoons (45g)', notes: 'Any flavor' },
+      { item: 'Deli turkey', amount: '2 oz (56g)', notes: 'Lean, low sodium' },
+      { item: 'Apple', amount: '1 medium (182g)', notes: 'Sliced' }
+    ],
+    instructions: [
+      {
+        step: 1,
+        instruction: 'Cut pita into triangles and spread with hummus.',
+        detailedExplanation: 'Cut the pita into 6-8 triangles like chips. Spread hummus on each triangle. Fold turkey slices and arrange on the side. Slice the apple. This balanced plate provides protein for recovery, carbs for refueling, and fiber for digestion.',
+        skillTip: 'The fiber slows digestion for sustained recovery. Eat within 90 min post-workout.',
+        timeEstimate: 4
+      }
+    ]
+  },
+  {
+    id: 'recipe-038',
+    title: 'Whey Smoothie Recovery Blend',
+    category: 'snacks',
+    difficulty: 'beginner',
+    economics: '$',
+    description: 'Fruit-packed protein smoothie - 28g protein, refreshing recovery',
+    prepTime: 4,
+    cookTime: 0,
+    servings: 1,
+    servingSizeAmount: '1 large smoothie',
+    servingSizeVisual: 'Large smoothie cup (16 oz)',
+    servingSizeGrams: 465,
+    athleteNotes: 'Refreshing post-workout smoothie. Whey protein for muscle repair, banana and berries for carbs and antioxidants, milk for extra protein. Blend smooth for easy drinking when you don\'t feel like eating solid food.',
+    requiredSkills: ['prep-001'],
+    tags: ['no-cook', 'post-workout', 'recovery', 'high-protein', 'budget'],
+    mealPrepNotes: 'Pre-portion frozen fruit into bags. Blend frozen for thicker shake.',
+    storageInstructions: 'Frozen fruit lasts months. Make smoothie fresh before drinking.',
+    nutritionInfo: {
+      calories: 307,
+      protein: 28,
+      carbs: 48,
+      fat: 1.8,
+      fiber: 5,
+      servings: 1
+    },
+    ingredients: [
+      { item: 'Whey protein', amount: '1 scoop (30g)', notes: 'Vanilla or chocolate' },
+      { item: 'Banana', amount: '1 medium (120g)', notes: 'Fresh or frozen' },
+      { item: 'Mixed berries', amount: '75g (1/2 cup)', notes: 'Frozen works great' },
+      { item: 'Milk', amount: '1 cup (244g)', notes: '1% low-fat' }
+    ],
+    instructions: [
+      {
+        step: 1,
+        instruction: 'Blend all ingredients until smooth.',
+        detailedExplanation: 'Add whey protein, banana, frozen berries, and milk to blender. Blend on high for 30-45 seconds until completely smooth. Add ice if you want it thicker. This recovery smoothie delivers protein for muscle repair, carbs to refuel, and antioxidants to fight inflammation.',
+        skillTip: 'Drink within 30-60 min post-workout for optimal recovery. Use frozen fruit for thicker texture.',
+        timeEstimate: 4
+      }
+    ]
+  },
+  {
+    id: 'recipe-039',
+    title: 'Turkey Sandwich + Sports Drink Combo',
+    category: 'snacks',
+    difficulty: 'beginner',
+    economics: '$',
+    description: 'Classic sandwich with hydration - 16g protein, carb-loaded',
+    prepTime: 3,
+    cookTime: 0,
+    servings: 1,
+    servingSizeAmount: 'Sandwich + 12 oz drink',
+    servingSizeVisual: 'Regular sandwich + bottle of sports drink',
+    servingSizeGrams: 195,
+    athleteNotes: 'Simple post-workout combo. The sandwich provides protein and carbs, while the sports drink replaces electrolytes and adds quick carbs. Perfect when you need something familiar and satisfying after hard training.',
+    requiredSkills: ['prep-001'],
+    tags: ['no-cook', 'post-workout', 'recovery', 'budget', 'hydration'],
+    mealPrepNotes: 'Make sandwiches ahead and wrap in foil. Keep refrigerated.',
+    storageInstructions: 'Assembled sandwich lasts 1-2 days. Sports drinks last months.',
+    nutritionInfo: {
+      calories: 303,
+      protein: 16,
+      carbs: 53,
+      fat: 2.1,
+      fiber: 3,
+      servings: 1
+    },
+    ingredients: [
+      { item: 'Whole wheat bread', amount: '2 slices (56g)', notes: 'Or white bread' },
+      { item: 'Deli turkey', amount: '3 oz (84g)', notes: 'Lean, low sodium' },
+      { item: 'Mustard', amount: '1 teaspoon', notes: 'Or your favorite spread' },
+      { item: 'Lettuce', amount: '2 leaves', notes: 'Optional' },
+      { item: 'Sports drink', amount: '12 oz (355ml)', notes: 'Gatorade, Powerade, etc.' }
+    ],
+    instructions: [
+      {
+        step: 1,
+        instruction: 'Assemble sandwich and drink sports drink.',
+        detailedExplanation: 'Spread mustard on bread. Layer turkey and lettuce. Close sandwich and cut in half. Eat the sandwich while drinking your sports drink. This classic combo provides protein for muscle repair, carbs for energy replenishment, and electrolytes for rehydration.',
+        skillTip: 'Eat within 60 min post-workout. The sports drink helps you rehydrate faster.',
+        timeEstimate: 3
+      }
+    ]
+  },
+  {
+    id: 'recipe-040',
+    title: 'Rice Cakes + Jam + Chicken + Cheese Stack',
+    category: 'snacks',
+    difficulty: 'beginner',
+    economics: '$',
+    description: 'Savory-sweet rice cake stack - 22g protein, easy digestion',
+    prepTime: 4,
+    cookTime: 0,
+    servings: 1,
+    servingSizeAmount: '4 rice cakes stacked',
+    servingSizeVisual: '4 rice cakes with toppings',
+    servingSizeGrams: 160,
+    athleteNotes: 'Creative post-workout snack. Rice cakes digest easily, jam provides quick carbs, chicken delivers lean protein, and cheese adds extra protein and flavor. Light but effective for recovery.',
+    requiredSkills: ['prep-001'],
+    tags: ['no-cook', 'post-workout', 'recovery', 'high-protein', 'budget'],
+    mealPrepNotes: 'Use rotisserie chicken for convenience. Pre-shred and store.',
+    storageInstructions: 'Rice cakes last weeks. Cooked chicken lasts 3-4 days refrigerated.',
+    nutritionInfo: {
+      calories: 295,
+      protein: 22.1,
+      carbs: 44,
+      fat: 4.3,
+      fiber: 0.3,
+      servings: 1
+    },
+    ingredients: [
+      { item: 'Rice cakes', amount: '4 cakes (36g)', notes: 'Plain or lightly salted' },
+      { item: 'Jam', amount: '2 tablespoons (40g)', notes: 'Your favorite flavor' },
+      { item: 'Cooked chicken breast', amount: '2 oz (56g)', notes: 'Shredded or sliced' },
+      { item: 'Cheese slice', amount: '1 slice (28g)', notes: 'Cheddar or Swiss' }
+    ],
+    instructions: [
+      {
+        step: 1,
+        instruction: 'Top rice cakes with jam, chicken, and cheese.',
+        detailedExplanation: 'Lay out 4 rice cakes. Spread jam on 2 of them. Top the other 2 with shredded chicken and cheese slices. You can eat them separately or stack them together for sweet-savory bites. This combo provides protein for recovery and carbs for refueling.',
+        skillTip: 'The light rice cakes won\'t sit heavy post-workout. Eat within 60 min of training.',
+        timeEstimate: 4
+      }
+    ]
   }
 ];
