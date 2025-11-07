@@ -1,27 +1,106 @@
+/* VLV BRANDING - Elite Athlete Fuel Lab */
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  /* VLV Color Palette */
+  --black: #1A1A1A;
+  --yellow: #F5C842;
+  --gold: #FFD700;
+  --white: #FFFFFF;
+  --gray: #B0B0B0;
+  --dark-gray: #2A2A2A;
+  --border: #3A3A3A;
+  --green: #4CAF50;
+  --red: #FF5722;
+  --blue: #4A90E2;
+  --purple: #9C27B0;
+  --shadow: rgba(0, 0, 0, 0.5);
+  --glow: rgba(245, 200, 66, 0.5);
+}
+
 @layer base {
   body {
-    @apply min-h-screen bg-gray-50 text-gray-900;
+    @apply min-h-screen text-white;
+    background-color: var(--black);
+    font-family: 'Inter', sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--yellow);
   }
 }
 
 @layer components {
   .btn-primary {
-    @apply px-6 py-3 bg-primary-600 text-white rounded-lg font-semibold hover:bg-primary-700 transition-colors duration-200 shadow-md hover:shadow-lg;
+    @apply px-6 py-3 rounded-lg font-bold transition-all duration-300;
+    background: linear-gradient(135deg, var(--yellow) 0%, var(--gold) 100%);
+    color: var(--black);
+    box-shadow: 0 5px 20px var(--shadow);
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px var(--glow);
   }
 
   .btn-secondary {
-    @apply px-6 py-3 bg-gray-200 text-gray-800 rounded-lg font-semibold hover:bg-gray-300 transition-colors duration-200;
+    @apply px-6 py-3 rounded-lg font-bold transition-all duration-300;
+    background-color: var(--dark-gray);
+    color: var(--yellow);
+    border: 2px solid var(--border);
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--yellow);
+    box-shadow: 0 8px 30px var(--glow);
+    transform: translateY(-2px);
   }
 
   .card {
-    @apply bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden;
+    background: linear-gradient(135deg, var(--dark-gray) 0%, #1f1f1f 100%);
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    box-shadow: 0 5px 20px var(--shadow);
+    transition: all 0.3s ease;
+    overflow: hidden;
+  }
+
+  .card:hover {
+    border-color: var(--yellow);
+    box-shadow: 0 8px 30px var(--glow);
+    transform: translateY(-2px);
   }
 
   .skill-badge {
-    @apply inline-block px-3 py-1 bg-athletic-100 text-athletic-700 rounded-full text-sm font-medium;
+    @apply inline-block px-3 py-1 rounded-full text-sm font-bold;
+    background-color: var(--dark-gray);
+    color: var(--yellow);
+    border: 1px solid var(--yellow);
+    font-family: 'Inter', sans-serif;
+  }
+
+  .vlv-heading {
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--yellow);
+  }
+
+  .vlv-text {
+    color: var(--gray);
+    font-family: 'Inter', sans-serif;
   }
 }

@@ -18,7 +18,7 @@ function App() {
     <Router basename="/PlatePerfect">
       <MacroProvider>
         <ErrorBoundary>
-          <div className="min-h-screen bg-gray-50">
+          <div className="min-h-screen" style={{ backgroundColor: 'var(--black)' }}>
             <Navigation />
             <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
               <Routes>
