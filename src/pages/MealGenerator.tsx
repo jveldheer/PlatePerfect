@@ -285,7 +285,18 @@ function MealGenerator() {
                 <span className="text-2xl">⚠️</span>
               </div>
               <div className="ml-3">
-                <p className="text-sm text-red-800 whitespace-pre-line">{error}</p>
+                <p className="text-sm text-red-800 whitespace-pre-line font-medium mb-2">{error}</p>
+                {error.includes('No content received') && (
+                  <div className="text-xs text-red-700 mt-2 space-y-1">
+                    <p>This could mean:</p>
+                    <ul className="list-disc list-inside ml-2">
+                      <li>GPT-5-mini might have API restrictions</li>
+                      <li>Your API key might not have access to this model</li>
+                      <li>The response was cut off or filtered</li>
+                    </ul>
+                    <p className="mt-2 font-medium">💡 The app automatically fell back to local generation which still works great!</p>
+                  </div>
+                )}
                 <p className="text-xs text-red-600 mt-2">
                   💡 Check the browser console (F12) for detailed debugging information
                 </p>

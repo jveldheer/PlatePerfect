@@ -153,12 +153,36 @@ Return ONLY the JSON response matching the schema.`;
 
     const data = await response.json();
     console.log('📦 Parsed response data');
+    console.log('📊 Response structure:', {
+      hasChoices: !!data.choices,
+      choicesLength: data.choices?.length,
+      firstChoice: data.choices?.[0] ? 'exists' : 'missing',
+      hasMessage: !!data.choices?.[0]?.message,
+      hasContent: !!data.choices?.[0]?.message?.content,
+      finishReason: data.choices?.[0]?.finish_reason,
+      usage: data.usage
+    });
 
-    const content = data.choices[0]?.message?.content;
+    const content = data.choices?.[0]?.message?.content;
 
     if (!content) {
-      console.error('❌ No content in response:', data);
-      throw new Error('No response from AI');
+      console.error('❌ No content in response');
+      console.error('Full response data:', JSON.stringify(data, null, 2));
+
+      // Check if there's an error in the response
+      if (data.error) {
+        throw new Error(`OpenAI Error: ${data.error.message || JSON.stringify(data.error)}`);
+      }
+
+      // Check finish reason
+      const finishReason = data.choices?.[0]?.finish_reason;
+      if (finishReason === 'length') {
+        throw new Error('Response was cut off due to length limit. Try reducing ingredients or simplifying the request.');
+      } else if (finishReason === 'content_filter') {
+        throw new Error('Content was filtered by OpenAI. This is unexpected for meal generation.');
+      }
+
+      throw new Error(`No content received from AI. Finish reason: ${finishReason || 'unknown'}`);
     }
 
     console.log('📝 Received content length:', content.length, 'characters');
