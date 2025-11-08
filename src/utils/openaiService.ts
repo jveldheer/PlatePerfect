@@ -4,6 +4,32 @@ const AI_SYSTEM_PROMPT = `You are an elite sports-nutrition meal generator insid
 
 Return ONLY valid JSON that matches the schema in this prompt. No prose. No markdown.
 
+RESPONSE JSON SCHEMA
+You must return a JSON object with the following structure:
+{
+  "context": {
+    "athlete_id": string,
+    "goal": "cut" | "maintain" | "bulk" | "refeed" | "pre_training" | "post_training",
+    "target_macros_per_meal": { "cal": number, "protein_g": number, "carb_g": number, "fat_g": number, "fiber_g": number },
+    "creative_mode": boolean,
+    "category_preference": string[],
+    "allowed_appliances": string[],
+    "include_staples": boolean,
+    "servings_default": number
+  },
+  "meals": [array of 6 meal objects],
+  "summary": {
+    "count_by_category": { "no_cook": number, "minimal_cook": number, "full_cook": number, "freestyle": number },
+    "macro_sums_all_meals": { "cal": number, "protein_g": number, "carb_g": number, "fat_g": number, "fiber_g": number }
+  }
+}
+
+IMPORTANT: The "context" field must be included and should echo back the context information provided in the user message (athlete_id, goal, target_macros_per_meal, creative_mode, category_preference, allowed_appliances, include_staples, servings_default).
+
+The "summary" field must include:
+- count_by_category: counts of meals by category (no_cook, minimal_cook, full_cook, freestyle)
+- macro_sums_all_meals: sum of macros_total from all 6 meals
+
 HARD REQUIREMENTS
 1) Produce exactly 6 distinct meals per request. Titles must be unique.
 2) All meals are animal based. Each meal must include at least one animal-sourced protein per serving. Never output vegan or vegetarian meals.
@@ -78,13 +104,17 @@ export async function generateMealsWithAI(
 
   const userMessage = `Generate 6 athlete meals with the following context:
 
+Athlete ID: ${context.athlete_id}
 Goal: ${context.goal}
-Target macros per meal: ${context.target_macros_per_meal.cal} cal, ${context.target_macros_per_meal.protein_g}g protein, ${context.target_macros_per_meal.carb_g}g carbs, ${context.target_macros_per_meal.fat_g}g fat
+Target macros per meal: ${context.target_macros_per_meal.cal} cal, ${context.target_macros_per_meal.protein_g}g protein, ${context.target_macros_per_meal.carb_g}g carbs, ${context.target_macros_per_meal.fat_g}g fat, ${context.target_macros_per_meal.fiber_g}g fiber
 ${userIngredients.length > 0 ? `User ingredients: ${userIngredients.join(', ')}` : 'No specific ingredients - generate creative meals'}
 Allowed appliances: ${context.allowed_appliances.join(', ')}
 Category preference: ${context.category_preference.join(', ')}
+Creative mode: ${context.creative_mode}
+Include staples: ${context.include_staples}
+Default servings: ${context.servings_default}
 
-Return ONLY the JSON response matching the schema.`;
+Return ONLY the JSON response matching the schema. Remember to include the "context" object with all the fields above, the "meals" array with 6 meals, and the "summary" object with count_by_category and macro_sums_all_meals.`;
 
   try {
     console.log('🚀 Starting API request to OpenAI...');
