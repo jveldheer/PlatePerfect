@@ -1,4 +1,5 @@
 import type { AIMealResponse, AIContext } from './aiMealGenerator';
+import { sumMacros } from './aiIngredientDatabase';
 
 const AI_SYSTEM_PROMPT = `You are an elite sports-nutrition meal generator inside an athlete-nutrition app. Be creative and practical for athletes. Use only the local ingredient and nutrient data provided by the app. Never call external services or the web.
 
@@ -247,11 +248,6 @@ Return ONLY the JSON response matching the schema. Remember to include the "cont
       throw new Error('Parsed response is null or undefined');
     }
 
-    if (!aiResponse.context) {
-      console.error('❌ Missing context in AI response:', aiResponse);
-      throw new Error('AI response missing context field');
-    }
-
     if (!aiResponse.meals) {
       console.error('❌ Missing meals array in AI response:', aiResponse);
       throw new Error('AI response missing meals field');
@@ -290,6 +286,25 @@ Return ONLY the JSON response matching the schema. Remember to include the "cont
     if (uniqueTitles.size !== 6) {
       console.error('❌ Duplicate meal titles detected:', titles);
       throw new Error('AI returned duplicate meal titles');
+    }
+
+    // Defensive fallback: Add context if missing (AI should return it, but sometimes doesn't)
+    if (!aiResponse.context) {
+      console.warn('⚠️ AI did not return context field, reconstructing from input...');
+      aiResponse.context = context;
+    }
+
+    // Defensive fallback: Add summary if missing
+    if (!aiResponse.summary) {
+      console.warn('⚠️ AI did not return summary field, calculating from meals...');
+      const count_by_category = {
+        no_cook: aiResponse.meals.filter(m => m.category === 'no_cook').length,
+        minimal_cook: aiResponse.meals.filter(m => m.category === 'minimal_cook').length,
+        full_cook: aiResponse.meals.filter(m => m.category === 'full_cook').length,
+        freestyle: aiResponse.meals.filter(m => m.category === 'freestyle').length
+      };
+      const macro_sums_all_meals = sumMacros(aiResponse.meals.map(m => m.macros_total));
+      aiResponse.summary = { count_by_category, macro_sums_all_meals };
     }
 
     console.log('✅ AI response validation passed - all 6 meals valid');
