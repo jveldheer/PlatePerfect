@@ -24,7 +24,6 @@ export default function Supplements() {
 
     const weightKg = userProfile.currentWeightLb / 2.205;
 
-    // Specific calculations for each weight-based supplement
     if (supplement.name === 'Whey protein') {
       const low = Math.round(weightKg * 0.25);
       const high = Math.round(weightKg * 0.40);
@@ -32,10 +31,6 @@ export default function Supplements() {
     } else if (supplement.name === 'Casein protein') {
       const dose = Math.round(weightKg * 0.3);
       return `≈${dose} g (30–40 g)`;
-    } else if (supplement.name === 'Creatine monohydrate') {
-      const loading = (weightKg * 0.3).toFixed(1);
-      const maintenance = (weightKg * 0.03).toFixed(1);
-      return `Load: ${loading} g/day × 5–7 days → Maintain: ${maintenance} g/day (or 3–5 g/day)`;
     } else if (supplement.name === 'Caffeine') {
       const low = Math.round(weightKg * 3);
       const high = Math.round(weightKg * 6);
@@ -50,93 +45,92 @@ export default function Supplements() {
     : supplementSections.filter(s => s.id === selectedSection);
 
   return (
-    <div className="space-y-6 sm:space-y-8">
+    <div className="max-w-6xl mx-auto space-y-8">
       {/* Header */}
-      <div className="text-center px-4">
+      <div className="text-center">
         <h1 style={{
           fontFamily: 'Bebas Neue, sans-serif',
-          letterSpacing: '2px',
+          letterSpacing: '3px',
           color: 'var(--yellow)',
-          textTransform: 'uppercase'
-        }} className="text-3xl sm:text-4xl font-bold mb-3 sm:mb-4">
-          Athlete Supplement Guide
-        </h1>
-        <p className="text-base sm:text-lg max-w-3xl mx-auto" style={{ color: 'var(--light-text)' }}>
-          Evidence-based supplement recommendations with personalized dosing based on your body weight.
-          {!userProfile && (
-            <span style={{ color: 'var(--yellow)', display: 'block', marginTop: '0.5rem', fontWeight: '600' }}>
-              Set your weight in Profile to see personalized dosages.
-            </span>
-          )}
-        </p>
-      </div>
-
-      {/* Category Filter */}
-      <div style={{
-        backgroundColor: '#2A2A2A',
-        border: '3px solid var(--border)',
-        borderRadius: '12px',
-        padding: '1.5rem'
-      }}>
-        <label style={{
-          color: 'var(--white)',
-          fontWeight: '700',
-          fontSize: '1.1rem',
           textTransform: 'uppercase',
-          display: 'block',
-          marginBottom: '0.75rem'
+          fontSize: '2.5rem',
+          marginBottom: '1rem'
         }}>
-          Category
-        </label>
-        <div className="flex flex-wrap gap-2">
-          <button
-            onClick={() => setSelectedSection('all')}
-            style={{
-              backgroundColor: selectedSection === 'all' ? 'var(--yellow)' : '#1A1A1A',
-              color: selectedSection === 'all' ? '#000000' : 'var(--white)',
-              border: `3px solid ${selectedSection === 'all' ? 'var(--yellow)' : 'var(--border)'}`,
-              fontWeight: '600',
-              boxShadow: selectedSection === 'all' ? '0 0 20px var(--glow)' : 'none'
-            }}
-            className="px-3 sm:px-4 py-2 sm:py-2.5 min-h-[44px] rounded-lg text-sm transition-all touch-manipulation hover:scale-105"
-          >
-            All Categories
-          </button>
-          {supplementSections.map((section) => (
-            <button
-              key={section.id}
-              onClick={() => setSelectedSection(section.id)}
-              style={{
-                backgroundColor: selectedSection === section.id ? 'var(--yellow)' : '#1A1A1A',
-                color: selectedSection === section.id ? '#000000' : 'var(--white)',
-                border: `3px solid ${selectedSection === section.id ? 'var(--yellow)' : 'var(--border)'}`,
-                fontWeight: '600',
-                boxShadow: selectedSection === section.id ? '0 0 20px var(--glow)' : 'none'
-              }}
-              className="px-3 sm:px-4 py-2 sm:py-2.5 min-h-[44px] rounded-lg text-sm transition-all touch-manipulation hover:scale-105"
-            >
-              {section.title}
-            </button>
-          ))}
-        </div>
+          Supplements
+        </h1>
+        <p style={{ color: 'var(--light-text)', fontSize: '1.1rem', maxWidth: '600px', margin: '0 auto' }}>
+          Evidence-based supplement guide with personalized dosing
+        </p>
+        {!userProfile && (
+          <p style={{
+            color: 'var(--yellow)',
+            marginTop: '0.75rem',
+            fontWeight: '600'
+          }}>
+            Set your weight in Profile for personalized dosages
+          </p>
+        )}
       </div>
 
-      {/* Supplements List */}
+      {/* Category Pills */}
+      <div className="flex flex-wrap justify-center gap-3">
+        <button
+          onClick={() => setSelectedSection('all')}
+          style={{
+            backgroundColor: selectedSection === 'all' ? 'var(--yellow)' : 'transparent',
+            color: selectedSection === 'all' ? '#000000' : 'var(--yellow)',
+            border: '2px solid var(--yellow)',
+            padding: '0.5rem 1.5rem',
+            borderRadius: '25px',
+            fontWeight: '700',
+            fontSize: '0.9rem',
+            textTransform: 'uppercase',
+            letterSpacing: '1px',
+            transition: 'all 0.2s'
+          }}
+          className="hover:scale-105"
+        >
+          All
+        </button>
+        {supplementSections.map((section) => (
+          <button
+            key={section.id}
+            onClick={() => setSelectedSection(section.id)}
+            style={{
+              backgroundColor: selectedSection === section.id ? 'var(--yellow)' : 'transparent',
+              color: selectedSection === section.id ? '#000000' : 'var(--yellow)',
+              border: '2px solid var(--yellow)',
+              padding: '0.5rem 1.5rem',
+              borderRadius: '25px',
+              fontWeight: '700',
+              fontSize: '0.9rem',
+              textTransform: 'uppercase',
+              letterSpacing: '1px',
+              transition: 'all 0.2s'
+            }}
+            className="hover:scale-105"
+          >
+            {section.title}
+          </button>
+        ))}
+      </div>
+
+      {/* Supplements Grid */}
       {sections.map((section) => (
         <div key={section.id} className="space-y-4">
           <h2 style={{
             fontFamily: 'Bebas Neue, sans-serif',
-            letterSpacing: '1.5px',
-            color: 'var(--yellow)',
-            fontSize: '1.75rem',
+            letterSpacing: '2px',
+            color: 'var(--white)',
+            fontSize: '1.5rem',
             textTransform: 'uppercase',
-            borderBottom: '3px solid var(--border)',
-            paddingBottom: '0.5rem'
+            paddingBottom: '0.5rem',
+            borderBottom: '2px solid var(--yellow)'
           }}>
             {section.title}
           </h2>
 
-          <div className="grid grid-cols-1 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {section.items.map((supplement) => {
               const isExpanded = expandedSupplements.has(supplement.name);
               const calculatedDose = calculateWeightBasedDose(supplement);
@@ -144,60 +138,56 @@ export default function Supplements() {
               return (
                 <div
                   key={supplement.name}
-                  className="card overflow-hidden"
+                  onClick={() => toggleSupplement(supplement.name)}
                   style={{
-                    border: isExpanded ? '3px solid var(--yellow)' : '3px solid var(--border)',
+                    backgroundColor: isExpanded ? '#2A2A2A' : '#1A1A1A',
+                    border: `2px solid ${isExpanded ? 'var(--yellow)' : 'var(--border)'}`,
+                    borderRadius: '12px',
+                    padding: '1.25rem',
+                    cursor: 'pointer',
                     transition: 'all 0.2s'
                   }}
+                  className="hover:border-yellow-500"
                 >
-                  <button
-                    onClick={() => toggleSupplement(supplement.name)}
-                    className="w-full text-left p-4 sm:p-6 hover:bg-opacity-90 transition-all"
-                    style={{ backgroundColor: isExpanded ? '#2A2A2A' : 'transparent' }}
-                  >
-                    <div className="flex items-start justify-between">
-                      <div className="flex-1">
-                        <div className="flex items-center gap-2 mb-2">
-                          <h3 style={{
-                            fontFamily: 'Bebas Neue, sans-serif',
-                            letterSpacing: '1px',
-                            color: 'var(--white)',
-                            fontSize: '1.5rem'
-                          }}>
-                            {supplement.name}
-                          </h3>
-                          {supplement.weight_based_dosing && (
-                            <span style={{
-                              backgroundColor: 'var(--yellow)',
-                              color: '#000000',
-                              fontWeight: '700',
-                              fontSize: '0.75rem',
-                              padding: '0.25rem 0.5rem',
-                              borderRadius: '4px'
-                            }}>
-                              WB
-                            </span>
-                          )}
-                        </div>
-                        <p style={{ color: '#CCCCCC', fontSize: '0.95rem' }}>
-                          {supplement.what_it_is}
-                        </p>
-                      </div>
-                      <div style={{
-                        color: 'var(--yellow)',
-                        fontSize: '1.5rem',
-                        marginLeft: '1rem',
-                        transition: 'transform 0.2s',
-                        transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)'
+                  {/* Header */}
+                  <div className="flex items-start justify-between mb-3">
+                    <h3 style={{
+                      fontFamily: 'Bebas Neue, sans-serif',
+                      letterSpacing: '1px',
+                      color: 'var(--white)',
+                      fontSize: '1.25rem',
+                      flex: 1
+                    }}>
+                      {supplement.name}
+                    </h3>
+                    {supplement.weight_based_dosing && (
+                      <span style={{
+                        backgroundColor: 'var(--yellow)',
+                        color: '#000000',
+                        fontWeight: '700',
+                        fontSize: '0.7rem',
+                        padding: '0.15rem 0.4rem',
+                        borderRadius: '4px',
+                        marginLeft: '0.5rem'
                       }}>
-                        ▼
-                      </div>
-                    </div>
-                  </button>
+                        WB
+                      </span>
+                    )}
+                  </div>
 
+                  {/* Description */}
+                  <p style={{
+                    color: '#AAAAAA',
+                    fontSize: '0.85rem',
+                    marginBottom: isExpanded ? '1rem' : '0'
+                  }}>
+                    {supplement.what_it_is}
+                  </p>
+
+                  {/* Expanded Content */}
                   {isExpanded && (
-                    <div className="px-4 sm:px-6 pb-4 sm:pb-6 space-y-4" style={{
-                      borderTop: '2px solid var(--border)',
+                    <div className="space-y-3 mt-4" style={{
+                      borderTop: '1px solid var(--border)',
                       paddingTop: '1rem'
                     }}>
                       {/* Benefits */}
@@ -205,16 +195,16 @@ export default function Supplements() {
                         <h4 style={{
                           color: 'var(--yellow)',
                           fontWeight: '700',
-                          fontSize: '1rem',
+                          fontSize: '0.85rem',
                           textTransform: 'uppercase',
                           marginBottom: '0.5rem'
                         }}>
-                          Key Benefits
+                          Benefits
                         </h4>
                         <ul className="space-y-1">
                           {supplement.key_benefits.map((benefit, idx) => (
-                            <li key={idx} style={{ color: 'var(--light-text)' }} className="flex items-start">
-                              <span style={{ color: 'var(--yellow)', marginRight: '0.5rem' }}>•</span>
+                            <li key={idx} style={{ color: 'var(--light-text)', fontSize: '0.85rem' }} className="flex items-start">
+                              <span style={{ color: 'var(--yellow)', marginRight: '0.5rem', fontSize: '0.7rem' }}>●</span>
                               {benefit}
                             </li>
                           ))}
@@ -226,20 +216,16 @@ export default function Supplements() {
                         <h4 style={{
                           color: 'var(--yellow)',
                           fontWeight: '700',
-                          fontSize: '1rem',
+                          fontSize: '0.85rem',
                           textTransform: 'uppercase',
                           marginBottom: '0.5rem'
                         }}>
-                          Recommended Dose
+                          Dose
                         </h4>
                         <p style={{
                           color: 'var(--white)',
-                          fontSize: '1.1rem',
-                          fontWeight: '600',
-                          backgroundColor: '#1A1A1A',
-                          padding: '0.75rem',
-                          borderRadius: '8px',
-                          border: '2px solid var(--border)'
+                          fontSize: '0.95rem',
+                          fontWeight: '600'
                         }}>
                           {calculatedDose}
                         </p>
@@ -250,13 +236,13 @@ export default function Supplements() {
                         <h4 style={{
                           color: 'var(--yellow)',
                           fontWeight: '700',
-                          fontSize: '1rem',
+                          fontSize: '0.85rem',
                           textTransform: 'uppercase',
                           marginBottom: '0.5rem'
                         }}>
                           Timing
                         </h4>
-                        <p style={{ color: 'var(--light-text)' }}>
+                        <p style={{ color: 'var(--light-text)', fontSize: '0.85rem' }}>
                           {supplement.timing}
                         </p>
                       </div>
@@ -264,25 +250,30 @@ export default function Supplements() {
                       {/* Notes */}
                       {supplement.notes && (
                         <div style={{
-                          backgroundColor: '#2A2A2A',
-                          border: '2px solid var(--yellow)',
-                          borderRadius: '8px',
-                          padding: '1rem'
+                          backgroundColor: '#1A1A1A',
+                          border: '1px solid var(--yellow)',
+                          borderRadius: '6px',
+                          padding: '0.75rem',
+                          marginTop: '0.75rem'
                         }}>
-                          <h4 style={{
-                            color: 'var(--yellow)',
-                            fontWeight: '700',
-                            fontSize: '0.9rem',
-                            textTransform: 'uppercase',
-                            marginBottom: '0.5rem'
-                          }}>
-                            Important Note
-                          </h4>
-                          <p style={{ color: 'var(--white)', fontSize: '0.95rem' }}>
-                            {supplement.notes}
+                          <p style={{ color: '#FFCC00', fontSize: '0.8rem', fontWeight: '600' }}>
+                            ⚠️ {supplement.notes}
                           </p>
                         </div>
                       )}
+                    </div>
+                  )}
+
+                  {/* Expand indicator */}
+                  {!isExpanded && (
+                    <div style={{
+                      color: 'var(--yellow)',
+                      fontSize: '0.75rem',
+                      marginTop: '0.75rem',
+                      textAlign: 'center',
+                      fontWeight: '600'
+                    }}>
+                      Click for details ▼
                     </div>
                   )}
                 </div>
@@ -294,28 +285,28 @@ export default function Supplements() {
 
       {/* Quick Start Stacks */}
       <div style={{
-        backgroundColor: '#2A2A2A',
-        border: '3px solid var(--yellow)',
+        backgroundColor: '#1A1A1A',
+        border: '2px solid var(--yellow)',
         borderRadius: '12px',
-        padding: '1.5rem',
-        marginTop: '2rem'
+        padding: '2rem',
+        marginTop: '3rem'
       }}>
         <h2 style={{
           fontFamily: 'Bebas Neue, sans-serif',
           letterSpacing: '2px',
           color: 'var(--yellow)',
-          fontSize: '2rem',
+          fontSize: '1.75rem',
           textTransform: 'uppercase',
           marginBottom: '1.5rem',
           textAlign: 'center'
         }}>
           Quick Start Stacks
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {quickStartStacks.map((stack) => (
             <div key={stack.name} style={{
-              backgroundColor: '#1A1A1A',
-              border: '2px solid var(--border)',
+              backgroundColor: '#2A2A2A',
+              border: '1px solid var(--border)',
               borderRadius: '8px',
               padding: '1.25rem'
             }}>
@@ -323,7 +314,7 @@ export default function Supplements() {
                 fontFamily: 'Bebas Neue, sans-serif',
                 letterSpacing: '1px',
                 color: 'var(--white)',
-                fontSize: '1.25rem',
+                fontSize: '1.1rem',
                 marginBottom: '1rem'
               }}>
                 {stack.name}
@@ -332,16 +323,16 @@ export default function Supplements() {
                 {stack.items.map((item, idx) => (
                   <li key={idx} style={{
                     color: 'var(--light-text)',
-                    fontSize: '0.95rem',
+                    fontSize: '0.85rem',
                     display: 'flex',
                     alignItems: 'start'
                   }}>
                     <span style={{
                       color: 'var(--yellow)',
                       marginRight: '0.5rem',
-                      fontWeight: '700'
+                      fontSize: '0.7rem'
                     }}>
-                      •
+                      ●
                     </span>
                     {item}
                   </li>
@@ -354,25 +345,22 @@ export default function Supplements() {
 
       {/* Legend */}
       <div style={{
-        backgroundColor: '#1A1A1A',
-        border: '2px solid var(--border)',
-        borderRadius: '8px',
-        padding: '1rem',
-        textAlign: 'center'
+        textAlign: 'center',
+        padding: '1rem'
       }}>
-        <p style={{ color: '#CCCCCC', fontSize: '0.9rem' }}>
+        <p style={{ color: '#888888', fontSize: '0.85rem' }}>
           <span style={{
             backgroundColor: 'var(--yellow)',
             color: '#000000',
             fontWeight: '700',
-            fontSize: '0.75rem',
-            padding: '0.25rem 0.5rem',
+            fontSize: '0.7rem',
+            padding: '0.15rem 0.4rem',
             borderRadius: '4px',
             marginRight: '0.5rem'
           }}>
             WB
           </span>
-          = Weight-Based dosing (personalized to your body weight)
+          Weight-Based dosing
         </p>
       </div>
     </div>

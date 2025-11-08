@@ -52,10 +52,11 @@ export const supplementSections: SupplementSection[] = [
         key_benefits: [
           'Increases strength and power',
           'Improves sprint capacity',
-          'Supports lean mass'
+          'Supports lean mass',
+          'Higher doses support cognitive function and neuroprotection'
         ],
-        weight_based_dosing: true,
-        dose: 'Load: 0.3 g/kg/day × 5–7 days → Maintain: 3–5 g/day (or 0.03 g/kg/day)',
+        weight_based_dosing: false,
+        dose: '5 g/day for muscle benefits; 25 g/day for neurological support',
         timing: 'Any time daily; consistency is more important than timing'
       },
       {
@@ -83,8 +84,8 @@ export const supplementSections: SupplementSection[] = [
     ]
   },
   {
-    id: 'acute_performance_ergogenics',
-    title: 'Acute Performance Ergogenics',
+    id: 'pre_workout_performance',
+    title: 'Pre-Workout Performance',
     items: [
       {
         name: 'Caffeine',
@@ -414,7 +415,7 @@ export const quickStartStacks: QuickStartStack[] = [
   {
     name: 'Daily base (all seasons)',
     items: [
-      'Creatine 3–5 g',
+      'Creatine 5 g',
       'Fish oil 1–3 g EPA + DHA (with meals)',
       'Magnesium 200–400 mg (evening)',
       'Vitamin D3 600–800 IU/day + Vitamin K2 90–200 mcg/day (with a fat-containing meal)',
