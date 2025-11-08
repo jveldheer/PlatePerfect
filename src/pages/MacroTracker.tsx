@@ -1,8 +1,49 @@
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
 import { useMacros } from '../contexts/MacroContext';
 
 export default function MacroTracker() {
-  const { userProfile, macroGoals, consumedMacros, resetTracker, getGoalDirection } = useMacros();
+  const { userProfile, macroGoals, consumedMacros, resetTracker, getGoalDirection, addToTracker } = useMacros();
+
+  // Manual entry form state
+  const [showManualEntry, setShowManualEntry] = useState(false);
+  const [mealName, setMealName] = useState('');
+  const [calories, setCalories] = useState('');
+  const [protein, setProtein] = useState('');
+  const [carbs, setCarbs] = useState('');
+  const [fat, setFat] = useState('');
+  const [showSuccess, setShowSuccess] = useState(false);
+
+  const handleManualSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const caloriesNum = parseFloat(calories) || 0;
+    const proteinNum = parseFloat(protein) || 0;
+    const carbsNum = parseFloat(carbs) || 0;
+    const fatNum = parseFloat(fat) || 0;
+
+    // Add to tracker
+    addToTracker({
+      calories: caloriesNum,
+      protein: proteinNum,
+      carbs: carbsNum,
+      fat: fatNum,
+    });
+
+    // Reset form
+    setMealName('');
+    setCalories('');
+    setProtein('');
+    setCarbs('');
+    setFat('');
+
+    // Show success message
+    setShowSuccess(true);
+    setTimeout(() => setShowSuccess(false), 3000);
+
+    // Optionally close the form
+    setShowManualEntry(false);
+  };
 
   if (!userProfile || !macroGoals) {
     return (
@@ -83,6 +124,160 @@ export default function MacroTracker() {
             </button>
           </div>
         </div>
+      </div>
+
+      {/* Success Message */}
+      {showSuccess && (
+        <div className="bg-green-50 border-l-4 border-green-500 rounded-lg p-4 animate-fade-in">
+          <div className="flex items-center">
+            <span className="text-2xl mr-3">✅</span>
+            <p className="text-green-800 font-medium">
+              Successfully added to your daily tracker!
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* Manual Entry */}
+      <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+        <button
+          onClick={() => setShowManualEntry(!showManualEntry)}
+          className="w-full px-4 sm:px-6 py-4 flex items-center justify-between hover:bg-gray-50 transition-colors"
+        >
+          <div className="flex items-center gap-3">
+            <span className="text-2xl">✏️</span>
+            <div className="text-left">
+              <h3 className="text-lg sm:text-xl font-bold text-gray-900">
+                Log Custom Meal
+              </h3>
+              <p className="text-sm text-gray-600">
+                Manually add calories from other foods
+              </p>
+            </div>
+          </div>
+          <span className="text-2xl text-gray-400">
+            {showManualEntry ? '▼' : '▶'}
+          </span>
+        </button>
+
+        {showManualEntry && (
+          <form onSubmit={handleManualSubmit} className="px-4 sm:px-6 pb-6 border-t border-gray-200">
+            <div className="pt-4 space-y-4">
+              {/* Meal Name (Optional) */}
+              <div>
+                <label htmlFor="mealName" className="block text-sm font-medium text-gray-700 mb-1">
+                  Meal Name (Optional)
+                </label>
+                <input
+                  type="text"
+                  id="mealName"
+                  value={mealName}
+                  onChange={(e) => setMealName(e.target.value)}
+                  placeholder="e.g., Chipotle Bowl, Protein Bar, etc."
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                />
+              </div>
+
+              {/* Macros Grid */}
+              <div className="grid grid-cols-2 gap-4">
+                {/* Calories */}
+                <div className="col-span-2 sm:col-span-1">
+                  <label htmlFor="calories" className="block text-sm font-medium text-gray-700 mb-1">
+                    Calories <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="number"
+                    id="calories"
+                    value={calories}
+                    onChange={(e) => setCalories(e.target.value)}
+                    placeholder="0"
+                    min="0"
+                    step="1"
+                    required
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                  />
+                </div>
+
+                {/* Protein */}
+                <div className="col-span-2 sm:col-span-1">
+                  <label htmlFor="protein" className="block text-sm font-medium text-gray-700 mb-1">
+                    Protein (g) <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="number"
+                    id="protein"
+                    value={protein}
+                    onChange={(e) => setProtein(e.target.value)}
+                    placeholder="0"
+                    min="0"
+                    step="0.1"
+                    required
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                  />
+                </div>
+
+                {/* Carbs */}
+                <div className="col-span-2 sm:col-span-1">
+                  <label htmlFor="carbs" className="block text-sm font-medium text-gray-700 mb-1">
+                    Carbs (g) <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="number"
+                    id="carbs"
+                    value={carbs}
+                    onChange={(e) => setCarbs(e.target.value)}
+                    placeholder="0"
+                    min="0"
+                    step="0.1"
+                    required
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                  />
+                </div>
+
+                {/* Fat */}
+                <div className="col-span-2 sm:col-span-1">
+                  <label htmlFor="fat" className="block text-sm font-medium text-gray-700 mb-1">
+                    Fat (g) <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="number"
+                    id="fat"
+                    value={fat}
+                    onChange={(e) => setFat(e.target.value)}
+                    placeholder="0"
+                    min="0"
+                    step="0.1"
+                    required
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  />
+                </div>
+              </div>
+
+              {/* Buttons */}
+              <div className="flex gap-3 pt-2">
+                <button
+                  type="submit"
+                  className="flex-1 px-4 py-3 min-h-[44px] bg-primary-600 text-white rounded-lg font-medium hover:bg-primary-700 transition-colors touch-manipulation"
+                >
+                  Add to Tracker
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMealName('');
+                    setCalories('');
+                    setProtein('');
+                    setCarbs('');
+                    setFat('');
+                  }}
+                  className="px-4 py-3 min-h-[44px] bg-gray-200 text-gray-700 rounded-lg font-medium hover:bg-gray-300 transition-colors touch-manipulation"
+                >
+                  Clear
+                </button>
+              </div>
+            </div>
+          </form>
+        )}
       </div>
 
       {/* Macro Progress */}
