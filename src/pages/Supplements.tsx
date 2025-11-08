@@ -72,6 +72,56 @@ export default function Supplements() {
         )}
       </div>
 
+      {/* Quality Disclaimer */}
+      <div style={{
+        backgroundColor: '#1A1A1A',
+        border: '3px solid var(--yellow)',
+        borderRadius: '12px',
+        padding: '1.5rem',
+        maxWidth: '800px',
+        margin: '0 auto'
+      }}>
+        <div className="flex items-start gap-3">
+          <div style={{
+            fontSize: '2rem',
+            flexShrink: 0
+          }}>
+            ⚠️
+          </div>
+          <div>
+            <h3 style={{
+              fontFamily: 'Bebas Neue, sans-serif',
+              letterSpacing: '1.5px',
+              color: 'var(--yellow)',
+              fontSize: '1.25rem',
+              textTransform: 'uppercase',
+              marginBottom: '0.75rem'
+            }}>
+              Quality Matters
+            </h3>
+            <div style={{ color: 'var(--light-text)', fontSize: '0.95rem', lineHeight: '1.6' }}>
+              <p style={{ marginBottom: '0.75rem' }}>
+                <strong style={{ color: 'var(--white)' }}>Always source high-quality, lab-tested products.</strong> The supplement industry is largely unregulated, so product quality varies dramatically.
+              </p>
+              <ul className="space-y-2" style={{ paddingLeft: '1.25rem' }}>
+                <li style={{ listStyleType: 'disc' }}>
+                  <strong style={{ color: 'var(--white)' }}>Look for NSF for Sport® certification</strong> – This ensures products are tested for banned substances and quality
+                </li>
+                <li style={{ listStyleType: 'disc' }}>
+                  <strong style={{ color: 'var(--white)' }}>Choose reputable brands</strong> like Thorne, Momentous, or other third-party tested companies
+                </li>
+                <li style={{ listStyleType: 'disc' }}>
+                  <strong style={{ color: 'var(--white)' }}>Avoid cheap, untested supplements</strong> – They may be contaminated, underdosed, or contain unlisted ingredients
+                </li>
+              </ul>
+              <p style={{ marginTop: '0.75rem', fontSize: '0.85rem', color: '#CCCCCC', fontStyle: 'italic' }}>
+                For competitive athletes subject to drug testing, NSF for Sport® certification is essential.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Category Pills */}
       <div className="flex flex-wrap justify-center gap-3">
         <button
