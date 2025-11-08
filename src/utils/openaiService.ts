@@ -2,7 +2,26 @@ import type { AIMealResponse, AIContext } from './aiMealGenerator';
 
 const AI_SYSTEM_PROMPT = `You are an elite sports-nutrition meal generator inside an athlete-nutrition app. Be creative and practical for athletes. Use only the local ingredient and nutrient data provided by the app. Never call external services or the web.
 
-Return ONLY valid JSON that matches the schema in this prompt. No prose. No markdown.
+Return ONLY valid JSON that matches the schema below. No prose. No markdown. The response must be a single JSON object with three top-level fields: "context", "meals", and "summary".
+
+REQUIRED JSON SCHEMA:
+{
+  "context": {
+    "athlete_id": "string",
+    "goal": "cut|maintain|bulk|refeed|pre_training|post_training",
+    "target_macros_per_meal": {"cal": number, "protein_g": number, "carb_g": number, "fat_g": number, "fiber_g": number},
+    "creative_mode": boolean,
+    "category_preference": ["string"],
+    "allowed_appliances": ["string"],
+    "include_staples": boolean,
+    "servings_default": number
+  },
+  "meals": [6 meal objects as defined below],
+  "summary": {
+    "count_by_category": {"no_cook": number, "minimal_cook": number, "full_cook": number, "freestyle": number},
+    "macro_sums_all_meals": {"cal": number, "protein_g": number, "carb_g": number, "fat_g": number, "fiber_g": number}
+  }
+}
 
 HARD REQUIREMENTS
 1) Produce exactly 6 distinct meals per request. Titles must be unique.
@@ -55,7 +74,9 @@ SELF VALIDATION BEFORE FINAL OUTPUT
 - Ingredient objects include user_input, canonical_name, grams, and per ingredient macros.
 - macros_total equals the sum of ingredient macros.
 - macros_per_serving equals macros_total divided by servings.
-- Output is valid JSON and nothing else.`;
+- The "context" field must be populated with the goal and target macros from the user request.
+- The "summary" field must include count_by_category (counting meals by category) and macro_sums_all_meals (sum of all meal macros).
+- Output is valid JSON with all three required top-level fields: context, meals, summary.`;
 
 export async function generateMealsWithAI(
   context: AIContext,
@@ -78,13 +99,17 @@ export async function generateMealsWithAI(
 
   const userMessage = `Generate 6 athlete meals with the following context:
 
-Goal: ${context.goal}
-Target macros per meal: ${context.target_macros_per_meal.cal} cal, ${context.target_macros_per_meal.protein_g}g protein, ${context.target_macros_per_meal.carb_g}g carbs, ${context.target_macros_per_meal.fat_g}g fat
-${userIngredients.length > 0 ? `User ingredients: ${userIngredients.join(', ')}` : 'No specific ingredients - generate creative meals'}
-Allowed appliances: ${context.allowed_appliances.join(', ')}
-Category preference: ${context.category_preference.join(', ')}
+CONTEXT TO INCLUDE IN YOUR JSON RESPONSE:
+${JSON.stringify(context, null, 2)}
 
-Return ONLY the JSON response matching the schema.`;
+${userIngredients.length > 0 ? `User ingredients: ${userIngredients.join(', ')}` : 'No specific ingredients - generate creative meals'}
+
+IMPORTANT: Your response must include:
+1. "context" field - use the exact context object provided above
+2. "meals" array - generate 6 unique meals following all requirements
+3. "summary" field - calculate count_by_category and macro_sums_all_meals from your generated meals
+
+Return ONLY the complete JSON response matching the schema with all three fields.`;
 
   try {
     console.log('🚀 Starting API request to OpenAI...');
