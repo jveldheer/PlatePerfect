@@ -115,7 +115,7 @@ function MealGenerator() {
   };
 
   const isMealSaved = (mealName: string) => {
-    return savedMeals.some(m => m.name === mealName);
+    return savedMeals.some(m => m.title === mealName);
   };
 
   const getMealServings = (mealTitle: string) => {
