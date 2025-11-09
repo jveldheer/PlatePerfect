@@ -138,7 +138,7 @@ Return ONLY the JSON response matching the RESPONSE SCHEMA, including:
         }
       ],
       temperature: 0.8,
-      max_tokens: 3000,
+      max_tokens: 8000, // Increased from 3000 to allow for complete 6-meal responses with all fields
       response_format: { type: 'json_object' }
     };
 
