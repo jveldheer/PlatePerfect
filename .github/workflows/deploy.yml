@@ -2,7 +2,7 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: ['claude/athlete-cooking-app-011CUmU74v58T59nFQSmT1dY', 'main', 'claude/fix-ai-response-context-011CUvmJSZ9o4QpZpiukHgBo']
+    branches: ['claude/athlete-cooking-app-011CUmU74v58T59nFQSmT1dY', 'main', 'claude/fix-ai-response-context-011CUvmJSZ9o4QpZpiukHgBo', 'claude/deploy-011CUvmJSZ9o4QpZpiukHgBo']
   workflow_dispatch:
 
 permissions:
