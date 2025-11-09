@@ -41,6 +41,7 @@ export interface AIMeal {
   cook_time_min: number;
   servings: number;
   scale_factor: number;
+  serving_size_explanation?: string; // Clear description of what one serving looks like
   dietary_flags: string[];
   ingredients: AIIngredient[];
   instructions: string[];

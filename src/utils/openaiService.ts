@@ -30,12 +30,17 @@ HARD REQUIREMENTS
    If the user supplied ingredients contain no animal items, add one or more from the allowed protein pool.
 3) Skill level must be "easy" or "moderate".
 4) Every ingredient object must include both the original user_input and the canonical_name you corrected to, plus grams and its own macro contribution.
-5) Compute and return accurate macros:
+5) EVERY meal MUST include:
+   - "serving_size_explanation": A clear, specific explanation of what one serving looks like (e.g., "One serving = 1 full bowl (about 2 cups)" or "One serving = 1 wrap with all fillings")
+   - "ingredients": Array of ingredient objects with quantity, unit, canonical_name, grams, and macros
+   - "instructions": Array of step-by-step cooking/prep instructions (at least 3-5 clear, actionable steps)
+   - "notes": Optional tips for meal prep, storage, or performance benefits
+6) Compute and return accurate macros:
    - macros_total equals the sum of all ingredient macros in the meal
    - macros_per_serving equals macros_total divided by servings
    - Use grams for math. Round to one decimal place.
-6) Support meal-prep scaling via "servings" and "scale_factor" fields. Do not re-invent scaling rules. Just return the fields and math consistent with them.
-7) Categories are flexible. Use any mix of: "no_cook", "minimal_cook", "full_cook", or "freestyle". Creativity is encouraged. Keep prep friction low and steps concise.
+7) Support meal-prep scaling via "servings" and "scale_factor" fields. Do not re-invent scaling rules. Just return the fields and math consistent with them.
+8) Categories are flexible. Use any mix of: "no_cook", "minimal_cook", "full_cook", or "freestyle". Creativity is encouraged. Keep prep friction low and steps concise.
 8) If the user supplies NO ingredients, generate six meals at random from internal pools while meeting target macros.
 9) Correct misspellings and shorthand. Always return both user_input and canonical_name.
    Common alias examples: grk yog → greek yogurt, cot chs → cottage cheese, chk|chkn|chikn → chicken, tky → turkey, g beef|lean gb → ground beef, salmn|slmn → salmon, tna → tuna, w iso|whey iso → whey isolate, csn → casein, egg whts → egg whites, sardns → sardines, avo → avocado, pb → peanut butter.
@@ -104,7 +109,12 @@ ${userIngredients.length > 0 ? `User ingredients: ${userIngredients.join(', ')}`
 
 Return ONLY the JSON response matching the RESPONSE SCHEMA, including:
 1. The "context" object exactly as provided above
-2. An array of 6 "meals"
+2. An array of 6 "meals" - CRITICAL: each meal MUST have:
+   - "serving_size_explanation": Clear description of what one serving looks like
+   - "ingredients": Array with quantity, unit, canonical_name for each ingredient
+   - "instructions": Array of 3-5 step-by-step cooking directions
+   - "macros_per_serving": Accurate macro breakdown
+   - All other required fields (title, category, skill_level, etc.)
 3. A "summary" object with count_by_category and macro_sums_all_meals`;
 
   try {

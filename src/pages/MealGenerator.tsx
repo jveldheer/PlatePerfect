@@ -14,6 +14,7 @@ function MealGenerator() {
   const [error, setError] = useState<string | null>(null);
   const [usingAI, setUsingAI] = useState(false);
   const [loadingSeconds, setLoadingSeconds] = useState(0);
+  const [mealServings, setMealServings] = useState<{[key: string]: number}>({});
 
   // Load saved meals on mount
   useEffect(() => {
@@ -115,6 +116,17 @@ function MealGenerator() {
 
   const isMealSaved = (mealName: string) => {
     return savedMeals.some(m => m.name === mealName);
+  };
+
+  const getMealServings = (mealTitle: string) => {
+    return mealServings[mealTitle] || 1;
+  };
+
+  const updateMealServings = (mealTitle: string, servings: number) => {
+    setMealServings(prev => ({
+      ...prev,
+      [mealTitle]: Math.max(1, servings)
+    }));
   };
 
   const remainingMacros = macroGoals && consumedMacros ? {
@@ -416,19 +428,56 @@ function MealGenerator() {
                             </div>
                           )}
 
+                          {/* Serving Size Scaler */}
+                          <div className="mb-4 bg-gray-50 rounded-lg p-3 border-2 border-gray-200">
+                            <div className="flex items-center justify-between flex-wrap gap-3">
+                              <div className="flex items-center gap-3">
+                                <label className="font-bold text-gray-900 text-sm">
+                                  🍽️ Servings:
+                                </label>
+                                <div className="flex items-center gap-2">
+                                  <button
+                                    onClick={() => updateMealServings(meal.title, getMealServings(meal.title) - 1)}
+                                    className="w-8 h-8 bg-white border-2 border-gray-300 rounded-lg font-bold text-gray-900 hover:bg-gray-100 active:scale-95 transition-all"
+                                  >
+                                    −
+                                  </button>
+                                  <span className="text-2xl font-bold text-gray-900 min-w-[3rem] text-center">
+                                    {getMealServings(meal.title)}
+                                  </span>
+                                  <button
+                                    onClick={() => updateMealServings(meal.title, getMealServings(meal.title) + 1)}
+                                    className="w-8 h-8 bg-white border-2 border-gray-300 rounded-lg font-bold text-gray-900 hover:bg-gray-100 active:scale-95 transition-all"
+                                  >
+                                    +
+                                  </button>
+                                </div>
+                              </div>
+                              {meal.serving_size_explanation && (
+                                <p className="text-sm font-semibold text-gray-900">
+                                  💡 {meal.serving_size_explanation}
+                                </p>
+                              )}
+                            </div>
+                          </div>
+
                           {/* Ingredients */}
                           {ingredients.length > 0 && (
                             <div className="mb-4">
-                              <h4 className="font-semibold text-gray-800 mb-2">🛒 Ingredients:</h4>
-                              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-1 text-sm text-gray-700">
-                                {ingredients.map((ingredient, i) => (
-                                  <li key={i} className="flex items-start">
-                                    <span className="text-green-500 mr-2">•</span>
-                                    <span>
-                                      {ingredient?.quantity || ''} {ingredient?.unit || ''} {ingredient?.canonical_name || ingredient?.user_input || 'Unknown ingredient'}
-                                    </span>
-                                  </li>
-                                ))}
+                              <h4 className="font-bold text-gray-900 mb-2 text-base">🛒 Ingredients ({getMealServings(meal.title)} serving{getMealServings(meal.title) > 1 ? 's' : ''}):</h4>
+                              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
+                                {ingredients.map((ingredient, i) => {
+                                  const servings = getMealServings(meal.title);
+                                  const scaledQuantity = (ingredient?.quantity || 0) * servings;
+                                  return (
+                                    <li key={i} className="flex items-start bg-gray-50 p-2 rounded-lg border border-gray-200">
+                                      <span className="text-green-600 mr-2 font-bold">•</span>
+                                      <span className="font-semibold text-gray-900">
+                                        {scaledQuantity > 0 ? scaledQuantity.toFixed(1) : ''} {ingredient?.unit || ''} {ingredient?.canonical_name || ingredient?.user_input || 'Unknown ingredient'}
+                                      </span>
+                                    </li>
+                                  );
+                                })}
                               </ul>
                             </div>
                           )}
@@ -436,10 +485,12 @@ function MealGenerator() {
                           {/* Instructions */}
                           {instructions.length > 0 && (
                             <div className="mb-4">
-                              <h4 className="font-semibold text-gray-800 mb-2">📝 Instructions:</h4>
-                              <ol className="list-decimal list-inside space-y-1 text-sm text-gray-700">
+                              <h4 className="font-bold text-gray-900 mb-2 text-base">📝 Instructions:</h4>
+                              <ol className="list-decimal list-inside space-y-2 text-sm">
                                 {instructions.map((step, i) => (
-                                  <li key={i}>{step}</li>
+                                  <li key={i} className="font-semibold text-gray-900 leading-relaxed">
+                                    {step}
+                                  </li>
                                 ))}
                               </ol>
                             </div>
@@ -447,8 +498,8 @@ function MealGenerator() {
 
                           {/* Notes */}
                           {meal.notes && (
-                            <div className="bg-blue-50 rounded-lg p-3 mb-4">
-                              <p className="text-sm text-gray-700 italic">{meal.notes}</p>
+                            <div className="bg-blue-50 rounded-lg p-3 mb-4 border-2 border-blue-200">
+                              <p className="text-sm font-semibold text-gray-900 italic">💡 {meal.notes}</p>
                             </div>
                           )}
 
