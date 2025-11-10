@@ -7,6 +7,7 @@ export default function Recipes() {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [selectedDifficulty, setSelectedDifficulty] = useState<string>('all');
   const [selectedEconomics, setSelectedEconomics] = useState<string>('all');
+  const [showTikTokOnly, setShowTikTokOnly] = useState<boolean>(false);
 
   const categories = [
     { id: 'all', label: 'All Recipes' },
@@ -36,7 +37,8 @@ export default function Recipes() {
     const categoryMatch = selectedCategory === 'all' || recipe.category === selectedCategory;
     const difficultyMatch = selectedDifficulty === 'all' || recipe.difficulty === selectedDifficulty;
     const economicsMatch = selectedEconomics === 'all' || recipe.economics === selectedEconomics;
-    return categoryMatch && difficultyMatch && economicsMatch;
+    const tiktokMatch = !showTikTokOnly || recipe.tags.includes('viral-tiktok');
+    return categoryMatch && difficultyMatch && economicsMatch && tiktokMatch;
   });
 
   const getCategoryIcon = (category: string) => {
@@ -82,6 +84,37 @@ export default function Recipes() {
         borderRadius: '12px',
         padding: '1.5rem'
       }}>
+        {/* TikTok Filter - Special Section */}
+        <div className="mb-6 pb-6" style={{ borderBottom: '2px solid var(--border)' }}>
+          <label style={{
+            color: 'var(--white)',
+            fontWeight: '700',
+            fontSize: '1.1rem',
+            textTransform: 'uppercase',
+            display: 'block',
+            marginBottom: '0.75rem'
+          }}>
+            Special Collections
+          </label>
+          <button
+            onClick={() => setShowTikTokOnly(!showTikTokOnly)}
+            style={{
+              backgroundColor: showTikTokOnly ? 'var(--yellow)' : '#1A1A1A',
+              color: showTikTokOnly ? '#000000' : 'var(--white)',
+              border: `3px solid ${showTikTokOnly ? 'var(--yellow)' : 'var(--border)'}`,
+              fontWeight: '700',
+              boxShadow: showTikTokOnly ? '0 0 20px var(--glow)' : 'none',
+              fontSize: '1rem',
+              textTransform: 'uppercase',
+              letterSpacing: '1px'
+            }}
+            className="px-4 sm:px-6 py-3 min-h-[52px] rounded-lg transition-all touch-manipulation hover:scale-105 flex items-center gap-2"
+          >
+            <span className="text-xl">🎬</span>
+            <span>Viral TikTok Dishes ({recipes.filter(r => r.tags.includes('viral-tiktok')).length})</span>
+          </button>
+        </div>
+
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           <div>
             <label style={{
@@ -290,6 +323,7 @@ export default function Recipes() {
               setSelectedCategory('all');
               setSelectedDifficulty('all');
               setSelectedEconomics('all');
+              setShowTikTokOnly(false);
             }}
             style={{
               backgroundColor: 'var(--yellow)',
