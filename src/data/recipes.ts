@@ -166,122 +166,6 @@ export const recipes: Recipe[] = [
     ]
   },
   {
-    id: 'recipe-003',
-    title: 'Sweet Potato and Black Bean Bowl',
-    category: 'dinner',
-    difficulty: 'beginner',
-    economics: '$',
-    description: 'A nutrient-dense vegetarian bowl packed with complex carbs and plant protein',
-    prepTime: 15,
-    cookTime: 30,
-    servings: 4,
-    servingSizeAmount: '2 cups',
-    servingSizeVisual: 'Size of two fists together',
-    servingSizeGrams: 400,
-    athleteNotes: 'Sweet potatoes provide complex carbohydrates for glycogen replenishment. Black beans offer plant protein and fiber. Perfect post-workout meal for muscle recovery and sustained energy.',
-    requiredSkills: ['knife-002', 'cook-001', 'cook-003', 'prep-001'],
-    tags: ['vegetarian', 'high-fiber', 'meal-prep', 'post-workout'],
-    mealPrepNotes: 'Each component can be prepped separately and assembled when ready to eat. Sweet potatoes stay crispy if stored separately from other ingredients.',
-    storageInstructions: 'Store components separately in refrigerator for up to 5 days. Reheat sweet potatoes in oven at 400°F for 5 minutes to restore crispness.',
-    nutritionInfo: {
-      calories: 425,
-      protein: 15,
-      carbs: 72,
-      fat: 9,
-      fiber: 17,
-      servings: 4
-    },
-    ingredients: [
-      { item: 'Sweet potatoes', amount: '2 large', notes: 'About 1.5 lbs total' },
-      { item: 'Olive oil', amount: '3 tablespoons', notes: 'Divided' },
-      { item: 'Chili powder', amount: '1 teaspoon' },
-      { item: 'Cumin', amount: '1 teaspoon' },
-      { item: 'Salt', amount: '1 teaspoon', notes: 'Divided' },
-      { item: 'Black pepper', amount: '1/2 teaspoon' },
-      { item: 'Black beans', amount: '2 cans (15 oz each)', notes: 'Drained and rinsed' },
-      { item: 'Red bell pepper', amount: '1 large', notes: 'Diced' },
-      { item: 'Red onion', amount: '1/2 medium', notes: 'Diced' },
-      { item: 'Garlic', amount: '3 cloves', notes: 'Minced' },
-      { item: 'Lime', amount: '2', notes: 'Juiced' },
-      { item: 'Fresh cilantro', amount: '1/4 cup', notes: 'Chopped' },
-      { item: 'Brown rice', amount: '2 cups', notes: 'Cooked' },
-      { item: 'Avocado', amount: '1', notes: 'Sliced, for serving' }
-    ],
-    instructions: [
-      {
-        step: 1,
-        instruction: 'Preheat oven to 425°F and line a baking sheet with parchment paper.',
-        detailedExplanation: 'Turn your oven on to 425°F. While it heats, take a rimmed baking sheet (also called a sheet pan) and place a piece of parchment paper on it. Cut the parchment to fit if needed. This prevents sticking and makes cleanup easy. Let the oven preheat fully - it usually takes 10-15 minutes and most ovens beep when ready.',
-        timeEstimate: 2
-      },
-      {
-        step: 2,
-        instruction: 'Peel and dice sweet potatoes into 3/4-inch cubes.',
-        detailedExplanation: 'Use a vegetable peeler to remove the sweet potato skin, working away from your body. Rinse off any dirt. Place the potato on your cutting board. Cut it in half lengthwise, then place each half flat-side down for stability. Cut into 3/4-inch thick slices, then cut each slice into 3/4-inch strips. Finally, cut across the strips to create cubes. Try to keep them uniform in size so they cook evenly.',
-        skillTip: 'Uniform sizes ensure everything cooks at the same rate. Use your knife skills from knife-002.',
-        timeEstimate: 8
-      },
-      {
-        step: 3,
-        instruction: 'Toss sweet potatoes with 2 tablespoons oil, chili powder, cumin, 1/2 teaspoon salt, and pepper.',
-        detailedExplanation: 'Put the diced sweet potatoes in a large bowl. Measure out 2 tablespoons of olive oil and pour it over the potatoes. Add the chili powder, cumin, half the salt, and the pepper. Use your hands or a large spoon to toss everything together until every piece is coated with oil and spices. The coating should look even.',
-        timeEstimate: 2
-      },
-      {
-        step: 4,
-        instruction: 'Spread sweet potatoes in a single layer on prepared baking sheet and roast for 25-30 minutes.',
-        detailedExplanation: 'Pour the seasoned sweet potatoes onto your parchment-lined baking sheet. Use your hands or a spatula to spread them out so they\'re in one layer with space between pieces - don\'t pile them up or they\'ll steam instead of roast. Place the baking sheet in the preheated oven on the middle rack. Set a timer for 15 minutes - you\'ll flip them halfway through cooking.',
-        skillTip: 'Spreading in a single layer with space allows hot air to circulate and creates caramelization.',
-        timeEstimate: 2
-      },
-      {
-        step: 5,
-        instruction: 'While sweet potatoes roast, dice bell pepper and onion.',
-        detailedExplanation: 'For the bell pepper: Cut off the top and bottom, stand it upright, and slice down the sides to remove the walls of pepper, leaving the seedy core. Discard the core and seeds. Flatten the pepper pieces and dice into 1/2-inch pieces. For the onion: Cut in half from root to tip, peel off the papery skin, place flat-side down, and make cuts following the natural lines of the onion, then slice across to dice.',
-        skillTip: 'Use the chopping technique from knife-002 for consistent dice.',
-        timeEstimate: 5
-      },
-      {
-        step: 6,
-        instruction: 'After 15 minutes, flip sweet potatoes with a spatula and continue roasting for 10-15 more minutes.',
-        detailedExplanation: 'When your timer goes off, carefully pull the baking sheet out of the oven (use oven mitts!). Use a spatula to flip each sweet potato piece over - the bottom sides should be golden brown. If they\'re sticking, they need another minute or two. Spread them out again and return to the oven for the remaining cooking time, until they\'re tender when pierced with a fork and crispy on the outside.',
-        timeEstimate: 1
-      },
-      {
-        step: 7,
-        instruction: 'Heat remaining 1 tablespoon oil in a large skillet over medium heat.',
-        detailedExplanation: 'Place a large skillet (10-12 inches) on the stove. Turn the heat to medium and let it warm up for 1 minute. Add 1 tablespoon of olive oil and swirl the pan so the oil coats the bottom. Wait about 30 seconds until the oil shimmers and moves easily when you tilt the pan. This means it\'s hot and ready.',
-        timeEstimate: 2
-      },
-      {
-        step: 8,
-        instruction: 'Add bell pepper and onion, sauté for 5 minutes until softened.',
-        detailedExplanation: 'Add the diced bell pepper and onion to the hot pan - you should hear a sizzle. Stir with a wooden spoon or spatula. Cook, stirring every minute or so, until the vegetables become tender and the onion turns translucent. This takes about 5 minutes. The vegetables should reduce in size and lose their raw crunch.',
-        skillTip: 'This is sautéing - cooking quickly in a small amount of oil over medium-high heat.',
-        timeEstimate: 5
-      },
-      {
-        step: 9,
-        instruction: 'Add minced garlic and cook for 30 seconds until fragrant.',
-        detailedExplanation: 'Add the minced garlic to the pan with the peppers and onions. Stir immediately and constantly. Garlic cooks very quickly and can burn easily, which makes it bitter. You\'ll smell a wonderful aroma after about 30 seconds - that\'s when it\'s done. Any longer and it starts to brown too much.',
-        skillTip: 'Always add garlic toward the end - it burns easily and becomes bitter.',
-        timeEstimate: 1
-      },
-      {
-        step: 10,
-        instruction: 'Add black beans, remaining salt, and half the lime juice. Cook until heated through.',
-        detailedExplanation: 'Open your cans of black beans and pour them into a colander in the sink. Rinse them under cold water for 30 seconds - this removes excess sodium and the starchy liquid. Let them drain well. Add the beans to the skillet along with the remaining 1/2 teaspoon salt and the juice from one lime. Stir everything together and cook for 3-4 minutes until the beans are hot throughout.',
-        timeEstimate: 4
-      },
-      {
-        step: 11,
-        instruction: 'Assemble bowls with rice, black bean mixture, roasted sweet potatoes, avocado, and cilantro.',
-        detailedExplanation: 'Get 4 serving bowls. In each bowl, add about 1/2 cup of cooked brown rice as the base. Add a scoop of the black bean mixture next to the rice. Place roasted sweet potatoes on the other side. Slice the avocado and fan a few slices over the top. Sprinkle with fresh cilantro and squeeze the remaining lime juice over everything. You can also add hot sauce, plain Greek yogurt, or salsa if desired.',
-        timeEstimate: 3
-      }
-    ]
-  },
-  {
     id: 'recipe-004',
     title: 'Post-Workout Protein Smoothie',
     category: 'post-workout',
@@ -2632,6 +2516,838 @@ export const recipes: Recipe[] = [
         detailedExplanation: 'Lay out 4 rice cakes. Spread jam on 2 of them. Top the other 2 with shredded chicken and cheese slices. You can eat them separately or stack them together for sweet-savory bites. This combo provides protein for recovery and carbs for refueling.',
         skillTip: 'The light rice cakes won\'t sit heavy post-workout. Eat within 60 min of training.',
         timeEstimate: 4
+      }
+    ]
+  },
+  {
+    id: 'recipe-041',
+    title: 'Viral Cottage Cheese Bowl',
+    category: 'lunch',
+    difficulty: 'beginner',
+    economics: '$',
+    description: 'The viral high-protein cottage cheese bowl taking TikTok by storm - 40g protein!',
+    prepTime: 5,
+    cookTime: 0,
+    servings: 1,
+    servingSizeAmount: '2 cups',
+    servingSizeVisual: 'Large bowl',
+    servingSizeGrams: 350,
+    athleteNotes: 'This viral TikTok recipe delivers 40g protein with minimal prep. Cottage cheese provides slow-digesting casein protein perfect for sustained muscle recovery.',
+    requiredSkills: ['prep-001'],
+    tags: ['viral-tiktok', 'high-protein', 'no-cook', 'quick', 'meal-prep'],
+    mealPrepNotes: 'Prep toppings in advance and store separately. Assemble when ready to eat.',
+    storageInstructions: 'Store cottage cheese and toppings separately for up to 5 days. Mix together when ready to eat.',
+    nutritionInfo: {
+      calories: 380,
+      protein: 40,
+      carbs: 28,
+      fat: 12,
+      fiber: 6,
+      servings: 1
+    },
+    ingredients: [
+      { item: 'Cottage cheese', amount: '1.5 cups', notes: 'Low-fat or full-fat' },
+      { item: 'Cherry tomatoes', amount: '1/2 cup', notes: 'Halved' },
+      { item: 'Cucumber', amount: '1/2 cup', notes: 'Diced' },
+      { item: 'Red onion', amount: '2 tablespoons', notes: 'Finely diced' },
+      { item: 'Everything bagel seasoning', amount: '1 tablespoon' },
+      { item: 'Olive oil', amount: '1 teaspoon' },
+      { item: 'Black pepper', amount: 'To taste' }
+    ],
+    instructions: [
+      {
+        step: 1,
+        instruction: 'Add cottage cheese to a bowl.',
+        detailedExplanation: 'Scoop 1.5 cups of cottage cheese into your serving bowl. This is the base of the viral recipe and provides all the protein!',
+        timeEstimate: 1
+      },
+      {
+        step: 2,
+        instruction: 'Top with vegetables and seasonings.',
+        detailedExplanation: 'Add the halved cherry tomatoes, diced cucumber, and finely diced red onion on top. Sprinkle generously with everything bagel seasoning. Drizzle with olive oil and add black pepper. Mix it all together and enjoy! The combination is surprisingly delicious.',
+        skillTip: 'The everything bagel seasoning is what makes this viral - don\'t skip it!',
+        timeEstimate: 4
+      }
+    ]
+  },
+  {
+    id: 'recipe-042',
+    title: 'Chicken Burrito Bowl Meal Prep',
+    category: 'lunch',
+    difficulty: 'beginner',
+    economics: '$$',
+    description: 'Chipotle-style burrito bowls - TikTok\'s favorite meal prep with 45g protein!',
+    prepTime: 20,
+    cookTime: 25,
+    servings: 5,
+    servingSizeAmount: '2 cups',
+    servingSizeVisual: 'Large meal prep container',
+    servingSizeGrams: 450,
+    athleteNotes: 'These viral burrito bowls pack 45g protein and complex carbs for optimal muscle recovery. Make 5 at once for the whole week!',
+    requiredSkills: ['knife-002', 'cook-001', 'cook-003'],
+    tags: ['viral-tiktok', 'meal-prep', 'high-protein', 'balanced'],
+    mealPrepNotes: 'Prep all components Sunday and divide into 5 containers. Stays fresh all week!',
+    storageInstructions: 'Store in refrigerator for up to 5 days. Reheat in microwave for 2-3 minutes.',
+    nutritionInfo: {
+      calories: 520,
+      protein: 45,
+      carbs: 55,
+      fat: 12,
+      fiber: 10,
+      servings: 5
+    },
+    ingredients: [
+      { item: 'Chicken breast', amount: '2 lbs', notes: 'Cut into strips' },
+      { item: 'Fajita seasoning', amount: '3 tablespoons' },
+      { item: 'Brown rice', amount: '2.5 cups', notes: 'Cooked' },
+      { item: 'Black beans', amount: '2 cans (15 oz)', notes: 'Drained and rinsed' },
+      { item: 'Corn', amount: '1 can (15 oz)', notes: 'Drained' },
+      { item: 'Bell peppers', amount: '2', notes: 'Sliced' },
+      { item: 'Red onion', amount: '1', notes: 'Sliced' },
+      { item: 'Salsa', amount: '1.5 cups' },
+      { item: 'Greek yogurt', amount: '3/4 cup', notes: 'For topping' },
+      { item: 'Lime', amount: '2', notes: 'Juiced' },
+      { item: 'Cilantro', amount: '1/4 cup', notes: 'Chopped' }
+    ],
+    instructions: [
+      {
+        step: 1,
+        instruction: 'Season and cook chicken with fajita seasoning.',
+        detailedExplanation: 'Toss chicken strips with fajita seasoning. Cook in a large skillet over medium-high heat for 6-8 minutes until cooked through (165°F internal temp). Set aside.',
+        timeEstimate: 10
+      },
+      {
+        step: 2,
+        instruction: 'Sauté peppers and onions.',
+        detailedExplanation: 'In the same pan, cook sliced bell peppers and onions for 5-7 minutes until softened. This adds amazing flavor!',
+        timeEstimate: 8
+      },
+      {
+        step: 3,
+        instruction: 'Assemble 5 meal prep containers.',
+        detailedExplanation: 'In each container add: 1/2 cup rice, portion of chicken, portion of peppers/onions, black beans, corn, salsa, and a dollop of Greek yogurt. Sprinkle with cilantro and lime juice. The viral secret is having everything pre-portioned!',
+        skillTip: 'Keep Greek yogurt separate if you prefer - add when reheating.',
+        timeEstimate: 7
+      }
+    ]
+  },
+  {
+    id: 'recipe-043',
+    title: 'Peanut Butter Protein Overnight Oats',
+    category: 'breakfast',
+    difficulty: 'beginner',
+    economics: '$',
+    description: 'Viral overnight oats that taste like dessert - 30g protein, prep in 2 minutes!',
+    prepTime: 2,
+    cookTime: 0,
+    servings: 1,
+    servingSizeAmount: '1.5 cups',
+    servingSizeVisual: 'Large mason jar',
+    servingSizeGrams: 350,
+    athleteNotes: 'This viral TikTok recipe preps in 2 minutes and delivers 30g protein. Perfect grab-and-go breakfast for busy athletes!',
+    requiredSkills: ['prep-001'],
+    tags: ['viral-tiktok', 'overnight-oats', 'high-protein', 'no-cook', 'meal-prep'],
+    mealPrepNotes: 'Make 5 jars on Sunday for the entire week. They get better as they sit!',
+    storageInstructions: 'Store in refrigerator for up to 5 days. Eat cold or microwave for 60 seconds.',
+    nutritionInfo: {
+      calories: 425,
+      protein: 30,
+      carbs: 48,
+      fat: 14,
+      fiber: 8,
+      servings: 1
+    },
+    ingredients: [
+      { item: 'Rolled oats', amount: '1/2 cup' },
+      { item: 'Protein powder', amount: '1 scoop (30g)', notes: 'Chocolate or vanilla' },
+      { item: 'Peanut butter powder (PB2)', amount: '2 tablespoons' },
+      { item: 'Chia seeds', amount: '1 tablespoon' },
+      { item: 'Milk', amount: '3/4 cup', notes: 'Any type' },
+      { item: 'Greek yogurt', amount: '1/4 cup' },
+      { item: 'Honey', amount: '1 tablespoon' },
+      { item: 'Banana', amount: '1/2', notes: 'Sliced, for topping' }
+    ],
+    instructions: [
+      {
+        step: 1,
+        instruction: 'Mix all ingredients in a jar or container.',
+        detailedExplanation: 'Add oats, protein powder, PB2, chia seeds, milk, yogurt, and honey to a mason jar or container. Stir well to combine - make sure no protein powder clumps remain. This takes literally 2 minutes!',
+        timeEstimate: 2
+      },
+      {
+        step: 2,
+        instruction: 'Refrigerate overnight and top before eating.',
+        detailedExplanation: 'Put the lid on and refrigerate for at least 4 hours, preferably overnight. In the morning, top with banana slices and enjoy cold! The oats will have absorbed all the liquid and become thick and creamy.',
+        skillTip: 'Make 5 jars at once for easy weekday breakfasts!',
+        timeEstimate: 0
+      }
+    ]
+  },
+  {
+    id: 'recipe-044',
+    title: 'Egg Roll in a Bowl',
+    category: 'dinner',
+    difficulty: 'beginner',
+    economics: '$',
+    description: 'Viral one-pan egg roll bowl - ready in 15 minutes with 35g protein!',
+    prepTime: 8,
+    cookTime: 12,
+    servings: 4,
+    servingSizeAmount: '2 cups',
+    servingSizeVisual: 'Large bowl',
+    servingSizeGrams: 400,
+    athleteNotes: 'This viral TikTok recipe is a complete meal in one pan. High protein, low carb, and packed with vegetables for micronutrients.',
+    requiredSkills: ['knife-002', 'cook-001'],
+    tags: ['viral-tiktok', 'one-pan', 'high-protein', 'low-carb', 'quick'],
+    mealPrepNotes: 'Makes 4 servings - perfect for meal prep. Reheats beautifully!',
+    storageInstructions: 'Store in refrigerator for up to 4 days. Reheat in microwave or skillet.',
+    nutritionInfo: {
+      calories: 320,
+      protein: 35,
+      carbs: 18,
+      fat: 12,
+      fiber: 5,
+      servings: 4
+    },
+    ingredients: [
+      { item: 'Ground turkey', amount: '1.5 lbs', notes: '93% lean' },
+      { item: 'Coleslaw mix', amount: '1 bag (14 oz)' },
+      { item: 'Garlic', amount: '4 cloves', notes: 'Minced' },
+      { item: 'Ginger', amount: '1 tablespoon', notes: 'Fresh, minced' },
+      { item: 'Soy sauce', amount: '1/4 cup', notes: 'Low sodium' },
+      { item: 'Sesame oil', amount: '1 tablespoon' },
+      { item: 'Rice vinegar', amount: '1 tablespoon' },
+      { item: 'Sriracha', amount: '1 tablespoon', notes: 'Optional' },
+      { item: 'Green onions', amount: '3', notes: 'Sliced' },
+      { item: 'Sesame seeds', amount: '1 tablespoon', notes: 'For garnish' }
+    ],
+    instructions: [
+      {
+        step: 1,
+        instruction: 'Brown ground turkey in large skillet.',
+        detailedExplanation: 'Heat a large skillet over medium-high heat. Add ground turkey and break it up with a spatula. Cook for 6-8 minutes until browned and cooked through. Drain any excess liquid.',
+        timeEstimate: 8
+      },
+      {
+        step: 2,
+        instruction: 'Add aromatics and coleslaw mix.',
+        detailedExplanation: 'Push turkey to the side, add sesame oil, then garlic and ginger. Cook for 30 seconds until fragrant. Add entire bag of coleslaw mix and stir everything together. Cook for 3-4 minutes until cabbage is slightly wilted but still has crunch.',
+        skillTip: 'Don\'t overcook the cabbage - you want it to stay crunchy!',
+        timeEstimate: 5
+      },
+      {
+        step: 3,
+        instruction: 'Add sauce and serve.',
+        detailedExplanation: 'Pour in soy sauce, rice vinegar, and sriracha if using. Toss everything together and cook for 1 minute. Top with green onions and sesame seeds. This tastes just like an egg roll without the wrapper!',
+        timeEstimate: 2
+      }
+    ]
+  },
+  {
+    id: 'recipe-045',
+    title: 'Greek Yogurt Protein Bowl',
+    category: 'breakfast',
+    difficulty: 'beginner',
+    economics: '$',
+    description: 'Viral protein-packed yogurt bowl - 35g protein, tastes like cheesecake!',
+    prepTime: 3,
+    cookTime: 0,
+    servings: 1,
+    servingSizeAmount: '1.5 cups',
+    servingSizeVisual: 'Large bowl',
+    servingSizeGrams: 300,
+    athleteNotes: 'This viral bowl went crazy on TikTok because it tastes like dessert but has 35g protein. Perfect pre or post-workout!',
+    requiredSkills: ['prep-001'],
+    tags: ['viral-tiktok', 'high-protein', 'no-cook', 'quick', 'vegetarian'],
+    mealPrepNotes: 'Prep the yogurt mixture and toppings separately. Combine when ready to eat.',
+    storageInstructions: 'Store yogurt base for up to 5 days. Add fresh toppings daily.',
+    nutritionInfo: {
+      calories: 380,
+      protein: 35,
+      carbs: 42,
+      fat: 8,
+      fiber: 6,
+      servings: 1
+    },
+    ingredients: [
+      { item: 'Greek yogurt', amount: '1.5 cups', notes: 'Non-fat or 2%' },
+      { item: 'Protein powder', amount: '1/2 scoop (15g)', notes: 'Vanilla or unflavored' },
+      { item: 'Honey', amount: '1 tablespoon' },
+      { item: 'Granola', amount: '1/4 cup' },
+      { item: 'Mixed berries', amount: '1/2 cup', notes: 'Fresh or frozen' },
+      { item: 'Almond butter', amount: '1 tablespoon' },
+      { item: 'Cinnamon', amount: '1/4 teaspoon' }
+    ],
+    instructions: [
+      {
+        step: 1,
+        instruction: 'Mix yogurt base.',
+        detailedExplanation: 'In a bowl, mix Greek yogurt with protein powder, honey, and cinnamon until smooth and creamy. The protein powder makes it extra thick and adds sweetness!',
+        timeEstimate: 2
+      },
+      {
+        step: 2,
+        instruction: 'Add toppings and enjoy.',
+        detailedExplanation: 'Top with granola, mixed berries, and a drizzle of almond butter. The combination of creamy, crunchy, and sweet makes this taste like cheesecake! This is why it went viral.',
+        skillTip: 'Use frozen berries - they\'re cheaper and just as nutritious!',
+        timeEstimate: 1
+      }
+    ]
+  },
+  {
+    id: 'recipe-046',
+    title: 'Salmon Rice Bowl',
+    category: 'lunch',
+    difficulty: 'beginner',
+    economics: '$$',
+    description: 'The viral TikTok salmon rice bowl - 40g protein, easy and delicious!',
+    prepTime: 5,
+    cookTime: 0,
+    servings: 1,
+    servingSizeAmount: '2 cups',
+    servingSizeVisual: 'Large bowl',
+    servingSizeGrams: 400,
+    athleteNotes: 'This viral recipe uses canned salmon for convenience and omega-3s. Perfect for athletes who need quality protein and healthy fats!',
+    requiredSkills: ['prep-001'],
+    tags: ['viral-tiktok', 'high-protein', 'no-cook', 'quick', 'omega-3'],
+    mealPrepNotes: 'Prep rice and veggies in advance. Assemble when ready to eat.',
+    storageInstructions: 'Store components separately for up to 3 days. Mix when ready to eat.',
+    nutritionInfo: {
+      calories: 450,
+      protein: 40,
+      carbs: 45,
+      fat: 12,
+      fiber: 4,
+      servings: 1
+    },
+    ingredients: [
+      { item: 'Canned salmon', amount: '1 can (6 oz)', notes: 'Drained' },
+      { item: 'Cooked white rice', amount: '1 cup' },
+      { item: 'Soy sauce', amount: '2 tablespoons' },
+      { item: 'Sriracha', amount: '1 tablespoon' },
+      { item: 'Mayonnaise', amount: '1 tablespoon', notes: 'Or Greek yogurt' },
+      { item: 'Cucumber', amount: '1/2 cup', notes: 'Diced' },
+      { item: 'Avocado', amount: '1/4', notes: 'Sliced' },
+      { item: 'Seaweed snacks', amount: '1 sheet', notes: 'Crumbled' },
+      { item: 'Sesame seeds', amount: '1 teaspoon' }
+    ],
+    instructions: [
+      {
+        step: 1,
+        instruction: 'Prepare rice base with sauce.',
+        detailedExplanation: 'Add rice to a bowl. Mix soy sauce, sriracha, and mayo together, then pour half over the rice and mix well. This creates the viral creamy, spicy base!',
+        timeEstimate: 2
+      },
+      {
+        step: 2,
+        instruction: 'Add salmon and toppings.',
+        detailedExplanation: 'Flake the salmon on top of the rice. Add cucumber, avocado, crumbled seaweed, and sesame seeds. Drizzle with remaining sauce. Mix it all together - the viral magic is in mixing everything up!',
+        skillTip: 'Use instant rice or leftover rice to make this in under 5 minutes!',
+        timeEstimate: 3
+      }
+    ]
+  },
+  {
+    id: 'recipe-047',
+    title: 'Turkey Taco Lettuce Wraps',
+    category: 'dinner',
+    difficulty: 'beginner',
+    economics: '$',
+    description: 'Viral low-carb taco wraps - 38g protein, fresh and crunchy!',
+    prepTime: 10,
+    cookTime: 10,
+    servings: 4,
+    servingSizeAmount: '3 wraps',
+    servingSizeVisual: '3 lettuce cups filled',
+    servingSizeGrams: 350,
+    athleteNotes: 'These viral lettuce wraps are perfect for cutting phases - high protein, low carb, and super satisfying with tons of crunch!',
+    requiredSkills: ['knife-002', 'cook-001'],
+    tags: ['viral-tiktok', 'high-protein', 'low-carb', 'gluten-free', 'meal-prep'],
+    mealPrepNotes: 'Prep turkey and toppings separately. Assemble fresh when eating.',
+    storageInstructions: 'Store cooked turkey for up to 4 days. Keep lettuce and toppings separate.',
+    nutritionInfo: {
+      calories: 280,
+      protein: 38,
+      carbs: 12,
+      fat: 10,
+      fiber: 4,
+      servings: 4
+    },
+    ingredients: [
+      { item: 'Ground turkey', amount: '1.5 lbs', notes: '93% lean' },
+      { item: 'Taco seasoning', amount: '3 tablespoons' },
+      { item: 'Butter lettuce', amount: '1 head', notes: 'Leaves separated' },
+      { item: 'Cherry tomatoes', amount: '1 cup', notes: 'Diced' },
+      { item: 'Red onion', amount: '1/2', notes: 'Diced' },
+      { item: 'Avocado', amount: '1', notes: 'Diced' },
+      { item: 'Cilantro', amount: '1/4 cup', notes: 'Chopped' },
+      { item: 'Lime', amount: '2', notes: 'Cut into wedges' },
+      { item: 'Greek yogurt', amount: '1/2 cup', notes: 'For topping' },
+      { item: 'Salsa', amount: '1/2 cup' }
+    ],
+    instructions: [
+      {
+        step: 1,
+        instruction: 'Cook seasoned turkey.',
+        detailedExplanation: 'Brown ground turkey in a large skillet over medium-high heat, breaking it up as it cooks. When mostly cooked, add taco seasoning and 1/4 cup water. Simmer for 3-4 minutes until water evaporates.',
+        timeEstimate: 10
+      },
+      {
+        step: 2,
+        instruction: 'Prepare lettuce cups and toppings.',
+        detailedExplanation: 'Wash and dry butter lettuce leaves carefully - they\'re delicate! Set up all your toppings in small bowls. The viral version has everything ready to go assembly-line style.',
+        skillTip: 'Iceberg lettuce works too if you want extra crunch!',
+        timeEstimate: 5
+      },
+      {
+        step: 3,
+        instruction: 'Assemble wraps.',
+        detailedExplanation: 'Spoon turkey into lettuce leaves. Top with tomatoes, onion, avocado, cilantro, a dollop of Greek yogurt, and salsa. Squeeze lime juice over everything. The combination is incredible and way better than tortillas!',
+        timeEstimate: 5
+      }
+    ]
+  },
+  {
+    id: 'recipe-048',
+    title: 'Protein Pancakes (2 Ingredients)',
+    category: 'breakfast',
+    difficulty: 'beginner',
+    economics: '$',
+    description: 'Viral 2-ingredient protein pancakes - 30g protein, 5 minutes!',
+    prepTime: 2,
+    cookTime: 5,
+    servings: 1,
+    servingSizeAmount: '4 pancakes',
+    servingSizeVisual: '4 medium pancakes',
+    servingSizeGrams: 200,
+    athleteNotes: 'This viral TikTok recipe broke the internet - just 2 ingredients, 30g protein, and actually delicious!',
+    requiredSkills: ['cook-002'],
+    tags: ['viral-tiktok', 'high-protein', 'quick', 'gluten-free', 'breakfast'],
+    mealPrepNotes: 'Make a big batch and freeze. Reheat in toaster!',
+    storageInstructions: 'Store in refrigerator for up to 3 days or freeze for up to 3 months.',
+    nutritionInfo: {
+      calories: 320,
+      protein: 30,
+      carbs: 36,
+      fat: 6,
+      fiber: 3,
+      servings: 1
+    },
+    ingredients: [
+      { item: 'Banana', amount: '1 large', notes: 'Ripe' },
+      { item: 'Eggs', amount: '2 large' },
+      { item: 'Protein powder', amount: '1 scoop (30g)', notes: 'Optional but recommended' },
+      { item: 'Cinnamon', amount: '1/4 teaspoon', notes: 'Optional' },
+      { item: 'Cooking spray', amount: 'As needed' }
+    ],
+    instructions: [
+      {
+        step: 1,
+        instruction: 'Mash banana and mix with eggs.',
+        detailedExplanation: 'In a bowl, mash the banana with a fork until smooth. Add eggs and whisk together vigorously for 1 minute until well combined and slightly frothy. Add protein powder and cinnamon if using. The batter will be thin - that\'s normal!',
+        timeEstimate: 2
+      },
+      {
+        step: 2,
+        instruction: 'Cook pancakes on medium heat.',
+        detailedExplanation: 'Heat a non-stick pan over medium heat and spray with cooking spray. Pour small circles of batter (these cook better small). Cook for 2-3 minutes until edges look set, then flip. Cook another 1-2 minutes. They\'re delicate so be gentle when flipping!',
+        skillTip: 'Keep them small (silver dollar size) - they\'re much easier to flip!',
+        timeEstimate: 5
+      }
+    ]
+  },
+  {
+    id: 'recipe-049',
+    title: 'Chicken and Rice Meal Prep',
+    category: 'lunch',
+    difficulty: 'beginner',
+    economics: '$$',
+    description: 'Classic viral meal prep - the OG bodybuilder staple, 50g protein!',
+    prepTime: 15,
+    cookTime: 30,
+    servings: 5,
+    servingSizeAmount: '2 cups',
+    servingSizeVisual: 'Large meal prep container',
+    servingSizeGrams: 450,
+    athleteNotes: 'The classic that went viral for a reason - simple, effective, and packed with lean protein and complex carbs. Perfect for serious athletes!',
+    requiredSkills: ['knife-002', 'cook-001', 'cook-003'],
+    tags: ['viral-tiktok', 'meal-prep', 'high-protein', 'clean-eating', 'balanced'],
+    mealPrepNotes: 'The ultimate Sunday meal prep. Make 5 portions for the week!',
+    storageInstructions: 'Store in refrigerator for up to 5 days. Microwave for 2-3 minutes.',
+    nutritionInfo: {
+      calories: 550,
+      protein: 50,
+      carbs: 60,
+      fat: 8,
+      fiber: 5,
+      servings: 5
+    },
+    ingredients: [
+      { item: 'Chicken breast', amount: '2.5 lbs' },
+      { item: 'White rice', amount: '2.5 cups', notes: 'Uncooked' },
+      { item: 'Broccoli', amount: '2 lbs', notes: 'Cut into florets' },
+      { item: 'Garlic powder', amount: '2 tablespoons' },
+      { item: 'Onion powder', amount: '1 tablespoon' },
+      { item: 'Paprika', amount: '1 tablespoon' },
+      { item: 'Salt and pepper', amount: 'To taste' },
+      { item: 'Olive oil', amount: '2 tablespoons' },
+      { item: 'Low-sodium soy sauce', amount: '1/4 cup', notes: 'Optional for serving' }
+    ],
+    instructions: [
+      {
+        step: 1,
+        instruction: 'Season and bake chicken.',
+        detailedExplanation: 'Preheat oven to 400°F. Season chicken breasts with garlic powder, onion powder, paprika, salt, and pepper. Bake for 25-30 minutes until internal temp reaches 165°F. Let rest 5 minutes then slice.',
+        timeEstimate: 35
+      },
+      {
+        step: 2,
+        instruction: 'Cook rice and steam broccoli.',
+        detailedExplanation: 'While chicken bakes, cook rice according to package directions. Steam broccoli for 5-7 minutes until tender-crisp. You can do this in the microwave or on the stovetop.',
+        timeEstimate: 25
+      },
+      {
+        step: 3,
+        instruction: 'Divide into 5 meal prep containers.',
+        detailedExplanation: 'In each container add: 1 cup cooked rice, 8 oz sliced chicken, and about 1.5 cups broccoli. Keep it simple - this is the viral classic for a reason! Add soy sauce when reheating if desired.',
+        skillTip: 'Weigh your portions if you\'re serious about macros!',
+        timeEstimate: 10
+      }
+    ]
+  },
+  {
+    id: 'recipe-050',
+    title: 'Tuna Pasta Salad Meal Prep',
+    category: 'lunch',
+    difficulty: 'beginner',
+    economics: '$',
+    description: 'Viral high-protein pasta salad - 35g protein, budget-friendly!',
+    prepTime: 10,
+    cookTime: 10,
+    servings: 4,
+    servingSizeAmount: '2 cups',
+    servingSizeVisual: 'Large bowl',
+    servingSizeGrams: 400,
+    athleteNotes: 'This viral recipe uses canned tuna for budget-friendly protein. Perfect cold meal for summer or when you don\'t want to reheat!',
+    requiredSkills: ['knife-002', 'cook-001'],
+    tags: ['viral-tiktok', 'meal-prep', 'high-protein', 'budget-friendly', 'no-reheat'],
+    mealPrepNotes: 'Perfect make-ahead meal. Actually gets better after a day in the fridge!',
+    storageInstructions: 'Store in refrigerator for up to 4 days. Eat cold!',
+    nutritionInfo: {
+      calories: 420,
+      protein: 35,
+      carbs: 48,
+      fat: 10,
+      fiber: 6,
+      servings: 4
+    },
+    ingredients: [
+      { item: 'Pasta', amount: '12 oz', notes: 'Rotini or penne' },
+      { item: 'Canned tuna', amount: '3 cans (5 oz each)', notes: 'In water, drained' },
+      { item: 'Cherry tomatoes', amount: '2 cups', notes: 'Halved' },
+      { item: 'Cucumber', amount: '1 large', notes: 'Diced' },
+      { item: 'Red onion', amount: '1/2', notes: 'Diced' },
+      { item: 'Greek yogurt', amount: '1/2 cup' },
+      { item: 'Dijon mustard', amount: '2 tablespoons' },
+      { item: 'Lemon', amount: '1', notes: 'Juiced' },
+      { item: 'Dill', amount: '2 tablespoons', notes: 'Fresh, chopped' },
+      { item: 'Salt and pepper', amount: 'To taste' }
+    ],
+    instructions: [
+      {
+        step: 1,
+        instruction: 'Cook pasta and let cool.',
+        detailedExplanation: 'Cook pasta according to package directions. Drain and rinse with cold water to cool it down completely. This prevents the dressing from getting absorbed too quickly.',
+        timeEstimate: 12
+      },
+      {
+        step: 2,
+        instruction: 'Make dressing and combine everything.',
+        detailedExplanation: 'In a large bowl, whisk together Greek yogurt, Dijon, lemon juice, dill, salt, and pepper. Add cooled pasta, drained tuna (break it up with a fork), tomatoes, cucumber, and red onion. Mix everything together until well coated.',
+        skillTip: 'The viral trick is Greek yogurt instead of mayo - way more protein!',
+        timeEstimate: 8
+      }
+    ]
+  },
+  {
+    id: 'recipe-051',
+    title: 'Protein Cookie Dough (Edible)',
+    category: 'post-workout',
+    difficulty: 'beginner',
+    economics: '$',
+    description: 'Viral edible cookie dough - 20g protein, safe to eat raw!',
+    prepTime: 5,
+    cookTime: 0,
+    servings: 4,
+    servingSizeAmount: '1/4 cup',
+    servingSizeVisual: 'Ice cream scoop sized',
+    servingSizeGrams: 80,
+    athleteNotes: 'This viral TikTok treat satisfies sweet cravings while delivering protein. Perfect post-workout or anytime you want dessert!',
+    requiredSkills: ['prep-001'],
+    tags: ['viral-tiktok', 'high-protein', 'no-cook', 'dessert', 'meal-prep'],
+    mealPrepNotes: 'Make a batch and portion into 4 containers. Lasts all week!',
+    storageInstructions: 'Store in refrigerator for up to 7 days. Eat cold or let come to room temp.',
+    nutritionInfo: {
+      calories: 180,
+      protein: 20,
+      carbs: 18,
+      fat: 6,
+      fiber: 4,
+      servings: 4
+    },
+    ingredients: [
+      { item: 'Almond flour', amount: '1 cup', notes: 'Heat-treated or use oat flour' },
+      { item: 'Vanilla protein powder', amount: '2 scoops (60g)' },
+      { item: 'Almond butter', amount: '1/4 cup' },
+      { item: 'Maple syrup', amount: '3 tablespoons' },
+      { item: 'Vanilla extract', amount: '1 teaspoon' },
+      { item: 'Milk', amount: '2-4 tablespoons', notes: 'As needed for consistency' },
+      { item: 'Mini chocolate chips', amount: '1/4 cup' },
+      { item: 'Salt', amount: 'Pinch' }
+    ],
+    instructions: [
+      {
+        step: 1,
+        instruction: 'Mix all ingredients except chocolate chips.',
+        detailedExplanation: 'In a bowl, combine almond flour, protein powder, almond butter, maple syrup, vanilla, salt, and 2 tablespoons milk. Mix until it forms a dough. Add more milk 1 tablespoon at a time if it\'s too dry - you want cookie dough consistency!',
+        timeEstimate: 3
+      },
+      {
+        step: 2,
+        instruction: 'Fold in chocolate chips and enjoy!',
+        detailedExplanation: 'Mix in the mini chocolate chips. That\'s it - you can eat it right away! The viral trick is that this is completely safe to eat raw because there\'s no eggs or raw flour. Portion into 4 servings if meal prepping.',
+        skillTip: 'Roll into balls and freeze for protein-packed energy bites!',
+        timeEstimate: 2
+      }
+    ]
+  },
+  {
+    id: 'recipe-052',
+    title: 'Beef and Broccoli Stir Fry',
+    category: 'dinner',
+    difficulty: 'intermediate',
+    economics: '$$',
+    description: 'Viral restaurant-style stir fry - better than takeout, 42g protein!',
+    prepTime: 15,
+    cookTime: 10,
+    servings: 4,
+    servingSizeAmount: '2 cups',
+    servingSizeVisual: 'Large plate',
+    servingSizeGrams: 400,
+    athleteNotes: 'This viral recipe delivers quality beef protein and tons of veggies. Way healthier and cheaper than takeout!',
+    requiredSkills: ['knife-002', 'cook-001'],
+    tags: ['viral-tiktok', 'high-protein', 'quick', 'takeout-remake', 'meal-prep'],
+    mealPrepNotes: 'Prep everything in advance. The actual cooking takes 10 minutes!',
+    storageInstructions: 'Store in refrigerator for up to 4 days. Reheat in skillet or microwave.',
+    nutritionInfo: {
+      calories: 380,
+      protein: 42,
+      carbs: 28,
+      fat: 12,
+      fiber: 4,
+      servings: 4
+    },
+    ingredients: [
+      { item: 'Flank steak', amount: '1.5 lbs', notes: 'Sliced thin against the grain' },
+      { item: 'Broccoli florets', amount: '4 cups' },
+      { item: 'Garlic', amount: '4 cloves', notes: 'Minced' },
+      { item: 'Ginger', amount: '1 tablespoon', notes: 'Fresh, minced' },
+      { item: 'Soy sauce', amount: '1/3 cup', notes: 'Low sodium' },
+      { item: 'Oyster sauce', amount: '2 tablespoons' },
+      { item: 'Honey', amount: '2 tablespoons' },
+      { item: 'Cornstarch', amount: '1 tablespoon' },
+      { item: 'Sesame oil', amount: '2 tablespoons' },
+      { item: 'White rice', amount: '2 cups', notes: 'Cooked, for serving' }
+    ],
+    instructions: [
+      {
+        step: 1,
+        instruction: 'Marinate beef and make sauce.',
+        detailedExplanation: 'Toss sliced beef with 1 tablespoon cornstarch. In a small bowl, whisk together soy sauce, oyster sauce, and honey. This is the viral sauce that makes everything amazing!',
+        timeEstimate: 5
+      },
+      {
+        step: 2,
+        instruction: 'Stir fry beef over high heat.',
+        detailedExplanation: 'Heat 1 tablespoon sesame oil in a large wok or skillet over high heat. Add beef in a single layer (work in batches if needed). Cook for 2-3 minutes until browned. Remove and set aside.',
+        skillTip: 'High heat is KEY for authentic stir fry - don\'t be scared!',
+        timeEstimate: 5
+      },
+      {
+        step: 3,
+        instruction: 'Cook broccoli and combine.',
+        detailedExplanation: 'Add remaining sesame oil, garlic, and ginger. Cook 30 seconds. Add broccoli and 2 tablespoons water. Cover and steam for 3 minutes. Add beef back in, pour sauce over everything, and toss for 1 minute until sauce thickens. Serve over rice!',
+        timeEstimate: 5
+      }
+    ]
+  },
+  {
+    id: 'recipe-053',
+    title: 'Protein Iced Coffee',
+    category: 'post-workout',
+    difficulty: 'beginner',
+    economics: '$',
+    description: 'Viral TikTok protein coffee - 25g protein, better than Starbucks!',
+    prepTime: 3,
+    cookTime: 0,
+    servings: 1,
+    servingSizeAmount: '16 oz',
+    servingSizeVisual: 'Large iced coffee cup',
+    servingSizeGrams: 400,
+    athleteNotes: 'This viral drink combines caffeine for energy with protein for recovery. Perfect post-workout or morning boost!',
+    requiredSkills: ['prep-002'],
+    tags: ['viral-tiktok', 'high-protein', 'no-cook', 'quick', 'caffeine'],
+    mealPrepNotes: 'Brew coffee in advance and keep in fridge. Mix when ready!',
+    storageInstructions: 'Best fresh but can prep the night before.',
+    nutritionInfo: {
+      calories: 180,
+      protein: 25,
+      carbs: 15,
+      fat: 3,
+      fiber: 0,
+      servings: 1
+    },
+    ingredients: [
+      { item: 'Cold brew coffee', amount: '1 cup' },
+      { item: 'Vanilla protein powder', amount: '1 scoop (30g)' },
+      { item: 'Almond milk', amount: '1/2 cup', notes: 'Unsweetened' },
+      { item: 'Ice', amount: '1 cup' },
+      { item: 'Sugar-free vanilla syrup', amount: '1 tablespoon', notes: 'Optional' },
+      { item: 'Caramel sauce', amount: '1 teaspoon', notes: 'Sugar-free, optional' }
+    ],
+    instructions: [
+      {
+        step: 1,
+        instruction: 'Blend protein powder with coffee.',
+        detailedExplanation: 'Add protein powder and a splash of the coffee to a blender or shaker bottle. Blend or shake vigorously for 30 seconds until completely smooth with no clumps. This is the viral trick - blending prevents chunks!',
+        skillTip: 'A shaker bottle with a whisk ball works great for this!',
+        timeEstimate: 1
+      },
+      {
+        step: 2,
+        instruction: 'Combine with ice and milk.',
+        detailedExplanation: 'Fill a large glass with ice. Pour in the protein-coffee mixture, remaining coffee, almond milk, and vanilla syrup if using. Stir well. Drizzle with caramel sauce if desired. This tastes like a $7 Starbucks drink but with 25g protein!',
+        timeEstimate: 2
+      }
+    ]
+  },
+  {
+    id: 'recipe-054',
+    title: 'Chicken Quesadilla Meal Prep',
+    category: 'lunch',
+    difficulty: 'beginner',
+    economics: '$',
+    description: 'Viral crispy quesadillas - 40g protein, better than Chipotle!',
+    prepTime: 15,
+    cookTime: 20,
+    servings: 4,
+    servingSizeAmount: '1 quesadilla',
+    servingSizeVisual: 'One large quesadilla cut into quarters',
+    servingSizeGrams: 300,
+    athleteNotes: 'These viral quesadillas are perfectly crispy and packed with protein. The TikTok method makes them restaurant-quality!',
+    requiredSkills: ['knife-002', 'cook-001', 'cook-002'],
+    tags: ['viral-tiktok', 'meal-prep', 'high-protein', 'crispy'],
+    mealPrepNotes: 'Make all 4, wrap individually, and reheat in air fryer or skillet!',
+    storageInstructions: 'Store in refrigerator for up to 4 days. Reheat in skillet for crispiness.',
+    nutritionInfo: {
+      calories: 480,
+      protein: 40,
+      carbs: 35,
+      fat: 18,
+      fiber: 5,
+      servings: 4
+    },
+    ingredients: [
+      { item: 'Large flour tortillas', amount: '4', notes: '10-inch' },
+      { item: 'Cooked chicken breast', amount: '1.5 lbs', notes: 'Shredded' },
+      { item: 'Shredded cheese', amount: '2 cups', notes: 'Mexican blend' },
+      { item: 'Black beans', amount: '1 can (15 oz)', notes: 'Drained and rinsed' },
+      { item: 'Bell pepper', amount: '1', notes: 'Diced small' },
+      { item: 'Red onion', amount: '1/2', notes: 'Diced small' },
+      { item: 'Taco seasoning', amount: '2 tablespoons' },
+      { item: 'Cooking spray', amount: 'As needed' },
+      { item: 'Salsa', amount: 'For serving' },
+      { item: 'Greek yogurt', amount: 'For serving' }
+    ],
+    instructions: [
+      {
+        step: 1,
+        instruction: 'Prepare filling mixture.',
+        detailedExplanation: 'In a large bowl, mix shredded chicken with black beans, diced peppers, onions, and taco seasoning. This is your protein-packed filling!',
+        timeEstimate: 5
+      },
+      {
+        step: 2,
+        instruction: 'Assemble quesadillas using viral method.',
+        detailedExplanation: 'Lay out a tortilla. Sprinkle cheese on one half, add 1/4 of the chicken mixture, then more cheese. Fold in half. The viral trick is cheese on both sides of the filling - it holds everything together and gets extra crispy!',
+        timeEstimate: 5
+      },
+      {
+        step: 3,
+        instruction: 'Cook until crispy and golden.',
+        detailedExplanation: 'Heat a large skillet over medium heat and spray with cooking spray. Cook quesadilla for 3-4 minutes per side, pressing down gently with a spatula, until golden brown and crispy. The cheese should be melted and gooey inside. Repeat with remaining quesadillas.',
+        skillTip: 'The viral secret: press down while cooking for maximum crispiness!',
+        timeEstimate: 15
+      }
+    ]
+  },
+  {
+    id: 'recipe-055',
+    title: 'Shrimp Fried Rice',
+    category: 'dinner',
+    difficulty: 'beginner',
+    economics: '$$',
+    description: 'Viral restaurant-style fried rice - 35g protein, ready in 15 minutes!',
+    prepTime: 10,
+    cookTime: 8,
+    servings: 4,
+    servingSizeAmount: '2 cups',
+    servingSizeVisual: 'Large bowl',
+    servingSizeGrams: 400,
+    athleteNotes: 'This viral fried rice uses shrimp for lean protein and is way better than takeout. The secret technique went viral on TikTok!',
+    requiredSkills: ['knife-002', 'cook-001'],
+    tags: ['viral-tiktok', 'high-protein', 'quick', 'takeout-remake', 'meal-prep'],
+    mealPrepNotes: 'Use leftover rice for best results. Makes perfect meal prep!',
+    storageInstructions: 'Store in refrigerator for up to 4 days. Reheat in skillet for best texture.',
+    nutritionInfo: {
+      calories: 420,
+      protein: 35,
+      carbs: 48,
+      fat: 10,
+      fiber: 3,
+      servings: 4
+    },
+    ingredients: [
+      { item: 'Shrimp', amount: '1.5 lbs', notes: 'Peeled and deveined' },
+      { item: 'Cooked white rice', amount: '4 cups', notes: 'Day-old rice works best' },
+      { item: 'Eggs', amount: '3 large', notes: 'Beaten' },
+      { item: 'Frozen peas and carrots', amount: '1 cup' },
+      { item: 'Garlic', amount: '4 cloves', notes: 'Minced' },
+      { item: 'Ginger', amount: '1 tablespoon', notes: 'Fresh, minced' },
+      { item: 'Soy sauce', amount: '3 tablespoons', notes: 'Low sodium' },
+      { item: 'Sesame oil', amount: '2 tablespoons' },
+      { item: 'Green onions', amount: '4', notes: 'Sliced' },
+      { item: 'White pepper', amount: '1/2 teaspoon' }
+    ],
+    instructions: [
+      {
+        step: 1,
+        instruction: 'Cook shrimp and remove.',
+        detailedExplanation: 'Heat 1 tablespoon sesame oil in a large wok or skillet over high heat. Add shrimp and cook for 2-3 minutes until pink and cooked through. Remove and set aside. Don\'t overcook or they\'ll be rubbery!',
+        timeEstimate: 4
+      },
+      {
+        step: 2,
+        instruction: 'Scramble eggs and cook vegetables.',
+        detailedExplanation: 'Add beaten eggs to the same pan. Scramble quickly, then push to the side. Add garlic, ginger, and frozen vegetables. Cook for 2 minutes until vegetables are tender.',
+        timeEstimate: 3
+      },
+      {
+        step: 3,
+        instruction: 'Add rice and combine everything.',
+        detailedExplanation: 'Add cold rice and break up any clumps with your spatula. Pour soy sauce and remaining sesame oil over everything. Toss continuously for 2-3 minutes over high heat. Add shrimp back in, add white pepper and green onions. The viral trick is high heat and constant movement - that\'s how restaurants do it!',
+        skillTip: 'Day-old cold rice is the secret to non-mushy fried rice!',
+        timeEstimate: 5
       }
     ]
   }
