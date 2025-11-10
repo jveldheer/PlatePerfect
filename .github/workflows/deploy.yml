@@ -2,7 +2,7 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: ['claude/athlete-cooking-app-011CUmU74v58T59nFQSmT1dY', 'main']
+    branches: ['claude/athlete-cooking-app-011CUmU74v58T59nFQSmT1dY', 'main', 'claude/recipe-filter-tiktok-dishes-011CUzHbdXRmcrzseTamxq9L']
   workflow_dispatch:
 
 permissions:
