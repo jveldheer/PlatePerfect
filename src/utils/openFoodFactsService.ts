@@ -53,26 +53,38 @@ const API_BASE = 'https://world.openfoodfacts.org/api/v2';
  */
 export async function lookupBarcode(barcode: string): Promise<NutritionData | null> {
   try {
-    const url = `${API_BASE}/product/${barcode}.json`;
+    // Clean up barcode (remove spaces, dashes)
+    const cleanBarcode = barcode.replace(/[\s-]/g, '');
+
+    console.log('Looking up barcode:', cleanBarcode);
+
+    const url = `${API_BASE}/product/${cleanBarcode}`;
 
     const response = await fetch(url, {
       headers: {
-        'User-Agent': 'VeldheersAthleteNutrition/1.0'
+        'User-Agent': 'VeldheersAthleteNutrition/1.0',
+        'Accept': 'application/json'
       }
     });
 
     if (!response.ok) {
+      console.error(`API returned status: ${response.status}`);
       throw new Error(`Open Food Facts API error: ${response.status}`);
     }
 
     const data: OpenFoodFactsResponse = await response.json();
 
+    console.log('API response status:', data.status);
+
     if (data.status === 0 || !data.product) {
-      console.warn(`Product not found for barcode: ${barcode}`);
+      console.warn(`Product not found for barcode: ${cleanBarcode}`);
       return null;
     }
 
-    return convertToNutritionData(data.product, barcode);
+    const nutritionData = convertToNutritionData(data.product, cleanBarcode);
+    console.log('Converted nutrition data:', nutritionData);
+
+    return nutritionData;
   } catch (error) {
     console.error('Error looking up barcode:', error);
     throw error;
