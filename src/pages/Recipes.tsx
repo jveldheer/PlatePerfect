@@ -80,105 +80,142 @@ export default function Recipes() {
         backgroundColor: '#2A2A2A',
         border: '3px solid var(--border)',
         borderRadius: '12px',
-        padding: '1.5rem'
+        padding: '1rem'
       }}>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <div>
             <label style={{
               color: 'var(--white)',
               fontWeight: '700',
-              fontSize: '1.1rem',
+              fontSize: '0.875rem',
               textTransform: 'uppercase',
               display: 'block',
-              marginBottom: '0.75rem'
+              marginBottom: '0.5rem'
             }}>
               Category
             </label>
-            <div className="flex flex-wrap gap-2">
+            <select
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
+              style={{
+                backgroundColor: '#1A1A1A',
+                color: 'var(--white)',
+                border: '3px solid var(--border)',
+                fontWeight: '600',
+                width: '100%',
+                padding: '0.625rem',
+                borderRadius: '8px',
+                fontSize: '0.875rem',
+                cursor: 'pointer'
+              }}
+              className="min-h-[44px] touch-manipulation"
+            >
               {categories.map((category) => (
-                <button
-                  key={category.id}
-                  onClick={() => setSelectedCategory(category.id)}
-                  style={{
-                    backgroundColor: selectedCategory === category.id ? 'var(--yellow)' : '#1A1A1A',
-                    color: selectedCategory === category.id ? '#000000' : 'var(--white)',
-                    border: `3px solid ${selectedCategory === category.id ? 'var(--yellow)' : 'var(--border)'}`,
-                    fontWeight: '600',
-                    boxShadow: selectedCategory === category.id ? '0 0 20px var(--glow)' : 'none'
-                  }}
-                  className="px-3 sm:px-4 py-2 sm:py-2.5 min-h-[44px] rounded-lg text-sm transition-all touch-manipulation hover:scale-105"
-                >
+                <option key={category.id} value={category.id}>
                   {category.label}
-                </button>
+                </option>
               ))}
-            </div>
+            </select>
           </div>
 
           <div>
             <label style={{
               color: 'var(--white)',
               fontWeight: '700',
-              fontSize: '1.1rem',
+              fontSize: '0.875rem',
               textTransform: 'uppercase',
               display: 'block',
-              marginBottom: '0.75rem'
+              marginBottom: '0.5rem'
             }}>
               Difficulty
             </label>
-            <div className="flex flex-wrap gap-2">
+            <select
+              value={selectedDifficulty}
+              onChange={(e) => setSelectedDifficulty(e.target.value)}
+              style={{
+                backgroundColor: '#1A1A1A',
+                color: 'var(--white)',
+                border: '3px solid var(--border)',
+                fontWeight: '600',
+                width: '100%',
+                padding: '0.625rem',
+                borderRadius: '8px',
+                fontSize: '0.875rem',
+                cursor: 'pointer'
+              }}
+              className="min-h-[44px] touch-manipulation"
+            >
               {difficulties.map((difficulty) => (
-                <button
-                  key={difficulty.id}
-                  onClick={() => setSelectedDifficulty(difficulty.id)}
-                  style={{
-                    backgroundColor: selectedDifficulty === difficulty.id ? 'var(--yellow)' : '#1A1A1A',
-                    color: selectedDifficulty === difficulty.id ? '#000000' : 'var(--white)',
-                    border: `3px solid ${selectedDifficulty === difficulty.id ? 'var(--yellow)' : 'var(--border)'}`,
-                    fontWeight: '600',
-                    boxShadow: selectedDifficulty === difficulty.id ? '0 0 20px var(--glow)' : 'none'
-                  }}
-                  className="px-3 sm:px-4 py-2 sm:py-2.5 min-h-[44px] rounded-lg text-sm transition-all touch-manipulation hover:scale-105"
-                >
+                <option key={difficulty.id} value={difficulty.id}>
                   {difficulty.label}
-                </button>
+                </option>
               ))}
-            </div>
+            </select>
           </div>
 
           <div>
             <label style={{
               color: 'var(--white)',
               fontWeight: '700',
-              fontSize: '1.1rem',
+              fontSize: '0.875rem',
               textTransform: 'uppercase',
               display: 'block',
-              marginBottom: '0.75rem'
+              marginBottom: '0.5rem'
             }}>
               Cost
             </label>
-            <div className="flex flex-wrap gap-2">
+            <select
+              value={selectedEconomics}
+              onChange={(e) => setSelectedEconomics(e.target.value)}
+              style={{
+                backgroundColor: '#1A1A1A',
+                color: 'var(--white)',
+                border: '3px solid var(--border)',
+                fontWeight: '600',
+                width: '100%',
+                padding: '0.625rem',
+                borderRadius: '8px',
+                fontSize: '0.875rem',
+                cursor: 'pointer'
+              }}
+              className="min-h-[44px] touch-manipulation"
+            >
               {economicsOptions.map((option) => (
-                <button
-                  key={option.id}
-                  onClick={() => setSelectedEconomics(option.id)}
-                  style={{
-                    backgroundColor: selectedEconomics === option.id ? 'var(--yellow)' : '#1A1A1A',
-                    color: selectedEconomics === option.id ? '#000000' : 'var(--white)',
-                    border: `3px solid ${selectedEconomics === option.id ? 'var(--yellow)' : 'var(--border)'}`,
-                    fontWeight: '600',
-                    boxShadow: selectedEconomics === option.id ? '0 0 20px var(--glow)' : 'none'
-                  }}
-                  className="px-3 sm:px-4 py-2 sm:py-2.5 min-h-[44px] rounded-lg text-sm transition-all touch-manipulation hover:scale-105"
-                >
+                <option key={option.id} value={option.id}>
                   {option.label}
-                </button>
+                </option>
               ))}
-            </div>
+            </select>
           </div>
         </div>
 
-        <div className="mt-4 text-sm" style={{ color: 'var(--yellow)', fontWeight: '600' }}>
-          Showing {filteredRecipes.length} recipe{filteredRecipes.length !== 1 ? 's' : ''}
+        <div className="mt-3 text-sm flex items-center justify-between">
+          <span style={{ color: 'var(--yellow)', fontWeight: '600' }}>
+            Showing {filteredRecipes.length} recipe{filteredRecipes.length !== 1 ? 's' : ''}
+          </span>
+          {(selectedCategory !== 'all' || selectedDifficulty !== 'all' || selectedEconomics !== 'all') && (
+            <button
+              onClick={() => {
+                setSelectedCategory('all');
+                setSelectedDifficulty('all');
+                setSelectedEconomics('all');
+              }}
+              style={{
+                backgroundColor: 'transparent',
+                color: 'var(--white)',
+                border: '2px solid var(--border)',
+                padding: '0.375rem 0.75rem',
+                borderRadius: '6px',
+                fontSize: '0.75rem',
+                fontWeight: '600',
+                cursor: 'pointer',
+                textTransform: 'uppercase'
+              }}
+              className="hover:bg-opacity-10 hover:bg-white transition-all"
+            >
+              Clear All
+            </button>
+          )}
         </div>
       </div>
 

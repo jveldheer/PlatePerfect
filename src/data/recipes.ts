@@ -3350,5 +3350,884 @@ export const recipes: Recipe[] = [
         timeEstimate: 5
       }
     ]
+  },
+  {
+    id: 'recipe-056',
+    title: 'Viral Lasagna Soup',
+    category: 'dinner',
+    difficulty: 'beginner',
+    economics: '$',
+    description: 'All the lasagna flavors in a cozy soup - 38g protein!',
+    prepTime: 10,
+    cookTime: 25,
+    servings: 6,
+    servingSizeAmount: '2 cups',
+    servingSizeVisual: 'Large bowl',
+    servingSizeGrams: 450,
+    athleteNotes: 'This viral soup has all the comfort of lasagna with way less work. Perfect for meal prep!',
+    requiredSkills: ['knife-002', 'cook-001'],
+    tags: ['viral-tiktok', 'high-protein', 'comfort-food', 'meal-prep', 'one-pot'],
+    mealPrepNotes: 'Stores beautifully! Make a big batch on Sunday.',
+    storageInstructions: 'Store in refrigerator for up to 5 days or freeze for 3 months.',
+    nutritionInfo: {
+      calories: 420,
+      protein: 38,
+      carbs: 42,
+      fat: 12,
+      fiber: 6,
+      servings: 6
+    },
+    ingredients: [
+      { item: 'Ground turkey', amount: '1.5 lbs', notes: 'Lean' },
+      { item: 'Onion', amount: '1 large', notes: 'Diced' },
+      { item: 'Garlic', amount: '5 cloves', notes: 'Minced' },
+      { item: 'Crushed tomatoes', amount: '28 oz can' },
+      { item: 'Chicken broth', amount: '4 cups', notes: 'Low sodium' },
+      { item: 'Italian seasoning', amount: '2 tablespoons' },
+      { item: 'Lasagna noodles', amount: '8 sheets', notes: 'Broken into pieces' },
+      { item: 'Ricotta cheese', amount: '1 cup', notes: 'Part-skim' },
+      { item: 'Mozzarella cheese', amount: '1 cup', notes: 'Shredded' },
+      { item: 'Fresh basil', amount: '1/4 cup', notes: 'Chopped' },
+      { item: 'Spinach', amount: '2 cups', notes: 'Fresh' }
+    ],
+    instructions: [
+      {
+        step: 1,
+        instruction: 'Brown the turkey with aromatics.',
+        detailedExplanation: 'In a large pot over medium-high heat, cook ground turkey with diced onion and minced garlic until turkey is browned and onions are soft, about 8 minutes. Break up the meat as it cooks.',
+        timeEstimate: 8
+      },
+      {
+        step: 2,
+        instruction: 'Add liquids and noodles.',
+        detailedExplanation: 'Add crushed tomatoes, chicken broth, and Italian seasoning. Bring to a boil. Add broken lasagna noodles and cook for 12-15 minutes until noodles are tender, stirring occasionally.',
+        timeEstimate: 15
+      },
+      {
+        step: 3,
+        instruction: 'Finish with cheese and greens.',
+        detailedExplanation: 'Stir in spinach until wilted. Ladle into bowls and top each with a dollop of ricotta, mozzarella, and fresh basil. The viral trick is the ricotta on top - it melts into creamy perfection!',
+        skillTip: 'The ricotta dollop on top is what makes this go viral every time!',
+        timeEstimate: 2
+      }
+    ]
+  },
+  {
+    id: 'recipe-057',
+    title: 'Marry Me Chicken',
+    category: 'dinner',
+    difficulty: 'intermediate',
+    economics: '$$',
+    description: 'Viral creamy sun-dried tomato chicken - 45g protein!',
+    prepTime: 10,
+    cookTime: 25,
+    servings: 4,
+    servingSizeAmount: '1 chicken breast with sauce',
+    servingSizeVisual: 'Large chicken breast with creamy sauce',
+    servingSizeGrams: 350,
+    athleteNotes: 'So good it got its name because people proposed after eating it! High protein and restaurant-quality.',
+    requiredSkills: ['knife-002', 'cook-001', 'cook-002'],
+    tags: ['viral-tiktok', 'high-protein', 'date-night', 'creamy'],
+    mealPrepNotes: 'The sauce gets even better the next day!',
+    storageInstructions: 'Store in refrigerator for up to 4 days. Reheat gently.',
+    nutritionInfo: {
+      calories: 480,
+      protein: 45,
+      carbs: 18,
+      fat: 24,
+      fiber: 3,
+      servings: 4
+    },
+    ingredients: [
+      { item: 'Chicken breasts', amount: '4 large', notes: '6-8 oz each' },
+      { item: 'Sun-dried tomatoes', amount: '1/2 cup', notes: 'In oil, chopped' },
+      { item: 'Heavy cream', amount: '1 cup' },
+      { item: 'Chicken broth', amount: '1/2 cup' },
+      { item: 'Garlic', amount: '5 cloves', notes: 'Minced' },
+      { item: 'Parmesan cheese', amount: '1/2 cup', notes: 'Grated' },
+      { item: 'Italian seasoning', amount: '1 tablespoon' },
+      { item: 'Red pepper flakes', amount: '1/2 teaspoon' },
+      { item: 'Fresh basil', amount: '1/4 cup', notes: 'Chopped' },
+      { item: 'Olive oil', amount: '2 tablespoons' }
+    ],
+    instructions: [
+      {
+        step: 1,
+        instruction: 'Season and sear chicken.',
+        detailedExplanation: 'Season chicken breasts with salt, pepper, and Italian seasoning. Heat olive oil in a large skillet over medium-high heat. Sear chicken for 5-6 minutes per side until golden brown. Remove and set aside.',
+        timeEstimate: 12
+      },
+      {
+        step: 2,
+        instruction: 'Make the viral creamy sauce.',
+        detailedExplanation: 'In the same skillet, add minced garlic and sun-dried tomatoes. Cook for 1 minute until fragrant. Add heavy cream, chicken broth, Parmesan, and red pepper flakes. Stir until smooth and creamy.',
+        skillTip: 'Don\'t skip the fond (browned bits) in the pan - that\'s flavor gold!',
+        timeEstimate: 5
+      },
+      {
+        step: 3,
+        instruction: 'Simmer chicken in sauce.',
+        detailedExplanation: 'Return chicken to the skillet, spooning sauce over the top. Simmer for 8-10 minutes until chicken reaches 165°F internal temperature and sauce has thickened. Top with fresh basil before serving. The combination of sun-dried tomatoes and cream is what makes this so special!',
+        timeEstimate: 10
+      }
+    ]
+  },
+  {
+    id: 'recipe-058',
+    title: 'Birria Tacos',
+    category: 'dinner',
+    difficulty: 'intermediate',
+    economics: '$$',
+    description: 'Viral crispy tacos with beef consommé - 42g protein!',
+    prepTime: 20,
+    cookTime: 180,
+    servings: 8,
+    servingSizeAmount: '3 tacos',
+    servingSizeVisual: '3 crispy tacos with dipping broth',
+    servingSizeGrams: 400,
+    athleteNotes: 'The most viral taco ever! Crispy, cheesy, with amazing dipping broth. Worth the cook time!',
+    requiredSkills: ['knife-002', 'cook-001', 'cook-003'],
+    tags: ['viral-tiktok', 'high-protein', 'mexican', 'cheese-pull'],
+    mealPrepNotes: 'Cook the beef in advance, assemble tacos when ready to eat.',
+    storageInstructions: 'Store beef and consommé separately for up to 5 days.',
+    nutritionInfo: {
+      calories: 520,
+      protein: 42,
+      carbs: 38,
+      fat: 22,
+      fiber: 4,
+      servings: 8
+    },
+    ingredients: [
+      { item: 'Beef chuck roast', amount: '3 lbs', notes: 'Cut into chunks' },
+      { item: 'Dried guajillo chiles', amount: '5', notes: 'Stemmed and seeded' },
+      { item: 'Beef broth', amount: '4 cups' },
+      { item: 'Onion', amount: '1 large', notes: 'Quartered' },
+      { item: 'Tomatoes', amount: '2 medium', notes: 'Quartered' },
+      { item: 'Garlic', amount: '6 cloves' },
+      { item: 'Cumin', amount: '1 tablespoon' },
+      { item: 'Mexican oregano', amount: '1 tablespoon' },
+      { item: 'Bay leaves', amount: '3' },
+      { item: 'Corn tortillas', amount: '24 small' },
+      { item: 'Oaxaca cheese', amount: '2 cups', notes: 'Shredded' },
+      { item: 'Cilantro', amount: '1 cup', notes: 'Chopped' },
+      { item: 'Lime', amount: '2', notes: 'Cut into wedges' }
+    ],
+    instructions: [
+      {
+        step: 1,
+        instruction: 'Make the birria sauce.',
+        detailedExplanation: 'Toast dried chiles in a dry skillet for 2 minutes. Cover with hot water and soak 15 minutes. Blend soaked chiles with tomatoes, onion, garlic, cumin, and oregano until smooth.',
+        timeEstimate: 20
+      },
+      {
+        step: 2,
+        instruction: 'Cook the beef low and slow.',
+        detailedExplanation: 'Add beef chunks, chile sauce, beef broth, and bay leaves to a large pot or slow cooker. Cook on low for 3 hours until beef is fall-apart tender. Shred the beef and return to the consommé (broth).',
+        skillTip: 'The long cook time makes the beef incredibly tender - don\'t rush it!',
+        timeEstimate: 180
+      },
+      {
+        step: 3,
+        instruction: 'Assemble and fry the viral tacos.',
+        detailedExplanation: 'Heat a griddle over medium heat. Dip a tortilla in the red consommé, place on griddle. Add cheese and shredded beef, fold in half. Cook 2-3 minutes per side until crispy and golden. Serve with consommé for dipping, cilantro, and lime. The viral dipping action is what makes these famous!',
+        timeEstimate: 20
+      }
+    ]
+  },
+  {
+    id: 'recipe-059',
+    title: 'Protein Pancake Cereal',
+    category: 'breakfast',
+    difficulty: 'beginner',
+    economics: '$',
+    description: 'Viral tiny pancakes you eat like cereal - 32g protein!',
+    prepTime: 10,
+    cookTime: 15,
+    servings: 2,
+    servingSizeAmount: '2 cups mini pancakes',
+    servingSizeVisual: 'Large bowl of tiny pancakes',
+    servingSizeGrams: 300,
+    athleteNotes: 'The cutest breakfast that went viral! Fun to make and packed with protein.',
+    requiredSkills: ['cook-001'],
+    tags: ['viral-tiktok', 'high-protein', 'fun', 'breakfast'],
+    mealPrepNotes: 'Make ahead and store in fridge, microwave to reheat!',
+    storageInstructions: 'Store in refrigerator for up to 3 days.',
+    nutritionInfo: {
+      calories: 320,
+      protein: 32,
+      carbs: 38,
+      fat: 6,
+      fiber: 4,
+      servings: 2
+    },
+    ingredients: [
+      { item: 'Vanilla protein powder', amount: '2 scoops (60g)' },
+      { item: 'Oat flour', amount: '1/2 cup' },
+      { item: 'Egg', amount: '1 large' },
+      { item: 'Milk', amount: '3/4 cup', notes: 'Any kind' },
+      { item: 'Baking powder', amount: '1 teaspoon' },
+      { item: 'Vanilla extract', amount: '1 teaspoon' },
+      { item: 'Cinnamon', amount: '1/2 teaspoon' },
+      { item: 'Maple syrup', amount: 'For serving' },
+      { item: 'Berries', amount: 'For topping', notes: 'Optional' }
+    ],
+    instructions: [
+      {
+        step: 1,
+        instruction: 'Make tiny pancake batter.',
+        detailedExplanation: 'Mix protein powder, oat flour, baking powder, and cinnamon in a bowl. Add egg, milk, and vanilla. Whisk until smooth. The batter should be pourable but not too thin.',
+        timeEstimate: 5
+      },
+      {
+        step: 2,
+        instruction: 'Make the viral mini pancakes.',
+        detailedExplanation: 'Heat a large nonstick skillet or griddle over medium heat. Using a squeeze bottle or spoon, make tiny pancakes (about quarter-size). Cook for 1-2 minutes until bubbles form, then flip. Work in batches - this is the fun part!',
+        skillTip: 'A squeeze bottle makes perfect tiny pancakes every time!',
+        timeEstimate: 15
+      },
+      {
+        step: 3,
+        instruction: 'Serve like cereal.',
+        detailedExplanation: 'Pour mini pancakes into a bowl. Add your choice of milk, top with berries, and drizzle with maple syrup. Eat with a spoon like cereal! The viral appeal is how cute and fun they are.',
+        timeEstimate: 2
+      }
+    ]
+  },
+  {
+    id: 'recipe-060',
+    title: 'Cucumber Sushi Rolls',
+    category: 'snacks',
+    difficulty: 'beginner',
+    economics: '$',
+    description: 'Viral no-rice sushi rolls - 28g protein, super refreshing!',
+    prepTime: 15,
+    cookTime: 0,
+    servings: 3,
+    servingSizeAmount: '6-8 rolls',
+    servingSizeVisual: 'About 6-8 cucumber rolls',
+    servingSizeGrams: 250,
+    athleteNotes: 'A viral low-carb snack that\'s actually delicious! Perfect for cutting weight.',
+    requiredSkills: ['knife-002'],
+    tags: ['viral-tiktok', 'high-protein', 'low-carb', 'no-cook', 'refreshing'],
+    mealPrepNotes: 'Best made fresh but can prep 1 day ahead.',
+    storageInstructions: 'Store wrapped in damp paper towel in refrigerator for 1 day.',
+    nutritionInfo: {
+      calories: 180,
+      protein: 28,
+      carbs: 8,
+      fat: 4,
+      fiber: 2,
+      servings: 3
+    },
+    ingredients: [
+      { item: 'English cucumber', amount: '2 large' },
+      { item: 'Imitation crab', amount: '12 oz', notes: 'Or real crab' },
+      { item: 'Cream cheese', amount: '4 oz', notes: 'Light' },
+      { item: 'Avocado', amount: '1 medium', notes: 'Sliced thin' },
+      { item: 'Carrot', amount: '1', notes: 'Julienned' },
+      { item: 'Soy sauce', amount: 'For dipping' },
+      { item: 'Sriracha mayo', amount: 'For drizzling', notes: 'Optional' },
+      { item: 'Sesame seeds', amount: '1 tablespoon', notes: 'For topping' }
+    ],
+    instructions: [
+      {
+        step: 1,
+        instruction: 'Prep the cucumber.',
+        detailedExplanation: 'Cut ends off cucumbers. Using a vegetable peeler or mandoline, slice cucumber lengthwise into thin, wide strips (about 1/8 inch thick). You want them thin but not breaking. Pat dry with paper towels.',
+        skillTip: 'The viral trick is using a mandoline for perfectly thin strips!',
+        timeEstimate: 8
+      },
+      {
+        step: 2,
+        instruction: 'Assemble the rolls.',
+        detailedExplanation: 'Lay cucumber strip flat. Spread a thin layer of cream cheese on it. Add a line of crab, avocado slices, and carrot at one end. Roll tightly from that end, like a sushi roll.',
+        timeEstimate: 10
+      },
+      {
+        step: 3,
+        instruction: 'Slice and serve.',
+        detailedExplanation: 'Cut each roll into bite-sized pieces (about 1 inch). Arrange on a plate, sprinkle with sesame seeds, and serve with soy sauce and sriracha mayo. These went viral for being healthy AND delicious!',
+        timeEstimate: 2
+      }
+    ]
+  },
+  {
+    id: 'recipe-061',
+    title: 'Green Goddess Salad',
+    category: 'lunch',
+    difficulty: 'beginner',
+    economics: '$',
+    description: 'Viral TikTok salad with creamy herb dressing - 25g protein!',
+    prepTime: 15,
+    cookTime: 0,
+    servings: 4,
+    servingSizeAmount: '2 cups salad',
+    servingSizeVisual: 'Large salad bowl',
+    servingSizeGrams: 350,
+    athleteNotes: 'The most viral salad of 2024! Fresh, crunchy, and the dressing is incredible.',
+    requiredSkills: ['knife-002'],
+    tags: ['viral-tiktok', 'high-protein', 'fresh', 'no-cook', 'veggie-packed'],
+    mealPrepNotes: 'Prep all ingredients, store dressing separately.',
+    storageInstructions: 'Store salad and dressing separately for up to 3 days.',
+    nutritionInfo: {
+      calories: 280,
+      protein: 25,
+      carbs: 22,
+      fat: 12,
+      fiber: 8,
+      servings: 4
+    },
+    ingredients: [
+      { item: 'Romaine lettuce', amount: '1 head', notes: 'Chopped' },
+      { item: 'Chicken breast', amount: '1 lb', notes: 'Cooked and diced' },
+      { item: 'Cabbage', amount: '2 cups', notes: 'Shredded' },
+      { item: 'Cucumber', amount: '1', notes: 'Diced' },
+      { item: 'Green onions', amount: '4', notes: 'Sliced' },
+      { item: 'Avocado', amount: '1', notes: 'For dressing' },
+      { item: 'Greek yogurt', amount: '1/2 cup', notes: 'Plain' },
+      { item: 'Fresh herbs', amount: '1 cup', notes: 'Basil, parsley, cilantro' },
+      { item: 'Lemon juice', amount: '2 tablespoons' },
+      { item: 'Garlic', amount: '2 cloves' },
+      { item: 'Chickpeas', amount: '1 can', notes: 'Drained, roasted crispy' }
+    ],
+    instructions: [
+      {
+        step: 1,
+        instruction: 'Make the viral green goddess dressing.',
+        detailedExplanation: 'In a blender, combine avocado, Greek yogurt, fresh herbs (basil, parsley, cilantro), lemon juice, garlic, and salt. Blend until smooth and creamy. Add water 1 tablespoon at a time if too thick. This dressing is what makes the salad go viral!',
+        skillTip: 'The more herbs, the better! Don\'t be shy.',
+        timeEstimate: 5
+      },
+      {
+        step: 2,
+        instruction: 'Prep all the vegetables.',
+        detailedExplanation: 'Chop romaine lettuce, shred cabbage, dice cucumber, and slice green onions. For extra crunch, roast the chickpeas: toss with olive oil, salt, and paprika, then bake at 400°F for 20 minutes until crispy.',
+        timeEstimate: 15
+      },
+      {
+        step: 3,
+        instruction: 'Assemble the viral salad.',
+        detailedExplanation: 'In a large bowl, combine lettuce, cabbage, cucumber, green onions, and diced chicken. Pour the green goddess dressing over and toss to coat everything. Top with crispy chickpeas. The combination of crunchy veggies and creamy dressing is perfection!',
+        timeEstimate: 3
+      }
+    ]
+  },
+  {
+    id: 'recipe-062',
+    title: 'Baked Feta Pasta',
+    category: 'dinner',
+    difficulty: 'beginner',
+    economics: '$$',
+    description: 'The pasta that broke the internet - 32g protein per serving!',
+    prepTime: 10,
+    cookTime: 35,
+    servings: 4,
+    servingSizeAmount: '2 cups',
+    servingSizeVisual: 'Large pasta bowl',
+    servingSizeGrams: 400,
+    athleteNotes: 'The most viral pasta ever! Creamy, tangy, and we added chicken for extra protein.',
+    requiredSkills: ['knife-002', 'cook-001'],
+    tags: ['viral-tiktok', 'high-protein', 'easy', 'one-pan', 'creamy'],
+    mealPrepNotes: 'Makes great leftovers! Store for up to 4 days.',
+    storageInstructions: 'Store in refrigerator for up to 4 days.',
+    nutritionInfo: {
+      calories: 520,
+      protein: 32,
+      carbs: 58,
+      fat: 18,
+      fiber: 5,
+      servings: 4
+    },
+    ingredients: [
+      { item: 'Feta cheese block', amount: '8 oz', notes: 'Don\'t use crumbled!' },
+      { item: 'Cherry tomatoes', amount: '2 pints (4 cups)' },
+      { item: 'Olive oil', amount: '1/3 cup' },
+      { item: 'Garlic', amount: '6 cloves', notes: 'Whole' },
+      { item: 'Pasta', amount: '1 lb', notes: 'Penne or rigatoni' },
+      { item: 'Chicken breast', amount: '1 lb', notes: 'Cubed' },
+      { item: 'Fresh basil', amount: '1 cup', notes: 'Chopped' },
+      { item: 'Red pepper flakes', amount: '1/2 teaspoon' },
+      { item: 'Italian seasoning', amount: '1 tablespoon' }
+    ],
+    instructions: [
+      {
+        step: 1,
+        instruction: 'Bake the feta and tomatoes.',
+        detailedExplanation: 'Preheat oven to 400°F. In a 9x13 baking dish, place the feta block in the center. Arrange cherry tomatoes and garlic cloves around it. Drizzle everything with olive oil, sprinkle with Italian seasoning, red pepper flakes, salt and pepper. Bake for 35 minutes until tomatoes burst and feta is soft.',
+        skillTip: 'Use a whole block of feta, not crumbled - that\'s the viral secret!',
+        timeEstimate: 35
+      },
+      {
+        step: 2,
+        instruction: 'Cook pasta and chicken.',
+        detailedExplanation: 'While baking, cook pasta according to package directions. In a separate pan, cook cubed chicken with a bit of olive oil until golden and cooked through, about 8 minutes. Season with salt and pepper.',
+        timeEstimate: 12
+      },
+      {
+        step: 3,
+        instruction: 'Mix everything together.',
+        detailedExplanation: 'When feta is done, remove from oven. Use a fork to mash the feta and tomatoes together into a creamy sauce. Add cooked pasta, chicken, and fresh basil. Toss everything together until pasta is coated in the sauce. The viral magic happens when you mash the feta!',
+        timeEstimate: 3
+      }
+    ]
+  },
+  {
+    id: 'recipe-063',
+    title: 'Protein Ice Cream - 2 Ingredients',
+    category: 'snacks',
+    difficulty: 'beginner',
+    economics: '$',
+    description: 'Viral creamy ice cream made in a blender - 30g protein!',
+    prepTime: 2,
+    cookTime: 0,
+    servings: 1,
+    servingSizeAmount: '2 cups',
+    servingSizeVisual: 'Large bowl of soft-serve style ice cream',
+    servingSizeGrams: 300,
+    athleteNotes: 'The viral protein ice cream! Tastes like real ice cream but it\'s basically a protein shake.',
+    requiredSkills: [],
+    tags: ['viral-tiktok', 'high-protein', 'dessert', 'no-cook', '2-ingredients'],
+    mealPrepNotes: 'Best enjoyed immediately but can freeze for later.',
+    storageInstructions: 'Eat immediately for soft-serve texture, or freeze for traditional ice cream.',
+    nutritionInfo: {
+      calories: 180,
+      protein: 30,
+      carbs: 18,
+      fat: 2,
+      fiber: 3,
+      servings: 1
+    },
+    ingredients: [
+      { item: 'Vanilla protein powder', amount: '1 scoop (30g)' },
+      { item: 'Ice', amount: '2 cups', notes: 'Or frozen fruit' },
+      { item: 'Almond milk', amount: '1/2 cup', notes: 'Unsweetened' },
+      { item: 'Sugar-free syrup', amount: '1 tablespoon', notes: 'Optional for extra flavor' }
+    ],
+    instructions: [
+      {
+        step: 1,
+        instruction: 'Blend until creamy.',
+        detailedExplanation: 'Add ice (or frozen fruit like bananas or berries), protein powder, and almond milk to a high-speed blender. Blend on high, stopping to scrape sides as needed, until it reaches a thick, soft-serve consistency. This takes 2-3 minutes.',
+        skillTip: 'The viral trick is blending long enough - it transforms from icy to creamy!',
+        timeEstimate: 3
+      },
+      {
+        step: 2,
+        instruction: 'Serve immediately like soft-serve.',
+        detailedExplanation: 'Scoop into a bowl and eat immediately for soft-serve texture. You can add toppings like sugar-free chocolate chips, PB2, or berries. This went viral because it actually tastes like ice cream but is pure protein!',
+        timeEstimate: 1
+      }
+    ]
+  },
+  {
+    id: 'recipe-064',
+    title: 'Smash Burger Tacos',
+    category: 'dinner',
+    difficulty: 'beginner',
+    economics: '$',
+    description: 'Viral burger-taco hybrid that\'s crispy and cheesy - 40g protein!',
+    prepTime: 10,
+    cookTime: 15,
+    servings: 4,
+    servingSizeAmount: '2 tacos',
+    servingSizeVisual: '2 loaded tacos',
+    servingSizeGrams: 300,
+    athleteNotes: 'These went CRAZY viral! Crispy tortilla, smashed burger, melted cheese. Pure genius.',
+    requiredSkills: ['cook-001', 'cook-002'],
+    tags: ['viral-tiktok', 'high-protein', 'crispy', 'burger-taco'],
+    mealPrepNotes: 'Best made fresh, but you can prep the meat ahead.',
+    storageInstructions: 'Store cooked meat for up to 3 days, assemble tacos fresh.',
+    nutritionInfo: {
+      calories: 520,
+      protein: 40,
+      carbs: 32,
+      fat: 24,
+      fiber: 4,
+      servings: 4
+    },
+    ingredients: [
+      { item: 'Ground beef', amount: '1.5 lbs', notes: '80/20 lean' },
+      { item: 'Small flour tortillas', amount: '8', notes: '6-inch' },
+      { item: 'American cheese slices', amount: '8' },
+      { item: 'Shredded lettuce', amount: '2 cups' },
+      { item: 'Tomatoes', amount: '2', notes: 'Diced' },
+      { item: 'Pickles', amount: '1 cup', notes: 'Diced' },
+      { item: 'Red onion', amount: '1/2', notes: 'Diced' },
+      { item: 'Special sauce', amount: '1/2 cup', notes: 'Mayo, ketchup, mustard mix' },
+      { item: 'Burger seasoning', amount: '2 tablespoons' }
+    ],
+    instructions: [
+      {
+        step: 1,
+        instruction: 'Make the special sauce.',
+        detailedExplanation: 'Mix together mayo, ketchup, mustard, and a little pickle juice. This is your burger sauce! Set aside.',
+        timeEstimate: 2
+      },
+      {
+        step: 2,
+        instruction: 'Make the viral smash burger tacos.',
+        detailedExplanation: 'Heat a large griddle or skillet over medium-high heat. Form ground beef into 8 balls (about 3 oz each). Place a tortilla on the griddle, put a beef ball on top, then SMASH hard with a spatula. Season with burger seasoning. Cook 3-4 minutes until crispy, then carefully flip.',
+        skillTip: 'The viral trick is smashing the beef THROUGH the tortilla - it fuses together!',
+        timeEstimate: 15
+      },
+      {
+        step: 3,
+        instruction: 'Add cheese and toppings.',
+        detailedExplanation: 'Immediately add a slice of American cheese on the cooked side. Let it melt for 1 minute, then remove from heat. Top with lettuce, tomatoes, pickles, onions, and drizzle with special sauce. Fold in half. The crispy tortilla-beef fusion is what made these go viral!',
+        timeEstimate: 3
+      }
+    ]
+  },
+  {
+    id: 'recipe-065',
+    title: 'Gigi Hadid\'s Spicy Vodka Pasta',
+    category: 'dinner',
+    difficulty: 'beginner',
+    economics: '$',
+    description: 'The supermodel\'s viral pasta - 28g protein (with added chicken)!',
+    prepTime: 10,
+    cookTime: 20,
+    servings: 4,
+    servingSizeAmount: '2 cups',
+    servingSizeVisual: 'Large pasta bowl',
+    servingSizeGrams: 400,
+    athleteNotes: 'Gigi Hadid made this go viral during lockdown. Creamy, spicy, and incredible!',
+    requiredSkills: ['knife-002', 'cook-001'],
+    tags: ['viral-tiktok', 'high-protein', 'creamy', 'spicy', 'celebrity-recipe'],
+    mealPrepNotes: 'The sauce gets better as it sits!',
+    storageInstructions: 'Store in refrigerator for up to 4 days.',
+    nutritionInfo: {
+      calories: 480,
+      protein: 28,
+      carbs: 56,
+      fat: 16,
+      fiber: 4,
+      servings: 4
+    },
+    ingredients: [
+      { item: 'Pasta', amount: '1 lb', notes: 'Rigatoni or penne' },
+      { item: 'Olive oil', amount: '3 tablespoons' },
+      { item: 'Garlic', amount: '4 cloves', notes: 'Minced' },
+      { item: 'Tomato paste', amount: '1/4 cup' },
+      { item: 'Vodka', amount: '1/4 cup', notes: 'Optional, can omit' },
+      { item: 'Heavy cream', amount: '1 cup' },
+      { item: 'Red pepper flakes', amount: '1 teaspoon', notes: 'Or to taste' },
+      { item: 'Parmesan cheese', amount: '1 cup', notes: 'Grated' },
+      { item: 'Fresh basil', amount: '1/4 cup', notes: 'Chopped' },
+      { item: 'Chicken breast', amount: '1 lb', notes: 'Cooked and sliced' }
+    ],
+    instructions: [
+      {
+        step: 1,
+        instruction: 'Make the viral vodka sauce.',
+        detailedExplanation: 'Cook pasta according to package directions. Meanwhile, heat olive oil in a large skillet over medium heat. Add minced garlic and cook for 1 minute. Add tomato paste and red pepper flakes, cook for 2-3 minutes until tomato paste darkens. Add vodka (if using) and let it cook out for 2 minutes.',
+        timeEstimate: 8
+      },
+      {
+        step: 2,
+        instruction: 'Add cream and cheese.',
+        detailedExplanation: 'Lower heat and stir in heavy cream. Let it simmer for 3-4 minutes until slightly thickened. Add grated Parmesan and stir until melted and smooth. This sauce is what made Gigi famous on TikTok!',
+        skillTip: 'The tomato paste caramelization is KEY - don\'t skip this step!',
+        timeEstimate: 6
+      },
+      {
+        step: 3,
+        instruction: 'Combine everything.',
+        detailedExplanation: 'Add cooked pasta to the sauce along with sliced cooked chicken. Toss everything together until pasta is coated. Top with fresh basil and extra Parmesan. The creamy, spicy sauce coating every piece of pasta is perfection!',
+        timeEstimate: 3
+      }
+    ]
+  },
+  {
+    id: 'recipe-066',
+    title: 'Tortilla Wrap Hack',
+    category: 'lunch',
+    difficulty: 'beginner',
+    economics: '$',
+    description: 'The viral TikTok wrap - 35g protein, endless combinations!',
+    prepTime: 5,
+    cookTime: 5,
+    servings: 1,
+    servingSizeAmount: '1 wrap',
+    servingSizeVisual: 'One large folded wrap',
+    servingSizeGrams: 350,
+    athleteNotes: 'The wrap hack that went mega viral! Perfect for meal prep with any fillings you want.',
+    requiredSkills: ['knife-002'],
+    tags: ['viral-tiktok', 'high-protein', 'customizable', 'quick', 'meal-prep'],
+    mealPrepNotes: 'Prep multiple wraps and store wrapped tightly.',
+    storageInstructions: 'Store wrapped in foil in refrigerator for up to 3 days.',
+    nutritionInfo: {
+      calories: 420,
+      protein: 35,
+      carbs: 38,
+      fat: 14,
+      fiber: 6,
+      servings: 1
+    },
+    ingredients: [
+      { item: 'Large flour tortilla', amount: '1', notes: '10-12 inch' },
+      { item: 'Deli turkey', amount: '4 oz', notes: 'Or chicken' },
+      { item: 'Cheddar cheese', amount: '2 slices' },
+      { item: 'Lettuce', amount: '1/2 cup', notes: 'Shredded' },
+      { item: 'Tomato', amount: '1/4 cup', notes: 'Diced' },
+      { item: 'Avocado', amount: '1/4', notes: 'Sliced' },
+      { item: 'Ranch dressing', amount: '1 tablespoon' },
+      { item: 'Bacon', amount: '2 slices', notes: 'Cooked, optional' }
+    ],
+    instructions: [
+      {
+        step: 1,
+        instruction: 'Do the viral cut.',
+        detailedExplanation: 'Lay tortilla flat. Make ONE cut from the center of the tortilla straight down to the bottom edge. This is the viral trick that makes the folding work!',
+        skillTip: 'The single cut from center to edge is what makes this hack work!',
+        timeEstimate: 1
+      },
+      {
+        step: 2,
+        instruction: 'Add fillings in quadrants.',
+        detailedExplanation: 'Imagine the tortilla divided into 4 sections. Bottom left: turkey and cheese. Bottom right: lettuce and tomato. Top right: avocado and ranch. Top left: bacon (or more protein). Each quadrant gets different ingredients.',
+        timeEstimate: 3
+      },
+      {
+        step: 3,
+        instruction: 'Fold in the viral pattern.',
+        detailedExplanation: 'Starting from the bottom left quadrant, fold up. Then fold right. Then fold right again. Then fold down. This creates a compact, layered wrap. Toast in a pan for 2-3 minutes per side until golden and crispy. The folding technique makes every bite have all the ingredients - genius!',
+        timeEstimate: 5
+      }
+    ]
+  },
+  {
+    id: 'recipe-067',
+    title: 'Cloud Bread',
+    category: 'snacks',
+    difficulty: 'beginner',
+    economics: '$',
+    description: 'Viral fluffy bread - only 3 ingredients, 20g protein!',
+    prepTime: 10,
+    cookTime: 25,
+    servings: 6,
+    servingSizeAmount: '1 piece',
+    servingSizeVisual: 'One fluffy cloud-like bread piece',
+    servingSizeGrams: 100,
+    athleteNotes: 'So fluffy it looks like a cloud! Low-carb, high-protein, and went viral for good reason.',
+    requiredSkills: ['cook-001'],
+    tags: ['viral-tiktok', 'high-protein', 'low-carb', '3-ingredients', 'fluffy'],
+    mealPrepNotes: 'Store and use as bread for sandwiches!',
+    storageInstructions: 'Store in refrigerator for up to 4 days.',
+    nutritionInfo: {
+      calories: 120,
+      protein: 20,
+      carbs: 4,
+      fat: 3,
+      fiber: 0,
+      servings: 6
+    },
+    ingredients: [
+      { item: 'Eggs', amount: '3 large', notes: 'Separated' },
+      { item: 'Greek yogurt', amount: '3/4 cup', notes: 'Plain, non-fat' },
+      { item: 'Cornstarch', amount: '1/4 cup' },
+      { item: 'Vanilla extract', amount: '1 teaspoon', notes: 'Optional for sweet version' },
+      { item: 'Garlic powder', amount: '1/2 teaspoon', notes: 'Optional for savory version' }
+    ],
+    instructions: [
+      {
+        step: 1,
+        instruction: 'Whip the egg whites.',
+        detailedExplanation: 'Preheat oven to 300°F. Separate eggs. In a very clean bowl, whip egg whites with an electric mixer until stiff peaks form, about 5 minutes. This is crucial for the cloud texture!',
+        skillTip: 'Any fat will prevent the whites from whipping - make sure the bowl is spotless!',
+        timeEstimate: 6
+      },
+      {
+        step: 2,
+        instruction: 'Mix the base.',
+        detailedExplanation: 'In another bowl, mix egg yolks, Greek yogurt, and cornstarch until smooth. Add vanilla for sweet or garlic powder for savory. Gently fold the whipped egg whites into this mixture, being careful not to deflate them. The mixture should stay fluffy.',
+        timeEstimate: 4
+      },
+      {
+        step: 3,
+        instruction: 'Bake into clouds.',
+        detailedExplanation: 'Line a baking sheet with parchment paper. Scoop mixture into 6 round mounds, leaving space between. Bake for 25-30 minutes until lightly golden. They should be firm on the outside but still soft inside. Let cool before handling. These look and feel like clouds - that\'s why they went viral!',
+        timeEstimate: 30
+      }
+    ]
+  },
+  {
+    id: 'recipe-068',
+    title: 'Salmon Rice Bowl',
+    category: 'lunch',
+    difficulty: 'beginner',
+    economics: '$$',
+    description: 'Viral creamy salmon bowl - 40g protein, TikTok famous!',
+    prepTime: 10,
+    cookTime: 15,
+    servings: 2,
+    servingSizeAmount: '2 cups',
+    servingSizeVisual: 'Large bowl with rice and salmon',
+    servingSizeGrams: 450,
+    athleteNotes: 'The salmon bowl that has millions of views! Creamy, savory, perfect macros.',
+    requiredSkills: ['knife-002', 'cook-001'],
+    tags: ['viral-tiktok', 'high-protein', 'omega-3', 'quick', 'rice-bowl'],
+    mealPrepNotes: 'Cook rice and salmon in advance, assemble when ready!',
+    storageInstructions: 'Store components separately for up to 3 days.',
+    nutritionInfo: {
+      calories: 520,
+      protein: 40,
+      carbs: 48,
+      fat: 18,
+      fiber: 4,
+      servings: 2
+    },
+    ingredients: [
+      { item: 'Salmon fillet', amount: '12 oz', notes: 'Skin removed' },
+      { item: 'Cooked white rice', amount: '2 cups', notes: 'Preferably sushi rice' },
+      { item: 'Soy sauce', amount: '2 tablespoons' },
+      { item: 'Sriracha', amount: '1 tablespoon' },
+      { item: 'Mayo', amount: '2 tablespoons' },
+      { item: 'Sesame oil', amount: '1 teaspoon' },
+      { item: 'Avocado', amount: '1', notes: 'Cubed' },
+      { item: 'Cucumber', amount: '1', notes: 'Diced' },
+      { item: 'Edamame', amount: '1 cup', notes: 'Shelled' },
+      { item: 'Seaweed snacks', amount: '2 sheets', notes: 'Torn into pieces' },
+      { item: 'Sesame seeds', amount: '1 tablespoon' }
+    ],
+    instructions: [
+      {
+        step: 1,
+        instruction: 'Cook the salmon.',
+        detailedExplanation: 'Season salmon with salt and pepper. Heat a nonstick pan over medium-high heat. Cook salmon for 4-5 minutes per side until cooked through and flaky. Remove and let cool slightly, then flake into chunks.',
+        timeEstimate: 12
+      },
+      {
+        step: 2,
+        instruction: 'Make the viral spicy mayo.',
+        detailedExplanation: 'In a small bowl, mix together mayo, sriracha, and sesame oil. This is the sauce that made these bowls go viral - it\'s addictive!',
+        skillTip: 'Adjust sriracha to your heat preference!',
+        timeEstimate: 2
+      },
+      {
+        step: 3,
+        instruction: 'Assemble the viral bowl.',
+        detailedExplanation: 'Divide rice between 2 bowls. Top with flaked salmon, avocado, cucumber, and edamame. Drizzle with soy sauce and the spicy mayo. Tear seaweed sheets over top and sprinkle with sesame seeds. Mix everything together before eating - that\'s the viral way!',
+        timeEstimate: 5
+      }
+    ]
+  },
+  {
+    id: 'recipe-069',
+    title: 'Butter Board (High-Protein Version)',
+    category: 'snacks',
+    difficulty: 'beginner',
+    economics: '$$',
+    description: 'Viral butter board reimagined with protein - 28g protein!',
+    prepTime: 15,
+    cookTime: 0,
+    servings: 6,
+    servingSizeAmount: 'Shared appetizer',
+    servingSizeVisual: 'Board with spreads and protein',
+    servingSizeGrams: 200,
+    athleteNotes: 'The butter board went viral - we made it athlete-friendly with Greek yogurt and protein!',
+    requiredSkills: ['knife-002'],
+    tags: ['viral-tiktok', 'high-protein', 'appetizer', 'shareable', 'creative'],
+    mealPrepNotes: 'Best made fresh and served immediately.',
+    storageInstructions: 'Best enjoyed fresh, refrigerate leftovers for 1 day.',
+    nutritionInfo: {
+      calories: 240,
+      protein: 28,
+      carbs: 18,
+      fat: 8,
+      fiber: 3,
+      servings: 6
+    },
+    ingredients: [
+      { item: 'Greek yogurt', amount: '2 cups', notes: 'Plain, non-fat' },
+      { item: 'Cottage cheese', amount: '1 cup', notes: 'Whipped smooth' },
+      { item: 'Fresh herbs', amount: '1/2 cup', notes: 'Dill, chives, parsley - chopped' },
+      { item: 'Garlic', amount: '3 cloves', notes: 'Minced' },
+      { item: 'Lemon zest', amount: '1 lemon' },
+      { item: 'Smoked salmon', amount: '8 oz', notes: 'Sliced' },
+      { item: 'Cherry tomatoes', amount: '1 cup', notes: 'Halved' },
+      { item: 'Cucumber', amount: '1', notes: 'Sliced' },
+      { item: 'Everything bagel seasoning', amount: '2 tablespoons' },
+      { item: 'Whole grain crackers', amount: 'For serving' }
+    ],
+    instructions: [
+      {
+        step: 1,
+        instruction: 'Make the protein spread base.',
+        detailedExplanation: 'In a bowl, mix Greek yogurt and whipped cottage cheese until smooth. Add minced garlic, lemon zest, salt and pepper. This is your high-protein butter substitute!',
+        timeEstimate: 5
+      },
+      {
+        step: 2,
+        instruction: 'Create the viral board.',
+        detailedExplanation: 'Spread the yogurt-cottage cheese mixture all over a clean wooden board or large plate. Use the back of a spoon to create swoops and swirls - this is the viral aesthetic!',
+        skillTip: 'The swoops and swirls are key to the viral look!',
+        timeEstimate: 3
+      },
+      {
+        step: 3,
+        instruction: 'Top with protein and veggies.',
+        detailedExplanation: 'Arrange smoked salmon, cherry tomatoes, and cucumber slices artfully on top. Sprinkle with chopped fresh herbs and everything bagel seasoning. Serve with whole grain crackers for dipping. Everyone uses the crackers to scoop up the spread - that\'s how butter boards work!',
+        timeEstimate: 7
+      }
+    ]
+  },
+  {
+    id: 'recipe-070',
+    title: 'Protein Mug Cake - 1 Minute',
+    category: 'snacks',
+    difficulty: 'beginner',
+    economics: '$',
+    description: 'Viral microwave mug cake - 25g protein, ready in 60 seconds!',
+    prepTime: 2,
+    cookTime: 1,
+    servings: 1,
+    servingSizeAmount: '1 mug cake',
+    servingSizeVisual: 'Cake in a standard coffee mug',
+    servingSizeGrams: 200,
+    athleteNotes: 'The fastest dessert that went viral! Perfect when you need something sweet with protein.',
+    requiredSkills: [],
+    tags: ['viral-tiktok', 'high-protein', 'dessert', '1-minute', 'microwave'],
+    mealPrepNotes: 'Best made fresh - it literally takes 1 minute!',
+    storageInstructions: 'Best enjoyed immediately.',
+    nutritionInfo: {
+      calories: 220,
+      protein: 25,
+      carbs: 22,
+      fat: 4,
+      fiber: 5,
+      servings: 1
+    },
+    ingredients: [
+      { item: 'Chocolate protein powder', amount: '1 scoop (30g)' },
+      { item: 'Almond flour', amount: '2 tablespoons' },
+      { item: 'Baking powder', amount: '1/4 teaspoon' },
+      { item: 'Egg', amount: '1 large' },
+      { item: 'Almond milk', amount: '2 tablespoons' },
+      { item: 'Vanilla extract', amount: '1/2 teaspoon' },
+      { item: 'Sugar-free chocolate chips', amount: '1 tablespoon', notes: 'Optional' }
+    ],
+    instructions: [
+      {
+        step: 1,
+        instruction: 'Mix in the mug.',
+        detailedExplanation: 'In a microwave-safe mug, add protein powder, almond flour, and baking powder. Stir to combine. Add egg, almond milk, and vanilla extract. Mix very well with a fork until no lumps remain. Stir in chocolate chips if using.',
+        skillTip: 'Make sure to mix well - lumps won\'t cook properly!',
+        timeEstimate: 1
+      },
+      {
+        step: 2,
+        instruction: 'Microwave for 1 minute.',
+        detailedExplanation: 'Microwave on high for 60-90 seconds. The cake will rise up in the mug - that\'s normal! It\'s done when the top looks set and springs back when touched. Let cool for 30 seconds before eating.',
+        timeEstimate: 1
+      },
+      {
+        step: 3,
+        instruction: 'Top and enjoy.',
+        detailedExplanation: 'Top with Greek yogurt, sugar-free whipped cream, or extra chocolate chips if desired. Eat straight from the mug! This went viral for being the fastest high-protein dessert ever. You can make this ANY time you want something sweet!',
+        timeEstimate: 1
+      }
+    ]
   }
 ];
