@@ -1,12 +1,14 @@
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { useMacros } from '../contexts/MacroContext';
+import FoodLookup from '../components/FoodLookup';
 
 export default function MacroTracker() {
   const { userProfile, macroGoals, consumedMacros, resetTracker, getGoalDirection, addToTracker } = useMacros();
 
   // Manual logging state
   const [showManualLog, setShowManualLog] = useState(false);
+  const [showFoodLookup, setShowFoodLookup] = useState(false);
   const [manualCalories, setManualCalories] = useState('');
   const [manualProtein, setManualProtein] = useState('');
   const [manualCarbs, setManualCarbs] = useState('');
@@ -95,14 +97,26 @@ export default function MacroTracker() {
           </div>
           <div className="flex flex-wrap gap-2 sm:gap-3 justify-center">
             <button
-              onClick={() => setShowManualLog(!showManualLog)}
+              onClick={() => {
+                setShowFoodLookup(!showFoodLookup);
+                if (!showFoodLookup) setShowManualLog(false);
+              }}
+              className="px-4 py-2 min-h-[44px] bg-primary-600 text-white rounded-lg font-medium hover:bg-primary-700 transition-colors touch-manipulation inline-flex items-center"
+            >
+              🔍 Look Up Food
+            </button>
+            <button
+              onClick={() => {
+                setShowManualLog(!showManualLog);
+                if (!showManualLog) setShowFoodLookup(false);
+              }}
               className="px-4 py-2 min-h-[44px] bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-colors touch-manipulation inline-flex items-center"
             >
-              ➕ Log Food
+              ➕ Manual Entry
             </button>
             <Link
               to="/recipes"
-              className="px-4 py-2 min-h-[44px] bg-primary-600 text-white rounded-lg font-medium hover:bg-primary-700 transition-colors touch-manipulation inline-flex items-center"
+              className="px-4 py-2 min-h-[44px] bg-gray-600 text-white rounded-lg font-medium hover:bg-gray-700 transition-colors touch-manipulation inline-flex items-center"
             >
               Browse Recipes
             </Link>
@@ -115,6 +129,25 @@ export default function MacroTracker() {
           </div>
         </div>
       </div>
+
+      {/* Food Lookup */}
+      {showFoodLookup && (
+        <div className="bg-white rounded-xl shadow-2xl p-4 sm:p-6 border-2 border-primary-500">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-xl sm:text-2xl font-bold text-gray-900">Food Database Lookup</h3>
+            <button
+              onClick={() => setShowFoodLookup(false)}
+              className="text-gray-500 hover:text-gray-700 text-2xl"
+            >
+              ×
+            </button>
+          </div>
+          <p className="text-sm text-gray-600 mb-4">
+            Search by barcode (no API key needed) or food name (requires USDA FDC API key)
+          </p>
+          <FoodLookup onAddToTracker={addToTracker} />
+        </div>
+      )}
 
       {/* Manual Logging Form */}
       {showManualLog && (
