@@ -2,7 +2,26 @@ import type { AIMealResponse, AIContext } from './aiMealGenerator';
 
 const AI_SYSTEM_PROMPT = `You are an elite sports-nutrition meal generator inside an athlete-nutrition app. Be creative and practical for athletes. Use only the local ingredient and nutrient data provided by the app. Never call external services or the web.
 
-Return ONLY valid JSON that matches the schema in this prompt. No prose. No markdown.
+Return ONLY valid JSON that matches the schema below. No prose. No markdown.
+
+RESPONSE SCHEMA:
+{
+  "context": {
+    "athlete_id": "string",
+    "goal": "cut|maintain|bulk|refeed|pre_training|post_training",
+    "target_macros_per_meal": { "cal": number, "protein_g": number, "carb_g": number, "fat_g": number, "fiber_g": number },
+    "creative_mode": boolean,
+    "category_preference": string[],
+    "allowed_appliances": string[],
+    "include_staples": boolean,
+    "servings_default": number
+  },
+  "meals": [ /* array of 6 meal objects */ ],
+  "summary": {
+    "count_by_category": { "no_cook": number, "minimal_cook": number, "full_cook": number, "freestyle": number },
+    "macro_sums_all_meals": { "cal": number, "protein_g": number, "carb_g": number, "fat_g": number, "fiber_g": number }
+  }
+}
 
 HARD REQUIREMENTS
 1) Produce exactly 6 distinct meals per request. Titles must be unique.
@@ -76,15 +95,17 @@ export async function generateMealsWithAI(
   console.log('🎯 Goal:', context.goal);
   console.log('📊 Target macros per meal:', context.target_macros_per_meal);
 
-  const userMessage = `Generate 6 athlete meals with the following context:
+  const userMessage = `Generate 6 athlete meals with the following context and return it in the response:
 
-Goal: ${context.goal}
-Target macros per meal: ${context.target_macros_per_meal.cal} cal, ${context.target_macros_per_meal.protein_g}g protein, ${context.target_macros_per_meal.carb_g}g carbs, ${context.target_macros_per_meal.fat_g}g fat
+Context to include in your response:
+${JSON.stringify(context, null, 2)}
+
 ${userIngredients.length > 0 ? `User ingredients: ${userIngredients.join(', ')}` : 'No specific ingredients - generate creative meals'}
-Allowed appliances: ${context.allowed_appliances.join(', ')}
-Category preference: ${context.category_preference.join(', ')}
 
-Return ONLY the JSON response matching the schema.`;
+Return ONLY the JSON response matching the RESPONSE SCHEMA, including:
+1. The "context" object exactly as provided above
+2. An array of 6 "meals"
+3. A "summary" object with count_by_category and macro_sums_all_meals`;
 
   try {
     console.log('🚀 Starting API request to OpenAI...');
