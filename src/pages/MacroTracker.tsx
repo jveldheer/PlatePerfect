@@ -1,8 +1,33 @@
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
 import { useMacros } from '../contexts/MacroContext';
 
 export default function MacroTracker() {
-  const { userProfile, macroGoals, consumedMacros, resetTracker, getGoalDirection } = useMacros();
+  const { userProfile, macroGoals, consumedMacros, resetTracker, getGoalDirection, addToTracker } = useMacros();
+
+  // Manual logging state
+  const [showManualLog, setShowManualLog] = useState(false);
+  const [manualCalories, setManualCalories] = useState('');
+  const [manualProtein, setManualProtein] = useState('');
+  const [manualCarbs, setManualCarbs] = useState('');
+  const [manualFat, setManualFat] = useState('');
+
+  const handleManualLog = () => {
+    const calories = parseFloat(manualCalories) || 0;
+    const protein = parseFloat(manualProtein) || 0;
+    const carbs = parseFloat(manualCarbs) || 0;
+    const fat = parseFloat(manualFat) || 0;
+
+    if (calories > 0 || protein > 0 || carbs > 0 || fat > 0) {
+      addToTracker({ calories, protein, carbs, fat });
+      // Reset form
+      setManualCalories('');
+      setManualProtein('');
+      setManualCarbs('');
+      setManualFat('');
+      setShowManualLog(false);
+    }
+  };
 
   if (!userProfile || !macroGoals) {
     return (
@@ -68,7 +93,13 @@ export default function MacroTracker() {
               {userProfile.currentWeightLb} lbs → {userProfile.targetWeightLb} lbs
             </p>
           </div>
-          <div className="flex gap-2 sm:gap-3">
+          <div className="flex flex-wrap gap-2 sm:gap-3 justify-center">
+            <button
+              onClick={() => setShowManualLog(!showManualLog)}
+              className="px-4 py-2 min-h-[44px] bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-colors touch-manipulation inline-flex items-center"
+            >
+              ➕ Log Food
+            </button>
             <Link
               to="/recipes"
               className="px-4 py-2 min-h-[44px] bg-primary-600 text-white rounded-lg font-medium hover:bg-primary-700 transition-colors touch-manipulation inline-flex items-center"
@@ -84,6 +115,72 @@ export default function MacroTracker() {
           </div>
         </div>
       </div>
+
+      {/* Manual Logging Form */}
+      {showManualLog && (
+        <div className="bg-white rounded-xl shadow-2xl p-4 sm:p-6 border-2 border-green-500">
+          <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4">Log Food Manually</h3>
+          <p className="text-sm text-gray-600 mb-4">
+            Enter the nutrition information from food labels or nutrition databases like MyFitnessPal, USDA FoodData, or CalorieKing.
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-semibold text-gray-900 mb-2">Calories (kcal)</label>
+              <input
+                type="number"
+                value={manualCalories}
+                onChange={(e) => setManualCalories(e.target.value)}
+                placeholder="e.g., 450"
+                className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200 text-gray-900 font-medium text-base"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-semibold text-gray-900 mb-2">Protein (g)</label>
+              <input
+                type="number"
+                value={manualProtein}
+                onChange={(e) => setManualProtein(e.target.value)}
+                placeholder="e.g., 30"
+                className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-red-500 focus:ring-2 focus:ring-red-200 text-gray-900 font-medium text-base"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-semibold text-gray-900 mb-2">Carbs (g)</label>
+              <input
+                type="number"
+                value={manualCarbs}
+                onChange={(e) => setManualCarbs(e.target.value)}
+                placeholder="e.g., 45"
+                className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-yellow-500 focus:ring-2 focus:ring-yellow-200 text-gray-900 font-medium text-base"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-semibold text-gray-900 mb-2">Fat (g)</label>
+              <input
+                type="number"
+                value={manualFat}
+                onChange={(e) => setManualFat(e.target.value)}
+                placeholder="e.g., 15"
+                className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 text-gray-900 font-medium text-base"
+              />
+            </div>
+          </div>
+          <div className="flex gap-3 mt-6">
+            <button
+              onClick={handleManualLog}
+              className="flex-1 px-6 py-3 min-h-[44px] bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-colors touch-manipulation text-base"
+            >
+              Add to Tracker
+            </button>
+            <button
+              onClick={() => setShowManualLog(false)}
+              className="px-6 py-3 min-h-[44px] bg-gray-200 text-gray-700 rounded-lg font-medium hover:bg-gray-300 transition-colors touch-manipulation"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Macro Progress */}
       <div className="space-y-4 sm:space-y-6">
