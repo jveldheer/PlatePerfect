@@ -8,11 +8,20 @@ import SkillDetail from './pages/SkillDetail';
 import Recipes from './pages/Recipes';
 import RecipeDetail from './pages/RecipeDetail';
 import Profile from './pages/Profile';
-import MacroTracker from './pages/MacroTracker';
+import MacroTracker from './pages/MacroTrackerWithLookup';
 import MealGenerator from './pages/MealGenerator';
 import SavedRecipes from './pages/SavedRecipes';
 import Supplements from './pages/Supplements';
 import Settings from './pages/Settings';
+import { initNutrition } from './lib/nutrition';
+
+// Initialize nutrition module on app startup
+const fdcKey = import.meta.env.VITE_FDC_API_KEY;
+if (fdcKey) {
+  initNutrition({ fdcApiKey: fdcKey });
+} else {
+  console.warn('FDC_API_KEY not set - nutrition lookup will be unavailable');
+}
 
 function App() {
   return (
