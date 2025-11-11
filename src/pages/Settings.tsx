@@ -6,10 +6,19 @@ function Settings() {
   const [showKey, setShowKey] = useState(false);
   const [saved, setSaved] = useState(false);
 
+  const [fdcApiKey, setFdcApiKey] = useState('');
+  const [showFdcKey, setShowFdcKey] = useState(false);
+  const [fdcSaved, setFdcSaved] = useState(false);
+
   useEffect(() => {
     const storedKey = localStorage.getItem('openai_api_key');
     if (storedKey) {
       setApiKey(storedKey);
+    }
+
+    const storedFdcKey = localStorage.getItem('fdc_api_key');
+    if (storedFdcKey) {
+      setFdcApiKey(storedFdcKey);
     }
   }, []);
 
@@ -25,6 +34,20 @@ function Settings() {
     localStorage.removeItem('openai_api_key');
     setApiKey('');
     setSaved(false);
+  };
+
+  const handleFdcSave = () => {
+    if (fdcApiKey.trim()) {
+      localStorage.setItem('fdc_api_key', fdcApiKey.trim());
+      setFdcSaved(true);
+      setTimeout(() => setFdcSaved(false), 3000);
+    }
+  };
+
+  const handleFdcClear = () => {
+    localStorage.removeItem('fdc_api_key');
+    setFdcApiKey('');
+    setFdcSaved(false);
   };
 
   return (
@@ -100,6 +123,83 @@ function Settings() {
                 </p>
               </div>
             )}
+          </div>
+        </div>
+
+        {/* FDC API Key Section */}
+        <div className="bg-white rounded-xl shadow-md p-6 mb-6">
+          <h2 className="text-xl font-semibold text-gray-800 mb-4">
+            🥗 Food Database Configuration
+          </h2>
+
+          <div className="bg-green-50 border-l-4 border-green-500 p-4 mb-4 rounded-lg">
+            <p className="text-sm text-green-800">
+              <strong>Expand your nutrition database!</strong> Add USDA FoodData Central API key to search thousands of foods for accurate nutrition data.
+            </p>
+          </div>
+
+          <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                FDC API Key (Optional)
+              </label>
+              <div className="relative">
+                <input
+                  type={showFdcKey ? 'text' : 'password'}
+                  value={fdcApiKey}
+                  onChange={(e) => setFdcApiKey(e.target.value)}
+                  placeholder="Your FDC API key..."
+                  className="w-full px-4 py-2 pr-24 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                />
+                <button
+                  onClick={() => setShowFdcKey(!showFdcKey)}
+                  className="absolute right-2 top-1/2 transform -translate-y-1/2 text-sm text-green-600 hover:text-green-800 font-medium"
+                >
+                  {showFdcKey ? 'Hide' : 'Show'}
+                </button>
+              </div>
+              <p className="text-xs text-gray-500 mt-1">
+                Get a free API key at{' '}
+                <a
+                  href="https://fdc.nal.usda.gov/api-key-signup.html"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-green-600 hover:underline"
+                >
+                  fdc.nal.usda.gov/api-key-signup.html
+                </a>
+              </p>
+            </div>
+
+            <div className="flex gap-2">
+              <button
+                onClick={handleFdcSave}
+                disabled={!fdcApiKey.trim()}
+                className="flex-1 bg-green-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-green-600 transition-all disabled:bg-gray-300 disabled:cursor-not-allowed"
+              >
+                💾 Save FDC API Key
+              </button>
+              <button
+                onClick={handleFdcClear}
+                className="px-4 py-2 border-2 border-red-500 text-red-500 font-semibold rounded-lg hover:bg-red-50 transition-all"
+              >
+                Clear
+              </button>
+            </div>
+
+            {fdcSaved && (
+              <div className="bg-green-50 border-l-4 border-green-500 p-4 rounded-lg">
+                <p className="text-sm text-green-800 font-medium">
+                  ✅ FDC API key saved successfully! You can now search the USDA nutrition database.
+                </p>
+              </div>
+            )}
+
+            <div className="bg-yellow-50 border-l-4 border-yellow-500 p-4 rounded-lg">
+              <p className="text-xs text-yellow-800">
+                <strong>Security Warning:</strong> API keys stored in the browser can be exposed. For production apps, use a backend proxy.
+              </p>
+            </div>
           </div>
         </div>
 
