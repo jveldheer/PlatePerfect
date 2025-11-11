@@ -12,6 +12,7 @@ export default function MacroTracker() {
   const [servings, setServings] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string>('');
+  const [successMessage, setSuccessMessage] = useState<string>('');
 
   const handleScan = async (barcode: string) => {
     setShowScanner(false);
@@ -43,6 +44,10 @@ export default function MacroTracker() {
         carbs: scannedFood.carbs,
         fat: scannedFood.fat
       }, servings);
+
+      // Show success message
+      setSuccessMessage(`Added ${scannedFood.name} (${servings} serving${servings !== 1 ? 's' : ''}) to tracker!`);
+      setTimeout(() => setSuccessMessage(''), 3000);
 
       // Reset
       setScannedFood(null);
@@ -429,6 +434,16 @@ export default function MacroTracker() {
             >
               OK
             </button>
+          </div>
+        </div>
+      )}
+
+      {/* Success Toast */}
+      {successMessage && (
+        <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 animate-fade-in">
+          <div className="bg-green-600 text-white px-6 py-4 rounded-lg shadow-lg flex items-center gap-3">
+            <span className="text-2xl">✅</span>
+            <p className="font-semibold">{successMessage}</p>
           </div>
         </div>
       )}
