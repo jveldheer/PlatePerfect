@@ -3,6 +3,8 @@ import { useState } from 'react';
 import { useMacros } from '../contexts/MacroContext';
 import BarcodeScanner from '../components/BarcodeScanner';
 import { lookupBarcode, searchProducts, type NutritionData } from '../utils/openFoodFactsService';
+import { lookupIngredient } from '../utils/ingredientLookupService';
+import { AI_INGREDIENT_DATABASE } from '../utils/aiIngredientDatabase';
 
 export default function MacroTracker() {
   const { userProfile, macroGoals, consumedMacros, resetTracker, getGoalDirection, addToTracker } = useMacros();
@@ -19,6 +21,11 @@ export default function MacroTracker() {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<NutritionData[]>([]);
   const [isSearching, setIsSearching] = useState(false);
+
+  // Manual entry states
+  const [showManualEntry, setShowManualEntry] = useState(false);
+  const [manualFoodName, setManualFoodName] = useState('');
+  const [manualWeight, setManualWeight] = useState('100');
 
   const handleScan = async (barcode: string) => {
     setShowScanner(false);
@@ -78,13 +85,32 @@ export default function MacroTracker() {
     setError('');
 
     try {
-      const results = await searchProducts(searchQuery, 10);
+      // First check local ingredient database
+      const localIngredient = await lookupIngredient(searchQuery, false); // Don't use FDC yet
 
-      if (results.length === 0) {
-        setError(`No results found for "${searchQuery}". Try a different search term.`);
-        setSearchResults([]);
+      if (localIngredient) {
+        // Found in local database - convert to NutritionData format
+        const localResult: NutritionData = {
+          name: localIngredient.name,
+          servingSize: localIngredient.servingSize || '100g',
+          calories: localIngredient.calories,
+          protein: localIngredient.protein,
+          carbs: localIngredient.carbs,
+          fat: localIngredient.fat,
+          fiber: localIngredient.fiber,
+          barcode: 'local'
+        };
+        setSearchResults([localResult]);
       } else {
-        setSearchResults(results);
+        // Fall back to Open Food Facts API
+        const results = await searchProducts(searchQuery, 10);
+
+        if (results.length === 0) {
+          setError(`No results found for "${searchQuery}". Try using Manual Entry with weight.`);
+          setSearchResults([]);
+        } else {
+          setSearchResults(results);
+        }
       }
     } catch (err) {
       console.error('Error searching for food:', err);
@@ -92,6 +118,56 @@ export default function MacroTracker() {
       setSearchResults([]);
     } finally {
       setIsSearching(false);
+    }
+  };
+
+  const handleManualLookup = async () => {
+    if (!manualFoodName.trim()) {
+      setError('Please enter a food name');
+      return;
+    }
+
+    const weight = parseFloat(manualWeight);
+    if (isNaN(weight) || weight <= 0) {
+      setError('Please enter a valid weight');
+      return;
+    }
+
+    setIsLoading(true);
+    setError('');
+
+    try {
+      // Use unified lookup service (local DB first, then FDC)
+      const ingredient = await lookupIngredient(manualFoodName, true);
+
+      if (ingredient) {
+        setShowManualEntry(false);
+
+        // Calculate macros for the weight entered
+        const multiplier = weight / 100; // Our data is per 100g
+        const calculatedFood: NutritionData = {
+          name: `${ingredient.name} (${weight}g)`,
+          servingSize: `${weight}g`,
+          calories: Math.round(ingredient.calories * multiplier),
+          protein: Math.round(ingredient.protein * multiplier * 10) / 10,
+          carbs: Math.round(ingredient.carbs * multiplier * 10) / 10,
+          fat: Math.round(ingredient.fat * multiplier * 10) / 10,
+          fiber: ingredient.fiber ? Math.round(ingredient.fiber * multiplier * 10) / 10 : undefined,
+          barcode: 'manual'
+        };
+
+        setScannedFood(calculatedFood);
+        setServings(1); // Already calculated for the weight
+        setManualFoodName('');
+        setManualWeight('100');
+      } else {
+        setError(`"${manualFoodName}" not found. Try: chicken breast, rice, banana, etc.`);
+      }
+    } catch (err) {
+      console.error('Error looking up food:', err);
+      setError('Failed to look up food. Please try again.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -177,27 +253,34 @@ export default function MacroTracker() {
           <div className="flex flex-wrap gap-2 sm:gap-3 justify-center sm:justify-end">
             <button
               onClick={() => setShowScanner(true)}
-              className="px-4 py-2 min-h-[44px] bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-colors touch-manipulation inline-flex items-center gap-2"
+              className="px-3 py-2 min-h-[44px] bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-colors touch-manipulation inline-flex items-center gap-1"
             >
               <span>📷</span>
               <span>Scan</span>
             </button>
             <button
               onClick={() => setShowSearch(true)}
-              className="px-4 py-2 min-h-[44px] bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors touch-manipulation inline-flex items-center gap-2"
+              className="px-3 py-2 min-h-[44px] bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors touch-manipulation inline-flex items-center gap-1"
             >
               <span>🔍</span>
               <span>Search</span>
             </button>
+            <button
+              onClick={() => setShowManualEntry(true)}
+              className="px-3 py-2 min-h-[44px] bg-purple-600 text-white rounded-lg font-medium hover:bg-purple-700 transition-colors touch-manipulation inline-flex items-center gap-1"
+            >
+              <span>✏️</span>
+              <span>Manual</span>
+            </button>
             <Link
               to="/recipes"
-              className="px-4 py-2 min-h-[44px] bg-primary-600 text-white rounded-lg font-medium hover:bg-primary-700 transition-colors touch-manipulation inline-flex items-center"
+              className="px-3 py-2 min-h-[44px] bg-primary-600 text-white rounded-lg font-medium hover:bg-primary-700 transition-colors touch-manipulation inline-flex items-center"
             >
               Recipes
             </Link>
             <button
               onClick={resetTracker}
-              className="px-4 py-2 min-h-[44px] bg-gray-200 text-gray-700 rounded-lg font-medium hover:bg-gray-300 transition-colors touch-manipulation"
+              className="px-3 py-2 min-h-[44px] bg-gray-200 text-gray-700 rounded-lg font-medium hover:bg-gray-300 transition-colors touch-manipulation"
             >
               Reset
             </button>
@@ -321,7 +404,7 @@ export default function MacroTracker() {
         <ul className="space-y-2 text-sm sm:text-base text-blue-800">
           <li className="flex items-start">
             <span className="mr-2">•</span>
-            <span>Scan barcodes or search by name to add food</span>
+            <span>📷 Scan packaged foods • 🔍 Search products • ✏️ Manual entry with weight</span>
           </li>
           <li className="flex items-start">
             <span className="mr-2">•</span>
@@ -352,6 +435,89 @@ export default function MacroTracker() {
           }}
           onClose={() => setShowScanner(false)}
         />
+      )}
+
+      {/* Manual Entry Modal */}
+      {showManualEntry && (
+        <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-xl max-w-2xl w-full p-6 max-h-[90vh] overflow-y-auto">
+            <button
+              onClick={() => setShowManualEntry(false)}
+              className="float-right text-gray-500 hover:text-gray-700 text-2xl font-bold"
+            >
+              ×
+            </button>
+
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">Manual Entry</h2>
+
+            <p className="text-gray-600 mb-4">
+              Enter a food name and weight to calculate macros from our accurate nutrition database.
+            </p>
+
+            {/* Food Name Input */}
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Food Name
+              </label>
+              <input
+                type="text"
+                value={manualFoodName}
+                onChange={(e) => setManualFoodName(e.target.value)}
+                onKeyPress={(e) => e.key === 'Enter' && handleManualLookup()}
+                placeholder="e.g., chicken breast, rice, banana"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                autoFocus
+              />
+            </div>
+
+            {/* Weight Input */}
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Weight (grams)
+              </label>
+              <input
+                type="number"
+                value={manualWeight}
+                onChange={(e) => setManualWeight(e.target.value)}
+                onKeyPress={(e) => e.key === 'Enter' && handleManualLookup()}
+                placeholder="100"
+                min="1"
+                step="1"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              />
+            </div>
+
+            {/* Calculate Button */}
+            <button
+              onClick={handleManualLookup}
+              disabled={!manualFoodName.trim() || !manualWeight}
+              className="w-full py-3 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed mb-4"
+            >
+              Calculate Macros
+            </button>
+
+            {/* Available Foods */}
+            <div className="bg-purple-50 border-l-4 border-purple-500 p-4 rounded">
+              <p className="text-sm font-semibold text-purple-900 mb-2">
+                Available Foods in Database:
+              </p>
+              <div className="text-xs text-purple-800 grid grid-cols-2 gap-1">
+                {Object.values(AI_INGREDIENT_DATABASE).slice(0, 20).map((ing) => (
+                  <button
+                    key={ing.canonical_name}
+                    onClick={() => setManualFoodName(ing.canonical_name)}
+                    className="text-left hover:underline"
+                  >
+                    • {ing.canonical_name}
+                  </button>
+                ))}
+              </div>
+              <p className="text-xs text-purple-700 mt-2 italic">
+                ...and 30+ more foods. Just type the name!
+              </p>
+            </div>
+          </div>
+        </div>
       )}
 
       {/* Food Search Modal */}
