@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { useMacros } from '../contexts/MacroContext';
 import BarcodeScanner from '../components/BarcodeScanner';
-import { lookupBarcode, type NutritionData } from '../utils/openFoodFactsService';
+import { lookupBarcode, searchProducts, type NutritionData } from '../utils/openFoodFactsService';
 
 export default function MacroTracker() {
   const { userProfile, macroGoals, consumedMacros, resetTracker, getGoalDirection, addToTracker } = useMacros();
@@ -13,6 +13,12 @@ export default function MacroTracker() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string>('');
   const [successMessage, setSuccessMessage] = useState<string>('');
+
+  // Manual search states
+  const [showSearch, setShowSearch] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState<NutritionData[]>([]);
+  const [isSearching, setIsSearching] = useState(false);
 
   const handleScan = async (barcode: string) => {
     setShowScanner(false);
@@ -59,6 +65,48 @@ export default function MacroTracker() {
   const handleCloseModal = () => {
     setScannedFood(null);
     setServings(1);
+    setError('');
+  };
+
+  const handleSearch = async () => {
+    if (!searchQuery.trim()) {
+      setError('Please enter a food name to search');
+      return;
+    }
+
+    setIsSearching(true);
+    setError('');
+
+    try {
+      const results = await searchProducts(searchQuery, 10);
+
+      if (results.length === 0) {
+        setError(`No results found for "${searchQuery}". Try a different search term.`);
+        setSearchResults([]);
+      } else {
+        setSearchResults(results);
+      }
+    } catch (err) {
+      console.error('Error searching for food:', err);
+      setError('Failed to search for food. Please try again.');
+      setSearchResults([]);
+    } finally {
+      setIsSearching(false);
+    }
+  };
+
+  const handleSelectSearchResult = (food: NutritionData) => {
+    setScannedFood(food);
+    setServings(1);
+    setShowSearch(false);
+    setSearchQuery('');
+    setSearchResults([]);
+  };
+
+  const handleCloseSearch = () => {
+    setShowSearch(false);
+    setSearchQuery('');
+    setSearchResults([]);
     setError('');
   };
 
@@ -132,19 +180,26 @@ export default function MacroTracker() {
               className="px-4 py-2 min-h-[44px] bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-colors touch-manipulation inline-flex items-center gap-2"
             >
               <span>📷</span>
-              <span>Scan Food</span>
+              <span>Scan</span>
+            </button>
+            <button
+              onClick={() => setShowSearch(true)}
+              className="px-4 py-2 min-h-[44px] bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors touch-manipulation inline-flex items-center gap-2"
+            >
+              <span>🔍</span>
+              <span>Search</span>
             </button>
             <Link
               to="/recipes"
               className="px-4 py-2 min-h-[44px] bg-primary-600 text-white rounded-lg font-medium hover:bg-primary-700 transition-colors touch-manipulation inline-flex items-center"
             >
-              Browse Recipes
+              Recipes
             </Link>
             <button
               onClick={resetTracker}
               className="px-4 py-2 min-h-[44px] bg-gray-200 text-gray-700 rounded-lg font-medium hover:bg-gray-300 transition-colors touch-manipulation"
             >
-              Reset Day
+              Reset
             </button>
           </div>
         </div>
@@ -266,7 +321,7 @@ export default function MacroTracker() {
         <ul className="space-y-2 text-sm sm:text-base text-blue-800">
           <li className="flex items-start">
             <span className="mr-2">•</span>
-            <span>Use "Scan Food" to quickly add products by barcode</span>
+            <span>Scan barcodes or search by name to add food</span>
           </li>
           <li className="flex items-start">
             <span className="mr-2">•</span>
@@ -297,6 +352,110 @@ export default function MacroTracker() {
           }}
           onClose={() => setShowScanner(false)}
         />
+      )}
+
+      {/* Food Search Modal */}
+      {showSearch && (
+        <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-xl max-w-2xl w-full p-6 max-h-[90vh] overflow-y-auto">
+            <button
+              onClick={handleCloseSearch}
+              className="float-right text-gray-500 hover:text-gray-700 text-2xl font-bold"
+            >
+              ×
+            </button>
+
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">Search Food</h2>
+
+            {/* Search Input */}
+            <div className="mb-4">
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
+                  placeholder="Search for food (e.g., 'banana', 'chicken breast')"
+                  className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  disabled={isSearching}
+                />
+                <button
+                  onClick={handleSearch}
+                  disabled={isSearching || !searchQuery.trim()}
+                  className="px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed"
+                >
+                  {isSearching ? 'Searching...' : 'Search'}
+                </button>
+              </div>
+            </div>
+
+            {/* Search Results */}
+            {searchResults.length > 0 && (
+              <div className="space-y-2">
+                <h3 className="font-semibold text-gray-900 mb-2">
+                  Found {searchResults.length} results:
+                </h3>
+                <div className="space-y-2 max-h-[500px] overflow-y-auto">
+                  {searchResults.map((food, index) => (
+                    <button
+                      key={`${food.barcode}-${index}`}
+                      onClick={() => handleSelectSearchResult(food)}
+                      className="w-full text-left p-4 border border-gray-200 rounded-lg hover:bg-blue-50 hover:border-blue-300 transition-colors"
+                    >
+                      <div className="flex items-start gap-3">
+                        {food.imageUrl && (
+                          <img
+                            src={food.imageUrl}
+                            alt={food.name}
+                            className="w-16 h-16 object-contain rounded bg-gray-50"
+                          />
+                        )}
+                        <div className="flex-1">
+                          <h4 className="font-semibold text-gray-900">{food.name}</h4>
+                          {food.brand && (
+                            <p className="text-sm text-gray-600">{food.brand}</p>
+                          )}
+                          <p className="text-sm text-gray-500 mt-1">
+                            {food.servingSize} - {food.calories} cal
+                          </p>
+                          <div className="flex gap-3 text-xs text-gray-600 mt-1">
+                            <span>P: {food.protein}g</span>
+                            <span>C: {food.carbs}g</span>
+                            <span>F: {food.fat}g</span>
+                          </div>
+                        </div>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* No results message */}
+            {!isSearching && searchResults.length === 0 && searchQuery && !error && (
+              <div className="text-center py-8 text-gray-500">
+                <p className="text-lg">No results found</p>
+                <p className="text-sm mt-2">Try a different search term</p>
+              </div>
+            )}
+
+            {/* Loading state */}
+            {isSearching && (
+              <div className="text-center py-8">
+                <div className="animate-spin text-4xl mb-2">🔍</div>
+                <p className="text-gray-600">Searching...</p>
+              </div>
+            )}
+
+            {/* Help text */}
+            <div className="mt-4 bg-blue-50 border-l-4 border-blue-500 p-4 rounded">
+              <p className="text-sm text-blue-800">
+                <strong>Tip:</strong> Search for specific brands or products for best results.
+                Examples: "Chobani yogurt", "Pepsi cola", "Clif bar"
+              </p>
+            </div>
+          </div>
+        </div>
       )}
 
       {/* Loading Modal */}
