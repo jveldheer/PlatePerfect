@@ -19,6 +19,15 @@ export interface IngredientData {
 
 export const AI_INGREDIENT_DATABASE: Record<string, IngredientData> = {
   // ANIMAL PROTEINS
+  steak: {
+    canonical_name: 'steak',
+    aliases: ['steak', 'sirloin', 'ribeye', 'beef steak', 'strip steak', 'ny strip'],
+    category: 'protein',
+    is_animal_protein: true,
+    macros_per_100g: { cal: 271, protein_g: 25, carb_g: 0, fat_g: 19, fiber_g: 0 },
+    typical_serving_g: 170,
+    source: 'fridge'
+  },
   chicken_breast: {
     canonical_name: 'chicken breast',
     aliases: ['chicken', 'chk', 'chkn', 'chikn', 'chicken breast'],
@@ -26,6 +35,15 @@ export const AI_INGREDIENT_DATABASE: Record<string, IngredientData> = {
     is_animal_protein: true,
     macros_per_100g: { cal: 165, protein_g: 31, carb_g: 0, fat_g: 3.6, fiber_g: 0 },
     typical_serving_g: 170,
+    source: 'fridge'
+  },
+  chicken_thighs: {
+    canonical_name: 'chicken thighs',
+    aliases: ['chicken thigh', 'chicken thighs', 'thighs'],
+    category: 'protein',
+    is_animal_protein: true,
+    macros_per_100g: { cal: 209, protein_g: 26, carb_g: 0, fat_g: 11, fiber_g: 0 },
+    typical_serving_g: 150,
     source: 'fridge'
   },
   ground_turkey: {
@@ -37,6 +55,15 @@ export const AI_INGREDIENT_DATABASE: Record<string, IngredientData> = {
     typical_serving_g: 113,
     source: 'fridge'
   },
+  turkey_breast: {
+    canonical_name: 'turkey breast',
+    aliases: ['turkey breast', 'turkey slices', 'deli turkey'],
+    category: 'protein',
+    is_animal_protein: true,
+    macros_per_100g: { cal: 135, protein_g: 30, carb_g: 0, fat_g: 1, fiber_g: 0 },
+    typical_serving_g: 100,
+    source: 'fridge'
+  },
   ground_beef: {
     canonical_name: 'ground beef',
     aliases: ['ground beef', 'beef', 'g beef', 'lean gb', 'hamburger'],
@@ -44,6 +71,24 @@ export const AI_INGREDIENT_DATABASE: Record<string, IngredientData> = {
     is_animal_protein: true,
     macros_per_100g: { cal: 217, protein_g: 20, carb_g: 0, fat_g: 15, fiber_g: 0 },
     typical_serving_g: 113,
+    source: 'fridge'
+  },
+  pork_chops: {
+    canonical_name: 'pork chops',
+    aliases: ['pork', 'pork chops', 'pork chop', 'pork loin'],
+    category: 'protein',
+    is_animal_protein: true,
+    macros_per_100g: { cal: 231, protein_g: 25, carb_g: 0, fat_g: 14, fiber_g: 0 },
+    typical_serving_g: 150,
+    source: 'fridge'
+  },
+  bacon: {
+    canonical_name: 'bacon',
+    aliases: ['bacon', 'bacon strips'],
+    category: 'protein',
+    is_animal_protein: true,
+    macros_per_100g: { cal: 541, protein_g: 37, carb_g: 1.4, fat_g: 42, fiber_g: 0 },
+    typical_serving_g: 28,
     source: 'fridge'
   },
   canned_tuna: {
@@ -63,6 +108,15 @@ export const AI_INGREDIENT_DATABASE: Record<string, IngredientData> = {
     macros_per_100g: { cal: 206, protein_g: 22, carb_g: 0, fat_g: 13, fiber_g: 0 },
     typical_serving_g: 140,
     source: 'fridge'
+  },
+  tilapia: {
+    canonical_name: 'tilapia',
+    aliases: ['tilapia', 'white fish', 'fish'],
+    category: 'protein',
+    is_animal_protein: true,
+    macros_per_100g: { cal: 129, protein_g: 26, carb_g: 0, fat_g: 3, fiber_g: 0 },
+    typical_serving_g: 150,
+    source: 'frozen'
   },
   eggs: {
     canonical_name: 'eggs',
@@ -129,6 +183,24 @@ export const AI_INGREDIENT_DATABASE: Record<string, IngredientData> = {
     typical_serving_g: 150,
     source: 'pantry'
   },
+  brown_rice: {
+    canonical_name: 'brown rice',
+    aliases: ['brown rice', 'whole grain rice'],
+    category: 'carb',
+    is_animal_protein: false,
+    macros_per_100g: { cal: 112, protein_g: 2.6, carb_g: 24, fat_g: 0.9, fiber_g: 1.8 },
+    typical_serving_g: 150,
+    source: 'pantry'
+  },
+  quinoa: {
+    canonical_name: 'quinoa',
+    aliases: ['quinoa', 'cooked quinoa'],
+    category: 'carb',
+    is_animal_protein: false,
+    macros_per_100g: { cal: 120, protein_g: 4.4, carb_g: 21, fat_g: 1.9, fiber_g: 2.8 },
+    typical_serving_g: 150,
+    source: 'pantry'
+  },
   oats: {
     canonical_name: 'oats',
     aliases: ['oats', 'oatmeal', 'rolled oats'],
@@ -154,6 +226,15 @@ export const AI_INGREDIENT_DATABASE: Record<string, IngredientData> = {
     is_animal_protein: false,
     macros_per_100g: { cal: 158, protein_g: 5.8, carb_g: 31, fat_g: 0.9, fiber_g: 1.8 },
     typical_serving_g: 140,
+    source: 'pantry'
+  },
+  bread: {
+    canonical_name: 'bread',
+    aliases: ['bread', 'whole wheat bread', 'wheat bread', 'slice'],
+    category: 'carb',
+    is_animal_protein: false,
+    macros_per_100g: { cal: 265, protein_g: 9, carb_g: 49, fat_g: 3.2, fiber_g: 6 },
+    typical_serving_g: 50,
     source: 'pantry'
   },
   tortilla: {
@@ -183,6 +264,15 @@ export const AI_INGREDIENT_DATABASE: Record<string, IngredientData> = {
     typical_serving_g: 120,
     source: 'pantry'
   },
+  apple: {
+    canonical_name: 'apple',
+    aliases: ['apple', 'apples'],
+    category: 'carb',
+    is_animal_protein: false,
+    macros_per_100g: { cal: 52, protein_g: 0.3, carb_g: 14, fat_g: 0.2, fiber_g: 2.4 },
+    typical_serving_g: 180,
+    source: 'pantry'
+  },
   bagel: {
     canonical_name: 'bagel',
     aliases: ['bagel', 'bagels'],
@@ -204,7 +294,7 @@ export const AI_INGREDIENT_DATABASE: Record<string, IngredientData> = {
     source: 'fridge'
   },
   peanut_butter: {
-    canonical_name: 'peanut butter',
+    canonical_name: 'peanut_butter',
     aliases: ['peanut butter', 'pb', 'peanutbutter'],
     category: 'fat',
     is_animal_protein: false,
@@ -229,6 +319,15 @@ export const AI_INGREDIENT_DATABASE: Record<string, IngredientData> = {
     macros_per_100g: { cal: 579, protein_g: 21, carb_g: 22, fat_g: 50, fiber_g: 12 },
     typical_serving_g: 28,
     source: 'pantry'
+  },
+  cheese: {
+    canonical_name: 'cheese',
+    aliases: ['cheese', 'cheddar', 'cheddar cheese'],
+    category: 'fat',
+    is_animal_protein: false,
+    macros_per_100g: { cal: 403, protein_g: 25, carb_g: 1.3, fat_g: 33, fiber_g: 0 },
+    typical_serving_g: 28,
+    source: 'fridge'
   },
 
   // VEGETABLES & FRUITS
@@ -275,6 +374,42 @@ export const AI_INGREDIENT_DATABASE: Record<string, IngredientData> = {
     is_animal_protein: false,
     macros_per_100g: { cal: 18, protein_g: 0.9, carb_g: 3.9, fat_g: 0.2, fiber_g: 1.2 },
     typical_serving_g: 100,
+    source: 'fridge'
+  },
+  lettuce: {
+    canonical_name: 'lettuce',
+    aliases: ['lettuce', 'romaine', 'salad greens'],
+    category: 'veg_fruit',
+    is_animal_protein: false,
+    macros_per_100g: { cal: 17, protein_g: 1.4, carb_g: 3.3, fat_g: 0.2, fiber_g: 2.1 },
+    typical_serving_g: 50,
+    source: 'fridge'
+  },
+  cucumber: {
+    canonical_name: 'cucumber',
+    aliases: ['cucumber', 'cucumbers'],
+    category: 'veg_fruit',
+    is_animal_protein: false,
+    macros_per_100g: { cal: 15, protein_g: 0.7, carb_g: 3.6, fat_g: 0.1, fiber_g: 0.5 },
+    typical_serving_g: 100,
+    source: 'fridge'
+  },
+  carrots: {
+    canonical_name: 'carrots',
+    aliases: ['carrot', 'carrots'],
+    category: 'veg_fruit',
+    is_animal_protein: false,
+    macros_per_100g: { cal: 41, protein_g: 0.9, carb_g: 10, fat_g: 0.2, fiber_g: 2.8 },
+    typical_serving_g: 100,
+    source: 'fridge'
+  },
+  milk: {
+    canonical_name: 'milk',
+    aliases: ['milk', 'whole milk', '2% milk', 'skim milk'],
+    category: 'staple',
+    is_animal_protein: false,
+    macros_per_100g: { cal: 61, protein_g: 3.2, carb_g: 4.8, fat_g: 3.3, fiber_g: 0 },
+    typical_serving_g: 240,
     source: 'fridge'
   }
 };
