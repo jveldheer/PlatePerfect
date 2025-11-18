@@ -11,9 +11,9 @@ export default function MacrosPage() {
           <h1 className="text-4xl font-bold text-gray-900 mb-2">
             Nutrition Macro Tracker
           </h1>
-          <p className="text-gray-600">
-            Search for foods by barcode or name to get detailed nutrition
-            information
+          <p className="text-gray-700 font-medium">
+            Search for foods by barcode or name, or manually enter custom
+            macros
           </p>
         </header>
 
@@ -21,14 +21,14 @@ export default function MacrosPage() {
           <MacroLookup />
         </main>
 
-        <footer className="text-sm text-gray-500 space-y-1">
+        <footer className="text-sm text-gray-700 space-y-1">
           <div>
             {attribution.fdc} -{" "}
             <a
               href={attribution.fdcUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-blue-500 hover:underline"
+              className="text-blue-600 font-medium hover:underline"
             >
               {attribution.fdcUrl}
             </a>
@@ -39,7 +39,7 @@ export default function MacrosPage() {
               href={attribution.offUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-blue-500 hover:underline"
+              className="text-blue-600 font-medium hover:underline"
             >
               {attribution.offUrl}
             </a>
