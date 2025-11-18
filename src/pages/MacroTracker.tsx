@@ -3,8 +3,6 @@ import { useState } from 'react';
 import { useMacros } from '../contexts/MacroContext';
 import BarcodeScanner from '../components/BarcodeScanner';
 import { lookupBarcode, searchProducts, type NutritionData } from '../utils/openFoodFactsService';
-import { lookupIngredient } from '../utils/ingredientLookupService';
-import { AI_INGREDIENT_DATABASE } from '../utils/aiIngredientDatabase';
 
 export default function MacroTracker() {
   const { userProfile, macroGoals, consumedMacros, resetTracker, getGoalDirection, addToTracker } = useMacros();
@@ -21,11 +19,6 @@ export default function MacroTracker() {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<NutritionData[]>([]);
   const [isSearching, setIsSearching] = useState(false);
-
-  // Manual entry states
-  const [showManualEntry, setShowManualEntry] = useState(false);
-  const [manualFoodName, setManualFoodName] = useState('');
-  const [manualWeight, setManualWeight] = useState('100');
 
   // Custom macro entry states
   const [showCustomMacros, setShowCustomMacros] = useState(false);
@@ -46,7 +39,7 @@ export default function MacroTracker() {
         setScannedFood(foodData);
         setServings(1);
       } else {
-        setError('Product not found in database. Try scanning again or enter manually.');
+        setError('Product not found in database. Try scanning again or search manually.');
       }
     } catch (err) {
       console.error('Error looking up barcode:', err);
@@ -65,11 +58,9 @@ export default function MacroTracker() {
         fat: scannedFood.fat
       }, servings);
 
-      // Show success message
       setSuccessMessage(`Added ${scannedFood.name} (${servings} serving${servings !== 1 ? 's' : ''}) to tracker!`);
       setTimeout(() => setSuccessMessage(''), 3000);
 
-      // Reset
       setScannedFood(null);
       setServings(1);
       setError('');
@@ -92,32 +83,13 @@ export default function MacroTracker() {
     setError('');
 
     try {
-      // First check local ingredient database
-      const localIngredient = await lookupIngredient(searchQuery, false); // Don't use FDC yet
+      const results = await searchProducts(searchQuery, 10);
 
-      if (localIngredient) {
-        // Found in local database - convert to NutritionData format
-        const localResult: NutritionData = {
-          name: localIngredient.name,
-          servingSize: localIngredient.servingSize || '100g',
-          calories: localIngredient.calories,
-          protein: localIngredient.protein,
-          carbs: localIngredient.carbs,
-          fat: localIngredient.fat,
-          fiber: localIngredient.fiber,
-          barcode: 'local'
-        };
-        setSearchResults([localResult]);
+      if (results.length === 0) {
+        setError(`No results found for "${searchQuery}". Try a different search term.`);
+        setSearchResults([]);
       } else {
-        // Fall back to Open Food Facts API
-        const results = await searchProducts(searchQuery, 10);
-
-        if (results.length === 0) {
-          setError(`No results found for "${searchQuery}". Try using Manual Entry with weight.`);
-          setSearchResults([]);
-        } else {
-          setSearchResults(results);
-        }
+        setSearchResults(results);
       }
     } catch (err) {
       console.error('Error searching for food:', err);
@@ -125,56 +97,6 @@ export default function MacroTracker() {
       setSearchResults([]);
     } finally {
       setIsSearching(false);
-    }
-  };
-
-  const handleManualLookup = async () => {
-    if (!manualFoodName.trim()) {
-      setError('Please enter a food name');
-      return;
-    }
-
-    const weight = parseFloat(manualWeight);
-    if (isNaN(weight) || weight <= 0) {
-      setError('Please enter a valid weight');
-      return;
-    }
-
-    setIsLoading(true);
-    setError('');
-
-    try {
-      // Use unified lookup service (local DB first, then FDC)
-      const ingredient = await lookupIngredient(manualFoodName, true);
-
-      if (ingredient) {
-        setShowManualEntry(false);
-
-        // Calculate macros for the weight entered
-        const multiplier = weight / 100; // Our data is per 100g
-        const calculatedFood: NutritionData = {
-          name: `${ingredient.name} (${weight}g)`,
-          servingSize: `${weight}g`,
-          calories: Math.round(ingredient.calories * multiplier),
-          protein: Math.round(ingredient.protein * multiplier * 10) / 10,
-          carbs: Math.round(ingredient.carbs * multiplier * 10) / 10,
-          fat: Math.round(ingredient.fat * multiplier * 10) / 10,
-          fiber: ingredient.fiber ? Math.round(ingredient.fiber * multiplier * 10) / 10 : undefined,
-          barcode: 'manual'
-        };
-
-        setScannedFood(calculatedFood);
-        setServings(1); // Already calculated for the weight
-        setManualFoodName('');
-        setManualWeight('100');
-      } else {
-        setError(`"${manualFoodName}" not found. Try: chicken breast, rice, banana, etc.`);
-      }
-    } catch (err) {
-      console.error('Error looking up food:', err);
-      setError('Failed to look up food. Please try again.');
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -219,7 +141,6 @@ export default function MacroTracker() {
     setSuccessMessage(`Added custom entry (${calories} cal) to tracker!`);
     setTimeout(() => setSuccessMessage(''), 3000);
 
-    // Reset and close
     setCustomCalories('');
     setCustomProtein('');
     setCustomCarbs('');
@@ -231,12 +152,12 @@ export default function MacroTracker() {
   if (!userProfile || !macroGoals) {
     return (
       <div className="max-w-2xl mx-auto text-center py-12 px-4">
-        <div className="bg-white rounded-xl shadow-lg p-6 sm:p-8">
-          <span className="text-5xl sm:text-6xl mb-4 block">🎯</span>
-          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">
+        <div className="card p-8">
+          <span className="text-6xl mb-4 block">🎯</span>
+          <h2 className="vlv-heading text-3xl mb-4">
             Set Up Your Macro Goals
           </h2>
-          <p className="text-base sm:text-lg text-gray-600 mb-6">
+          <p className="vlv-text mb-6">
             Calculate your personalized daily macros to start tracking your nutrition and reaching your goals.
           </p>
           <Link
@@ -269,95 +190,123 @@ export default function MacroTracker() {
   const fatPercent = calculatePercentage(consumedMacros.fat_g, macroGoals.fat_g);
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6 sm:space-y-8">
+    <div className="max-w-4xl mx-auto space-y-8">
       {/* Header */}
       <div className="text-center px-4">
-        <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">
-          Macro Tracker
+        <h1 className="vlv-heading text-4xl mb-4">
+          ⚡ Macro Tracker
         </h1>
-        <p className="text-base sm:text-lg text-gray-600">
-          Track your daily nutrition progress
+        <p className="vlv-text">
+          Track your daily nutrition progress and dominate your goals
         </p>
       </div>
 
-      {/* Goal Summary */}
-      <div className="bg-gradient-to-br from-primary-50 to-athletic-50 rounded-xl shadow-lg p-4 sm:p-6">
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+      {/* Goal Summary Card */}
+      <div className="card">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-6">
           <div className="text-center sm:text-left">
-            <p className="text-sm sm:text-base text-gray-600">Your Goal</p>
-            <p className="text-xl sm:text-2xl font-bold text-gray-900 capitalize">
+            <p className="vlv-subtext mb-1">Your Goal</p>
+            <p className="vlv-heading text-2xl capitalize mb-2">
               {goalDirection}
             </p>
-            <p className="text-xs sm:text-sm text-gray-600 mt-1">
+            <p className="vlv-subtext">
               {userProfile.currentWeightLb} lbs → {userProfile.targetWeightLb} lbs
             </p>
           </div>
-          <div className="flex flex-wrap gap-2 sm:gap-3 justify-center sm:justify-end">
+          <div className="flex flex-wrap gap-3 justify-center sm:justify-end">
             <button
               onClick={() => setShowScanner(true)}
-              className="px-3 py-2 min-h-[44px] bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-colors touch-manipulation inline-flex items-center gap-1"
+              className="px-4 py-3 min-h-[44px] rounded-lg font-bold transition-all duration-300 touch-manipulation inline-flex items-center gap-2"
+              style={{
+                background: 'linear-gradient(135deg, #10B981 0%, #059669 100%)',
+                color: '#FFFFFF',
+                boxShadow: '0 4px 15px rgba(0, 0, 0, 0.5)',
+                fontFamily: 'Bebas Neue, sans-serif',
+                letterSpacing: '1.5px'
+              }}
             >
               <span>📷</span>
-              <span>Scan</span>
+              <span>SCAN</span>
             </button>
             <button
               onClick={() => setShowSearch(true)}
-              className="px-3 py-2 min-h-[44px] bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors touch-manipulation inline-flex items-center gap-1"
+              className="px-4 py-3 min-h-[44px] rounded-lg font-bold transition-all duration-300 touch-manipulation inline-flex items-center gap-2"
+              style={{
+                background: 'linear-gradient(135deg, #3B82F6 0%, #2563EB 100%)',
+                color: '#FFFFFF',
+                boxShadow: '0 4px 15px rgba(0, 0, 0, 0.5)',
+                fontFamily: 'Bebas Neue, sans-serif',
+                letterSpacing: '1.5px'
+              }}
             >
               <span>🔍</span>
-              <span>Search</span>
-            </button>
-            <button
-              onClick={() => setShowManualEntry(true)}
-              className="px-3 py-2 min-h-[44px] bg-purple-600 text-white rounded-lg font-medium hover:bg-purple-700 transition-colors touch-manipulation inline-flex items-center gap-1"
-            >
-              <span>✏️</span>
-              <span>Lookup</span>
+              <span>SEARCH</span>
             </button>
             <button
               onClick={() => setShowCustomMacros(true)}
-              className="px-3 py-2 min-h-[44px] bg-indigo-600 text-white rounded-lg font-medium hover:bg-indigo-700 transition-colors touch-manipulation inline-flex items-center gap-1"
+              className="px-4 py-3 min-h-[44px] rounded-lg font-bold transition-all duration-300 touch-manipulation inline-flex items-center gap-2"
+              style={{
+                background: 'linear-gradient(135deg, var(--yellow) 0%, var(--gold) 100%)',
+                color: '#000000',
+                boxShadow: '0 4px 15px var(--glow)',
+                fontFamily: 'Bebas Neue, sans-serif',
+                letterSpacing: '1.5px'
+              }}
             >
               <span>📊</span>
-              <span>Custom</span>
+              <span>CUSTOM</span>
             </button>
             <Link
               to="/recipes"
-              className="px-3 py-2 min-h-[44px] bg-primary-600 text-white rounded-lg font-medium hover:bg-primary-700 transition-colors touch-manipulation inline-flex items-center"
+              className="px-4 py-3 min-h-[44px] rounded-lg font-bold transition-all duration-300 touch-manipulation inline-flex items-center"
+              style={{
+                backgroundColor: 'var(--dark-gray)',
+                color: 'var(--yellow)',
+                border: '2px solid var(--yellow)',
+                fontFamily: 'Bebas Neue, sans-serif',
+                letterSpacing: '1.5px'
+              }}
             >
-              Recipes
+              RECIPES
             </Link>
             <button
               onClick={resetTracker}
-              className="px-3 py-2 min-h-[44px] bg-gray-200 text-gray-700 rounded-lg font-medium hover:bg-gray-300 transition-colors touch-manipulation"
+              className="px-4 py-3 min-h-[44px] rounded-lg font-bold transition-all duration-300 touch-manipulation"
+              style={{
+                backgroundColor: '#1A1A1A',
+                color: '#CCCCCC',
+                border: '2px solid var(--border)',
+                fontFamily: 'Bebas Neue, sans-serif',
+                letterSpacing: '1.5px'
+              }}
             >
-              Reset
+              RESET
             </button>
           </div>
         </div>
       </div>
 
-      {/* Macro Progress */}
-      <div className="space-y-4 sm:space-y-6">
+      {/* Macro Progress Cards */}
+      <div className="space-y-6">
         {/* Calories */}
-        <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6">
-          <div className="flex items-center justify-between mb-3">
+        <div className="card">
+          <div className="flex items-center justify-between mb-4">
             <div>
-              <h3 className="text-lg sm:text-xl font-bold text-gray-900">Calories</h3>
-              <p className="text-sm sm:text-base text-gray-600">
+              <h3 className="vlv-heading text-2xl mb-1">Calories</h3>
+              <p className="vlv-text text-lg">
                 {Math.round(consumedMacros.calories)} / {macroGoals.calories} kcal
               </p>
             </div>
             <div className="text-right">
-              <p className="text-xl sm:text-2xl font-bold text-primary-600">
+              <p className="text-3xl font-bold" style={{ color: 'var(--yellow)' }}>
                 {Math.round(caloriesPercent)}%
               </p>
-              <p className="text-xs sm:text-sm text-gray-500">
+              <p className="vlv-subtext">
                 {macroGoals.calories - Math.round(consumedMacros.calories)} left
               </p>
             </div>
           </div>
-          <div className="w-full bg-gray-200 rounded-full h-3 sm:h-4 overflow-hidden">
+          <div className="w-full rounded-full h-4 overflow-hidden" style={{ backgroundColor: '#1A1A1A' }}>
             <div
               className={`h-full transition-all duration-300 ${getProgressColor(caloriesPercent)}`}
               style={{ width: `${caloriesPercent}%` }}
@@ -366,109 +315,109 @@ export default function MacroTracker() {
         </div>
 
         {/* Protein */}
-        <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6">
-          <div className="flex items-center justify-between mb-3">
+        <div className="card">
+          <div className="flex items-center justify-between mb-4">
             <div>
-              <h3 className="text-lg sm:text-xl font-bold text-gray-900">Protein</h3>
-              <p className="text-sm sm:text-base text-gray-600">
+              <h3 className="vlv-heading text-2xl mb-1">Protein</h3>
+              <p className="vlv-text text-lg">
                 {Math.round(consumedMacros.protein_g)} / {macroGoals.protein_g}g
               </p>
             </div>
             <div className="text-right">
-              <p className="text-xl sm:text-2xl font-bold text-red-600">
+              <p className="text-3xl font-bold" style={{ color: 'var(--red)' }}>
                 {Math.round(proteinPercent)}%
               </p>
-              <p className="text-xs sm:text-sm text-gray-500">
+              <p className="vlv-subtext">
                 {macroGoals.protein_g - Math.round(consumedMacros.protein_g)}g left
               </p>
             </div>
           </div>
-          <div className="w-full bg-gray-200 rounded-full h-3 sm:h-4 overflow-hidden">
+          <div className="w-full rounded-full h-4 overflow-hidden" style={{ backgroundColor: '#1A1A1A' }}>
             <div
-              className={`h-full transition-all duration-300 bg-red-500`}
+              className="h-full transition-all duration-300 bg-red-500"
               style={{ width: `${proteinPercent}%` }}
             />
           </div>
         </div>
 
         {/* Carbs */}
-        <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6">
-          <div className="flex items-center justify-between mb-3">
+        <div className="card">
+          <div className="flex items-center justify-between mb-4">
             <div>
-              <h3 className="text-lg sm:text-xl font-bold text-gray-900">Carbs</h3>
-              <p className="text-sm sm:text-base text-gray-600">
+              <h3 className="vlv-heading text-2xl mb-1">Carbs</h3>
+              <p className="vlv-text text-lg">
                 {Math.round(consumedMacros.carbs_g)} / {macroGoals.carbs_g}g
               </p>
             </div>
             <div className="text-right">
-              <p className="text-xl sm:text-2xl font-bold text-yellow-600">
+              <p className="text-3xl font-bold" style={{ color: '#FFD700' }}>
                 {Math.round(carbsPercent)}%
               </p>
-              <p className="text-xs sm:text-sm text-gray-500">
+              <p className="vlv-subtext">
                 {macroGoals.carbs_g - Math.round(consumedMacros.carbs_g)}g left
               </p>
             </div>
           </div>
-          <div className="w-full bg-gray-200 rounded-full h-3 sm:h-4 overflow-hidden">
+          <div className="w-full rounded-full h-4 overflow-hidden" style={{ backgroundColor: '#1A1A1A' }}>
             <div
-              className={`h-full transition-all duration-300 bg-yellow-500`}
+              className="h-full transition-all duration-300 bg-yellow-500"
               style={{ width: `${carbsPercent}%` }}
             />
           </div>
         </div>
 
         {/* Fat */}
-        <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6">
-          <div className="flex items-center justify-between mb-3">
+        <div className="card">
+          <div className="flex items-center justify-between mb-4">
             <div>
-              <h3 className="text-lg sm:text-xl font-bold text-gray-900">Fat</h3>
-              <p className="text-sm sm:text-base text-gray-600">
+              <h3 className="vlv-heading text-2xl mb-1">Fat</h3>
+              <p className="vlv-text text-lg">
                 {Math.round(consumedMacros.fat_g)} / {macroGoals.fat_g}g
               </p>
             </div>
             <div className="text-right">
-              <p className="text-xl sm:text-2xl font-bold text-blue-600">
+              <p className="text-3xl font-bold" style={{ color: 'var(--blue)' }}>
                 {Math.round(fatPercent)}%
               </p>
-              <p className="text-xs sm:text-sm text-gray-500">
+              <p className="vlv-subtext">
                 {macroGoals.fat_g - Math.round(consumedMacros.fat_g)}g left
               </p>
             </div>
           </div>
-          <div className="w-full bg-gray-200 rounded-full h-3 sm:h-4 overflow-hidden">
+          <div className="w-full rounded-full h-4 overflow-hidden" style={{ backgroundColor: '#1A1A1A' }}>
             <div
-              className={`h-full transition-all duration-300 bg-blue-500`}
+              className="h-full transition-all duration-300 bg-blue-500"
               style={{ width: `${fatPercent}%` }}
             />
           </div>
         </div>
       </div>
 
-      {/* Tips */}
-      <div className="bg-blue-50 rounded-xl p-4 sm:p-6 border-l-4 border-blue-500">
-        <h4 className="text-base sm:text-lg font-semibold text-blue-900 mb-2 flex items-center">
-          <span className="text-xl sm:text-2xl mr-2">💡</span>
+      {/* Tips Card */}
+      <div className="card" style={{ borderLeft: '6px solid var(--yellow)' }}>
+        <h4 className="vlv-heading text-xl mb-3 flex items-center gap-2">
+          <span className="text-2xl">💡</span>
           Tracking Tips
         </h4>
-        <ul className="space-y-2 text-sm sm:text-base text-blue-900 font-medium">
-          <li className="flex items-start">
-            <span className="mr-2">•</span>
-            <span>📷 Scan packaged foods • 🔍 Search products • ✏️ Lookup by name • 📊 Custom macros</span>
+        <ul className="space-y-2 vlv-text">
+          <li className="flex items-start gap-2">
+            <span className="text-yellow-500">•</span>
+            <span>📷 Scan packaged foods • 🔍 Search products • 📊 Enter custom macros</span>
           </li>
-          <li className="flex items-start">
-            <span className="mr-2">•</span>
+          <li className="flex items-start gap-2">
+            <span className="text-green-500">•</span>
             <span>Green = On track (90-110% of goal)</span>
           </li>
-          <li className="flex items-start">
-            <span className="mr-2">•</span>
+          <li className="flex items-start gap-2">
+            <span className="text-yellow-500">•</span>
             <span>Yellow = Getting close (70-90% of goal)</span>
           </li>
-          <li className="flex items-start">
-            <span className="mr-2">•</span>
+          <li className="flex items-start gap-2">
+            <span className="text-red-500">•</span>
             <span>Red = Need more (below 70%)</span>
           </li>
-          <li className="flex items-start">
-            <span className="mr-2">•</span>
+          <li className="flex items-start gap-2">
+            <span className="text-orange-500">•</span>
             <span>Orange = Over goal (above 110%)</span>
           </li>
         </ul>
@@ -488,8 +437,8 @@ export default function MacroTracker() {
 
       {/* Custom Macro Entry Modal */}
       {showCustomMacros && (
-        <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-xl max-w-md w-full p-6 max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 z-50 bg-black bg-opacity-90 flex items-center justify-center p-4">
+          <div className="card max-w-md w-full max-h-[90vh] overflow-y-auto">
             <button
               onClick={() => {
                 setShowCustomMacros(false);
@@ -499,20 +448,21 @@ export default function MacroTracker() {
                 setCustomFat('');
                 setError('');
               }}
-              className="float-right text-gray-500 hover:text-gray-700 text-2xl font-bold"
+              className="float-right text-2xl font-bold transition-colors"
+              style={{ color: 'var(--gray)' }}
             >
               ×
             </button>
 
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">Custom Macro Entry</h2>
+            <h2 className="vlv-heading text-2xl mb-4">📊 Custom Macro Entry</h2>
 
-            <p className="text-gray-700 font-medium mb-6">
+            <p className="vlv-text mb-6">
               Enter macros directly for meals, custom foods, or quick tracking.
             </p>
 
             {/* Calories Input */}
             <div className="mb-4">
-              <label className="block text-sm font-semibold text-gray-900 mb-2">
+              <label className="vlv-heading text-sm mb-2 block">
                 Calories (kcal) *
               </label>
               <input
@@ -522,14 +472,13 @@ export default function MacroTracker() {
                 placeholder="e.g., 250"
                 min="0"
                 step="1"
-                className="w-full px-4 py-3 border-2 border-gray-400 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-gray-900 font-medium bg-white placeholder-gray-500"
                 autoFocus
               />
             </div>
 
             {/* Protein Input */}
             <div className="mb-4">
-              <label className="block text-sm font-semibold text-gray-900 mb-2">
+              <label className="vlv-heading text-sm mb-2 block">
                 Protein (g) *
               </label>
               <input
@@ -539,13 +488,12 @@ export default function MacroTracker() {
                 placeholder="e.g., 30"
                 min="0"
                 step="0.1"
-                className="w-full px-4 py-3 border-2 border-gray-400 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-gray-900 font-medium bg-white placeholder-gray-500"
               />
             </div>
 
             {/* Carbs Input */}
             <div className="mb-4">
-              <label className="block text-sm font-semibold text-gray-900 mb-2">
+              <label className="vlv-heading text-sm mb-2 block">
                 Carbohydrates (g) *
               </label>
               <input
@@ -555,13 +503,12 @@ export default function MacroTracker() {
                 placeholder="e.g., 20"
                 min="0"
                 step="0.1"
-                className="w-full px-4 py-3 border-2 border-gray-400 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-gray-900 font-medium bg-white placeholder-gray-500"
               />
             </div>
 
             {/* Fat Input */}
             <div className="mb-4">
-              <label className="block text-sm font-semibold text-gray-900 mb-2">
+              <label className="vlv-heading text-sm mb-2 block">
                 Fat (g) *
               </label>
               <input
@@ -571,7 +518,6 @@ export default function MacroTracker() {
                 placeholder="e.g., 8"
                 min="0"
                 step="0.1"
-                className="w-full px-4 py-3 border-2 border-gray-400 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-gray-900 font-medium bg-white placeholder-gray-500"
               />
             </div>
 
@@ -579,101 +525,21 @@ export default function MacroTracker() {
             <button
               onClick={handleAddCustomMacros}
               disabled={!customCalories || !customProtein || !customCarbs || !customFat}
-              className="w-full py-3 bg-indigo-600 text-white font-bold rounded-lg hover:bg-indigo-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed mb-4"
+              className="btn-primary w-full mb-4 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Add to Tracker
             </button>
 
             {/* Info Box */}
-            <div className="bg-indigo-50 border-l-4 border-indigo-500 p-4 rounded">
-              <p className="text-sm font-semibold text-indigo-900 mb-1">
+            <div className="rounded-lg p-4" style={{
+              backgroundColor: '#1A1A1A',
+              borderLeft: '4px solid var(--yellow)'
+            }}>
+              <p className="vlv-heading text-sm mb-1">
                 💡 Quick Tip
               </p>
-              <p className="text-sm text-indigo-800">
+              <p className="vlv-subtext text-sm">
                 Use this for restaurant meals, homemade dishes, or when you know the exact macros.
-              </p>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Manual Entry Modal */}
-      {showManualEntry && (
-        <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-xl max-w-2xl w-full p-6 max-h-[90vh] overflow-y-auto">
-            <button
-              onClick={() => setShowManualEntry(false)}
-              className="float-right text-gray-500 hover:text-gray-700 text-2xl font-bold"
-            >
-              ×
-            </button>
-
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">Food Lookup</h2>
-
-            <p className="text-gray-700 font-medium mb-6">
-              Enter a food name and weight to calculate macros from our accurate nutrition database.
-            </p>
-
-            {/* Food Name Input */}
-            <div className="mb-4">
-              <label className="block text-sm font-semibold text-gray-900 mb-2">
-                Food Name
-              </label>
-              <input
-                type="text"
-                value={manualFoodName}
-                onChange={(e) => setManualFoodName(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && handleManualLookup()}
-                placeholder="e.g., chicken breast, rice, banana"
-                className="w-full px-4 py-3 border-2 border-gray-400 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-gray-900 font-medium bg-white placeholder-gray-500"
-                autoFocus
-              />
-            </div>
-
-            {/* Weight Input */}
-            <div className="mb-4">
-              <label className="block text-sm font-semibold text-gray-900 mb-2">
-                Weight (grams)
-              </label>
-              <input
-                type="number"
-                value={manualWeight}
-                onChange={(e) => setManualWeight(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && handleManualLookup()}
-                placeholder="100"
-                min="1"
-                step="1"
-                className="w-full px-4 py-3 border-2 border-gray-400 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-gray-900 font-medium bg-white placeholder-gray-500"
-              />
-            </div>
-
-            {/* Calculate Button */}
-            <button
-              onClick={handleManualLookup}
-              disabled={!manualFoodName.trim() || !manualWeight}
-              className="w-full py-3 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed mb-4"
-            >
-              Calculate Macros
-            </button>
-
-            {/* Available Foods */}
-            <div className="bg-purple-50 border-l-4 border-purple-500 p-4 rounded">
-              <p className="text-sm font-semibold text-purple-900 mb-2">
-                Available Foods in Database:
-              </p>
-              <div className="text-xs text-purple-800 grid grid-cols-2 gap-1">
-                {Object.values(AI_INGREDIENT_DATABASE).slice(0, 20).map((ing) => (
-                  <button
-                    key={ing.canonical_name}
-                    onClick={() => setManualFoodName(ing.canonical_name)}
-                    className="text-left hover:underline"
-                  >
-                    • {ing.canonical_name}
-                  </button>
-                ))}
-              </div>
-              <p className="text-xs text-purple-700 mt-2 italic">
-                ...and 30+ more foods. Just type the name!
               </p>
             </div>
           </div>
@@ -682,16 +548,17 @@ export default function MacroTracker() {
 
       {/* Food Search Modal */}
       {showSearch && (
-        <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-xl max-w-2xl w-full p-6 max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 z-50 bg-black bg-opacity-90 flex items-center justify-center p-4">
+          <div className="card max-w-2xl w-full max-h-[90vh] overflow-y-auto">
             <button
               onClick={handleCloseSearch}
-              className="float-right text-gray-500 hover:text-gray-700 text-2xl font-bold"
+              className="float-right text-2xl font-bold transition-colors"
+              style={{ color: 'var(--gray)' }}
             >
               ×
             </button>
 
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">Search Food</h2>
+            <h2 className="vlv-heading text-2xl mb-4">🔍 Search Food</h2>
 
             {/* Search Input */}
             <div className="mb-4">
@@ -702,13 +569,13 @@ export default function MacroTracker() {
                   onChange={(e) => setSearchQuery(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
                   placeholder="Search for food (e.g., 'banana', 'chicken breast')"
-                  className="flex-1 px-4 py-3 border-2 border-gray-400 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 font-medium bg-white placeholder-gray-500"
                   disabled={isSearching}
+                  className="flex-1"
                 />
                 <button
                   onClick={handleSearch}
                   disabled={isSearching || !searchQuery.trim()}
-                  className="px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed"
+                  className="btn-primary px-6 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isSearching ? 'Searching...' : 'Search'}
                 </button>
@@ -718,7 +585,7 @@ export default function MacroTracker() {
             {/* Search Results */}
             {searchResults.length > 0 && (
               <div className="space-y-2">
-                <h3 className="font-semibold text-gray-900 mb-2">
+                <h3 className="vlv-heading text-lg mb-2">
                   Found {searchResults.length} results:
                 </h3>
                 <div className="space-y-2 max-h-[500px] overflow-y-auto">
@@ -726,25 +593,30 @@ export default function MacroTracker() {
                     <button
                       key={`${food.barcode}-${index}`}
                       onClick={() => handleSelectSearchResult(food)}
-                      className="w-full text-left p-4 border border-gray-200 rounded-lg hover:bg-blue-50 hover:border-blue-300 transition-colors"
+                      className="w-full text-left p-4 rounded-lg transition-all duration-300"
+                      style={{
+                        backgroundColor: '#1A1A1A',
+                        border: '2px solid var(--border)'
+                      }}
                     >
                       <div className="flex items-start gap-3">
                         {food.imageUrl && (
                           <img
                             src={food.imageUrl}
                             alt={food.name}
-                            className="w-16 h-16 object-contain rounded bg-gray-50"
+                            className="w-16 h-16 object-contain rounded"
+                            style={{ backgroundColor: '#2A2A2A' }}
                           />
                         )}
                         <div className="flex-1">
-                          <h4 className="font-semibold text-gray-900">{food.name}</h4>
+                          <h4 className="vlv-text font-bold">{food.name}</h4>
                           {food.brand && (
-                            <p className="text-sm text-gray-600">{food.brand}</p>
+                            <p className="vlv-subtext text-sm">{food.brand}</p>
                           )}
-                          <p className="text-sm text-gray-500 mt-1">
+                          <p className="vlv-subtext text-sm mt-1">
                             {food.servingSize} - {food.calories} cal
                           </p>
-                          <div className="flex gap-3 text-xs text-gray-600 mt-1">
+                          <div className="flex gap-3 text-xs mt-1" style={{ color: 'var(--gray)' }}>
                             <span>P: {food.protein}g</span>
                             <span>C: {food.carbs}g</span>
                             <span>F: {food.fat}g</span>
@@ -759,9 +631,9 @@ export default function MacroTracker() {
 
             {/* No results message */}
             {!isSearching && searchResults.length === 0 && searchQuery && !error && (
-              <div className="text-center py-8 text-gray-500">
-                <p className="text-lg">No results found</p>
-                <p className="text-sm mt-2">Try a different search term</p>
+              <div className="text-center py-8">
+                <p className="vlv-text text-lg">No results found</p>
+                <p className="vlv-subtext text-sm mt-2">Try a different search term</p>
               </div>
             )}
 
@@ -769,14 +641,17 @@ export default function MacroTracker() {
             {isSearching && (
               <div className="text-center py-8">
                 <div className="animate-spin text-4xl mb-2">🔍</div>
-                <p className="text-gray-600">Searching...</p>
+                <p className="vlv-text">Searching...</p>
               </div>
             )}
 
             {/* Help text */}
-            <div className="mt-4 bg-blue-50 border-l-4 border-blue-500 p-4 rounded">
-              <p className="text-sm text-blue-800">
-                <strong>Tip:</strong> Search for specific brands or products for best results.
+            <div className="mt-4 rounded-lg p-4" style={{
+              backgroundColor: '#1A1A1A',
+              borderLeft: '4px solid var(--blue)'
+            }}>
+              <p className="vlv-subtext text-sm">
+                <strong style={{ color: 'var(--white)' }}>Tip:</strong> Search for specific brands or products for best results.
                 Examples: "Chobani yogurt", "Pepsi cola", "Clif bar"
               </p>
             </div>
@@ -786,54 +661,61 @@ export default function MacroTracker() {
 
       {/* Loading Modal */}
       {isLoading && (
-        <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-xl p-8 text-center">
+        <div className="fixed inset-0 z-50 bg-black bg-opacity-90 flex items-center justify-center p-4">
+          <div className="card p-8 text-center">
             <div className="animate-spin text-5xl mb-4">⏳</div>
-            <p className="text-lg font-semibold text-gray-900">Looking up product...</p>
+            <p className="vlv-heading text-xl">Looking up product...</p>
           </div>
         </div>
       )}
 
       {/* Food Details Modal */}
       {scannedFood && (
-        <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-xl max-w-md w-full p-6 max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 z-50 bg-black bg-opacity-90 flex items-center justify-center p-4">
+          <div className="card max-w-md w-full max-h-[90vh] overflow-y-auto">
             <button
               onClick={handleCloseModal}
-              className="float-right text-gray-500 hover:text-gray-700 text-2xl font-bold"
+              className="float-right text-2xl font-bold transition-colors"
+              style={{ color: 'var(--gray)' }}
             >
               ×
             </button>
 
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">Add to Tracker</h2>
+            <h2 className="vlv-heading text-2xl mb-4">Add to Tracker</h2>
 
             {/* Product Image */}
             {scannedFood.imageUrl && (
               <img
                 src={scannedFood.imageUrl}
                 alt={scannedFood.name}
-                className="w-full h-48 object-contain mb-4 rounded-lg bg-gray-50"
+                className="w-full h-48 object-contain mb-4 rounded-lg"
+                style={{ backgroundColor: '#1A1A1A' }}
               />
             )}
 
             {/* Product Info */}
             <div className="mb-4">
-              <h3 className="text-xl font-semibold text-gray-900">{scannedFood.name}</h3>
+              <h3 className="vlv-text text-xl font-bold">{scannedFood.name}</h3>
               {scannedFood.brand && (
-                <p className="text-sm text-gray-600">{scannedFood.brand}</p>
+                <p className="vlv-subtext text-sm">{scannedFood.brand}</p>
               )}
-              <p className="text-sm text-gray-500 mt-1">Serving: {scannedFood.servingSize}</p>
+              <p className="vlv-subtext text-sm mt-1">Serving: {scannedFood.servingSize}</p>
             </div>
 
             {/* Servings Input */}
             <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="vlv-heading text-sm mb-2 block">
                 Number of Servings
               </label>
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => setServings(Math.max(0.5, servings - 0.5))}
-                  className="px-3 py-2 bg-gray-200 rounded-lg font-bold hover:bg-gray-300"
+                  className="px-4 py-2 rounded-lg font-bold transition-colors"
+                  style={{
+                    backgroundColor: '#1A1A1A',
+                    color: 'var(--white)',
+                    border: '2px solid var(--border)'
+                  }}
                 >
                   −
                 </button>
@@ -843,11 +725,16 @@ export default function MacroTracker() {
                   onChange={(e) => setServings(Math.max(0.5, parseFloat(e.target.value) || 0.5))}
                   step="0.5"
                   min="0.5"
-                  className="w-20 px-3 py-2 border border-gray-300 rounded-lg text-center"
+                  className="w-20 text-center"
                 />
                 <button
                   onClick={() => setServings(servings + 0.5)}
-                  className="px-3 py-2 bg-gray-200 rounded-lg font-bold hover:bg-gray-300"
+                  className="px-4 py-2 rounded-lg font-bold transition-colors"
+                  style={{
+                    backgroundColor: '#1A1A1A',
+                    color: 'var(--white)',
+                    border: '2px solid var(--border)'
+                  }}
                 >
                   +
                 </button>
@@ -855,31 +742,41 @@ export default function MacroTracker() {
             </div>
 
             {/* Nutrition Info */}
-            <div className="bg-gray-50 rounded-lg p-4 mb-4">
-              <h4 className="font-semibold text-gray-900 mb-2">
+            <div className="rounded-lg p-4 mb-4" style={{ backgroundColor: '#1A1A1A' }}>
+              <h4 className="vlv-heading text-lg mb-2">
                 Nutrition (for {servings} serving{servings !== 1 ? 's' : ''})
               </h4>
-              <div className="grid grid-cols-2 gap-2 text-sm">
+              <div className="grid grid-cols-2 gap-2 vlv-text text-sm">
                 <div>
-                  <span className="text-gray-600">Calories:</span>
-                  <span className="font-semibold ml-2">{Math.round(scannedFood.calories * servings)}</span>
+                  <span style={{ color: 'var(--gray)' }}>Calories:</span>
+                  <span className="font-bold ml-2" style={{ color: 'var(--white)' }}>
+                    {Math.round(scannedFood.calories * servings)}
+                  </span>
                 </div>
                 <div>
-                  <span className="text-gray-600">Protein:</span>
-                  <span className="font-semibold ml-2">{Math.round(scannedFood.protein * servings * 10) / 10}g</span>
+                  <span style={{ color: 'var(--gray)' }}>Protein:</span>
+                  <span className="font-bold ml-2" style={{ color: 'var(--white)' }}>
+                    {Math.round(scannedFood.protein * servings * 10) / 10}g
+                  </span>
                 </div>
                 <div>
-                  <span className="text-gray-600">Carbs:</span>
-                  <span className="font-semibold ml-2">{Math.round(scannedFood.carbs * servings * 10) / 10}g</span>
+                  <span style={{ color: 'var(--gray)' }}>Carbs:</span>
+                  <span className="font-bold ml-2" style={{ color: 'var(--white)' }}>
+                    {Math.round(scannedFood.carbs * servings * 10) / 10}g
+                  </span>
                 </div>
                 <div>
-                  <span className="text-gray-600">Fat:</span>
-                  <span className="font-semibold ml-2">{Math.round(scannedFood.fat * servings * 10) / 10}g</span>
+                  <span style={{ color: 'var(--gray)' }}>Fat:</span>
+                  <span className="font-bold ml-2" style={{ color: 'var(--white)' }}>
+                    {Math.round(scannedFood.fat * servings * 10) / 10}g
+                  </span>
                 </div>
                 {scannedFood.fiber && (
                   <div>
-                    <span className="text-gray-600">Fiber:</span>
-                    <span className="font-semibold ml-2">{Math.round(scannedFood.fiber * servings * 10) / 10}g</span>
+                    <span style={{ color: 'var(--gray)' }}>Fiber:</span>
+                    <span className="font-bold ml-2" style={{ color: 'var(--white)' }}>
+                      {Math.round(scannedFood.fiber * servings * 10) / 10}g
+                    </span>
                   </div>
                 )}
               </div>
@@ -889,13 +786,18 @@ export default function MacroTracker() {
             <div className="flex gap-2">
               <button
                 onClick={handleAddFood}
-                className="flex-1 py-3 bg-green-600 text-white rounded-lg font-semibold hover:bg-green-700 transition-colors"
+                className="btn-primary flex-1"
               >
                 Add to Tracker
               </button>
               <button
                 onClick={handleCloseModal}
-                className="px-4 py-3 bg-gray-200 text-gray-700 rounded-lg font-semibold hover:bg-gray-300 transition-colors"
+                className="px-4 py-3 rounded-lg font-bold transition-colors"
+                style={{
+                  backgroundColor: '#1A1A1A',
+                  color: 'var(--gray)',
+                  border: '2px solid var(--border)'
+                }}
               >
                 Cancel
               </button>
@@ -906,16 +808,16 @@ export default function MacroTracker() {
 
       {/* Error Modal */}
       {error && !scannedFood && (
-        <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-xl max-w-md w-full p-6">
+        <div className="fixed inset-0 z-50 bg-black bg-opacity-90 flex items-center justify-center p-4">
+          <div className="card max-w-md w-full">
             <div className="text-center mb-4">
               <span className="text-5xl">⚠️</span>
             </div>
-            <h3 className="text-xl font-bold text-gray-900 mb-2 text-center">Error</h3>
-            <p className="text-gray-600 mb-4 text-center">{error}</p>
+            <h3 className="vlv-heading text-xl mb-2 text-center">Error</h3>
+            <p className="vlv-text mb-4 text-center">{error}</p>
             <button
               onClick={() => setError('')}
-              className="w-full py-3 bg-primary-600 text-white rounded-lg font-semibold hover:bg-primary-700 transition-colors"
+              className="btn-primary w-full"
             >
               OK
             </button>
@@ -926,9 +828,14 @@ export default function MacroTracker() {
       {/* Success Toast */}
       {successMessage && (
         <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 animate-fade-in">
-          <div className="bg-green-600 text-white px-6 py-4 rounded-lg shadow-lg flex items-center gap-3">
+          <div className="rounded-lg px-6 py-4 shadow-lg flex items-center gap-3"
+            style={{
+              background: 'linear-gradient(135deg, var(--green) 0%, #059669 100%)',
+              color: '#FFFFFF'
+            }}
+          >
             <span className="text-2xl">✅</span>
-            <p className="font-semibold">{successMessage}</p>
+            <p className="font-bold">{successMessage}</p>
           </div>
         </div>
       )}
