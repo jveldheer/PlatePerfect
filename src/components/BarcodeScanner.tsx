@@ -47,7 +47,7 @@ export default function BarcodeScanner({ onScan, onError, onClose }: BarcodeScan
         await html5QrCode.start(
           cameraConfig,
           config,
-          (decodedText) => {
+          (decodedText: string) => {
             // Successfully scanned
             if (!hasScanned) {
               console.log('Barcode scanned:', decodedText);
@@ -79,7 +79,7 @@ export default function BarcodeScanner({ onScan, onError, onClose }: BarcodeScan
     // Cleanup on unmount
     return () => {
       if (html5QrCode) {
-        html5QrCode.stop().catch(err => {
+        html5QrCode.stop().catch((err: unknown) => {
           console.error('Error stopping scanner:', err);
         });
       }

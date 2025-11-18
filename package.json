@@ -13,6 +13,7 @@
     "test:ui": "vitest --ui"
   },
   "dependencies": {
+    "html5-qrcode": "^2.3.8",
     "lru-cache": "^11.2.2",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
