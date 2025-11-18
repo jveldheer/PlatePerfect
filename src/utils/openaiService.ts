@@ -57,22 +57,14 @@ SELF VALIDATION BEFORE FINAL OUTPUT
 - macros_per_serving equals macros_total divided by servings.
 - Output is valid JSON and nothing else.`;
 
+/**
+ * Generate meals using AI via our secure Vercel API endpoint
+ * This keeps API keys secure on the server side
+ */
 export async function generateMealsWithAI(
   context: AIContext,
   userIngredients: string[]
 ): Promise<AIMealResponse> {
-  const apiKey = localStorage.getItem('openai_api_key');
-
-  if (!apiKey) {
-    throw new Error('OpenAI API key not configured. Please add your API key in Settings.');
-  }
-
-  // Validate API key format
-  if (!apiKey.startsWith('sk-')) {
-    throw new Error('Invalid API key format. OpenAI API keys should start with "sk-"');
-  }
-
-  console.log('🔑 API Key detected (first 10 chars):', apiKey.substring(0, 10) + '...');
   console.log('🎯 Goal:', context.goal);
   console.log('📊 Target macros per meal:', context.target_macros_per_meal);
 
@@ -87,15 +79,13 @@ Category preference: ${context.category_preference.join(', ')}
 Return ONLY the JSON response matching the schema.`;
 
   try {
-    console.log('🚀 Starting API request to OpenAI...');
-    console.log('🎯 Target goal:', context.goal);
+    console.log('🚀 Starting API request to Vercel serverless function...');
 
     // Create abort controller for timeout
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 90000); // 90 second timeout
 
     const requestBody = {
-      model: 'gpt-4o',
       messages: [
         {
           role: 'system',
@@ -106,27 +96,23 @@ Return ONLY the JSON response matching the schema.`;
           content: userMessage
         }
       ],
-      temperature: 0.8,
-      max_tokens: 3000,
-      response_format: { type: 'json_object' }
+      max_tokens: 3000
     };
 
     console.log('📤 Request details:', {
-      model: requestBody.model,
-      temperature: requestBody.temperature,
-      maxTokens: requestBody.max_tokens,
       systemPromptLength: AI_SYSTEM_PROMPT.length,
-      userMessageLength: userMessage.length,
-      responseFormat: requestBody.response_format
+      userMessageLength: userMessage.length
     });
 
     let response;
     try {
-      response = await fetch('https://api.openai.com/v1/chat/completions', {
+      // Call our Vercel API endpoint instead of OpenAI directly
+      const apiUrl = import.meta.env.PROD ? '/api/openai' : 'http://localhost:5173/api/openai';
+
+      response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${apiKey}`
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify(requestBody),
         signal: controller.signal
@@ -141,14 +127,14 @@ Return ONLY the JSON response matching the schema.`;
     console.log('✅ Got response, status:', response.status);
 
     if (!response.ok) {
-      let errorMessage = 'OpenAI API error';
+      let errorMessage = 'Server error';
       try {
         const errorData = await response.json();
         console.error('❌ API error response:', errorData);
-        errorMessage = errorData.error?.message || `API returned status ${response.status}`;
+        errorMessage = errorData.error || `Server returned status ${response.status}`;
       } catch (e) {
         console.error('❌ Could not parse error response');
-        errorMessage = `API request failed with status ${response.status}: ${response.statusText}`;
+        errorMessage = `Server request failed with status ${response.status}`;
       }
       throw new Error(errorMessage);
     }
@@ -159,44 +145,14 @@ Return ONLY the JSON response matching the schema.`;
       console.log('✅ Successfully parsed JSON response');
     } catch (parseError: any) {
       console.error('❌ Failed to parse response as JSON:', parseError);
-      throw new Error('Invalid JSON response from OpenAI API');
+      throw new Error('Invalid JSON response from server');
     }
 
-    // Detailed diagnostic information
-    const diagnostic = {
-      hasChoices: !!data.choices,
-      choicesCount: data.choices?.length || 0,
-      hasFirstChoice: !!data.choices?.[0],
-      hasMessage: !!data.choices?.[0]?.message,
-      hasContent: !!data.choices?.[0]?.message?.content,
-      contentLength: data.choices?.[0]?.message?.content?.length || 0,
-      finishReason: data.choices?.[0]?.finish_reason || 'none',
-      role: data.choices?.[0]?.message?.role || 'none',
-      hasError: !!data.error,
-      errorMessage: data.error?.message || 'none'
-    };
-
-    console.log('📊 Response diagnostic:', diagnostic);
-
-    const content = data.choices?.[0]?.message?.content;
+    const content = data.content;
 
     if (!content) {
-      console.error('❌ No content in AI response');
-      console.error('Full response:', JSON.stringify(data, null, 2));
-
-      // Show diagnostic info in the error message for mobile users
-      throw new Error(
-        `OpenAI returned no content. Diagnostic:\n` +
-        `• Has choices: ${diagnostic.hasChoices}\n` +
-        `• Choices count: ${diagnostic.choicesCount}\n` +
-        `• Has message: ${diagnostic.hasMessage}\n` +
-        `• Content length: ${diagnostic.contentLength}\n` +
-        `• Finish reason: ${diagnostic.finishReason}\n` +
-        `• Role: ${diagnostic.role}\n` +
-        `• Has error: ${diagnostic.hasError}\n` +
-        `• Error msg: ${diagnostic.errorMessage}\n` +
-        `Full response: ${JSON.stringify(data).substring(0, 200)}`
-      );
+      console.error('❌ No content in response');
+      throw new Error('Server returned no content');
     }
 
     console.log('✅ Received', content.length, 'characters of content');
