@@ -27,6 +27,13 @@ export default function MacroTracker() {
   const [manualFoodName, setManualFoodName] = useState('');
   const [manualWeight, setManualWeight] = useState('100');
 
+  // Custom macro entry states
+  const [showCustomMacros, setShowCustomMacros] = useState(false);
+  const [customCalories, setCustomCalories] = useState('');
+  const [customProtein, setCustomProtein] = useState('');
+  const [customCarbs, setCustomCarbs] = useState('');
+  const [customFat, setCustomFat] = useState('');
+
   const handleScan = async (barcode: string) => {
     setShowScanner(false);
     setIsLoading(true);
@@ -186,6 +193,41 @@ export default function MacroTracker() {
     setError('');
   };
 
+  const handleAddCustomMacros = () => {
+    const calories = parseFloat(customCalories);
+    const protein = parseFloat(customProtein);
+    const carbs = parseFloat(customCarbs);
+    const fat = parseFloat(customFat);
+
+    if (isNaN(calories) || isNaN(protein) || isNaN(carbs) || isNaN(fat)) {
+      setError('Please enter valid numbers for all macro fields');
+      return;
+    }
+
+    if (calories < 0 || protein < 0 || carbs < 0 || fat < 0) {
+      setError('Macro values cannot be negative');
+      return;
+    }
+
+    addToTracker({
+      calories,
+      protein,
+      carbs,
+      fat
+    }, 1);
+
+    setSuccessMessage(`Added custom entry (${calories} cal) to tracker!`);
+    setTimeout(() => setSuccessMessage(''), 3000);
+
+    // Reset and close
+    setCustomCalories('');
+    setCustomProtein('');
+    setCustomCarbs('');
+    setCustomFat('');
+    setShowCustomMacros(false);
+    setError('');
+  };
+
   if (!userProfile || !macroGoals) {
     return (
       <div className="max-w-2xl mx-auto text-center py-12 px-4">
@@ -270,7 +312,14 @@ export default function MacroTracker() {
               className="px-3 py-2 min-h-[44px] bg-purple-600 text-white rounded-lg font-medium hover:bg-purple-700 transition-colors touch-manipulation inline-flex items-center gap-1"
             >
               <span>✏️</span>
-              <span>Manual</span>
+              <span>Lookup</span>
+            </button>
+            <button
+              onClick={() => setShowCustomMacros(true)}
+              className="px-3 py-2 min-h-[44px] bg-indigo-600 text-white rounded-lg font-medium hover:bg-indigo-700 transition-colors touch-manipulation inline-flex items-center gap-1"
+            >
+              <span>📊</span>
+              <span>Custom</span>
             </button>
             <Link
               to="/recipes"
@@ -401,10 +450,10 @@ export default function MacroTracker() {
           <span className="text-xl sm:text-2xl mr-2">💡</span>
           Tracking Tips
         </h4>
-        <ul className="space-y-2 text-sm sm:text-base text-blue-800">
+        <ul className="space-y-2 text-sm sm:text-base text-blue-900 font-medium">
           <li className="flex items-start">
             <span className="mr-2">•</span>
-            <span>📷 Scan packaged foods • 🔍 Search products • ✏️ Manual entry with weight</span>
+            <span>📷 Scan packaged foods • 🔍 Search products • ✏️ Lookup by name • 📊 Custom macros</span>
           </li>
           <li className="flex items-start">
             <span className="mr-2">•</span>
@@ -437,6 +486,117 @@ export default function MacroTracker() {
         />
       )}
 
+      {/* Custom Macro Entry Modal */}
+      {showCustomMacros && (
+        <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-xl max-w-md w-full p-6 max-h-[90vh] overflow-y-auto">
+            <button
+              onClick={() => {
+                setShowCustomMacros(false);
+                setCustomCalories('');
+                setCustomProtein('');
+                setCustomCarbs('');
+                setCustomFat('');
+                setError('');
+              }}
+              className="float-right text-gray-500 hover:text-gray-700 text-2xl font-bold"
+            >
+              ×
+            </button>
+
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">Custom Macro Entry</h2>
+
+            <p className="text-gray-700 font-medium mb-6">
+              Enter macros directly for meals, custom foods, or quick tracking.
+            </p>
+
+            {/* Calories Input */}
+            <div className="mb-4">
+              <label className="block text-sm font-semibold text-gray-900 mb-2">
+                Calories (kcal) *
+              </label>
+              <input
+                type="number"
+                value={customCalories}
+                onChange={(e) => setCustomCalories(e.target.value)}
+                placeholder="e.g., 250"
+                min="0"
+                step="1"
+                className="w-full px-4 py-3 border-2 border-gray-400 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-gray-900 font-medium bg-white placeholder-gray-500"
+                autoFocus
+              />
+            </div>
+
+            {/* Protein Input */}
+            <div className="mb-4">
+              <label className="block text-sm font-semibold text-gray-900 mb-2">
+                Protein (g) *
+              </label>
+              <input
+                type="number"
+                value={customProtein}
+                onChange={(e) => setCustomProtein(e.target.value)}
+                placeholder="e.g., 30"
+                min="0"
+                step="0.1"
+                className="w-full px-4 py-3 border-2 border-gray-400 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-gray-900 font-medium bg-white placeholder-gray-500"
+              />
+            </div>
+
+            {/* Carbs Input */}
+            <div className="mb-4">
+              <label className="block text-sm font-semibold text-gray-900 mb-2">
+                Carbohydrates (g) *
+              </label>
+              <input
+                type="number"
+                value={customCarbs}
+                onChange={(e) => setCustomCarbs(e.target.value)}
+                placeholder="e.g., 20"
+                min="0"
+                step="0.1"
+                className="w-full px-4 py-3 border-2 border-gray-400 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-gray-900 font-medium bg-white placeholder-gray-500"
+              />
+            </div>
+
+            {/* Fat Input */}
+            <div className="mb-4">
+              <label className="block text-sm font-semibold text-gray-900 mb-2">
+                Fat (g) *
+              </label>
+              <input
+                type="number"
+                value={customFat}
+                onChange={(e) => setCustomFat(e.target.value)}
+                placeholder="e.g., 8"
+                min="0"
+                step="0.1"
+                className="w-full px-4 py-3 border-2 border-gray-400 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-gray-900 font-medium bg-white placeholder-gray-500"
+              />
+            </div>
+
+            {/* Add Button */}
+            <button
+              onClick={handleAddCustomMacros}
+              disabled={!customCalories || !customProtein || !customCarbs || !customFat}
+              className="w-full py-3 bg-indigo-600 text-white font-bold rounded-lg hover:bg-indigo-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed mb-4"
+            >
+              Add to Tracker
+            </button>
+
+            {/* Info Box */}
+            <div className="bg-indigo-50 border-l-4 border-indigo-500 p-4 rounded">
+              <p className="text-sm font-semibold text-indigo-900 mb-1">
+                💡 Quick Tip
+              </p>
+              <p className="text-sm text-indigo-800">
+                Use this for restaurant meals, homemade dishes, or when you know the exact macros.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Manual Entry Modal */}
       {showManualEntry && (
         <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center p-4">
@@ -448,15 +608,15 @@ export default function MacroTracker() {
               ×
             </button>
 
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">Manual Entry</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">Food Lookup</h2>
 
-            <p className="text-gray-600 mb-4">
+            <p className="text-gray-700 font-medium mb-6">
               Enter a food name and weight to calculate macros from our accurate nutrition database.
             </p>
 
             {/* Food Name Input */}
             <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-semibold text-gray-900 mb-2">
                 Food Name
               </label>
               <input
@@ -465,14 +625,14 @@ export default function MacroTracker() {
                 onChange={(e) => setManualFoodName(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && handleManualLookup()}
                 placeholder="e.g., chicken breast, rice, banana"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                className="w-full px-4 py-3 border-2 border-gray-400 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-gray-900 font-medium bg-white placeholder-gray-500"
                 autoFocus
               />
             </div>
 
             {/* Weight Input */}
             <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-semibold text-gray-900 mb-2">
                 Weight (grams)
               </label>
               <input
@@ -483,7 +643,7 @@ export default function MacroTracker() {
                 placeholder="100"
                 min="1"
                 step="1"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                className="w-full px-4 py-3 border-2 border-gray-400 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-gray-900 font-medium bg-white placeholder-gray-500"
               />
             </div>
 
@@ -542,7 +702,7 @@ export default function MacroTracker() {
                   onChange={(e) => setSearchQuery(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
                   placeholder="Search for food (e.g., 'banana', 'chicken breast')"
-                  className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="flex-1 px-4 py-3 border-2 border-gray-400 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 font-medium bg-white placeholder-gray-500"
                   disabled={isSearching}
                 />
                 <button
