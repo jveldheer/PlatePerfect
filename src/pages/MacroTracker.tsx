@@ -79,24 +79,41 @@ export default function MacroTracker() {
       return;
     }
 
+    console.log('🔍 Starting search for:', searchQuery);
     setIsSearching(true);
     setError('');
+    setSearchResults([]); // Clear previous results
 
     try {
+      console.log('📡 Calling searchProducts API...');
       const results = await searchProducts(searchQuery, 10);
+      console.log('✅ Search completed, found', results.length, 'results');
 
       if (results.length === 0) {
-        setError(`No results found for "${searchQuery}". Try a different search term.`);
+        setError(`No results found for "${searchQuery}". Try:\n• Different spelling\n• Brand names (e.g., "Chobani yogurt")\n• Generic terms (e.g., "banana", "chicken breast")`);
         setSearchResults([]);
       } else {
         setSearchResults(results);
+        setError(''); // Clear any previous errors
       }
-    } catch (err) {
-      console.error('Error searching for food:', err);
-      setError('Failed to search for food. Please try again.');
+    } catch (err: any) {
+      console.error('❌ Error searching for food:', err);
+
+      // More specific error messages
+      if (err.message?.includes('Failed to fetch') || err.message?.includes('NetworkError')) {
+        setError('Network error: Unable to connect to food database. Check your internet connection and try again.');
+      } else if (err.message?.includes('429')) {
+        setError('Too many requests. Please wait a moment and try again.');
+      } else if (err.message?.includes('500') || err.message?.includes('503')) {
+        setError('Food database is temporarily unavailable. Please try again in a few moments.');
+      } else {
+        setError(`Search failed: ${err.message || 'Unknown error'}. Please try again.`);
+      }
+
       setSearchResults([]);
     } finally {
       setIsSearching(false);
+      console.log('🏁 Search process completed');
     }
   };
 
@@ -571,16 +588,45 @@ export default function MacroTracker() {
                   placeholder="Search for food (e.g., 'banana', 'chicken breast')"
                   disabled={isSearching}
                   className="flex-1"
+                  autoFocus
                 />
                 <button
                   onClick={handleSearch}
                   disabled={isSearching || !searchQuery.trim()}
                   className="btn-primary px-6 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {isSearching ? 'Searching...' : 'Search'}
+                  {isSearching ? '🔍 Searching...' : 'Search'}
                 </button>
               </div>
             </div>
+
+            {/* Error Display */}
+            {error && showSearch && (
+              <div className="mb-4 p-4 rounded-lg border-2"
+                style={{
+                  backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                  borderColor: '#EF4444'
+                }}
+              >
+                <div className="flex items-start gap-3">
+                  <span className="text-2xl">⚠️</span>
+                  <div className="flex-1">
+                    <p className="vlv-heading text-sm mb-1" style={{ color: '#FCA5A5' }}>
+                      Search Error
+                    </p>
+                    <p className="vlv-text text-sm whitespace-pre-line">
+                      {error}
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => setError('')}
+                    className="text-gray-400 hover:text-white transition-colors"
+                  >
+                    ×
+                  </button>
+                </div>
+              </div>
+            )}
 
             {/* Search Results */}
             {searchResults.length > 0 && (

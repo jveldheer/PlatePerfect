@@ -96,36 +96,53 @@ export async function lookupBarcode(barcode: string): Promise<NutritionData | nu
  */
 export async function searchProducts(query: string, pageSize = 5): Promise<NutritionData[]> {
   try {
+    console.log('🔍 Searching for:', query, 'pageSize:', pageSize);
+
     const url = `${API_BASE}/search?search_terms=${encodeURIComponent(query)}&page_size=${pageSize}&json=1`;
+    console.log('🔗 Search URL:', url);
 
     const response = await fetch(url, {
       headers: {
-        'User-Agent': 'VeldheersAthleteNutrition/1.0'
+        'User-Agent': 'VeldheersAthleteNutrition/1.0',
+        'Accept': 'application/json'
       }
     });
 
+    console.log('📡 Response status:', response.status, response.statusText);
+
     if (!response.ok) {
+      console.error('❌ API returned error status:', response.status);
       throw new Error(`Open Food Facts API error: ${response.status}`);
     }
 
     const data = await response.json();
+    console.log('📦 API response data:', {
+      count: data.count,
+      page: data.page,
+      page_size: data.page_size,
+      products_length: data.products?.length
+    });
 
     if (!data.products || data.products.length === 0) {
+      console.warn('⚠️ No products found in API response');
       return [];
     }
 
-    return data.products
+    const converted = data.products
       .map((product: OpenFoodFactsProduct & { code?: string }) => {
         try {
           return convertToNutritionData(product, product.code || 'unknown');
         } catch (e) {
-          console.warn('Failed to convert product:', e);
+          console.warn('⚠️ Failed to convert product:', product.product_name, e);
           return null;
         }
       })
       .filter((item: NutritionData | null): item is NutritionData => item !== null);
+
+    console.log('✅ Successfully converted', converted.length, 'products');
+    return converted;
   } catch (error) {
-    console.error('Error searching products:', error);
+    console.error('❌ Error searching products:', error);
     throw error;
   }
 }
