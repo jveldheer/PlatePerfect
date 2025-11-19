@@ -1,33 +1,52 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useMacros } from '../contexts/MacroContext';
-import { buildAIContext, generateAIMealsFallback, type AIMealResponse } from '../utils/aiMealGenerator';
 import { generateMealsWithAI } from '../utils/openaiService';
 
-function MealGenerator() {
+interface GeneratedMeal {
+  title: string;
+  description: string;
+  prepTime: number;
+  cookTime: number;
+  servings: number;
+  difficulty: string;
+  macros: {
+    calories: number;
+    protein: number;
+    carbs: number;
+    fat: number;
+  };
+  ingredients: Array<{
+    item: string;
+    amount: string;
+    grams?: number;
+  }>;
+  instructions: string[];
+  tags: string[];
+  mealPrepNotes?: string;
+}
+
+export default function MealGenerator() {
   const { macroGoals, consumedMacros } = useMacros();
+
+  // Step navigation
+  const [currentStep, setCurrentStep] = useState(1);
+
+  // Question answers
+  const [prepTime, setPrepTime] = useState<string>('');
+  const [mealPrep, setMealPrep] = useState<boolean>(false);
+  const [cookingSkill, setCookingSkill] = useState<string>('');
+  const [dietaryPrefs, setDietaryPrefs] = useState<string[]>([]);
   const [ingredientsInput, setIngredientsInput] = useState('');
-  const [aiResponse, setAiResponse] = useState<AIMealResponse | null>(null);
+
+  // Results
+  const [meals, setMeals] = useState<GeneratedMeal[]>([]);
   const [showResults, setShowResults] = useState(false);
-  const [savedMeals, setSavedMeals] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [usingAI, setUsingAI] = useState(false);
   const [loadingSeconds, setLoadingSeconds] = useState(0);
 
-  // Load saved meals on mount
-  useEffect(() => {
-    const saved = localStorage.getItem('veldheerfuellab_saved_meals');
-    if (saved) {
-      try {
-        setSavedMeals(JSON.parse(saved));
-      } catch (e) {
-        console.error('Failed to load saved meals', e);
-      }
-    }
-  }, []);
-
-  // Track loading time for user feedback
+  // Track loading time
   useEffect(() => {
     let interval: number | undefined;
     if (isLoading) {
@@ -44,77 +63,113 @@ function MealGenerator() {
   const handleGenerate = async () => {
     setIsLoading(true);
     setError(null);
-    setUsingAI(false);
-
-    const ingredientList = ingredientsInput
-      .split(',')
-      .map(i => i.trim())
-      .filter(i => i.length > 0);
-
-    const apiKey = localStorage.getItem('openai_api_key');
 
     try {
-      if (apiKey) {
-        // Try to use real AI
-        setUsingAI(true);
-        const context = buildAIContext(macroGoals, consumedMacros);
-        const result = await generateMealsWithAI(context, ingredientList);
+      // Build enhanced AI context based on user answers
+      const ingredientList = ingredientsInput
+        .split(',')
+        .map(i => i.trim())
+        .filter(i => i.length > 0);
 
-        if (result.meals.length === 0) {
-          setError('No meals found. Please try again.');
-          setShowResults(false);
-        } else {
-          setAiResponse(result);
-          setShowResults(true);
-        }
+      // Calculate remaining macros
+      const remainingMacros = macroGoals && consumedMacros ? {
+        calories: Math.max(0, macroGoals.calories - consumedMacros.calories),
+        protein_g: Math.max(0, macroGoals.protein_g - consumedMacros.protein_g),
+        carbs_g: Math.max(0, macroGoals.carbs_g - consumedMacros.carbs_g),
+        fat_g: Math.max(0, macroGoals.fat_g - consumedMacros.fat_g)
+      } : {
+        calories: 500,
+        protein_g: 30,
+        carbs_g: 50,
+        fat_g: 15
+      };
+
+      // Build context for AI with all required fields
+      const context = {
+        athlete_id: 'user-001', // Default user ID
+        goal: 'maintain' as const, // Default goal - user can adjust based on their profile
+        target_macros_per_meal: {
+          cal: Math.round(remainingMacros.calories / 3), // Divide by 3 meals
+          protein_g: Math.round(remainingMacros.protein_g / 3),
+          carb_g: Math.round(remainingMacros.carbs_g / 3),
+          fat_g: Math.round(remainingMacros.fat_g / 3),
+          fiber_g: 8 // Default fiber target per meal
+        },
+        creative_mode: true, // Enable creative recipe generation
+        category_preference: prepTime === 'quick' ? ['no_cook', 'minimal_cook'] :
+                           prepTime === '15min' ? ['minimal_cook', 'full_cook'] :
+                           ['full_cook', 'minimal_cook'],
+        allowed_appliances: ["stove", "oven", "microwave", "air_fryer", "blender"],
+        include_staples: true, // Allow common pantry staples
+        servings_default: mealPrep ? 4 : 1, // More servings if meal prep is enabled
+      };
+
+      const response = await generateMealsWithAI(context, ingredientList);
+
+      if (response.meals && response.meals.length > 0) {
+        // Take only first 3 meals
+        const formattedMeals = response.meals.slice(0, 3).map((meal: any) => ({
+          title: meal.title,
+          description: meal.description || 'Delicious athlete-focused meal',
+          prepTime: meal.prep_time_min || 10,
+          cookTime: meal.cook_time_min || 20,
+          servings: meal.servings || 1,
+          difficulty: meal.skill_level || 'easy',
+          macros: {
+            calories: meal.macros_per_serving?.cal || 0,
+            protein: meal.macros_per_serving?.protein_g || 0,
+            carbs: meal.macros_per_serving?.carb_g || 0,
+            fat: meal.macros_per_serving?.fat_g || 0
+          },
+          ingredients: meal.ingredients?.map((ing: any) => ({
+            item: ing.canonical_name || ing.user_input || 'ingredient',
+            amount: `${ing.grams || 100}g`,
+            grams: ing.grams || 100
+          })) || [],
+          instructions: meal.steps || [],
+          tags: meal.tags || [],
+          mealPrepNotes: meal.meal_prep_notes
+        }));
+
+        setMeals(formattedMeals);
+        setShowResults(true);
       } else {
-        // Fall back to local generation
-        setUsingAI(false);
-        const result = generateAIMealsFallback(ingredientList, macroGoals, consumedMacros);
-
-        if (result.meals.length === 0) {
-          setError('No meals found. Please try again.');
-          setShowResults(false);
-        } else {
-          setAiResponse(result);
-          setShowResults(true);
-        }
+        setError('No meals generated. Please try again.');
       }
     } catch (err: any) {
       console.error('Error generating meals:', err);
-
-      // If AI fails, fall back to local generation
-      if (apiKey) {
-        setError(`AI generation failed: ${err.message}. Falling back to local generation...`);
-        setUsingAI(false);
-
-        try {
-          const result = generateAIMealsFallback(ingredientList, macroGoals, consumedMacros);
-          setAiResponse(result);
-          setShowResults(true);
-        } catch (fallbackErr) {
-          console.error('Fallback also failed:', fallbackErr);
-          setError('Failed to generate meals. Please try again.');
-          setShowResults(false);
-        }
-      } else {
-        setError(err.message || 'An error occurred while generating meals.');
-        setShowResults(false);
-      }
+      setError(err.message || 'Failed to generate meals. Please check your settings and try again.');
     } finally {
       setIsLoading(false);
     }
   };
 
-  const saveMeal = (meal: any) => {
-    const newSavedMeals = [...savedMeals, { ...meal, savedAt: new Date().toISOString() }];
-    setSavedMeals(newSavedMeals);
-    localStorage.setItem('veldheerfuellab_saved_meals', JSON.stringify(newSavedMeals));
-    alert('✅ Recipe saved! View it in Saved Recipes.');
+  const canProceed = () => {
+    switch (currentStep) {
+      case 1: return prepTime !== '';
+      case 2: return cookingSkill !== '';
+      case 3: return true; // Optional step
+      case 4: return true; // Ready to generate
+      default: return false;
+    }
   };
 
-  const isMealSaved = (mealName: string) => {
-    return savedMeals.some(m => m.name === mealName);
+  const handleSaveRecipe = (meal: GeneratedMeal) => {
+    try {
+      const saved = localStorage.getItem('plateperfect_saved_recipes') || '[]';
+      const savedRecipes = JSON.parse(saved);
+      const newRecipe = {
+        ...meal,
+        id: `generated-${Date.now()}`,
+        savedAt: new Date().toISOString()
+      };
+      savedRecipes.push(newRecipe);
+      localStorage.setItem('plateperfect_saved_recipes', JSON.stringify(savedRecipes));
+      alert('✅ Recipe saved! View it in Saved Recipes.');
+    } catch (error) {
+      console.error('Failed to save recipe:', error);
+      alert('❌ Failed to save recipe');
+    }
   };
 
   const remainingMacros = macroGoals && consumedMacros ? {
@@ -124,368 +179,428 @@ function MealGenerator() {
     fat: Math.max(0, macroGoals.fat_g - consumedMacros.fat_g)
   } : null;
 
-  const getCookingMethodIcon = (method: string) => {
-    switch (method) {
-      case 'no_cook': return '🥗';
-      case 'minimal_cook': return '⚡';
-      case 'full_cook': return '🍳';
-      case 'freestyle': return '🎨';
-      default: return '🍽️';
-    }
-  };
-
-  const getCookingMethodColor = (method: string) => {
-    switch (method) {
-      case 'no_cook': return 'bg-green-50 border-green-500 text-green-800';
-      case 'minimal_cook': return 'bg-blue-50 border-blue-500 text-blue-800';
-      case 'full_cook': return 'bg-orange-50 border-orange-500 text-orange-800';
-      case 'freestyle': return 'bg-purple-50 border-purple-500 text-purple-800';
-      default: return 'bg-gray-50 border-gray-500 text-gray-800';
-    }
-  };
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-green-50 pb-20">
-      <div className="container mx-auto px-4 py-6 sm:py-8 max-w-4xl">
-        {/* Header */}
-        <div className="mb-6 sm:mb-8">
-          <h1 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-2">
-            ⚡ Fuel Generator
-          </h1>
-          <p className="text-base sm:text-lg text-gray-600">
-            Get complete meal ideas personalized to your nutrition goals!
-          </p>
+    <div className="max-w-4xl mx-auto space-y-8">
+      {/* Header */}
+      <div className="text-center px-4">
+        <h1 className="vlv-heading text-4xl mb-4">
+          ⚡ Fuel Generator
+        </h1>
+        <p className="vlv-text">
+          Answer a few quick questions to get 3 elite, tasty recipes personalized to your goals
+        </p>
+      </div>
 
-          {/* AI Status Notice */}
-          {!localStorage.getItem('openai_api_key') && (
-            <div className="mt-4 bg-yellow-50 border-l-4 border-yellow-500 p-4 rounded-lg">
-              <div className="flex items-start">
-                <div className="flex-shrink-0">
-                  <span className="text-2xl">🤖</span>
-                </div>
-                <div className="ml-3 flex-1">
-                  <p className="text-sm text-yellow-800">
-                    <strong>Using fallback mode.</strong> For true AI-generated meals, add your OpenAI API key in{' '}
-                    <Link to="/settings" className="font-semibold underline">Settings</Link>.
-                  </p>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* Macro Status */}
-        {remainingMacros && (
-          <div className="bg-white rounded-xl shadow-md p-4 sm:p-6 mb-6">
-            <h2 className="text-lg sm:text-xl font-semibold text-gray-800 mb-3">
-              📊 Your Remaining Macros Today
-            </h2>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
-              <div className="bg-blue-50 rounded-lg p-3">
-                <div className="text-xs sm:text-sm text-gray-600">Calories</div>
-                <div className="text-xl sm:text-2xl font-bold text-blue-600">
-                  {remainingMacros.calories}
-                </div>
-              </div>
-              <div className="bg-green-50 rounded-lg p-3">
-                <div className="text-xs sm:text-sm text-gray-600">Protein</div>
-                <div className="text-xl sm:text-2xl font-bold text-green-600">
-                  {remainingMacros.protein}g
-                </div>
-              </div>
-              <div className="bg-yellow-50 rounded-lg p-3">
-                <div className="text-xs sm:text-sm text-gray-600">Carbs</div>
-                <div className="text-xl sm:text-2xl font-bold text-yellow-600">
-                  {remainingMacros.carbs}g
-                </div>
-              </div>
-              <div className="bg-purple-50 rounded-lg p-3">
-                <div className="text-xs sm:text-sm text-gray-600">Fat</div>
-                <div className="text-xl sm:text-2xl font-bold text-purple-600">
-                  {remainingMacros.fat}g
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {!macroGoals && (
-          <div className="bg-yellow-50 border-l-4 border-yellow-500 p-4 mb-6 rounded-lg">
-            <div className="flex">
-              <div className="flex-shrink-0">
-                <span className="text-2xl">💡</span>
-              </div>
-              <div className="ml-3">
-                <p className="text-sm text-yellow-800">
-                  <Link to="/profile" className="font-semibold underline">
-                    Set up your macro goals
-                  </Link>
-                  {' '}to get personalized meal suggestions based on your remaining macros!
-                </p>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Generate Section */}
-        <div className="bg-white rounded-xl shadow-md p-4 sm:p-6 mb-6">
-          <h2 className="text-lg sm:text-xl font-semibold text-gray-800 mb-3">
-            🎯 Generate Meal Ideas
-          </h2>
-
-          {/* Optional Ingredient Input */}
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              🍎 Ingredients You Have (Optional)
-            </label>
-            <input
-              type="text"
-              value={ingredientsInput}
-              onChange={(e) => setIngredientsInput(e.target.value)}
-              placeholder="e.g., chicken, rice, broccoli (separate with commas)"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              onKeyPress={(e) => e.key === 'Enter' && handleGenerate()}
-            />
-            <p className="text-xs text-gray-500 mt-1">
-              Leave blank to get suggestions based only on your macro goals
-            </p>
-          </div>
-
-          <button
-            onClick={handleGenerate}
-            disabled={isLoading}
-            className="w-full bg-gradient-to-r from-blue-500 to-green-500 text-white font-semibold py-3 px-6 rounded-lg hover:from-blue-600 hover:to-green-600 transition-all shadow-md active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100"
-          >
-            {isLoading ? (
-              <div className="flex flex-col items-center gap-1">
-                <span className="flex items-center gap-2">
-                  <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                  </svg>
-                  Generating with AI... {loadingSeconds}s
-                </span>
-                {loadingSeconds > 30 && (
-                  <span className="text-xs opacity-90">
-                    This can take up to 2 minutes - please wait...
-                  </span>
-                )}
-              </div>
-            ) : (
-              '✨ Generate Meal Ideas'
-            )}
-          </button>
-        </div>
-
-        {/* Error Message */}
-        {error && (
-          <div className="bg-red-50 border-l-4 border-red-500 p-4 mb-6 rounded-lg">
-            <div className="flex">
-              <div className="flex-shrink-0">
-                <span className="text-2xl">⚠️</span>
-              </div>
-              <div className="ml-3">
-                <p className="text-sm text-red-800 whitespace-pre-line font-medium mb-2">{error}</p>
-                {error.includes('No content received') && (
-                  <div className="text-xs text-red-700 mt-2 space-y-1">
-                    <p>This could mean:</p>
-                    <ul className="list-disc list-inside ml-2">
-                      <li>GPT-5-mini might have API restrictions</li>
-                      <li>Your API key might not have access to this model</li>
-                      <li>The response was cut off or filtered</li>
-                    </ul>
-                    <p className="mt-2 font-medium">💡 The app automatically fell back to local generation which still works great!</p>
-                  </div>
-                )}
-                <p className="text-xs text-red-600 mt-2">
-                  💡 Check the browser console (F12) for detailed debugging information
-                </p>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Results */}
-        {showResults && aiResponse && aiResponse.meals && aiResponse.context && (
-          <div className="space-y-6">
-            {/* Header Info */}
-            <div className="bg-gradient-to-r from-blue-500 to-green-500 rounded-xl shadow-lg p-6 text-white">
-              <div className="flex items-center justify-between flex-wrap gap-2 mb-2">
-                <h2 className="text-2xl sm:text-3xl font-bold">
-                  🔬 {aiResponse.meals.length} Elite Athlete Meals Generated
-                </h2>
-                {usingAI && (
-                  <span className="bg-white bg-opacity-20 px-3 py-1 rounded-full text-sm font-medium">
-                    🤖 AI-Powered
-                  </span>
-                )}
-              </div>
-              <p className="text-base sm:text-lg opacity-95">
-                Goal: {aiResponse.context?.goal?.toUpperCase() || 'MAINTAIN'} | Target per meal: {Math.round(aiResponse.context?.target_macros_per_meal?.cal || 0)} cal, {Math.round(aiResponse.context?.target_macros_per_meal?.protein_g || 0)}g protein
+      {/* Remaining Macros */}
+      {remainingMacros && !showResults && (
+        <div className="card">
+          <h2 className="vlv-heading text-xl mb-4">📊 Your Remaining Macros Today</h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="text-center">
+              <p className="vlv-subtext text-sm mb-1">Calories</p>
+              <p className="text-3xl font-bold" style={{ color: 'var(--yellow)' }}>
+                {remainingMacros.calories}
               </p>
             </div>
-
-            {/* Organize meals by cooking method */}
-            {['no_cook', 'minimal_cook', 'full_cook'].map((cookMethod) => {
-              const methodMeals = aiResponse.meals.filter(m => m.category === cookMethod);
-              if (methodMeals.length === 0) return null;
-
-              return (
-                <div key={cookMethod} className="space-y-4">
-                  {/* Cooking Method Header */}
-                  <div className={`p-4 rounded-lg border-2 ${getCookingMethodColor(cookMethod)}`}>
-                    <h3 className="text-xl font-bold flex items-center gap-2">
-                      <span className="text-2xl">{getCookingMethodIcon(cookMethod)}</span>
-                      {cookMethod === 'no_cook' && 'No Cook Options (Fridge/Pantry)'}
-                      {cookMethod === 'minimal_cook' && 'Minimal Cook Options (Microwave/Toaster)'}
-                      {cookMethod === 'full_cook' && 'Full Cook Options (Pan/Oven/Bake)'}
-                    </h3>
-                  </div>
-
-                  {/* Meals in this category */}
-                  {methodMeals.map((meal, index) => {
-                    // Defensive checks for meal properties
-                    if (!meal || !meal.title) {
-                      console.warn('Skipping invalid meal at index', index);
-                      return null;
-                    }
-
-                    const totalTime = (meal.prep_time_min || 0) + (meal.cook_time_min || 0);
-                    const performanceTags = Array.isArray(meal.performance_tags) ? meal.performance_tags : [];
-                    const ingredients = Array.isArray(meal.ingredients) ? meal.ingredients : [];
-                    const instructions = Array.isArray(meal.instructions) ? meal.instructions : [];
-
-                    return (
-                      <div key={index} className="bg-white rounded-xl shadow-md overflow-hidden">
-                        {/* Meal Header */}
-                        <div className={`p-4 border-l-4 ${getCookingMethodColor(meal.category || 'freestyle')}`}>
-                          <div className="flex items-center justify-between flex-wrap gap-2">
-                            <div className="flex items-center gap-2">
-                              <span className="text-2xl">{getCookingMethodIcon(meal.category || 'freestyle')}</span>
-                              <h3 className="text-lg sm:text-xl font-bold text-gray-800">
-                                {meal.title}
-                              </h3>
-                            </div>
-                            <div className="flex items-center gap-3 text-sm">
-                              {totalTime > 0 && (
-                                <span className="bg-white px-3 py-1 rounded-full font-medium">
-                                  ⏱️ {totalTime} min total
-                                </span>
-                              )}
-                              {meal.skill_level && (
-                                <span className="bg-blue-100 px-3 py-1 rounded-full font-medium text-blue-800">
-                                  {meal.skill_level}
-                                </span>
-                              )}
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Meal Details */}
-                        <div className="p-4 sm:p-5">
-                          {/* Performance Tags */}
-                          {performanceTags.length > 0 && (
-                            <div className="flex flex-wrap gap-2 mb-4">
-                              {performanceTags.map((tag, i) => (
-                                <span key={i} className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">
-                                  ⚡ {tag.replace('_', ' ')}
-                                </span>
-                              ))}
-                            </div>
-                          )}
-
-                          {/* Macros */}
-                          {meal.macros_per_serving && (
-                            <div className="grid grid-cols-4 gap-2 mb-4">
-                              <div className="text-center bg-blue-50 rounded-lg p-2">
-                                <div className="text-xs text-gray-600">Calories</div>
-                                <div className="text-lg font-bold text-blue-600">{Math.round(meal.macros_per_serving.cal || 0)}</div>
-                              </div>
-                              <div className="text-center bg-green-50 rounded-lg p-2">
-                                <div className="text-xs text-gray-600">Protein</div>
-                                <div className="text-lg font-bold text-green-600">{Math.round(meal.macros_per_serving.protein_g || 0)}g</div>
-                              </div>
-                              <div className="text-center bg-yellow-50 rounded-lg p-2">
-                                <div className="text-xs text-gray-600">Carbs</div>
-                                <div className="text-lg font-bold text-yellow-600">{Math.round(meal.macros_per_serving.carb_g || 0)}g</div>
-                              </div>
-                              <div className="text-center bg-purple-50 rounded-lg p-2">
-                                <div className="text-xs text-gray-600">Fat</div>
-                                <div className="text-lg font-bold text-purple-600">{Math.round(meal.macros_per_serving.fat_g || 0)}g</div>
-                              </div>
-                            </div>
-                          )}
-
-                          {/* Ingredients */}
-                          {ingredients.length > 0 && (
-                            <div className="mb-4">
-                              <h4 className="font-semibold text-gray-800 mb-2">🛒 Ingredients:</h4>
-                              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-1 text-sm text-gray-700">
-                                {ingredients.map((ingredient, i) => (
-                                  <li key={i} className="flex items-start">
-                                    <span className="text-green-500 mr-2">•</span>
-                                    <span>
-                                      {ingredient?.quantity || ''} {ingredient?.unit || ''} {ingredient?.canonical_name || ingredient?.user_input || 'Unknown ingredient'}
-                                    </span>
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
-                          )}
-
-                          {/* Instructions */}
-                          {instructions.length > 0 && (
-                            <div className="mb-4">
-                              <h4 className="font-semibold text-gray-800 mb-2">📝 Instructions:</h4>
-                              <ol className="list-decimal list-inside space-y-1 text-sm text-gray-700">
-                                {instructions.map((step, i) => (
-                                  <li key={i}>{step}</li>
-                                ))}
-                              </ol>
-                            </div>
-                          )}
-
-                          {/* Notes */}
-                          {meal.notes && (
-                            <div className="bg-blue-50 rounded-lg p-3 mb-4">
-                              <p className="text-sm text-gray-700 italic">{meal.notes}</p>
-                            </div>
-                          )}
-
-                          {/* Save Button */}
-                          <button
-                            onClick={() => saveMeal(meal)}
-                            disabled={isMealSaved(meal.title)}
-                            className={`w-full py-2 px-4 rounded-lg font-medium transition-all ${
-                              isMealSaved(meal.title)
-                                ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
-                                : 'bg-blue-500 text-white hover:bg-blue-600 active:scale-95'
-                            }`}
-                          >
-                            {isMealSaved(meal.title) ? '✓ Saved' : '💾 Save This Recipe'}
-                          </button>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              );
-            })}
-
-            {/* Browse All Recipes */}
-            <div className="text-center mt-6">
-              <Link
-                to="/recipes"
-                className="inline-block bg-white text-blue-600 font-semibold py-3 px-6 rounded-lg border-2 border-blue-600 hover:bg-blue-50 transition-all shadow-md"
-              >
-                Browse Full Recipe Library →
-              </Link>
+            <div className="text-center">
+              <p className="vlv-subtext text-sm mb-1">Protein</p>
+              <p className="text-3xl font-bold" style={{ color: 'var(--red)' }}>
+                {remainingMacros.protein}g
+              </p>
+            </div>
+            <div className="text-center">
+              <p className="vlv-subtext text-sm mb-1">Carbs</p>
+              <p className="text-3xl font-bold" style={{ color: '#FFD700' }}>
+                {remainingMacros.carbs}g
+              </p>
+            </div>
+            <div className="text-center">
+              <p className="vlv-subtext text-sm mb-1">Fat</p>
+              <p className="text-3xl font-bold" style={{ color: 'var(--blue)' }}>
+                {remainingMacros.fat}g
+              </p>
             </div>
           </div>
-        )}
-      </div>
+        </div>
+      )}
+
+      {!showResults && (
+        <>
+          {/* Progress Indicator */}
+          <div className="card">
+            <div className="flex items-center justify-between mb-6">
+              {[1, 2, 3, 4].map((step) => (
+                <div key={step} className="flex items-center">
+                  <div
+                    className={`w-10 h-10 rounded-full flex items-center justify-center font-bold transition-all ${
+                      step === currentStep
+                        ? 'bg-gradient-to-r from-yellow-400 to-yellow-600 text-black scale-110'
+                        : step < currentStep
+                        ? 'bg-green-500 text-white'
+                        : 'bg-gray-700 text-gray-400'
+                    }`}
+                  >
+                    {step < currentStep ? '✓' : step}
+                  </div>
+                  {step < 4 && (
+                    <div
+                      className={`h-1 w-12 md:w-24 transition-all ${
+                        step < currentStep ? 'bg-green-500' : 'bg-gray-700'
+                      }`}
+                    />
+                  )}
+                </div>
+              ))}
+            </div>
+
+            {/* Step 1: Prep Time */}
+            {currentStep === 1 && (
+              <div className="space-y-6 animate-fade-in">
+                <div>
+                  <h2 className="vlv-heading text-2xl mb-2">⏱️ How much time do you have?</h2>
+                  <p className="vlv-subtext mb-6">Choose your maximum prep + cook time</p>
+                </div>
+
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  {[
+                    { value: 'quick', label: 'Quick', time: '< 15 min', icon: '⚡' },
+                    { value: '15min', label: '15 Minutes', time: '15 min', icon: '🕐' },
+                    { value: '30min', label: '30 Minutes', time: '30 min', icon: '🕑' },
+                    { value: '30plus', label: '30+ Minutes', time: '30+ min', icon: '🕒' }
+                  ].map((option) => (
+                    <button
+                      key={option.value}
+                      onClick={() => setPrepTime(option.value)}
+                      className={`p-6 rounded-xl border-3 transition-all duration-300 hover:scale-105 ${
+                        prepTime === option.value
+                          ? 'border-yellow-500 bg-gradient-to-br from-yellow-900 to-yellow-800 shadow-xl'
+                          : 'border-gray-600 bg-gray-800 hover:border-gray-500'
+                      }`}
+                    >
+                      <div className="text-4xl mb-2">{option.icon}</div>
+                      <div className="vlv-heading text-lg mb-1">{option.label}</div>
+                      <div className="vlv-subtext text-sm">{option.time}</div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Step 2: Cooking Skill */}
+            {currentStep === 2 && (
+              <div className="space-y-6 animate-fade-in">
+                <div>
+                  <h2 className="vlv-heading text-2xl mb-2">👨‍🍳 What's your cooking level?</h2>
+                  <p className="vlv-subtext mb-6">We'll match the complexity to your skills</p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  {[
+                    { value: 'beginner', label: 'Beginner', desc: 'Simple & easy', icon: '🥚' },
+                    { value: 'intermediate', label: 'Intermediate', desc: 'Some experience', icon: '🍳' },
+                    { value: 'advanced', label: 'Advanced', desc: 'Confident cook', icon: '👨‍🍳' }
+                  ].map((option) => (
+                    <button
+                      key={option.value}
+                      onClick={() => setCookingSkill(option.value)}
+                      className={`p-6 rounded-xl border-3 transition-all duration-300 hover:scale-105 ${
+                        cookingSkill === option.value
+                          ? 'border-yellow-500 bg-gradient-to-br from-yellow-900 to-yellow-800 shadow-xl'
+                          : 'border-gray-600 bg-gray-800 hover:border-gray-500'
+                      }`}
+                    >
+                      <div className="text-5xl mb-3">{option.icon}</div>
+                      <div className="vlv-heading text-xl mb-1">{option.label}</div>
+                      <div className="vlv-subtext text-sm">{option.desc}</div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Step 3: Meal Prep & Preferences */}
+            {currentStep === 3 && (
+              <div className="space-y-6 animate-fade-in">
+                <div>
+                  <h2 className="vlv-heading text-2xl mb-2">📦 Meal Prep Options</h2>
+                  <p className="vlv-subtext mb-6">Customize your recipes</p>
+                </div>
+
+                {/* Meal Prep Toggle */}
+                <div
+                  onClick={() => setMealPrep(!mealPrep)}
+                  className={`p-6 rounded-xl border-3 cursor-pointer transition-all duration-300 hover:scale-102 ${
+                    mealPrep
+                      ? 'border-yellow-500 bg-gradient-to-br from-yellow-900 to-yellow-800'
+                      : 'border-gray-600 bg-gray-800'
+                  }`}
+                >
+                  <div className="flex items-center gap-4">
+                    <div className="text-5xl">{mealPrep ? '✅' : '☐'}</div>
+                    <div>
+                      <h3 className="vlv-heading text-xl mb-1">Meal Prep Friendly</h3>
+                      <p className="vlv-subtext text-sm">
+                        Get recipes you can make in bulk and store for the week
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Dietary Preferences */}
+                <div>
+                  <label className="vlv-heading text-lg block mb-3">
+                    Dietary Preferences (Optional)
+                  </label>
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                    {[
+                      { value: 'high_protein', label: 'Extra Protein', icon: '💪' },
+                      { value: 'low_carb', label: 'Lower Carb', icon: '🥑' },
+                      { value: 'dairy_free', label: 'Dairy Free', icon: '🥛' }
+                    ].map((pref) => (
+                      <button
+                        key={pref.value}
+                        onClick={() => {
+                          if (dietaryPrefs.includes(pref.value)) {
+                            setDietaryPrefs(dietaryPrefs.filter(p => p !== pref.value));
+                          } else {
+                            setDietaryPrefs([...dietaryPrefs, pref.value]);
+                          }
+                        }}
+                        className={`p-4 rounded-lg border-2 transition-all ${
+                          dietaryPrefs.includes(pref.value)
+                            ? 'border-yellow-500 bg-yellow-900'
+                            : 'border-gray-600 bg-gray-800'
+                        }`}
+                      >
+                        <div className="text-3xl mb-1">{pref.icon}</div>
+                        <div className="vlv-text text-sm">{pref.label}</div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Step 4: Ingredients (Optional) */}
+            {currentStep === 4 && (
+              <div className="space-y-6 animate-fade-in">
+                <div>
+                  <h2 className="vlv-heading text-2xl mb-2">🥘 Any specific ingredients?</h2>
+                  <p className="vlv-subtext mb-6">Optional - we'll create amazing recipes either way</p>
+                </div>
+
+                <div>
+                  <label className="vlv-heading text-lg block mb-3">
+                    Ingredients (comma separated)
+                  </label>
+                  <input
+                    type="text"
+                    value={ingredientsInput}
+                    onChange={(e) => setIngredientsInput(e.target.value)}
+                    placeholder="e.g., chicken, rice, broccoli"
+                    className="w-full"
+                  />
+                  <p className="vlv-subtext text-sm mt-2">
+                    Leave blank for creative AI-generated recipes, or enter what you have on hand
+                  </p>
+                </div>
+
+                {/* Summary */}
+                <div className="card" style={{ backgroundColor: '#1A1A1A' }}>
+                  <h3 className="vlv-heading text-lg mb-3">📋 Your Selections:</h3>
+                  <ul className="vlv-text space-y-2">
+                    <li>⏱️ Time: <strong>{prepTime === 'quick' ? '< 15 min' : prepTime === '15min' ? '15 min' : prepTime === '30min' ? '30 min' : '30+ min'}</strong></li>
+                    <li>👨‍🍳 Skill: <strong className="capitalize">{cookingSkill}</strong></li>
+                    <li>📦 Meal Prep: <strong>{mealPrep ? 'Yes' : 'No'}</strong></li>
+                    {dietaryPrefs.length > 0 && (
+                      <li>🎯 Preferences: <strong>{dietaryPrefs.map(p => p.replace('_', ' ')).join(', ')}</strong></li>
+                    )}
+                  </ul>
+                </div>
+              </div>
+            )}
+
+            {/* Navigation */}
+            <div className="flex items-center justify-between mt-8 pt-6 border-t-2 border-gray-700">
+              {currentStep > 1 && (
+                <button
+                  onClick={() => setCurrentStep(currentStep - 1)}
+                  className="btn-secondary px-6 py-3"
+                >
+                  ← Back
+                </button>
+              )}
+
+              {currentStep < 4 && (
+                <button
+                  onClick={() => setCurrentStep(currentStep + 1)}
+                  disabled={!canProceed()}
+                  className="btn-primary px-6 py-3 ml-auto disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  Next →
+                </button>
+              )}
+
+              {currentStep === 4 && (
+                <button
+                  onClick={handleGenerate}
+                  disabled={isLoading}
+                  className="btn-primary px-8 py-4 ml-auto text-lg disabled:opacity-50"
+                >
+                  {isLoading ? `Generating... ${loadingSeconds}s` : '✨ Generate 3 Elite Recipes'}
+                </button>
+              )}
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* Loading State */}
+      {isLoading && (
+        <div className="card text-center py-12">
+          <div className="animate-spin text-6xl mb-4">⚡</div>
+          <h3 className="vlv-heading text-2xl mb-2">Crafting Your Elite Recipes...</h3>
+          <p className="vlv-text">AI is working its magic ({loadingSeconds}s)</p>
+          <div className="mt-6 max-w-md mx-auto bg-gray-800 rounded-full h-2">
+            <div className="bg-gradient-to-r from-yellow-400 to-yellow-600 h-2 rounded-full animate-pulse" style={{ width: '60%' }} />
+          </div>
+        </div>
+      )}
+
+      {/* Error State */}
+      {error && !isLoading && (
+        <div className="card" style={{ borderLeft: '6px solid var(--red)' }}>
+          <h3 className="vlv-heading text-xl mb-2 flex items-center gap-2">
+            <span className="text-3xl">⚠️</span>
+            Error Generating Recipes
+          </h3>
+          <p className="vlv-text mb-4">{error}</p>
+          <button
+            onClick={() => {
+              setError(null);
+              setShowResults(false);
+            }}
+            className="btn-primary"
+          >
+            Try Again
+          </button>
+        </div>
+      )}
+
+      {/* Results */}
+      {showResults && meals.length > 0 && (
+        <div className="space-y-6">
+          <div className="flex items-center justify-between">
+            <h2 className="vlv-heading text-3xl">🎉 Your 3 Elite Recipes</h2>
+            <button
+              onClick={() => {
+                setShowResults(false);
+                setCurrentStep(1);
+                setPrepTime('');
+                setCookingSkill('');
+                setMealPrep(false);
+                setDietaryPrefs([]);
+                setIngredientsInput('');
+              }}
+              className="btn-secondary"
+            >
+              ← New Search
+            </button>
+          </div>
+
+          {meals.map((meal, index) => (
+            <div key={index} className="card hover:scale-101 transition-transform">
+              <div className="flex items-start justify-between mb-4">
+                <div>
+                  <h3 className="vlv-heading text-2xl mb-2">{meal.title}</h3>
+                  <p className="vlv-text">{meal.description}</p>
+                </div>
+                <div className="text-4xl">{index === 0 ? '🥇' : index === 1 ? '🥈' : '🥉'}</div>
+              </div>
+
+              {/* Time & Difficulty */}
+              <div className="flex gap-4 mb-4 flex-wrap">
+                <span className="px-3 py-1 rounded-full text-sm font-bold" style={{ backgroundColor: '#1A1A1A', color: 'var(--yellow)' }}>
+                  ⏱️ {meal.prepTime + meal.cookTime} min
+                </span>
+                <span className="px-3 py-1 rounded-full text-sm font-bold capitalize" style={{ backgroundColor: '#1A1A1A', color: 'var(--yellow)' }}>
+                  👨‍🍳 {meal.difficulty}
+                </span>
+                <span className="px-3 py-1 rounded-full text-sm font-bold" style={{ backgroundColor: '#1A1A1A', color: 'var(--yellow)' }}>
+                  🍽️ {meal.servings} serving{meal.servings > 1 ? 's' : ''}
+                </span>
+              </div>
+
+              {/* Macros */}
+              <div className="grid grid-cols-4 gap-3 mb-6 p-4 rounded-lg" style={{ backgroundColor: '#1A1A1A' }}>
+                <div className="text-center">
+                  <p className="vlv-subtext text-xs mb-1">Calories</p>
+                  <p className="text-2xl font-bold" style={{ color: 'var(--yellow)' }}>{meal.macros.calories}</p>
+                </div>
+                <div className="text-center">
+                  <p className="vlv-subtext text-xs mb-1">Protein</p>
+                  <p className="text-2xl font-bold" style={{ color: 'var(--red)' }}>{meal.macros.protein}g</p>
+                </div>
+                <div className="text-center">
+                  <p className="vlv-subtext text-xs mb-1">Carbs</p>
+                  <p className="text-2xl font-bold" style={{ color: '#FFD700' }}>{meal.macros.carbs}g</p>
+                </div>
+                <div className="text-center">
+                  <p className="vlv-subtext text-xs mb-1">Fat</p>
+                  <p className="text-2xl font-bold" style={{ color: 'var(--blue)' }}>{meal.macros.fat}g</p>
+                </div>
+              </div>
+
+              {/* Ingredients */}
+              <div className="mb-6">
+                <h4 className="vlv-heading text-lg mb-3">Ingredients:</h4>
+                <ul className="vlv-text space-y-1">
+                  {meal.ingredients.map((ing, i) => (
+                    <li key={i}>• {ing.amount} {ing.item}</li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Instructions */}
+              <div className="mb-6">
+                <h4 className="vlv-heading text-lg mb-3">Instructions:</h4>
+                <ol className="vlv-text space-y-2">
+                  {meal.instructions.map((step, i) => (
+                    <li key={i} className="flex gap-3">
+                      <span className="font-bold" style={{ color: 'var(--yellow)' }}>{i + 1}.</span>
+                      <span>{step}</span>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+
+              {/* Meal Prep Notes */}
+              {meal.mealPrepNotes && (
+                <div className="mb-6 p-4 rounded-lg" style={{ backgroundColor: '#1A1A1A', borderLeft: '4px solid var(--green)' }}>
+                  <h4 className="vlv-heading text-sm mb-2">📦 Meal Prep Tip:</h4>
+                  <p className="vlv-text text-sm">{meal.mealPrepNotes}</p>
+                </div>
+              )}
+
+              {/* Action Buttons */}
+              <div className="flex gap-3">
+                <button
+                  onClick={() => handleSaveRecipe(meal)}
+                  className="btn-primary flex-1"
+                >
+                  💾 Save Recipe
+                </button>
+                <Link
+                  to="/tracker"
+                  className="btn-secondary flex-1 text-center"
+                >
+                  📊 Add to Tracker
+                </Link>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
-
-export default MealGenerator;

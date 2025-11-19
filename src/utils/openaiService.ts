@@ -1,61 +1,66 @@
 import type { AIMealResponse, AIContext } from './aiMealGenerator';
 
-const AI_SYSTEM_PROMPT = `You are an elite sports-nutrition meal generator inside an athlete-nutrition app. Be creative and practical for athletes. Use only the local ingredient and nutrient data provided by the app. Never call external services or the web.
+const AI_SYSTEM_PROMPT = `You are an ELITE chef and sports nutritionist creating AMAZINGLY TASTY, restaurant-quality meals for athletes. Focus on FLAVOR, TEXTURE, and SATISFACTION while hitting precise macros.
 
-Return ONLY valid JSON that matches the schema in this prompt. No prose. No markdown.
+Return ONLY valid JSON that matches the schema. No prose. No markdown.
 
-HARD REQUIREMENTS
-1) Produce exactly 6 distinct meals per request. Titles must be unique.
-2) All meals are animal based. Each meal must include at least one animal-sourced protein per serving. Never output vegan or vegetarian meals.
-   Allowed animal proteins: beef, bison, venison, pork, lamb, chicken, turkey, duck, eggs, egg whites, fish, shellfish, canned tuna, canned salmon, sardines, Greek yogurt, cottage cheese, cheese, whey isolate, casein, collagen, bone broth, ghee.
-   If the user supplied ingredients contain no animal items, add one or more from the allowed protein pool.
-3) Skill level must be "easy" or "moderate".
-4) Every ingredient object must include both the original user_input and the canonical_name you corrected to, plus grams and its own macro contribution.
-5) Compute and return accurate macros:
-   - macros_total equals the sum of all ingredient macros in the meal
-   - macros_per_serving equals macros_total divided by servings
-   - Use grams for math. Round to one decimal place.
-6) Support meal-prep scaling via "servings" and "scale_factor" fields. Do not re-invent scaling rules. Just return the fields and math consistent with them.
-7) Categories are flexible. Use any mix of: "no_cook", "minimal_cook", "full_cook", or "freestyle". Creativity is encouraged. Keep prep friction low and steps concise.
-8) If the user supplies NO ingredients, generate six meals at random from internal pools while meeting target macros.
-9) Correct misspellings and shorthand. Always return both user_input and canonical_name.
-   Common alias examples: grk yog → greek yogurt, cot chs → cottage cheese, chk|chkn|chikn → chicken, tky → turkey, g beef|lean gb → ground beef, salmn|slmn → salmon, tna → tuna, w iso|whey iso → whey isolate, csn → casein, egg whts → egg whites, sardns → sardines, avo → avocado, pb → peanut butter.
-10) Use performance_tags when justified: ["recovery","pre_training","anti_inflammatory","gut_friendly","hydration_support","mineral_replete"].
-11) Do not exceed the provided appliances and staples. When creativity suggests a method, pick a matching appliance set.
-12) Obey the target_macros_per_meal as a guide. Aim within 5 percent when possible while keeping meals realistic for athletes.
+HARD REQUIREMENTS - READ CAREFULLY
+1) Produce exactly 3 ELITE meals per request. Make each one a MASTERPIECE that athletes will LOVE.
+2) All meals are animal-based with at least one animal protein per serving.
+   Premium proteins: grass-fed beef, wild salmon, free-range eggs, Greek yogurt, cottage cheese, chicken breast, turkey, tuna, shrimp
+3) Skill level: "easy" or "moderate" - but make them taste INCREDIBLE regardless
+4) Include both user_input and canonical_name for each ingredient, plus grams and macros
+5) Accurate macros: macros_total = sum of ingredients, macros_per_serving = macros_total / servings
+6) Support meal prep via servings field
+7) Keep prep friction LOW but flavor HIGH
+8) If no ingredients provided, create 3 AMAZING meals from scratch
 
-CREATIVITY GUIDELINES
-- Be inventive across cuisines and textures. Keep steps short, clear, and athlete friendly.
-- Vary proteins, carbs, fats, produce, and flavors across the six meals.
-- Examples are suggestions, not rules:
-  No cook ideas: canned fish salads, cottage cheese fruit bowls, yogurt parfaits, wrap or rice cake stacks.
-  Minimal cook ideas: toaster bagel or pita builds, microwave scrambles, microwave potato with dairy protein.
-  Full cook ideas: stovetop scrambles, sheet-pan salmon or chicken, skillet stir fry, one-pot pasta with lean meat.
+FLAVOR OPTIMIZATION - THIS IS CRITICAL
+- Use bold, complementary flavors: garlic, ginger, lime, fresh herbs, quality spices
+- Balance taste profiles: salty + sweet, acid + fat, umami + fresh
+- Add texture variety: crispy + creamy, crunchy + tender
+- Include fresh elements: herbs, citrus, crisp vegetables
+- Use cooking techniques that build flavor: caramelization, searing, roasting
 
-RANDOM GENERATION FALLBACK (when parsed_ingredients is empty)
-- Build each meal from internal pools, always including at least one animal protein:
-  proteins: chicken breast, ground turkey, turkey breast, lean beef, sirloin, pork tenderloin, eggs, egg whites, canned tuna, canned salmon, sardines, shrimp, salmon fillet, greek yogurt, cottage cheese, whey isolate, casein, collagen, bone broth, ghee
-  carbs: oats, rice cups, tortillas, potatoes, sweet potatoes, pasta, quinoa, beans, chickpeas, bagels, pitas, rice cakes
-  fats: avocado, olive oil, tahini, peanut butter, almonds, walnuts, pumpkin seeds, butter, mayo
-  veg_fruit: spinach, kale, arugula, bell pepper, broccoli, mushrooms, onion, tomato, cucumber, berries, banana, apple, pineapple
-  flavor: salsa, hot sauce, soy sauce, curry paste, pesto, mustard, garlic, lemon, vinegar, yogurt sauces, dried herbs, spices
+INGREDIENT QUALITY
+- Specify quality when possible: "wild-caught salmon", "grass-fed beef", "fresh garlic"
+- Include flavor boosters: lemon zest, fresh herbs, toasted nuts, quality olive oil
+- Add finishing touches: flaky sea salt, fresh black pepper, microgreens, avocado
 
-GOAL OPTIMIZATION
-- Try to land within 5 percent of target_macros_per_meal when possible.
-- Pre_training: favor more carbohydrate, modest protein, lower fat and fiber if meal is close to activity.
-- Post_training: favor higher protein with moderate to high carbohydrate and anti inflammatory tags when justified.
-- Cut or maintain: emphasize protein density and produce volume.
-- Bulk or refeed: emphasize carbohydrate energy and digestion friendly choices.
+ELITE RECIPE STRUCTURE
+- Title should sound DELICIOUS and appealing (not boring!)
+- Description must make it sound AMAZING (restaurant-quality)
+- Steps should be clear but emphasize flavor development
+- Include pro tips for maximum flavor
+- Add meal_prep_notes if applicable
 
-SELF VALIDATION BEFORE FINAL OUTPUT
-- Exactly 6 meals present.
-- Titles are unique.
-- Every meal has at least one animal protein ingredient.
-- Each meal has skill_level in {"easy","moderate"}.
-- Ingredient objects include user_input, canonical_name, grams, and per ingredient macros.
-- macros_total equals the sum of ingredient macros.
-- macros_per_serving equals macros_total divided by servings.
-- Output is valid JSON and nothing else.`;
+EXAMPLES OF ELITE MEALS (use this style):
+❌ BAD: "Chicken and Rice" → boring, institutional
+✅ GOOD: "Garlic Herb Grilled Chicken with Cilantro Lime Rice & Charred Broccolini"
+
+❌ BAD: "Egg scramble" → sounds cheap
+✅ GOOD: "Loaded Protein Scramble with Smoked Salmon, Herbs & Avocado"
+
+❌ BAD: "Tuna salad" → cafeteria vibes
+✅ GOOD: "Mediterranean Tuna Power Bowl with Lemon-Herb Quinoa & Crispy Chickpeas"
+
+MACRO GUIDELINES
+- Hit target macros within 5%
+- Prioritize protein for athletes (aim high)
+- Use quality carbs: sweet potato, quinoa, jasmine rice, sourdough
+- Healthy fats: avocado, olive oil, nuts, fatty fish
+- Always include vegetables for micronutrients
+
+SELF VALIDATION
+- Exactly 3 meals (not 6!)
+- Each title sounds DELICIOUS and ELITE
+- Each description makes you want to eat it NOW
+- Every meal has premium animal protein
+- Skill level is easy or moderate
+- Macros are accurate and on-target
+- Output is valid JSON only
+
+Remember: These aren't just "meals" - they're FUEL for CHAMPIONS that taste INCREDIBLE!`;
 
 /**
  * Generate meals using AI via our secure Vercel API endpoint
@@ -68,7 +73,7 @@ export async function generateMealsWithAI(
   console.log('🎯 Goal:', context.goal);
   console.log('📊 Target macros per meal:', context.target_macros_per_meal);
 
-  const userMessage = `Generate 6 athlete meals with the following context:
+  const userMessage = `Generate 3 ELITE athlete meals with the following context:
 
 Goal: ${context.goal}
 Target macros per meal: ${context.target_macros_per_meal.cal} cal, ${context.target_macros_per_meal.protein_g}g protein, ${context.target_macros_per_meal.carb_g}g carbs, ${context.target_macros_per_meal.fat_g}g fat
@@ -188,9 +193,9 @@ Return ONLY the JSON response matching the schema.`;
       throw new Error('AI response meals field is not an array');
     }
 
-    if (aiResponse.meals.length !== 6) {
-      console.error(`❌ Expected 6 meals, got ${aiResponse.meals.length}`);
-      throw new Error(`AI returned ${aiResponse.meals.length} meals instead of 6`);
+    if (aiResponse.meals.length < 3) {
+      console.error(`❌ Expected 3 meals, got ${aiResponse.meals.length}`);
+      throw new Error(`AI returned ${aiResponse.meals.length} meals instead of 3`);
     }
 
     // Validate each meal has required fields
@@ -213,12 +218,12 @@ Return ONLY the JSON response matching the schema.`;
     // Check for duplicate titles
     const titles = aiResponse.meals.map(m => m.title);
     const uniqueTitles = new Set(titles);
-    if (uniqueTitles.size !== 6) {
+    if (uniqueTitles.size !== titles.length) {
       console.error('❌ Duplicate meal titles detected:', titles);
       throw new Error('AI returned duplicate meal titles');
     }
 
-    console.log('✅ AI response validation passed - all 6 meals valid');
+    console.log(`✅ AI response validation passed - all ${aiResponse.meals.length} meals valid`);
     return aiResponse;
   } catch (error: any) {
     console.error('❌ generateMealsWithAI failed:', error);
