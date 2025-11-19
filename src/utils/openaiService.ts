@@ -1,6 +1,51 @@
 import type { AIMealResponse, AIContext } from './aiMealGenerator';
 
-const AI_SYSTEM_PROMPT = `Return ONLY JSON: { "context": {...}, "meals": [3 items with: title, category (no_cook/minimal_cook/full_cook), skill_level (easy/moderate), ingredients with macros, instructions], "summary": {...} }. 3 high-protein meals. Hit macros ±5%. Animal protein. Brief.`;
+const AI_SYSTEM_PROMPT = `You are an elite chef creating 3 tasty, high-protein athlete meals.
+
+Return ONLY valid JSON matching this structure:
+{
+  "context": { /* echo back the context from user */ },
+  "meals": [
+    {
+      "title": "Delicious Meal Name",
+      "category": "full_cook", // or "minimal_cook" or "no_cook"
+      "skill_level": "easy", // or "moderate"
+      "appliances": ["stove", "oven"],
+      "prep_time_min": 10,
+      "cook_time_min": 20,
+      "servings": 1,
+      "scale_factor": 1,
+      "dietary_flags": ["animal_based"],
+      "ingredients": [
+        {
+          "user_input": "chicken breast",
+          "canonical_name": "Chicken Breast",
+          "source": "fridge",
+          "quantity": 6,
+          "unit": "oz",
+          "grams": 170,
+          "macros": { "cal": 187, "protein_g": 35, "carb_g": 0, "fat_g": 4, "fiber_g": 0 }
+        }
+      ],
+      "instructions": ["Step 1", "Step 2"],
+      "macros_per_serving": { "cal": 500, "protein_g": 40, "carb_g": 50, "fat_g": 15, "fiber_g": 8 },
+      "macros_total": { "cal": 500, "protein_g": 40, "carb_g": 50, "fat_g": 15, "fiber_g": 8 },
+      "performance_tags": ["recovery"],
+      "notes": "Great post-workout meal"
+    }
+  ],
+  "summary": {
+    "count_by_category": { "full_cook": 2, "minimal_cook": 1 },
+    "macro_sums_all_meals": { "cal": 1500, "protein_g": 120, "carb_g": 150, "fat_g": 45, "fiber_g": 24 }
+  }
+}
+
+Requirements:
+- Exactly 3 meals
+- Hit target macros within 5%
+- Include animal protein in each meal
+- All fields required
+- No markdown, just pure JSON`;
 
 
 /**
@@ -14,7 +59,13 @@ export async function generateMealsWithAI(
   console.log('🎯 Goal:', context.goal);
   console.log('📊 Target macros per meal:', context.target_macros_per_meal);
 
-  const userMessage = `Target: ${context.target_macros_per_meal.cal}cal, ${context.target_macros_per_meal.protein_g}gP, ${context.target_macros_per_meal.carb_g}gC, ${context.target_macros_per_meal.fat_g}gF per meal. ${userIngredients.length > 0 ? userIngredients.join(', ') : 'Any'}. JSON only.`;
+  const userMessage = `Create 3 meals matching these targets:
+
+Macros per meal: ${context.target_macros_per_meal.cal}cal, ${context.target_macros_per_meal.protein_g}g protein, ${context.target_macros_per_meal.carb_g}g carbs, ${context.target_macros_per_meal.fat_g}g fat
+
+${userIngredients.length > 0 ? `Ingredients to use: ${userIngredients.join(', ')}` : 'Any ingredients'}
+
+Return the complete JSON structure with all required fields.`;
 
   try {
     console.log('🚀 Starting API request to Vercel serverless function...');
@@ -34,7 +85,7 @@ export async function generateMealsWithAI(
           content: userMessage
         }
       ],
-      max_tokens: 1500
+      max_tokens: 2500
     };
 
     console.log('📤 Request details:', {
