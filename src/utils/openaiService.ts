@@ -1,6 +1,6 @@
 import type { AIMealResponse, AIContext } from './aiMealGenerator';
 
-const AI_SYSTEM_PROMPT = `Create 3 high-protein athlete meals. Return ONLY JSON: { "context": {...}, "meals": [3 items], "summary": {...} }. Include title, ingredients with macros, brief instructions. Hit target macros ±5%. Use animal protein (chicken/beef/salmon/eggs/yogurt). Keep descriptions short.`;
+const AI_SYSTEM_PROMPT = `Return ONLY JSON: { "context": {...}, "meals": [3 items with: title, category (no_cook/minimal_cook/full_cook), skill_level (easy/moderate), ingredients with macros, instructions], "summary": {...} }. 3 high-protein meals. Hit macros ±5%. Animal protein. Brief.`;
 
 
 /**
