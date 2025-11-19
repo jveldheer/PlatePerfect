@@ -5,4 +5,7 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   base: '/', // Use root path for Vercel deployment
+  build: {
+    chunkSizeWarningLimit: 1000, // Increase limit to 1000 KB (from default 500 KB)
+  },
 })
