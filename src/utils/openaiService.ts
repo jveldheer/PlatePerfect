@@ -162,14 +162,30 @@ Return ONLY the JSON response matching the schema.`;
 
     console.log('✅ Received', content.length, 'characters of content');
 
+    // Clean up response - remove markdown code blocks if present
+    let cleanedContent = content.trim();
+
+    // Remove ```json and ``` markers if present
+    if (cleanedContent.startsWith('```')) {
+      const lines = cleanedContent.split('\n');
+      // Remove first line (```json or ```)
+      lines.shift();
+      // Remove last line if it's just ```
+      if (lines[lines.length - 1].trim() === '```') {
+        lines.pop();
+      }
+      cleanedContent = lines.join('\n').trim();
+    }
+
     // Parse JSON with detailed error handling
     let aiResponse: AIMealResponse;
     try {
-      aiResponse = JSON.parse(content);
+      aiResponse = JSON.parse(cleanedContent);
       console.log('✅ Successfully parsed AI response');
     } catch (parseError: any) {
       console.error('❌ Failed to parse AI response as JSON:', parseError);
       console.error('Raw content received:', content);
+      console.error('Cleaned content:', cleanedContent);
       throw new Error(`Invalid JSON from AI: ${parseError.message}`);
     }
 

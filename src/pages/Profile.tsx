@@ -8,6 +8,7 @@ export default function Profile() {
   const [targetWeight, setTargetWeight] = useState<string>('');
   const [activityLevel, setActivityLevel] = useState<string>('16');
   const [showResults, setShowResults] = useState(false);
+  const [isCalculating, setIsCalculating] = useState(false);
 
   useEffect(() => {
     if (userProfile) {
@@ -20,25 +21,35 @@ export default function Profile() {
 
   const handleCalculate = (e: React.FormEvent) => {
     e.preventDefault();
+    console.log('🎯 Calculate button clicked!');
+
+    setIsCalculating(true);
 
     const current = parseFloat(currentWeight);
     const target = parseFloat(targetWeight);
     const activity = parseFloat(activityLevel);
 
+    console.log('📊 Input values:', { current, target, activity });
+
     if (isNaN(current) || current <= 0) {
       alert('Please enter a valid current weight');
+      setIsCalculating(false);
       return;
     }
 
     if (isNaN(target) || target <= 0) {
       alert('Please enter a valid target weight');
+      setIsCalculating(false);
       return;
     }
 
     if (isNaN(activity) || activity < 12 || activity > 20) {
       alert('Please enter an activity level between 12 and 20');
+      setIsCalculating(false);
       return;
     }
+
+    console.log('✅ Validation passed, setting user profile...');
 
     setUserProfile({
       currentWeightLb: current,
@@ -47,6 +58,17 @@ export default function Profile() {
     });
 
     setShowResults(true);
+    setIsCalculating(false);
+
+    console.log('✅ Profile set, results should show!');
+
+    // Scroll to results
+    setTimeout(() => {
+      const resultsSection = document.querySelector('[data-results]');
+      if (resultsSection) {
+        resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 100);
   };
 
   const goalDirection = getGoalDirection();
@@ -140,15 +162,26 @@ export default function Profile() {
           <button
             type="submit"
             className="btn-primary w-full"
+            disabled={isCalculating}
+            style={{ opacity: isCalculating ? 0.7 : 1, cursor: isCalculating ? 'not-allowed' : 'pointer' }}
           >
-            Calculate My Macros
+            {isCalculating ? '⏳ Calculating...' : '🎯 Calculate My Macros'}
           </button>
         </form>
+
+        {/* Debug Info (helps troubleshoot) */}
+        {showResults && !macroGoals && (
+          <div className="mt-4 p-4 bg-yellow-900/30 border border-yellow-500 rounded-lg">
+            <p className="text-yellow-200 text-sm">
+              ⚠️ Calculating your macros... If this doesn't disappear, there may be an issue with the calculation.
+            </p>
+          </div>
+        )}
       </div>
 
       {/* Results */}
       {showResults && macroGoals && (
-        <div className="space-y-6">
+        <div className="space-y-6" data-results>
           {/* Goal Direction Badge */}
           <div className="card text-center">
             <div className="flex flex-col items-center gap-3">
