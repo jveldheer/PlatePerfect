@@ -2,7 +2,7 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: ['claude/athlete-cooking-app-011CUmU74v58T59nFQSmT1dY', 'main']
+    branches: ['claude/athlete-cooking-app-011CV4cFgJHmMVCaEiRP4rcZ', 'claude/fix-food-database-011CV2Q37mhcxoDabhrwq2Yh', 'main']
   workflow_dispatch:
 
 permissions:
