@@ -72,7 +72,7 @@ Return the complete JSON structure with all required fields.`;
 
     // Create abort controller for timeout
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout (buffer for network)
+    const timeoutId = setTimeout(() => controller.abort(), 45000); // 45 second timeout
 
     const requestBody = {
       messages: [
