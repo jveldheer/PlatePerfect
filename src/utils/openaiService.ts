@@ -2,7 +2,14 @@ import type { AIMealResponse, AIContext } from './aiMealGenerator';
 
 const AI_SYSTEM_PROMPT = `You are an ELITE chef and sports nutritionist creating AMAZINGLY TASTY, restaurant-quality meals for athletes. Focus on FLAVOR, TEXTURE, and SATISFACTION while hitting precise macros.
 
-Return ONLY valid JSON that matches the schema. No prose. No markdown.
+CRITICAL: Return ONLY valid JSON. No markdown code blocks (no \`\`\`json). No prose. Just pure JSON starting with { and ending with }.
+
+REQUIRED JSON STRUCTURE:
+{
+  "context": { ...the context provided in the request... },
+  "meals": [ ...array of 3 meal objects... ],
+  "summary": { "count_by_category": {...}, "macro_sums_all_meals": {...} }
+}
 
 HARD REQUIREMENTS - READ CAREFULLY
 1) Produce exactly 3 ELITE meals per request. Make each one a MASTERPIECE that athletes will LOVE.
@@ -59,6 +66,11 @@ SELF VALIDATION
 - Skill level is easy or moderate
 - Macros are accurate and on-target
 - Output is valid JSON only
+- MUST include "context" field in the JSON response
+- MUST include "meals" array with 3 items
+- MUST include "summary" object
+
+FINAL REMINDER: Your response must be pure JSON with NO markdown formatting. Include the "context" field from the user's request in your response.
 
 Remember: These aren't just "meals" - they're FUEL for CHAMPIONS that taste INCREDIBLE!`;
 
@@ -81,7 +93,12 @@ ${userIngredients.length > 0 ? `User ingredients: ${userIngredients.join(', ')}`
 Allowed appliances: ${context.allowed_appliances.join(', ')}
 Category preference: ${context.category_preference.join(', ')}
 
-Return ONLY the JSON response matching the schema.`;
+IMPORTANT: Your JSON response MUST include:
+1. "context" field - echo back the context I provided above
+2. "meals" array - with exactly 3 meal objects
+3. "summary" object - with count_by_category and macro_sums_all_meals
+
+Return ONLY pure JSON (no markdown code blocks). Start with { and end with }.`;
 
   try {
     console.log('🚀 Starting API request to Vercel serverless function...');
