@@ -1,78 +1,18 @@
 import type { AIMealResponse, AIContext } from './aiMealGenerator';
 
-const AI_SYSTEM_PROMPT = `You are an ELITE chef and sports nutritionist creating AMAZINGLY TASTY, restaurant-quality meals for athletes. Focus on FLAVOR, TEXTURE, and SATISFACTION while hitting precise macros.
+const AI_SYSTEM_PROMPT = `You are an elite chef creating tasty, high-protein athlete meals.
 
-CRITICAL: Return ONLY valid JSON. No markdown code blocks (no \`\`\`json). No prose. Just pure JSON starting with { and ending with }.
+CRITICAL: Return ONLY valid JSON. No markdown. No prose. Pure JSON: { "context": {...}, "meals": [...], "summary": {...} }
 
-REQUIRED JSON STRUCTURE:
-{
-  "context": { ...the context provided in the request... },
-  "meals": [ ...array of 3 meal objects... ],
-  "summary": { "count_by_category": {...}, "macro_sums_all_meals": {...} }
-}
+REQUIREMENTS:
+1. Exactly 3 meals with animal protein (chicken, beef, salmon, eggs, yogurt, etc.)
+2. Hit target macros within 5%
+3. Include: title, category, skill_level (easy/moderate), ingredients with macros, instructions
+4. Make meals sound delicious but keep descriptions brief
+5. MUST include "context", "meals" (array of 3), and "summary" fields
 
-HARD REQUIREMENTS - READ CAREFULLY
-1) Produce exactly 3 ELITE meals per request. Make each one a MASTERPIECE that athletes will LOVE.
-2) All meals are animal-based with at least one animal protein per serving.
-   Premium proteins: grass-fed beef, wild salmon, free-range eggs, Greek yogurt, cottage cheese, chicken breast, turkey, tuna, shrimp
-3) Skill level: "easy" or "moderate" - but make them taste INCREDIBLE regardless
-4) Include both user_input and canonical_name for each ingredient, plus grams and macros
-5) Accurate macros: macros_total = sum of ingredients, macros_per_serving = macros_total / servings
-6) Support meal prep via servings field
-7) Keep prep friction LOW but flavor HIGH
-8) If no ingredients provided, create 3 AMAZING meals from scratch
+Return pure JSON immediately.`;
 
-FLAVOR OPTIMIZATION - THIS IS CRITICAL
-- Use bold, complementary flavors: garlic, ginger, lime, fresh herbs, quality spices
-- Balance taste profiles: salty + sweet, acid + fat, umami + fresh
-- Add texture variety: crispy + creamy, crunchy + tender
-- Include fresh elements: herbs, citrus, crisp vegetables
-- Use cooking techniques that build flavor: caramelization, searing, roasting
-
-INGREDIENT QUALITY
-- Specify quality when possible: "wild-caught salmon", "grass-fed beef", "fresh garlic"
-- Include flavor boosters: lemon zest, fresh herbs, toasted nuts, quality olive oil
-- Add finishing touches: flaky sea salt, fresh black pepper, microgreens, avocado
-
-ELITE RECIPE STRUCTURE
-- Title should sound DELICIOUS and appealing (not boring!)
-- Description must make it sound AMAZING (restaurant-quality)
-- Steps should be clear but emphasize flavor development
-- Include pro tips for maximum flavor
-- Add meal_prep_notes if applicable
-
-EXAMPLES OF ELITE MEALS (use this style):
-❌ BAD: "Chicken and Rice" → boring, institutional
-✅ GOOD: "Garlic Herb Grilled Chicken with Cilantro Lime Rice & Charred Broccolini"
-
-❌ BAD: "Egg scramble" → sounds cheap
-✅ GOOD: "Loaded Protein Scramble with Smoked Salmon, Herbs & Avocado"
-
-❌ BAD: "Tuna salad" → cafeteria vibes
-✅ GOOD: "Mediterranean Tuna Power Bowl with Lemon-Herb Quinoa & Crispy Chickpeas"
-
-MACRO GUIDELINES
-- Hit target macros within 5%
-- Prioritize protein for athletes (aim high)
-- Use quality carbs: sweet potato, quinoa, jasmine rice, sourdough
-- Healthy fats: avocado, olive oil, nuts, fatty fish
-- Always include vegetables for micronutrients
-
-SELF VALIDATION
-- Exactly 3 meals (not 6!)
-- Each title sounds DELICIOUS and ELITE
-- Each description makes you want to eat it NOW
-- Every meal has premium animal protein
-- Skill level is easy or moderate
-- Macros are accurate and on-target
-- Output is valid JSON only
-- MUST include "context" field in the JSON response
-- MUST include "meals" array with 3 items
-- MUST include "summary" object
-
-FINAL REMINDER: Your response must be pure JSON with NO markdown formatting. Include the "context" field from the user's request in your response.
-
-Remember: These aren't just "meals" - they're FUEL for CHAMPIONS that taste INCREDIBLE!`;
 
 /**
  * Generate meals using AI via our secure Vercel API endpoint
@@ -85,27 +25,14 @@ export async function generateMealsWithAI(
   console.log('🎯 Goal:', context.goal);
   console.log('📊 Target macros per meal:', context.target_macros_per_meal);
 
-  const userMessage = `Generate 3 ELITE athlete meals with the following context:
-
-Goal: ${context.goal}
-Target macros per meal: ${context.target_macros_per_meal.cal} cal, ${context.target_macros_per_meal.protein_g}g protein, ${context.target_macros_per_meal.carb_g}g carbs, ${context.target_macros_per_meal.fat_g}g fat
-${userIngredients.length > 0 ? `User ingredients: ${userIngredients.join(', ')}` : 'No specific ingredients - generate creative meals'}
-Allowed appliances: ${context.allowed_appliances.join(', ')}
-Category preference: ${context.category_preference.join(', ')}
-
-IMPORTANT: Your JSON response MUST include:
-1. "context" field - echo back the context I provided above
-2. "meals" array - with exactly 3 meal objects
-3. "summary" object - with count_by_category and macro_sums_all_meals
-
-Return ONLY pure JSON (no markdown code blocks). Start with { and end with }.`;
+  const userMessage = `3 meals. Target per meal: ${context.target_macros_per_meal.cal}cal, ${context.target_macros_per_meal.protein_g}g protein, ${context.target_macros_per_meal.carb_g}g carbs, ${context.target_macros_per_meal.fat_g}g fat. ${userIngredients.length > 0 ? `Use: ${userIngredients.join(', ')}` : 'Any ingredients'}. Return JSON with "context", "meals" array (3 items), "summary".`;
 
   try {
     console.log('🚀 Starting API request to Vercel serverless function...');
 
     // Create abort controller for timeout
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 90000); // 90 second timeout
+    const timeoutId = setTimeout(() => controller.abort(), 20000); // 20 second timeout
 
     const requestBody = {
       messages: [
@@ -118,7 +45,7 @@ Return ONLY pure JSON (no markdown code blocks). Start with { and end with }.`;
           content: userMessage
         }
       ],
-      max_tokens: 3000
+      max_tokens: 2000
     };
 
     console.log('📤 Request details:', {
