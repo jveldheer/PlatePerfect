@@ -16,7 +16,7 @@ import Settings from './pages/Settings';
 
 function App() {
   return (
-    <Router basename="/PlatePerfect">
+    <Router>
       <MacroProvider>
         <ErrorBoundary>
           <div className="min-h-screen" style={{ backgroundColor: 'var(--black)' }}>
