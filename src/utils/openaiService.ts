@@ -1,17 +1,6 @@
 import type { AIMealResponse, AIContext } from './aiMealGenerator';
 
-const AI_SYSTEM_PROMPT = `You are an elite chef creating tasty, high-protein athlete meals.
-
-CRITICAL: Return ONLY valid JSON. No markdown. No prose. Pure JSON: { "context": {...}, "meals": [...], "summary": {...} }
-
-REQUIREMENTS:
-1. Exactly 3 meals with animal protein (chicken, beef, salmon, eggs, yogurt, etc.)
-2. Hit target macros within 5%
-3. Include: title, category, skill_level (easy/moderate), ingredients with macros, instructions
-4. Make meals sound delicious but keep descriptions brief
-5. MUST include "context", "meals" (array of 3), and "summary" fields
-
-Return pure JSON immediately.`;
+const AI_SYSTEM_PROMPT = `Create 3 high-protein athlete meals. Return ONLY JSON: { "context": {...}, "meals": [3 items], "summary": {...} }. Include title, ingredients with macros, brief instructions. Hit target macros ±5%. Use animal protein (chicken/beef/salmon/eggs/yogurt). Keep descriptions short.`;
 
 
 /**
@@ -25,14 +14,14 @@ export async function generateMealsWithAI(
   console.log('🎯 Goal:', context.goal);
   console.log('📊 Target macros per meal:', context.target_macros_per_meal);
 
-  const userMessage = `3 meals. Target per meal: ${context.target_macros_per_meal.cal}cal, ${context.target_macros_per_meal.protein_g}g protein, ${context.target_macros_per_meal.carb_g}g carbs, ${context.target_macros_per_meal.fat_g}g fat. ${userIngredients.length > 0 ? `Use: ${userIngredients.join(', ')}` : 'Any ingredients'}. Return JSON with "context", "meals" array (3 items), "summary".`;
+  const userMessage = `Target: ${context.target_macros_per_meal.cal}cal, ${context.target_macros_per_meal.protein_g}gP, ${context.target_macros_per_meal.carb_g}gC, ${context.target_macros_per_meal.fat_g}gF per meal. ${userIngredients.length > 0 ? userIngredients.join(', ') : 'Any'}. JSON only.`;
 
   try {
     console.log('🚀 Starting API request to Vercel serverless function...');
 
     // Create abort controller for timeout
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 20000); // 20 second timeout
+    const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout (buffer for network)
 
     const requestBody = {
       messages: [
@@ -45,7 +34,7 @@ export async function generateMealsWithAI(
           content: userMessage
         }
       ],
-      max_tokens: 2000
+      max_tokens: 1500
     };
 
     console.log('📤 Request details:', {

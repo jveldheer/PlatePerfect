@@ -138,7 +138,15 @@ export default function MealGenerator() {
       }
     } catch (err: any) {
       console.error('Error generating meals:', err);
-      setError(err.message || 'Failed to generate meals. Please check your settings and try again.');
+
+      // Provide helpful error messages
+      if (err.message?.includes('timed out') || err.message?.includes('AbortError')) {
+        setError('Request took too long (>30s). The AI is busy - please try again in a moment. If this persists, try with fewer/simpler ingredients.');
+      } else if (err.message?.includes('context field')) {
+        setError('AI response format error. Please try again - this usually resolves on retry.');
+      } else {
+        setError(err.message || 'Failed to generate meals. Please try again.');
+      }
     } finally {
       setIsLoading(false);
     }
