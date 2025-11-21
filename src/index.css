@@ -225,7 +225,7 @@
   }
 
   .vlv-subtext {
-    color: var(--gray);
+    color: #E0E0E0;
     font-family: 'Inter', sans-serif;
     font-size: 1rem;
     font-weight: 500;
@@ -287,9 +287,19 @@
     line-height: 1.5 !important;
   }
 
+  /* Option elements in select dropdowns - ensure maximum contrast */
+  option {
+    background-color: var(--input-bg) !important;
+    color: #FFFFFF !important;
+    padding: 0.5rem !important;
+    font-size: 1.1rem !important;
+    font-weight: 500 !important;
+  }
+
   input::placeholder, textarea::placeholder {
-    color: var(--gray) !important;
+    color: #E5E5E5 !important;
     opacity: 1 !important;
+    font-weight: 400 !important;
   }
 
   input:focus, textarea:focus, select:focus {
