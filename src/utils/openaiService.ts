@@ -72,7 +72,7 @@ Return the complete JSON structure with all required fields.`;
 
     // Create abort controller for timeout
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 45000); // 45 second timeout
+    const timeoutId = setTimeout(() => controller.abort(), 35000); // 35 second timeout (5s buffer for Vercel 30s limit)
 
     const requestBody = {
       messages: [
