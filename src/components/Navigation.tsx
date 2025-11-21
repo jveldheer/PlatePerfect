@@ -10,15 +10,13 @@ export default function Navigation() {
   };
 
   const navLinks = [
-    { path: '/', label: 'Home' },
-    { path: '/skills', label: 'Cooking Skills' },
-    { path: '/recipes', label: 'Recipes' },
-    { path: '/supplements', label: 'Supplements' },
-    { path: '/meal-generator', label: 'Fuel Generator' },
-    { path: '/saved-recipes', label: 'Saved Recipes' },
-    { path: '/tracker', label: 'Macro Tracker' },
-    { path: '/profile', label: 'My Goals' },
-    { path: '/settings', label: 'Settings' },
+    { path: '/', label: '🏠 Dashboard' },
+    { path: '/add-food', label: '➕ Add Food' },
+    { path: '/recipes', label: '🍳 Recipes' },
+    { path: '/meal-generator', label: '🤖 Generator' },
+    { path: '/skills', label: '📚 Skills' },
+    { path: '/supplements', label: '💊 Supplements' },
+    { path: '/settings', label: '⚙️ Settings' },
   ];
 
   return (
