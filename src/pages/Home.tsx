@@ -5,13 +5,13 @@ export default function Home() {
     <div className="space-y-8 sm:space-y-12">
       {/* Hero Section */}
       <section className="text-center py-8 sm:py-12 px-4">
-        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-3 sm:mb-4">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-3 sm:mb-4">
           Welcome to Veldheer Fuel Lab
         </h1>
-        <p className="text-lg sm:text-xl text-gray-600 mb-2">
+        <p className="text-lg sm:text-xl text-gray-200 mb-2">
           Master Cooking Skills. Fuel Your Performance.
         </p>
-        <p className="text-base sm:text-lg text-gray-500 max-w-3xl mx-auto mb-6 sm:mb-8">
+        <p className="text-base sm:text-lg text-gray-300 max-w-3xl mx-auto mb-6 sm:mb-8">
           A comprehensive cooking education platform designed for young athletes (ages 13-25)
           who want to take control of their nutrition and maximize their athletic potential.
         </p>
@@ -60,7 +60,7 @@ export default function Home() {
 
       {/* Getting Started Section */}
       <section>
-        <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 sm:mb-6 text-center px-4">
+        <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4 sm:mb-6 text-center px-4">
           Getting Started
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
@@ -127,10 +127,10 @@ export default function Home() {
 
       {/* Nutrition Focus */}
       <section className="text-center px-4">
-        <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3 sm:mb-4">
+        <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3 sm:mb-4">
           Nutrition for Peak Performance
         </h2>
-        <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto mb-4 sm:mb-6">
+        <p className="text-base sm:text-lg text-gray-200 max-w-3xl mx-auto mb-4 sm:mb-6">
           Understanding what to eat and when is just as important as your training.
           Every recipe includes:
         </p>

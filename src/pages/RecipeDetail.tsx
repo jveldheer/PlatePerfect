@@ -27,7 +27,7 @@ export default function RecipeDetail() {
   if (!recipe) {
     return (
       <div className="text-center py-12">
-        <h2 className="text-2xl font-bold text-gray-900 mb-4">Recipe Not Found</h2>
+        <h2 className="text-2xl font-bold text-white mb-4">Recipe Not Found</h2>
         <Link to="/recipes" className="btn-primary">
           Back to Recipes
         </Link>

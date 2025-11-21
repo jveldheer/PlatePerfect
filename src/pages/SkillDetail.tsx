@@ -9,7 +9,7 @@ export default function SkillDetail() {
   if (!skill) {
     return (
       <div className="text-center py-12">
-        <h2 className="text-2xl font-bold text-gray-900 mb-4">Skill Not Found</h2>
+        <h2 className="text-2xl font-bold text-white mb-4">Skill Not Found</h2>
         <Link to="/skills" className="btn-primary">
           Back to Skills
         </Link>

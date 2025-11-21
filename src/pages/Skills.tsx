@@ -62,8 +62,8 @@ export default function Skills() {
   return (
     <div className="space-y-6 sm:space-y-8">
       <div className="text-center px-4">
-        <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">Cooking Skills</h1>
-        <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto">
+        <h1 className="text-3xl sm:text-4xl font-bold text-white mb-3 sm:mb-4">Cooking Skills</h1>
+        <p className="text-base sm:text-lg text-gray-200 max-w-3xl mx-auto">
           Master fundamental cooking techniques with detailed, step-by-step instructions.
           Each skill includes tips, common mistakes, and thorough explanations for complete beginners.
         </p>
