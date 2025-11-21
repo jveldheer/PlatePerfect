@@ -89,7 +89,7 @@ class ErrorBoundary extends Component<Props, State> {
                 Try Again
               </button>
               <button
-                onClick={() => window.location.href = '/PlatePerfect'}
+                onClick={() => window.location.href = '/'}
                 className="flex-1 bg-white text-gray-700 font-semibold py-3 px-6 rounded-lg border-2 border-gray-300 hover:bg-gray-50 transition-all"
               >
                 Go to Home
