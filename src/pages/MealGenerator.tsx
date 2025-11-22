@@ -106,12 +106,26 @@ export default function MealGenerator() {
         servings_default: mealPrep ? 4 : 1,
       };
 
+      // Convert prep time to max total minutes
+      const maxTotalTime =
+        prepTime === 'quick' ? 15 :
+        prepTime === '15min' ? 15 :
+        prepTime === '30min' ? 30 :
+        prepTime === '30plus' ? 60 :
+        undefined;
+
       // Generate meals one at a time with progress updates
       const generatedMeals: any[] = [];
 
       for (let i = 1; i <= 3; i++) {
         setGenerationProgress(i);
-        const meal = await generateSingleMeal(context, ingredientList, i);
+        const meal = await generateSingleMeal(
+          context,
+          ingredientList,
+          i,
+          cookingSkill, // Pass skill level
+          maxTotalTime  // Pass time constraint
+        );
         generatedMeals.push(meal);
       }
 
@@ -131,7 +145,7 @@ export default function MealGenerator() {
           },
           ingredients: meal.ingredients?.map((ing: any) => ({
             item: ing.canonical_name || ing.user_input || 'ingredient',
-            amount: `${ing.grams || 100}g`,
+            amount: ing.amount || `${ing.grams || 100}g`,
             grams: ing.grams || 100
           })) || [],
           instructions: meal.instructions || meal.steps || [],

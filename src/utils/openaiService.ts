@@ -1,6 +1,24 @@
 import type { AIMealResponse, AIContext } from './aiMealGenerator';
 
-const AI_SYSTEM_PROMPT = `You're a creative chef making ONE unique, delicious high-protein meal for foodie millennials. Keep it simple but add awesome flavor twists.
+const AI_SYSTEM_PROMPT = `You're a creative chef creating ONE unique, delicious high-protein meal for foodie millennials.
+
+CRITICAL MEASUREMENT RULES:
+- Meat/Poultry/Fish: Use pounds (lb) or ounces (oz) ONLY
+- Liquids: Use cups, tablespoons (tbsp), teaspoons (tsp)
+- Dry ingredients: Use cups, tablespoons (tbsp), teaspoons (tsp)
+- Small amounts: Use teaspoons (tsp) or tablespoons (tbsp)
+- NEVER use grams - always US imperial measurements
+
+TIMING RULES (BE REALISTIC - DON'T GUESS):
+Common cooking times:
+- White rice: 18-20min, Brown rice: 40-45min, Quinoa: 15min, Pasta: 8-12min
+- Pan-sear steak (medium): 3-4min per side + 2min rest
+- Pan-sear chicken breast: 6-7min per side
+- Grill chicken thighs: 5-6min per side
+- Roast vegetables 425°F: 20-25min
+- Sauté vegetables: 5-8min
+- Boil eggs: 6-7min soft, 10-12min hard
+Total time = prep_time_min + cook_time_min (if user wants 15min total, rice alone won't work)
 
 Return ONLY valid JSON:
 {
@@ -12,18 +30,21 @@ Return ONLY valid JSON:
   "cook_time_min": 20,
   "servings": 1,
   "ingredients": [
-    { "canonical_name": "Ingredient", "grams": 170, "macros": { "cal": 187, "protein_g": 35, "carb_g": 0, "fat_g": 4, "fiber_g": 0 } }
+    {
+      "canonical_name": "Chicken Breast",
+      "amount": "6 oz",
+      "macros": { "cal": 187, "protein_g": 35, "carb_g": 0, "fat_g": 4, "fiber_g": 0 }
+    }
   ],
-  "instructions": ["Step 1", "Step 2"],
+  "instructions": ["Detailed step with specific temps/times"],
   "macros_per_serving": { "cal": 500, "protein_g": 40, "carb_g": 50, "fat_g": 15, "fiber_g": 8 }
 }
 
-IMPORTANT RULES:
-- Hit macros ±5%
-- Include animal protein
+QUALITY RULES:
 - Make it CREATIVE and UNIQUE (not basic/boring)
 - Add interesting spices, sauces, or cooking techniques
-- Think: simple but restaurant-quality flavor
+- Simple but restaurant-quality flavor
+- Instructions must be clear and specific (include temps, times)
 - All fields required, pure JSON only`;
 
 
@@ -33,19 +54,52 @@ IMPORTANT RULES:
 export async function generateSingleMeal(
   context: AIContext,
   userIngredients: string[],
-  mealNumber: number
+  mealNumber: number,
+  skillLevel?: string,
+  maxTotalTime?: number
 ): Promise<any> {
   console.log(`🍽️  Generating meal ${mealNumber}/3...`);
 
-  const userMessage = `Create 1 CREATIVE meal (meal #${mealNumber}) matching:
-Macros: ${context.target_macros_per_meal.cal}cal, ${context.target_macros_per_meal.protein_g}g protein, ${context.target_macros_per_meal.carb_g}g carbs, ${context.target_macros_per_meal.fat_g}g fat
-${userIngredients.length > 0 ? `Feature: ${userIngredients.join(', ')}` : 'Any ingredients'}
+  // Build strict constraints
+  const timeConstraint = maxTotalTime
+    ? `CRITICAL TIME LIMIT: prep_time_min + cook_time_min MUST be ≤ ${maxTotalTime} minutes total.
+${maxTotalTime <= 15 ? 'For quick meals, use: pre-cooked rice/quinoa, tortillas, quick-cooking proteins (shrimp, thin-cut chicken, eggs), no-cook bases (wraps, salads).' : ''}
+Be realistic - if rice takes 18min to cook, you can't fit it in a 15min meal. Account for actual cooking times.`
+    : '';
 
-CRITICAL: This is meal #${mealNumber}, so make it COMPLETELY DIFFERENT from other meals. Vary the:
-- Cooking method (grilled, pan-seared, roasted, air-fried, etc.)
-- Cuisine style (Mediterranean, Asian, Mexican, etc.)
-- Sides/base (not just quinoa - try cauliflower rice, sweet potato, pasta, wraps, etc.)
-- Flavor profile (spicy, tangy, savory, umami, etc.)
+  const skillConstraint = skillLevel
+    ? `SKILL LEVEL: ${skillLevel}. ${
+        skillLevel === 'beginner' ? 'Use simple techniques only - no complex knife work, no precise temperatures, max 5 ingredients.' :
+        skillLevel === 'intermediate' ? 'Can use moderate techniques - some knife work, basic sauce-making, 5-8 ingredients.' :
+        'Can use advanced techniques - precision cooking, complex flavors, 8+ ingredients.'
+      }`
+    : '';
+
+  const userMessage = `Create 1 CREATIVE meal (meal #${mealNumber}) with these STRICT requirements:
+
+MACROS (±5%):
+- Calories: ${context.target_macros_per_meal.cal}
+- Protein: ${context.target_macros_per_meal.protein_g}g
+- Carbs: ${context.target_macros_per_meal.carb_g}g
+- Fat: ${context.target_macros_per_meal.fat_g}g
+
+${timeConstraint}
+
+${skillConstraint}
+
+${userIngredients.length > 0 ? `MUST FEATURE: ${userIngredients.join(', ')}` : 'Use any ingredients'}
+
+VARIETY (meal #${mealNumber} of 3):
+Make this COMPLETELY DIFFERENT from other meals by varying:
+- Cooking method: ${mealNumber === 1 ? 'grilled/pan-seared' : mealNumber === 2 ? 'roasted/baked' : 'air-fried/sautéed'}
+- Cuisine: ${mealNumber === 1 ? 'Mediterranean/Middle Eastern' : mealNumber === 2 ? 'Asian/Latin' : 'American/European'}
+- Base: ${mealNumber === 1 ? 'rice/quinoa/farro' : mealNumber === 2 ? 'sweet potato/cauliflower rice/pasta' : 'wraps/flatbread/salad'}
+- Flavor: ${mealNumber === 1 ? 'bright/citrusy/herbaceous' : mealNumber === 2 ? 'spicy/bold/umami' : 'savory/rich/tangy'}
+
+MEASUREMENTS:
+- Meat: oz or lb (e.g., "6 oz chicken breast", "0.5 lb ground beef")
+- Liquids: cups, tbsp, tsp (e.g., "1 cup water", "2 tbsp olive oil")
+- Dry goods: cups, tbsp, tsp (e.g., "1/2 cup rice", "1 tsp cumin")
 
 Return complete JSON with creative title and mouthwatering description.`;
 
@@ -67,7 +121,7 @@ Return complete JSON with creative title and mouthwatering description.`;
           content: userMessage
         }
       ],
-      max_tokens: 800
+      max_tokens: 1000
     };
 
     console.log('📤 Request details:', {
@@ -170,7 +224,21 @@ Return complete JSON with creative title and mouthwatering description.`;
       throw new Error('Meal missing ingredients array');
     }
 
-    console.log(`✅ Meal ${mealNumber} validated: ${meal.title}`);
+    // Validate time constraints if provided
+    if (maxTotalTime) {
+      const totalTime = (meal.prep_time_min || 0) + (meal.cook_time_min || 0);
+      if (totalTime > maxTotalTime) {
+        console.warn(`⚠️ Meal ${mealNumber} exceeds time limit: ${totalTime}min > ${maxTotalTime}min`);
+        // Still return it but log the warning
+      }
+    }
+
+    // Validate skill level constraints
+    if (skillLevel === 'beginner' && meal.ingredients?.length > 7) {
+      console.warn(`⚠️ Meal ${mealNumber} has too many ingredients for beginner: ${meal.ingredients.length}`);
+    }
+
+    console.log(`✅ Meal ${mealNumber} validated: ${meal.title} (${meal.prep_time_min + meal.cook_time_min}min total)`);
     return meal;
   } catch (error: any) {
     console.error(`❌ generateSingleMeal ${mealNumber} failed:`, error);
@@ -198,7 +266,7 @@ export async function generateMealsWithAI(
   const meals: any[] = [];
 
   for (let i = 1; i <= 3; i++) {
-    const meal = await generateSingleMeal(context, userIngredients, i);
+    const meal = await generateSingleMeal(context, userIngredients, i, undefined, undefined);
     meals.push(meal);
   }
 
