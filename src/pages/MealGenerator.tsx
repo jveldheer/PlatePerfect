@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useMacros } from '../contexts/MacroContext';
-import { generateMealsWithAI } from '../utils/openaiService';
+import { generateSingleMeal } from '../utils/openaiService';
 
 interface GeneratedMeal {
   title: string;
@@ -45,6 +45,7 @@ export default function MealGenerator() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loadingSeconds, setLoadingSeconds] = useState(0);
+  const [generationProgress, setGenerationProgress] = useState<number>(0);
 
   // Track loading time
   useEffect(() => {
@@ -63,6 +64,7 @@ export default function MealGenerator() {
   const handleGenerate = async () => {
     setIsLoading(true);
     setError(null);
+    setGenerationProgress(0);
 
     try {
       // Build enhanced AI context based on user answers
@@ -86,29 +88,35 @@ export default function MealGenerator() {
 
       // Build context for AI with all required fields
       const context = {
-        athlete_id: 'user-001', // Default user ID
-        goal: 'maintain' as const, // Default goal - user can adjust based on their profile
+        athlete_id: 'user-001',
+        goal: 'maintain' as const,
         target_macros_per_meal: {
-          cal: Math.round(remainingMacros.calories / 3), // Divide by 3 meals
+          cal: Math.round(remainingMacros.calories / 3),
           protein_g: Math.round(remainingMacros.protein_g / 3),
           carb_g: Math.round(remainingMacros.carbs_g / 3),
           fat_g: Math.round(remainingMacros.fat_g / 3),
-          fiber_g: 8 // Default fiber target per meal
+          fiber_g: 8
         },
-        creative_mode: true, // Enable creative recipe generation
+        creative_mode: true,
         category_preference: prepTime === 'quick' ? ['no_cook', 'minimal_cook'] :
                            prepTime === '15min' ? ['minimal_cook', 'full_cook'] :
                            ['full_cook', 'minimal_cook'],
         allowed_appliances: ["stove", "oven", "microwave", "air_fryer", "blender"],
-        include_staples: true, // Allow common pantry staples
-        servings_default: mealPrep ? 4 : 1, // More servings if meal prep is enabled
+        include_staples: true,
+        servings_default: mealPrep ? 4 : 1,
       };
 
-      const response = await generateMealsWithAI(context, ingredientList);
+      // Generate meals one at a time with progress updates
+      const generatedMeals: any[] = [];
 
-      if (response.meals && response.meals.length > 0) {
-        // Take only first 3 meals
-        const formattedMeals = response.meals.slice(0, 3).map((meal: any) => ({
+      for (let i = 1; i <= 3; i++) {
+        setGenerationProgress(i);
+        const meal = await generateSingleMeal(context, ingredientList, i);
+        generatedMeals.push(meal);
+      }
+
+      if (generatedMeals.length > 0) {
+        const formattedMeals = generatedMeals.map((meal: any) => ({
           title: meal.title,
           description: meal.description || 'Delicious athlete-focused meal',
           prepTime: meal.prep_time_min || 10,
@@ -126,7 +134,7 @@ export default function MealGenerator() {
             amount: `${ing.grams || 100}g`,
             grams: ing.grams || 100
           })) || [],
-          instructions: meal.steps || [],
+          instructions: meal.instructions || meal.steps || [],
           tags: meal.tags || [],
           mealPrepNotes: meal.meal_prep_notes
         }));
@@ -470,9 +478,13 @@ export default function MealGenerator() {
         <div className="card text-center py-12">
           <div className="animate-spin text-6xl mb-4">⚡</div>
           <h3 className="vlv-heading text-2xl mb-2">Crafting Your Elite Recipes...</h3>
-          <p className="vlv-text">AI is working its magic ({loadingSeconds}s)</p>
-          <div className="mt-6 max-w-md mx-auto bg-gray-800 rounded-full h-2">
-            <div className="bg-gradient-to-r from-yellow-400 to-yellow-600 h-2 rounded-full animate-pulse" style={{ width: '60%' }} />
+          <p className="vlv-text mb-2">Generating meal {generationProgress}/3 ({loadingSeconds}s)</p>
+          <p className="vlv-subtext text-sm mb-4">Each meal takes 5-10 seconds to generate</p>
+          <div className="mt-6 max-w-md mx-auto bg-gray-800 rounded-full h-3">
+            <div
+              className="bg-gradient-to-r from-yellow-400 to-yellow-600 h-3 rounded-full transition-all duration-500"
+              style={{ width: `${(generationProgress / 3) * 100}%` }}
+            />
           </div>
         </div>
       )}
