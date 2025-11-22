@@ -1,21 +1,30 @@
 import type { AIMealResponse, AIContext } from './aiMealGenerator';
 
-const AI_SYSTEM_PROMPT = `Create 1 high-protein athlete meal. Return ONLY valid JSON:
+const AI_SYSTEM_PROMPT = `You're a creative chef making ONE unique, delicious high-protein meal for foodie millennials. Keep it simple but add awesome flavor twists.
+
+Return ONLY valid JSON:
 {
-  "title": "Meal Name",
+  "title": "Creative Meal Name",
+  "description": "Brief mouthwatering description",
   "category": "full_cook",
   "skill_level": "easy",
   "prep_time_min": 10,
   "cook_time_min": 20,
   "servings": 1,
   "ingredients": [
-    { "canonical_name": "Chicken", "grams": 170, "macros": { "cal": 187, "protein_g": 35, "carb_g": 0, "fat_g": 4, "fiber_g": 0 } }
+    { "canonical_name": "Ingredient", "grams": 170, "macros": { "cal": 187, "protein_g": 35, "carb_g": 0, "fat_g": 4, "fiber_g": 0 } }
   ],
   "instructions": ["Step 1", "Step 2"],
   "macros_per_serving": { "cal": 500, "protein_g": 40, "carb_g": 50, "fat_g": 15, "fiber_g": 8 }
 }
 
-Rules: Hit macros ±5%, include animal protein, all fields required, pure JSON.`;
+IMPORTANT RULES:
+- Hit macros ±5%
+- Include animal protein
+- Make it CREATIVE and UNIQUE (not basic/boring)
+- Add interesting spices, sauces, or cooking techniques
+- Think: simple but restaurant-quality flavor
+- All fields required, pure JSON only`;
 
 
 /**
@@ -28,10 +37,17 @@ export async function generateSingleMeal(
 ): Promise<any> {
   console.log(`🍽️  Generating meal ${mealNumber}/3...`);
 
-  const userMessage = `Create 1 meal matching:
+  const userMessage = `Create 1 CREATIVE meal (meal #${mealNumber}) matching:
 Macros: ${context.target_macros_per_meal.cal}cal, ${context.target_macros_per_meal.protein_g}g protein, ${context.target_macros_per_meal.carb_g}g carbs, ${context.target_macros_per_meal.fat_g}g fat
-${userIngredients.length > 0 ? `Use: ${userIngredients.join(', ')}` : 'Any ingredients'}
-Return JSON.`;
+${userIngredients.length > 0 ? `Feature: ${userIngredients.join(', ')}` : 'Any ingredients'}
+
+CRITICAL: This is meal #${mealNumber}, so make it COMPLETELY DIFFERENT from other meals. Vary the:
+- Cooking method (grilled, pan-seared, roasted, air-fried, etc.)
+- Cuisine style (Mediterranean, Asian, Mexican, etc.)
+- Sides/base (not just quinoa - try cauliflower rice, sweet potato, pasta, wraps, etc.)
+- Flavor profile (spicy, tangy, savory, umami, etc.)
+
+Return complete JSON with creative title and mouthwatering description.`;
 
   try {
     console.log('🚀 Starting API request to Vercel serverless function...');
