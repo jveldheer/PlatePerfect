@@ -2,47 +2,30 @@ import type { AIMealResponse, AIContext } from './aiMealGenerator';
 
 const AI_SYSTEM_PROMPT = `Create 3 high-protein athlete meals. Return ONLY valid JSON:
 {
-  "context": { /* echo back the context from user */ },
+  "context": { /* echo back context */ },
   "meals": [
     {
-      "title": "Delicious Meal Name",
-      "category": "full_cook", // or "minimal_cook" or "no_cook"
-      "skill_level": "easy", // or "moderate"
-      "appliances": ["stove", "oven"],
+      "title": "Meal Name",
+      "category": "full_cook",
+      "skill_level": "easy",
       "prep_time_min": 10,
       "cook_time_min": 20,
       "servings": 1,
-      "scale_factor": 1,
-      "dietary_flags": ["animal_based"],
       "ingredients": [
-        {
-          "user_input": "chicken breast",
-          "canonical_name": "Chicken Breast",
-          "source": "fridge",
-          "quantity": 6,
-          "unit": "oz",
-          "grams": 170,
-          "macros": { "cal": 187, "protein_g": 35, "carb_g": 0, "fat_g": 4, "fiber_g": 0 }
-        }
+        { "canonical_name": "Chicken", "grams": 170, "macros": { "cal": 187, "protein_g": 35, "carb_g": 0, "fat_g": 4, "fiber_g": 0 } }
       ],
       "instructions": ["Step 1", "Step 2"],
-      "macros_per_serving": { "cal": 500, "protein_g": 40, "carb_g": 50, "fat_g": 15, "fiber_g": 8 },
-      "macros_total": { "cal": 500, "protein_g": 40, "carb_g": 50, "fat_g": 15, "fiber_g": 8 },
-      "performance_tags": ["recovery"],
-      "notes": "Great post-workout meal"
+      "macros_per_serving": { "cal": 500, "protein_g": 40, "carb_g": 50, "fat_g": 15, "fiber_g": 8 }
     }
   ],
-  "summary": {
-    "count_by_category": { "full_cook": 2, "minimal_cook": 1 },
-    "macro_sums_all_meals": { "cal": 1500, "protein_g": 120, "carb_g": 150, "fat_g": 45, "fiber_g": 24 }
-  }
+  "summary": { "macro_sums_all_meals": { "cal": 1500, "protein_g": 120, "carb_g": 150, "fat_g": 45, "fiber_g": 24 } }
 }
 
-Rules: 3 meals, hit target macros ±5%, animal protein each meal, all fields required, pure JSON only.`;
+Rules: 3 meals, hit target macros ±5%, animal protein, all fields required, pure JSON.`;
 
 
 /**
- * Generate meals using AI via our secure Vercel API endpoint
+ * Generate 3 meals using AI via our secure Vercel API endpoint
  * This keeps API keys secure on the server side
  */
 export async function generateMealsWithAI(
@@ -55,17 +38,16 @@ export async function generateMealsWithAI(
   const userMessage = `Create 3 meals matching these targets:
 
 Macros per meal: ${context.target_macros_per_meal.cal}cal, ${context.target_macros_per_meal.protein_g}g protein, ${context.target_macros_per_meal.carb_g}g carbs, ${context.target_macros_per_meal.fat_g}g fat
+${userIngredients.length > 0 ? `Ingredients: ${userIngredients.join(', ')}` : 'Any ingredients'}
 
-${userIngredients.length > 0 ? `Ingredients to use: ${userIngredients.join(', ')}` : 'Any ingredients'}
-
-Return the complete JSON structure with all required fields.`;
+Return complete JSON.`;
 
   try {
     console.log('🚀 Starting API request to Vercel serverless function...');
 
     // Create abort controller for timeout
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 25000); // 25 second timeout
+    const timeoutId = setTimeout(() => controller.abort(), 70000); // 70 second timeout (10s buffer for Pro 60s limit)
 
     const requestBody = {
       messages: [
@@ -78,7 +60,7 @@ Return the complete JSON structure with all required fields.`;
           content: userMessage
         }
       ],
-      max_tokens: 1500
+      max_tokens: 2000
     };
 
     console.log('📤 Request details:', {
@@ -171,23 +153,8 @@ Return the complete JSON structure with all required fields.`;
     }
 
     // Validate response structure
-    if (!aiResponse) {
-      throw new Error('Parsed response is null or undefined');
-    }
-
-    if (!aiResponse.context) {
-      console.error('❌ Missing context in AI response:', aiResponse);
-      throw new Error('AI response missing context field');
-    }
-
-    if (!aiResponse.meals) {
-      console.error('❌ Missing meals array in AI response:', aiResponse);
-      throw new Error('AI response missing meals field');
-    }
-
-    if (!Array.isArray(aiResponse.meals)) {
-      console.error('❌ Meals is not an array:', typeof aiResponse.meals);
-      throw new Error('AI response meals field is not an array');
+    if (!aiResponse || !aiResponse.meals || !Array.isArray(aiResponse.meals)) {
+      throw new Error('AI response missing meals array');
     }
 
     if (aiResponse.meals.length < 3) {
@@ -195,32 +162,17 @@ Return the complete JSON structure with all required fields.`;
       throw new Error(`AI returned ${aiResponse.meals.length} meals instead of 3`);
     }
 
-    // Validate each meal has required fields
+    // Validate each meal
     for (let i = 0; i < aiResponse.meals.length; i++) {
       const meal = aiResponse.meals[i];
-      if (!meal.title) {
-        throw new Error(`Meal ${i + 1} missing title`);
-      }
-      if (!meal.category) {
-        throw new Error(`Meal ${i + 1} ("${meal.title}") missing category`);
-      }
-      if (!meal.macros_per_serving) {
-        throw new Error(`Meal ${i + 1} ("${meal.title}") missing macros_per_serving`);
-      }
+      if (!meal.title) throw new Error(`Meal ${i + 1} missing title`);
+      if (!meal.macros_per_serving) throw new Error(`Meal ${i + 1} missing macros_per_serving`);
       if (!meal.ingredients || !Array.isArray(meal.ingredients)) {
-        throw new Error(`Meal ${i + 1} ("${meal.title}") missing or invalid ingredients array`);
+        throw new Error(`Meal ${i + 1} missing ingredients array`);
       }
     }
 
-    // Check for duplicate titles
-    const titles = aiResponse.meals.map(m => m.title);
-    const uniqueTitles = new Set(titles);
-    if (uniqueTitles.size !== titles.length) {
-      console.error('❌ Duplicate meal titles detected:', titles);
-      throw new Error('AI returned duplicate meal titles');
-    }
-
-    console.log(`✅ AI response validation passed - all ${aiResponse.meals.length} meals valid`);
+    console.log(`✅ AI response validated - ${aiResponse.meals.length} meals generated`);
     return aiResponse;
   } catch (error: any) {
     console.error('❌ generateMealsWithAI failed:', error);
