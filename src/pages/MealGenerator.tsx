@@ -140,8 +140,10 @@ export default function MealGenerator() {
       console.error('Error generating meals:', err);
 
       // Provide helpful error messages
-      if (err.message?.includes('timed out') || err.message?.includes('AbortError')) {
-        setError('Request took too long (>30s). The AI is busy - please try again in a moment. If this persists, try with fewer/simpler ingredients.');
+      if (err.message?.includes('timed out') || err.message?.includes('AbortError') || err.message?.includes('504')) {
+        setError('⏱️ Generation timed out. The AI is busy or your request is complex. Try again with: (1) Fewer ingredients, or (2) Simpler preferences. Usually works on second try!');
+      } else if (err.message?.includes('500') || err.message?.includes('Server')) {
+        setError('🔑 Server error - check that OpenAI API key is configured in Vercel environment variables.');
       } else if (err.message?.includes('context field')) {
         setError('AI response format error. Please try again - this usually resolves on retry.');
       } else {

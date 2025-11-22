@@ -1,8 +1,6 @@
 import type { AIMealResponse, AIContext } from './aiMealGenerator';
 
-const AI_SYSTEM_PROMPT = `You are an elite chef creating 3 tasty, high-protein athlete meals.
-
-Return ONLY valid JSON matching this structure:
+const AI_SYSTEM_PROMPT = `Create 3 high-protein athlete meals. Return ONLY valid JSON:
 {
   "context": { /* echo back the context from user */ },
   "meals": [
@@ -40,12 +38,7 @@ Return ONLY valid JSON matching this structure:
   }
 }
 
-Requirements:
-- Exactly 3 meals
-- Hit target macros within 5%
-- Include animal protein in each meal
-- All fields required
-- No markdown, just pure JSON`;
+Rules: 3 meals, hit target macros ±5%, animal protein each meal, all fields required, pure JSON only.`;
 
 
 /**
@@ -72,7 +65,7 @@ Return the complete JSON structure with all required fields.`;
 
     // Create abort controller for timeout
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 35000); // 35 second timeout (5s buffer for Vercel 30s limit)
+    const timeoutId = setTimeout(() => controller.abort(), 25000); // 25 second timeout
 
     const requestBody = {
       messages: [
@@ -85,7 +78,7 @@ Return the complete JSON structure with all required fields.`;
           content: userMessage
         }
       ],
-      max_tokens: 2500
+      max_tokens: 1500
     };
 
     console.log('📤 Request details:', {
@@ -123,7 +116,11 @@ Return the complete JSON structure with all required fields.`;
         errorMessage = errorData.error || `Server returned status ${response.status}`;
       } catch (e) {
         console.error('❌ Could not parse error response');
-        errorMessage = `Server request failed with status ${response.status}`;
+        if (response.status === 504) {
+          errorMessage = 'Request timed out (504). Try with fewer ingredients or simpler options.';
+        } else {
+          errorMessage = `Server request failed with status ${response.status}`;
+        }
       }
       throw new Error(errorMessage);
     }
