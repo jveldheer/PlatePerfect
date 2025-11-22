@@ -1,6 +1,6 @@
 import type { AIMealResponse, AIContext } from './aiMealGenerator';
 
-const AI_SYSTEM_PROMPT = `You're a creative chef creating ONE unique, delicious high-protein meal for foodie millennials.
+const AI_SYSTEM_PROMPT = `You're an ELITE chef creating ONE unique, delicious high-protein meal for foodie millennials. These must be restaurant-quality recipes.
 
 CRITICAL MEASUREMENT RULES:
 - Meat/Poultry/Fish: Use pounds (lb) or ounces (oz) ONLY
@@ -8,6 +8,41 @@ CRITICAL MEASUREMENT RULES:
 - Dry ingredients: Use cups, tablespoons (tbsp), teaspoons (tsp)
 - Small amounts: Use teaspoons (tsp) or tablespoons (tbsp)
 - NEVER use grams - always US imperial measurements
+
+MANDATORY SEASONING REQUIREMENTS (NEVER SKIP THESE):
+Every recipe MUST include AT MINIMUM:
+- Salt (kosher salt or sea salt) - specify amount (e.g., "1 tsp kosher salt")
+- Black pepper - specify amount (e.g., "1/2 tsp black pepper")
+- Fat for cooking (olive oil, butter, avocado oil, etc.)
+
+ELITE FLAVOR PROFILE REQUIREMENTS:
+Beyond basics, add 3-5 additional flavor elements from:
+- Fresh herbs (cilantro, parsley, basil, thyme, rosemary)
+- Aromatics (garlic, onion, shallots, ginger)
+- Acids (lemon, lime, vinegar, wine)
+- Heat (chili flakes, jalapeño, hot sauce, cayenne)
+- Umami (soy sauce, fish sauce, parmesan, miso)
+- Warm spices (cumin, paprika, coriander, turmeric)
+- Finishing touches (fresh herbs, citrus zest, finishing salt, nuts)
+
+BAD EXAMPLE (NEVER DO THIS):
+ingredients: ["8 oz chicken", "1/2 cup rice", "1/4 cup cilantro", "1 lime"]
+❌ Missing: salt, pepper, cooking oil, garlic, other seasonings
+
+GOOD EXAMPLE (DO THIS):
+ingredients: [
+  "8 oz chicken breast",
+  "1 tsp kosher salt",
+  "1/2 tsp black pepper",
+  "1 tbsp olive oil",
+  "3 cloves garlic minced",
+  "1 tsp cumin",
+  "1/2 tsp smoked paprika",
+  "1/2 cup rice",
+  "1/4 cup fresh cilantro",
+  "1 lime juiced",
+  "1/4 tsp chili flakes"
+]
 
 TIMING RULES (BE REALISTIC - DON'T GUESS):
 Common cooking times:
@@ -23,7 +58,7 @@ Total time = prep_time_min + cook_time_min (if user wants 15min total, rice alon
 Return ONLY valid JSON:
 {
   "title": "Creative Meal Name",
-  "description": "Brief mouthwatering description",
+  "description": "Brief mouthwatering description highlighting key flavors",
   "category": "full_cook",
   "skill_level": "easy",
   "prep_time_min": 10,
@@ -34,6 +69,11 @@ Return ONLY valid JSON:
       "canonical_name": "Chicken Breast",
       "amount": "6 oz",
       "macros": { "cal": 187, "protein_g": 35, "carb_g": 0, "fat_g": 4, "fiber_g": 0 }
+    },
+    {
+      "canonical_name": "Kosher Salt",
+      "amount": "1 tsp",
+      "macros": { "cal": 0, "protein_g": 0, "carb_g": 0, "fat_g": 0, "fiber_g": 0 }
     }
   ],
   "instructions": ["Detailed step with specific temps/times"],
@@ -42,10 +82,11 @@ Return ONLY valid JSON:
 
 QUALITY RULES:
 - Make it CREATIVE and UNIQUE (not basic/boring)
-- Add interesting spices, sauces, or cooking techniques
-- Simple but restaurant-quality flavor
-- Instructions must be clear and specific (include temps, times)
-- All fields required, pure JSON only`;
+- Build complex, layered flavors (aromatic base → protein → sauce → garnish)
+- Instructions must be clear and specific (include temps, times, techniques)
+- All fields required, pure JSON only
+- Think: "Would a foodie millennial pay $18 for this at a restaurant?"`;
+
 
 
 /**
@@ -75,7 +116,7 @@ Be realistic - if rice takes 18min to cook, you can't fit it in a 15min meal. Ac
       }`
     : '';
 
-  const userMessage = `Create 1 CREATIVE meal (meal #${mealNumber}) with these STRICT requirements:
+  const userMessage = `Create 1 ELITE-QUALITY meal (meal #${mealNumber}) with these STRICT requirements:
 
 MACROS (±5%):
 - Calories: ${context.target_macros_per_meal.cal}
@@ -89,8 +130,21 @@ ${skillConstraint}
 
 ${userIngredients.length > 0 ? `MUST FEATURE: ${userIngredients.join(', ')}` : 'Use any ingredients'}
 
+MANDATORY INGREDIENTS (include these or recipe will be rejected):
+1. Salt (kosher salt, sea salt, or seasoned salt) - specify exact amount
+2. Black pepper - specify exact amount
+3. Cooking fat (olive oil, butter, avocado oil, etc.) - specify exact amount
+4. At least 3 additional seasonings/aromatics (garlic, onion, herbs, spices, acids)
+
+FLAVOR PROFILE REQUIREMENTS:
+Build a COMPLETE flavor profile with:
+- Aromatic base (garlic, onion, shallots, ginger)
+- Herbs & spices (fresh or dried - be specific)
+- Acid component (citrus, vinegar, wine)
+- Optional: heat, umami, or finishing touches
+
 VARIETY (meal #${mealNumber} of 3):
-Make this COMPLETELY DIFFERENT from other meals by varying:
+Make this COMPLETELY DIFFERENT from other meals:
 - Cooking method: ${mealNumber === 1 ? 'grilled/pan-seared' : mealNumber === 2 ? 'roasted/baked' : 'air-fried/sautéed'}
 - Cuisine: ${mealNumber === 1 ? 'Mediterranean/Middle Eastern' : mealNumber === 2 ? 'Asian/Latin' : 'American/European'}
 - Base: ${mealNumber === 1 ? 'rice/quinoa/farro' : mealNumber === 2 ? 'sweet potato/cauliflower rice/pasta' : 'wraps/flatbread/salad'}
@@ -100,8 +154,9 @@ MEASUREMENTS:
 - Meat: oz or lb (e.g., "6 oz chicken breast", "0.5 lb ground beef")
 - Liquids: cups, tbsp, tsp (e.g., "1 cup water", "2 tbsp olive oil")
 - Dry goods: cups, tbsp, tsp (e.g., "1/2 cup rice", "1 tsp cumin")
+- Seasonings: tsp, tbsp (e.g., "1 tsp kosher salt", "1/2 tsp black pepper")
 
-Return complete JSON with creative title and mouthwatering description.`;
+Return complete JSON with creative title and mouthwatering description that highlights the flavor profile.`;
 
   try {
     console.log('🚀 Starting API request to Vercel serverless function...');
@@ -238,7 +293,33 @@ Return complete JSON with creative title and mouthwatering description.`;
       console.warn(`⚠️ Meal ${mealNumber} has too many ingredients for beginner: ${meal.ingredients.length}`);
     }
 
-    console.log(`✅ Meal ${mealNumber} validated: ${meal.title} (${meal.prep_time_min + meal.cook_time_min}min total)`);
+    // Validate seasoning requirements
+    const ingredientNames = meal.ingredients.map((i: any) =>
+      (i.canonical_name || '').toLowerCase()
+    ).join(' ');
+
+    const hasSalt = ingredientNames.includes('salt');
+    const hasPepper = ingredientNames.includes('pepper');
+    const hasOil = ingredientNames.includes('oil') || ingredientNames.includes('butter');
+
+    if (!hasSalt) {
+      console.error(`❌ CRITICAL: Meal ${mealNumber} missing salt! This is unacceptable.`);
+      throw new Error('Recipe missing salt - unacceptable quality');
+    }
+    if (!hasPepper) {
+      console.warn(`⚠️ Meal ${mealNumber} missing pepper`);
+    }
+    if (!hasOil) {
+      console.warn(`⚠️ Meal ${mealNumber} missing cooking fat (oil/butter)`);
+    }
+
+    // Check for adequate seasoning depth (should have at least 5-6 ingredients minimum)
+    if (meal.ingredients.length < 5) {
+      console.error(`❌ CRITICAL: Meal ${mealNumber} only has ${meal.ingredients.length} ingredients. Too basic!`);
+      throw new Error('Recipe too basic - needs more ingredients and seasonings');
+    }
+
+    console.log(`✅ Meal ${mealNumber} validated: ${meal.title} (${meal.prep_time_min + meal.cook_time_min}min total, ${meal.ingredients.length} ingredients)`);
     return meal;
   } catch (error: any) {
     console.error(`❌ generateSingleMeal ${mealNumber} failed:`, error);
